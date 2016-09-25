@@ -1,7 +1,7 @@
 
 describe('machete-ui E2E Tests', function () {
 
-  let expectedMsg = 'My First Angular App';
+  let expectedMsg = 'Machete-UI';
 
 
   beforeEach(function () {
