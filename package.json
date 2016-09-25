@@ -1,5 +1,5 @@
 {
-  "name": "angular-machete-ui",
+  "name": "machete-ui",
   "version": "1.0.0",
   "description": "machete-ui package.json from the documentation, supplemented with testing support",
   "scripts": {
