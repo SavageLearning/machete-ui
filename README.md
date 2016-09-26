@@ -1,5 +1,5 @@
-# Machete-UI
-[![Build Status][travis-badge]][travis-badge-url]
+# Machete-UI  [![Build Status][travis-badge]][travis-badge-url]
+
 (Forked from Angular.io's [Quickstart](https://github.com/angular/quickstart))
 
 ## Prerequisites
