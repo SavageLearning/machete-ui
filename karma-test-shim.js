@@ -71,10 +71,12 @@ function initTestBed(){
   .then(function (providers) {
     var coreTesting    = providers[0];
     var browserTesting = providers[1];
+    coreTesting.TestBed.compileComponents();
 
     coreTesting.TestBed.initTestEnvironment(
       browserTesting.BrowserDynamicTestingModule,
-      browserTesting.platformBrowserDynamicTesting());
+      browserTesting.platformBrowserDynamicTesting()
+    );
   })
 }
 
