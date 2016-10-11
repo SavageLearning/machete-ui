@@ -1,0 +1,49 @@
+<div class="ContentSideSections Implementation">
+  <p-dataTable #dt [value]="employers" selectionMode="single" [(selection)]="selectedEmployer" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10" [responsive]="true">
+    <header>
+      <div class="ui-helper-clearfix">
+        <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+      </div>
+      Employers
+    </header>
+    <p-column field="active" header="Active" [sortable]="true"></p-column>
+    <p-column field="name" header="Name" [sortable]="true"></p-column>
+    <p-column field="address1" header="Address1" [sortable]="true"></p-column>
+    <p-column field="city" header="City" [sortable]="true"></p-column>
+    <p-column field="cellPhone" header="Cell Phone" [sortable]="true"></p-column>
+    <p-column field="email" header="Email" [sortable]="true"></p-column>
+    <footer><div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button></div></footer>
+  </p-dataTable>
+
+  <p-dialog header="Employer Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad" *ngIf="employer">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="active">Active</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="active" [(ngModel)]="employer.active" /></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="address1">Address1</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="address1" [(ngModel)]="employer.address1" /></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="city">City</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="city" [(ngModel)]="employer.city" /></div>
+      </div>
+
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="cellPhone">Address1</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="cellPhone" [(ngModel)]="employer.cellPhone" /></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="email">Address1</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="email" [(ngModel)]="employer.email" /></div>
+      </div>
+    </div>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+        <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+      </div>
+    </footer>
+  </p-dialog>
+</div>

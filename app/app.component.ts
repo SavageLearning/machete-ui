@@ -2,6 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'my-app',
-    template: '<h1>Machete-UI</h1>w00t'
+    templateUrl: 'app/app.component.html'
 })
 export class AppComponent { }
