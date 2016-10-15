@@ -1,5 +1,5 @@
-# Machete-UI
-[![Build Status][travis-badge]][travis-badge-url]
+# Machete-UI  [![Build Status][travis-badge]][travis-badge-url]
+
 (Forked from Angular.io's [Quickstart](https://github.com/angular/quickstart))
 
 ## Prerequisites
@@ -105,5 +105,5 @@ which is easier to read; this file is excluded from source control.
 
 Shut it down manually with Ctrl-C.
 
-[travis-badge]: https://travis-ci.org/angular/machete-ui.svg?branch=master
-[travis-badge-url]: https://travis-ci.org/angular/machete-ui
+[travis-badge]: https://travis-ci.org/SavageLearning/machete-ui.svg?branch=master
+[travis-badge-url]: https://travis-ci.org/SavageLearning/machete-ui
