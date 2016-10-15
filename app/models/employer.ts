@@ -23,3 +23,4 @@ export interface Employer extends Record {
   licensePlate: string;
   driversLicense: string;
 }
+
