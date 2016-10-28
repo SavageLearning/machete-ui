@@ -1,4 +1,5 @@
 <div class="ContentSideSections Implementation">
+  <h1>woo</h1>
   <p-dataTable #dt [value]="employers" selectionMode="single" [(selection)]="selectedEmployer" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10" [responsive]="true">
     <header>
       <div class="ui-helper-clearfix">
@@ -18,6 +19,10 @@
   <p-dialog header="Employer Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
     <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad" *ngIf="employer">
       <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="active">Name</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="employer.name" /></div>
+      </div>
+      <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="active">Active</label></div>
         <div class="ui-grid-col-8"><input pInputText id="active" [(ngModel)]="employer.active" /></div>
       </div>
@@ -31,11 +36,11 @@
       </div>
 
       <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="cellPhone">Address1</label></div>
+        <div class="ui-grid-col-4"><label for="cellPhone">cellPhone</label></div>
         <div class="ui-grid-col-8"><input pInputText id="cellPhone" [(ngModel)]="employer.cellPhone" /></div>
       </div>
       <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="email">Address1</label></div>
+        <div class="ui-grid-col-4"><label for="email">email</label></div>
         <div class="ui-grid-col-8"><input pInputText id="email" [(ngModel)]="employer.email" /></div>
       </div>
     </div>
