@@ -1,6 +1,14 @@
-<div>
+<div class="ui-g">
   <p-tabView>
     <p-tabPanel header="Jobs dispatched by time">
+      <div>
+        <div>
+          <p-calendar  placeholder="Start date" [(ngModel)]="o.beginDate" [showIcon]="true"></p-calendar>
+        </div>
+        <div>
+          <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true"></p-calendar>
+        </div>
+      </div>
       <p-dataTable
         [value]="jobsDispatchedCount"
         sortField="value"
