@@ -1,10 +1,18 @@
 <div>
   <p-tabView>
-    <p-tabPanel header="Header 1">
-      <p-chart type="pie" [data]="data"></p-chart>
+    <p-tabPanel header="Jobs dispatched by time">
+      <p-dataTable
+        [value]="jobsDispatchedCount"
+        sortField="value"
+        sortOrder="-1"
+        sortMode="single">
+        <p-column field="id" header="ID" [sortable]="true"></p-column>
+        <p-column field="label" header="Type of Job" [sortable]="true"></p-column>
+        <p-column field="value" header="Count" [sortable]="true"></p-column>
+      </p-dataTable>
     </p-tabPanel>
-    <p-tabPanel header="Header 2">
-      Content 2
+    <p-tabPanel header="Pie chart">
+      <p-chart type="pie" [data]="data"></p-chart>
     </p-tabPanel>
     <p-tabPanel header="Header 3">
       Content 3

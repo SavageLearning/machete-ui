@@ -1,34 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import {ReportsService} from "./reports.service";
+import { JobsDispatchedCount } from './models/jobs-dispatched-count'
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.css'],
+  providers: [ReportsService]
 })
 export class ReportsComponent implements OnInit {
-  data: any;
+  jobsDispatchedCount: JobsDispatchedCount[];
+  beginDate: Date;
+  endDate: Date;
 
-  constructor() {
-    this.data = {
-      labels: ['A','B','C'],
-      datasets: [
-        {
-          data: [300, 50, 100],
-          backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ],
-          hoverBackgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ]
-        }]
-    };
-  }
+  constructor(private reportsService: ReportsService) {}
 
   ngOnInit() {
+    this.reportsService.getJobsDispatchedCount()
+      .then(data => this.jobsDispatchedCount = data);
   }
 
 }

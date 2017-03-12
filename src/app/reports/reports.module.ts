@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TabViewModule } from 'primeng/primeng';
-import { ChartModule } from 'primeng/primeng';
 import { ReportsComponent } from './reports.component';
+import { DataTableModule,SharedModule, ChartModule, TabViewModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -11,7 +10,9 @@ import { ReportsComponent } from './reports.component';
   imports: [
     CommonModule,
     TabViewModule,
-    ChartModule
+    ChartModule,
+    DataTableModule,
+    SharedModule
   ],
   exports: [
     ReportsComponent
