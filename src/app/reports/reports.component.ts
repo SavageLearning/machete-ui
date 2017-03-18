@@ -12,18 +12,25 @@ import {SearchOptions } from './models/search-options';
 export class ReportsComponent implements OnInit, OnChanges {
   jobsDispatchedCount: JobsDispatchedCount[];
   o: SearchOptions;
+  errorMessage: string;
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
   }
 
   ngOnInit() {
-    this.reportsService.getJobsDispatchedCount()
-      .then(data => this.jobsDispatchedCount = data);
+
+    this.getView();
   }
 
   ngOnChanges() {
     console.log(this.o.beginDate);
   }
+  getView() {
+    this.reportsService.getJobsDispatchedCount(this.o)
+      .subscribe(
+        data => this.jobsDispatchedCount = data,
+        error => this.errorMessage = <any>error);
 
+  }
 }

@@ -1,3 +1,4 @@
+<script src="reports.service.spec.ts"></script>
 <div class="ui-g">
   <p-tabView>
     <p-tabPanel header="Jobs dispatched by time">
@@ -7,6 +8,9 @@
         </div>
         <div>
           <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true"></p-calendar>
+        </div>
+        <div>
+          <button pButton type="button" (click)="getView()" label="Search"></button>
         </div>
       </div>
       <p-dataTable
