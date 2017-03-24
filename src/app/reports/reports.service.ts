@@ -15,7 +15,7 @@ export class ReportsService {
   getJobsDispatchedCount(o: SearchOptions): Observable<JobsDispatchedCount[]> {
 
     //return this.http.get('../../assets/jobs-dispatched-count.json')
-    return this.http.get('/api/reports')
+    return this.http.get(`/api/reports?${this.encodeData(o) }`)
               .map(res => res.json().data as JobsDispatchedCount[])
               .catch(this.handleError)
   }
@@ -23,6 +23,12 @@ export class ReportsService {
   private handleError(error: any): Promise<any> {
     console.error('ERROR', error);
     return Promise.reject(error.message || error);
+  }
+
+  public encodeData(data: any): string {
+    return Object.keys(data).map((key) => {
+      return [key, data[key]].map(encodeURIComponent).join("=");
+    }).join("&");
   }
 }
 
