@@ -1,6 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
+import { CalendarModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
+import { ReportsModule } from './reports/reports.module';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -8,6 +10,10 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      imports: [
+        ReportsModule,
+        CalendarModule
+      ]
     }).compileComponents();
   }));
 
