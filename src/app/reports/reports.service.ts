@@ -14,8 +14,7 @@ export class ReportsService {
 
   getJobsDispatchedCount(o: SearchOptions): Observable<JobsDispatchedCount[]> {
 
-    //return this.http.get('../../assets/jobs-dispatched-count.json')
-    return this.http.get(`/api/reports?${this.encodeData(o) }`)
+    return this.http.get(`/api/reports?${this.encodeData(o)}`)
               .map(res => res.json().data as JobsDispatchedCount[])
               .catch(this.handleError)
   }
