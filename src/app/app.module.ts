@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { ReportsModule } from './reports/reports.module';
 import { AppComponent } from './app.component';
-import { InMemoryBackendService } from 'angular-in-memory-web-api';
+import { inMemoryBackendServiceFactory, InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 import { environment } from '../environments/environment';
 @NgModule({
@@ -16,6 +16,7 @@ import { environment } from '../environments/environment';
     FormsModule,
     HttpModule,
     ReportsModule
+    ,InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [
     {
@@ -36,7 +37,7 @@ export function getBackend(injector: Injector,
     if (environment.production) {
       return new XHRBackend(browser, options, xsrf)
     } else {
-      return new InMemoryBackendService(injector, new InMemoryDataService(), {})
+      return inMemoryBackendServiceFactory(injector, new InMemoryDataService(), {})
     }
   }
 }

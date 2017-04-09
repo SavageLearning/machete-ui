@@ -3,6 +3,9 @@ import { CalendarModule, DataTableModule, TabViewModule } from 'primeng/primeng'
 import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService }  from '../in-memory-data.service';
+
 
 describe('ReportsComponent', () => {
   let component: ReportsComponent;
@@ -11,7 +14,7 @@ describe('ReportsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ReportsComponent ],
-      imports: [ DataTableModule, TabViewModule, CalendarModule, FormsModule, HttpModule ]
+      imports: [ DataTableModule, TabViewModule, CalendarModule, FormsModule, HttpModule ,InMemoryWebApiModule.forRoot(InMemoryDataService) ]
     })
     .compileComponents();
   }));
