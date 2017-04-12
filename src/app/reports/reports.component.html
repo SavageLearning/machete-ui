@@ -4,10 +4,10 @@
     <p-tabPanel header="Jobs dispatched by time">
       <div>
         <div>
-          <p-calendar  placeholder="Start date" [(ngModel)]="o.beginDate" [showIcon]="true"></p-calendar>
+          <p-calendar  placeholder="Start date" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
         </div>
         <div>
-          <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true"></p-calendar>
+          <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
         </div>
         <div>
           <button pButton type="button" (click)="getView()" label="Search"></button>

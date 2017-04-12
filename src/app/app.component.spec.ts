@@ -15,8 +15,8 @@ describe('AppComponent', () => {
       ],
       imports: [
         ReportsModule,
-        CalendarModule
-        ,InMemoryWebApiModule.forRoot(InMemoryDataService)
+        CalendarModule,
+        InMemoryWebApiModule.forRoot(InMemoryDataService)
       ]
     }).compileComponents();
   }));

@@ -1,4 +1,4 @@
 export class SearchOptions {
-  beginDate: Date;
-  endDate: Date;
+  beginDate: string;
+  endDate: string;
 }
