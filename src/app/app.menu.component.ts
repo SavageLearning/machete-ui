@@ -21,54 +21,15 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-            {label: 'Reports', icon: 'dashboard', routerLink: ['/reports']},
-            {
-                label: 'Menu Hierarchy', icon: 'menu',
-                items: [
-                    {
-                        label: 'Submenu 1', icon: 'subject',
-                        items: [
-                            {
-                                label: 'Submenu 1.1', icon: 'subject',
-                                items: [
-                                    {label: 'Submenu 1.1.1', icon: 'subject'},
-                                    {label: 'Submenu 1.1.2', icon: 'subject'},
-                                    {label: 'Submenu 1.1.3', icon: 'subject'},
-                                ]
-                            },
-                            {
-                                label: 'Submenu 1.2', icon: 'subject',
-                                items: [
-                                    {label: 'Submenu 1.2.1', icon: 'subject'},
-                                    {label: 'Submenu 1.2.2', icon: 'subject'}
-                                ]
-                            },
-                        ]
-                    },
-                    {
-                        label: 'Submenu 2', icon: 'subject',
-                        items: [
-                            {
-                                label: 'Submenu 2.1', icon: 'subject',
-                                items: [
-                                    {label: 'Submenu 2.1.1', icon: 'subject'},
-                                    {label: 'Submenu 2.1.2', icon: 'subject'},
-                                    {label: 'Submenu 2.1.3', icon: 'subject'},
-                                ]
-                            },
-                            {
-                                label: 'Submenu 2.2', icon: 'subject',
-                                items: [
-                                    {label: 'Submenu 2.2.1', icon: 'subject'},
-                                    {label: 'Submenu 2.2.2', icon: 'subject'}
-                                ]
-                            },
-                        ]
-                    }
-                ]
-            },
-            {label: 'Utils', icon: 'build', routerLink: ['/utils']},
-            {label: 'Documentation', icon: 'find_in_page', routerLink: ['/documentation']}
+          {label: 'Employers', icon: 'business', routerLink: ['/employers']},
+          {label: 'Work Orders', icon: 'work', routerLink: ['/workorders']},
+          {label: 'Dispatch', icon: 'today', routerLink: ['/dispatch']},
+          {label: 'People', icon: 'people', routerLink: ['/people']},
+          {label: 'Activities', icon: 'local_activity', routerLink: ['/activities']},
+          {label: 'Sign-ins', icon: 'track_changes', routerLink: ['/workersignins']},
+          {label: 'Emails', icon: 'email', routerLink: ['/emails']},
+          {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']},
+
         ];
     }
 

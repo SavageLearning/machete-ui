@@ -24,18 +24,6 @@ import {AppComponent} from './app.component';
             </li>
             <li role="menuitem">
                 <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="material-icons">security</i>
-                    <span>Privacy</span>
-                </a>
-            </li>
-            <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="material-icons">settings_application</i>
-                    <span>Settings</span>
-                </a>
-            </li>
-            <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
                     <i class="material-icons">power_settings_new</i>
                     <span>Logout</span>
                 </a>
