@@ -4,6 +4,7 @@ import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ButtonModule, DataTableModule,SharedModule, ChartModule, TabViewModule, CalendarModule } from 'primeng/primeng';
+import {ReportsRoutingModule} from "./reports-routing.module";
 
 @NgModule({
   declarations: [
@@ -19,12 +20,13 @@ import { ButtonModule, DataTableModule,SharedModule, ChartModule, TabViewModule,
     FormsModule,
     HttpModule,
     JsonpModule,
-    ButtonModule
-
+    ButtonModule,
+    ReportsRoutingModule
   ],
-  exports: [
-    ReportsComponent
-  ],
-  bootstrap: [ReportsComponent]
+  bootstrap: []
 })
-export class ReportsModule {}
+export class ReportsModule {
+  constructor() {
+    console.log('reports');
+  }
+}

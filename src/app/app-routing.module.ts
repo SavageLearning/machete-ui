@@ -9,26 +9,30 @@ import { AuthGuard }                from './auth-guard.service';
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 
 const appRoutes: Routes = [
-  { path: '**', component: PageNotFoundComponent },
+  {
+    path: 'employers',
+    loadChildren: 'app/employers/employers.module#EmployersModule'
+  },
   {
     path: 'reports',
     loadChildren: 'app/reports/reports.module#ReportsModule'
-  }
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      appRoutes,
-      { preloadingStrategy: SelectivePreloadingStrategy }
+      appRoutes//,
+      //{ preloadingStrategy: SelectivePreloadingStrategy }
     )
   ],
   exports: [
     RouterModule
   ],
   providers: [
-    CanDeactivateGuard,
-    SelectivePreloadingStrategy
+    // CanDeactivateGuard,
+    // SelectivePreloadingStrategy
   ]
 })
 export class AppRoutingModule { }

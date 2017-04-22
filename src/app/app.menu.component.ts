@@ -28,7 +28,7 @@ export class AppMenuComponent implements OnInit {
           {label: 'Activities', icon: 'local_activity', routerLink: ['/activities']},
           {label: 'Sign-ins', icon: 'track_changes', routerLink: ['/workersignins']},
           {label: 'Emails', icon: 'email', routerLink: ['/emails']},
-          {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']},
+          {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']}
 
         ];
     }

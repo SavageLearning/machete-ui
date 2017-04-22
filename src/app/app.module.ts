@@ -10,7 +10,7 @@ import {AppTopBar}  from './app.topbar.component';
 import {AppFooter}  from './app.footer.component';
 import {InlineProfileComponent}  from './app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
-
+import { Router } from '@angular/router';
 import { inMemoryBackendServiceFactory, InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 import { environment } from '../environments/environment';
@@ -41,7 +41,13 @@ import { environment } from '../environments/environment';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  // Diagnostic only: inspect router configuration
+  constructor(router: Router) {
+    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  }
+
+}
 
 export function getBackend(injector: Injector,
                            browser: BrowserXhr,

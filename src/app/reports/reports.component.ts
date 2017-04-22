@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ReportsService} from "./reports.service";
 import { JobsDispatchedCount } from './models/jobs-dispatched-count';
 import {SearchOptions } from './models/search-options';
@@ -9,13 +9,15 @@ import {SearchOptions } from './models/search-options';
   styleUrls: ['./reports.component.css'],
   providers: [ReportsService]
 })
-export class ReportsComponent implements OnInit, OnChanges {
+export class ReportsComponent implements OnInit {
   jobsDispatchedCount: JobsDispatchedCount[];
   o: SearchOptions;
   errorMessage: string;
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
+    console.log("reports.component");
+
   }
 
   ngOnInit() {
@@ -23,9 +25,6 @@ export class ReportsComponent implements OnInit, OnChanges {
     this.getView();
   }
 
-  ngOnChanges() {
-    console.log(this.o.beginDate);
-  }
   getView() {
     this.reportsService.getJobsDispatchedCount(this.o)
       .subscribe(
