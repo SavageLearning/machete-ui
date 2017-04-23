@@ -26,11 +26,11 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
-    BrowserAnimationsModule
+    InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [
     {

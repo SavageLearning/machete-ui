@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, JsonpModule } from '@angular/http';
+import { JsonpModule } from '@angular/http';
 import { ButtonModule, DataTableModule,SharedModule, ChartModule, TabViewModule, CalendarModule } from 'primeng/primeng';
 import {ReportsRoutingModule} from "./reports-routing.module";
 
@@ -18,7 +18,7 @@ import {ReportsRoutingModule} from "./reports-routing.module";
     SharedModule,
     CalendarModule,
     FormsModule,
-    HttpModule,
+    //HttpModule,
     JsonpModule,
     ButtonModule,
     ReportsRoutingModule

@@ -23,16 +23,16 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      appRoutes//,
-      //{ preloadingStrategy: SelectivePreloadingStrategy }
+      appRoutes,
+      { preloadingStrategy: SelectivePreloadingStrategy }
     )
   ],
   exports: [
     RouterModule
   ],
   providers: [
-    // CanDeactivateGuard,
-    // SelectivePreloadingStrategy
+    CanDeactivateGuard,
+    SelectivePreloadingStrategy
   ]
 })
 export class AppRoutingModule { }
