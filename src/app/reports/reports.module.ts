@@ -18,7 +18,6 @@ import {ReportsRoutingModule} from "./reports-routing.module";
     SharedModule,
     CalendarModule,
     FormsModule,
-    //HttpModule,
     JsonpModule,
     ButtonModule,
     ReportsRoutingModule
