@@ -13,7 +13,7 @@ export class ReportsService {
   constructor(private http: Http) {}
 
   getJobsDispatchedCount(o: SearchOptions): Observable<JobsDispatchedCount[]> {
-
+    o.reportName = 'JobsDispatched'
     return this.http.get(`/api/reports?${this.encodeData(o)}`)
               .map(res => res.json().data as JobsDispatchedCount[])
               .catch(this.handleError)
