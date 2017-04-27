@@ -3,7 +3,7 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { JobsDispatchedCount } from './models/jobs-dispatched-count';
+import { Report } from './models/report';
 import { SearchOptions } from './models/search-options';
 import {Observable} from 'rxjs/Observable';
 
@@ -12,10 +12,9 @@ export class ReportsService {
 
   constructor(private http: Http) {}
 
-  getJobsDispatchedCount(o: SearchOptions): Observable<JobsDispatchedCount[]> {
-    o.reportName = 'JobsDispatched';
+  getReport(o: SearchOptions): Observable<Report> {
     return this.http.get(`/api/reports?${this.encodeData(o)}`)
-              .map(res => res.json().data as JobsDispatchedCount[])
+              .map(res => res.json() as Report)
               .catch(this.handleError);
   }
 

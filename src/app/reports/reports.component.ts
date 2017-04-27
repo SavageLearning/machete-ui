@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ReportsService} from './reports.service';
-import { JobsDispatchedCount } from './models/jobs-dispatched-count';
+import { Report } from './models/report';
 import {SearchOptions } from './models/search-options';
 
 @Component({
@@ -10,12 +10,13 @@ import {SearchOptions } from './models/search-options';
   providers: [ReportsService]
 })
 export class ReportsComponent implements OnInit {
-  jobsDispatchedCount: JobsDispatchedCount[];
+  report: Report;
   o: SearchOptions;
   errorMessage: string;
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
+    this.report = new Report();
   }
 
   ngOnInit() {
@@ -23,10 +24,10 @@ export class ReportsComponent implements OnInit {
   }
 
   getView() {
-    this.reportsService.getJobsDispatchedCount(this.o)
+    this.o.reportName = 'JobsDispatched';
+    this.reportsService.getReport(this.o)
       .subscribe(
-        data => this.jobsDispatchedCount = data,
+        data => this.report = data,
         error => this.errorMessage = <any>error);
-
   }
 }
