@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ReportsService} from "./reports.service";
+import {ReportsService} from './reports.service';
 import { JobsDispatchedCount } from './models/jobs-dispatched-count';
 import {SearchOptions } from './models/search-options';
 
@@ -16,12 +16,9 @@ export class ReportsComponent implements OnInit {
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
-    console.log("reports.component");
-
   }
 
   ngOnInit() {
-
     this.getView();
   }
 

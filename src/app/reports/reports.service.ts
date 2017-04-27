@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JobsDispatchedCount } from './models/jobs-dispatched-count';
 import { SearchOptions } from './models/search-options';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ReportsService {
@@ -13,10 +13,10 @@ export class ReportsService {
   constructor(private http: Http) {}
 
   getJobsDispatchedCount(o: SearchOptions): Observable<JobsDispatchedCount[]> {
-    o.reportName = 'JobsDispatched'
+    o.reportName = 'JobsDispatched';
     return this.http.get(`/api/reports?${this.encodeData(o)}`)
               .map(res => res.json().data as JobsDispatchedCount[])
-              .catch(this.handleError)
+              .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
@@ -26,8 +26,8 @@ export class ReportsService {
 
   public encodeData(data: any): string {
     return Object.keys(data).map((key) => {
-      return [key, data[key]].map(encodeURIComponent).join("=")
-    }).join("&")
+      return [key, data[key]].map(encodeURIComponent).join('=');
+    }).join('&');
   }
 }
 

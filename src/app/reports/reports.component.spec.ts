@@ -38,9 +38,4 @@ describe('ReportsComponent', () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should get data', () => {
-    let foo = component.getView();
-    expect(component.getView()).toBeNull();
-  });
 });
