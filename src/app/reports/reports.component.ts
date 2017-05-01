@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ReportsService} from './reports.service';
 import { Report } from './models/report';
 import {SearchOptions } from './models/search-options';
+import {SimpleAggregateRow} from './models/simple-aggregate-row';
 
 @Component({
   selector: 'app-reports',
@@ -10,13 +11,13 @@ import {SearchOptions } from './models/search-options';
   providers: [ReportsService]
 })
 export class ReportsComponent implements OnInit {
-  report: Report;
+  data: SimpleAggregateRow[];
+  id: string;
   o: SearchOptions;
   errorMessage: string;
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
-    this.report = new Report();
   }
 
   ngOnInit() {
@@ -24,10 +25,9 @@ export class ReportsComponent implements OnInit {
   }
 
   getView() {
-    this.o.reportName = 'JobsDispatched';
-    this.reportsService.getReport(this.o)
+    this.reportsService.getReport(this.id, this.o)
       .subscribe(
-        data => this.report = data,
+        data => this.data = data,
         error => this.errorMessage = <any>error);
   }
 }
