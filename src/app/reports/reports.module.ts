@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
 import { JsonpModule } from '@angular/http';
-import { ButtonModule, DataTableModule,SharedModule, ChartModule, TabViewModule, CalendarModule } from 'primeng/primeng';
-import {ReportsRoutingModule} from "./reports-routing.module";
+import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule, TabViewModule, CalendarModule } from 'primeng/primeng';
+import {ReportsRoutingModule} from './reports-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import {ReportsRoutingModule} from "./reports-routing.module";
     FormsModule,
     JsonpModule,
     ButtonModule,
+    DropdownModule,
     ReportsRoutingModule
   ],
   bootstrap: []

@@ -1,9 +1,10 @@
 <div class="ui-g">
       <div>
         <div>
-          <button pButton type="button" (click)="getView()" label="Search"></button>
+          <p-dropdown [options]="reports" (click)="getList()" [(ngModel)]="selectedReport" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
           <p-calendar  placeholder="Start date" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
           <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
+          <button pButton type="button" (click)="getView()" label="Search"></button>
         </div>
       </div>
       <p-dataTable
@@ -11,7 +12,6 @@
         sortField="value"
         sortOrder="-1"
         sortMode="single">
-        <p-column field="id" header="ID" [sortable]="true"></p-column>
         <p-column field="label" header="Type of Job" [sortable]="true"></p-column>
         <p-column field="value" header="Count" [sortable]="true"></p-column>
       </p-dataTable>

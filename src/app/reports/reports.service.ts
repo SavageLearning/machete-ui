@@ -14,8 +14,8 @@ export class ReportsService {
   constructor(private http: Http) {}
 
   getReport(report: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
-    // TODO throw exception if begin & end date are not populated
-    let params = this.encodeData(o);
+    // TODO throw exception if report is not populated
+    const params = this.encodeData(o);
     let uri = '/api/reports';
     if (report) {
       uri = uri + '/' + report;
@@ -23,9 +23,18 @@ export class ReportsService {
     if (report && params) {
       uri = uri + '?' + params;
     }
+    console.log(uri);
     return this.http.get(uri)
               .map(res => res.json().data as SimpleAggregateRow[])
               .catch(this.handleError);
+  }
+
+  getList(): Observable<Report[]> {
+    let uri = '/api/reports';
+    console.log(uri);
+    return this.http.get(uri)
+      .map(res => res.json().data as Report[])
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
