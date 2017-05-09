@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
-import { ButtonModule, DataTableModule,SharedModule, ChartModule, TabViewModule, CalendarModule } from 'primeng/primeng';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule, TabViewModule, CalendarModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -19,8 +20,9 @@ import { ButtonModule, DataTableModule,SharedModule, ChartModule, TabViewModule,
     FormsModule,
     HttpModule,
     JsonpModule,
-    ButtonModule
-
+    ButtonModule,
+    DropdownModule,
+    BrowserAnimationsModule
   ],
   exports: [
     ReportsComponent

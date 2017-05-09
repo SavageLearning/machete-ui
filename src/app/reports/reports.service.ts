@@ -3,20 +3,38 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { JobsDispatchedCount } from './models/jobs-dispatched-count';
+import { Report } from './models/report';
 import { SearchOptions } from './models/search-options';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs/Observable';
+import {SimpleAggregateRow} from './models/simple-aggregate-row';
 
 @Injectable()
 export class ReportsService {
 
   constructor(private http: Http) {}
 
-  getJobsDispatchedCount(o: SearchOptions): Observable<JobsDispatchedCount[]> {
+  getReport(report: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
+    // TODO throw exception if report is not populated
+    const params = this.encodeData(o);
+    let uri = '/api/reports';
+    if (report) {
+      uri = uri + '/' + report;
+    }
+    if (report && params) {
+      uri = uri + '?' + params;
+    }
+    console.log(uri);
+    return this.http.get(uri)
+              .map(res => res.json().data as SimpleAggregateRow[])
+              .catch(this.handleError);
+  }
 
-    return this.http.get(`/api/reports?${this.encodeData(o)}`)
-              .map(res => res.json().data as JobsDispatchedCount[])
-              .catch(this.handleError)
+  getList(): Observable<Report[]> {
+    let uri = '/api/reports';
+    console.log(uri);
+    return this.http.get(uri)
+      .map(res => res.json().data as Report[])
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
@@ -26,8 +44,8 @@ export class ReportsService {
 
   public encodeData(data: any): string {
     return Object.keys(data).map((key) => {
-      return [key, data[key]].map(encodeURIComponent).join("=")
-    }).join("&")
+      return [key, data[key]].map(encodeURIComponent).join('=');
+    }).join('&');
   }
 }
 

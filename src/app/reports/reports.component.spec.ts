@@ -1,10 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CalendarModule, DataTableModule, TabViewModule } from 'primeng/primeng';
-import { ReportsComponent } from './reports.component';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from '../in-memory-data.service';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {CalendarModule, DataTableModule, TabViewModule, DropdownModule} from 'primeng/primeng';
+import {ReportsComponent} from './reports.component';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
+import {InMemoryDataService} from '../in-memory-data.service';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 
 describe('ReportsComponent', () => {
@@ -13,10 +14,20 @@ describe('ReportsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReportsComponent ],
-      imports: [ DataTableModule, TabViewModule, CalendarModule, FormsModule, HttpModule ,InMemoryWebApiModule.forRoot(InMemoryDataService) ]
+      declarations: [
+        ReportsComponent
+      ],
+      imports: [
+        NoopAnimationsModule,
+        DataTableModule,
+        DropdownModule,
+        TabViewModule,
+        CalendarModule,
+        FormsModule,
+        HttpModule,
+        InMemoryWebApiModule.forRoot(InMemoryDataService)]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

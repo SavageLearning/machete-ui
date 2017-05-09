@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - '4.2'
+  - '7.0'
 
 addons:
 apt:
@@ -18,9 +18,9 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 before_script:
-- npm install -g angular-cli
+- npm install -g @angular/cli
 - npm install -g karma
 - npm install
 - ng build
 
-script: karma start config/karma.conf.js --single-run
+script: karma start karma.conf.js --single-run
