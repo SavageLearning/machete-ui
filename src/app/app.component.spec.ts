@@ -4,7 +4,7 @@ import { CalendarModule } from 'primeng/primeng';
 import { AppComponent } from './app.component';
 import { ReportsModule } from './reports/reports.module';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+import { InMemoryDataService } from './in-memory-data.service';
 
 
 describe('AppComponent', () => {

@@ -1,12 +1,16 @@
 <div class="ui-g">
-      <div>
-        <div>
-          <p-dropdown [options]="reports" (click)="getList()" [(ngModel)]="selectedReport" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
-          <p-calendar  placeholder="Start date" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
-          <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <p-dropdown [options]="reports" (click)="getList()" [(ngModel)]="selectedReport" [filter]="true" ></p-dropdown>
+        </div>
+        <div  class="ui-g-12 ui-md-6 ui-lg-3">
           <button pButton type="button" (click)="getView()" label="Search"></button>
         </div>
-      </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <p-calendar  placeholder="Start date" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
+        </div>
       <p-dataTable
         [value]="data"
         sortField="value"
