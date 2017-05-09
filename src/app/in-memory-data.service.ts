@@ -168,9 +168,9 @@ export class InMemoryDataService implements InMemoryDbService {
   // intercept response from the default HTTP method handlers
   responseInterceptor(response: ResponseOptions, reqInfo: RequestInfo) {
     // response.body = (<SimpleAggregateRow[]>response.body); // matches web api controller
-    const method = RequestMethod[reqInfo.req.method].toUpperCase();
-    const body = JSON.stringify(response.body);
-    console.log(`responseInterceptor: ${method} ${reqInfo.req.url}: \n${body}`);
+    // const method = RequestMethod[reqInfo.req.method].toUpperCase();
+    // const body = JSON.stringify(response.body);
+    // console.log(`responseInterceptor: ${method} ${reqInfo.req.url}: \n${body}`);
     if (typeof reqInfo.query === 'object') {
       // if query parameters present, replace object w/ data key's value.
       // useful for testing; matches API behavior
