@@ -1,6 +1,6 @@
 <div class="ui-g">
   <div class="ui-g-12 ui-md-6 ui-lg-3">
-    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" ></p-dropdown>
+    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'10em'}"></p-dropdown>
     <button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>
     <button pButton type="button" icon="fa-question" (click)="showDialog()" iconPos="left"></button>
   </div>
