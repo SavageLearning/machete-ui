@@ -1,22 +1,30 @@
 <div class="ui-g">
-        <div class="ui-g-12 ui-md-6 ui-lg-3">
-          <p-dropdown [options]="reports" (click)="getList()" (onChange)="getView()" [(ngModel)]="selectedReport" [filter]="true" ></p-dropdown>
-        </div>
-        <div  class="ui-g-12 ui-md-6 ui-lg-3">
-          <button pButton type="button" (click)="getView()" label="Search"></button>
-        </div>
-        <div class="ui-g-12 ui-md-6 ui-lg-3">
-          <p-calendar  placeholder="Start date" (onSelect)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
-        </div>
-        <div class="ui-g-12 ui-md-6 ui-lg-3">
-          <p-calendar placeholder="End date" (onSelect)="getView()" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
-        </div>
-      <p-dataTable
-        [value]="data"
-        sortField="value"
-        sortOrder="-1"
-        sortMode="single">
-        <p-column field="label" header="Type of Job" [sortable]="true" class="removeBgImage"></p-column>
-        <p-column field="value" header="Count" [sortable]="true" class="removeBgImage"></p-column>
-      </p-dataTable>
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" ></p-dropdown>
+    <button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>
+    <button pButton type="button" icon="fa-question" (click)="showDialog()" iconPos="left"></button>
+  </div>
+  <div  class="ui-g-12 ui-md-6 ui-lg-3">
+    <button pButton type="button" (click)="getView()" label="Search"></button>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <p-calendar  placeholder="Start date" (onSelect)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <p-calendar placeholder="End date" (onSelect)="getView()" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
+  </div>
+    <p-dialog header="{{title}}" [(visible)]="display">
+      {{description}}
+    </p-dialog>
+  <div>
+
+  </div>
+<p-dataTable
+  [value]="viewData"
+  sortField="value"
+  sortOrder="-1"
+  sortMode="single">
+  <p-column field="label" header="Type of Job" [sortable]="true" class="removeBgImage"></p-column>
+  <p-column field="value" header="Count" [sortable]="true" class="removeBgImage"></p-column>
+</p-dataTable>
 </div>
