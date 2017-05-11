@@ -55,7 +55,7 @@ export class ReportsComponent implements OnInit {
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit onCompleted'));
     // this.getList();
-    // this.getView();
+    this.getView();
   }
 
   getView() {
