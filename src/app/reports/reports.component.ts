@@ -32,6 +32,8 @@ export class ReportsComponent implements OnInit {
     this.selectedReportID = '1';
     this.title = 'loading';
     this.description = 'loading...';
+    this.headerLabel = 'loading...';
+    this.headerValue = 'loading...';
     this.o.beginDate = '1/1/2016';
     this.o.endDate = '1/1/2017';
     this.reportsDropDown = [];
@@ -48,6 +50,9 @@ export class ReportsComponent implements OnInit {
     // TODO catch exception if not found
     this.description = this.selectedReport[0].description;
     this.title = this.selectedReport[0].title || this.selectedReport[0].commonName;
+    let foo = JSON.parse(this.selectedReport[0].columnLabelsJson);
+    this.headerLabel = foo.label;
+    this.headerValue = foo.value;
   }
 
   ngOnInit() {

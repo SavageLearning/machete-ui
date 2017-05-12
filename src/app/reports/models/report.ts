@@ -18,4 +18,5 @@ export class Report
   'createdby': string;
   'updatedby': string;
   'idPrefix': string;
+  'columnLabelsJson': string;
 }
