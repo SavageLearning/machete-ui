@@ -1,17 +1,17 @@
 <div class="ui-g">
   <div class="ui-g-12 ui-md-6 ui-lg-3">
-    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'10em'}"></p-dropdown>
-    <button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>
+    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'15em'}"></p-dropdown>
+    <!--<button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>-->
     <button pButton type="button" icon="fa-question" (click)="showDialog()" iconPos="left"></button>
   </div>
   <div  class="ui-g-12 ui-md-6 ui-lg-3">
-    <button pButton type="button" (click)="getView()" label="Search"></button>
+    <!--<button pButton type="button" (click)="getView()" label="Search"></button>-->
   </div>
   <div class="ui-g-12 ui-md-6 ui-lg-3">
-    <p-calendar  placeholder="Start date" (onSelect)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
+    <p-calendar  placeholder="Start date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
   </div>
   <div class="ui-g-12 ui-md-6 ui-lg-3">
-    <p-calendar placeholder="End date" (onSelect)="getView()" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
+    <p-calendar placeholder="End date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
   </div>
     <p-dialog header="{{title}}" [(visible)]="display">
       {{description}}

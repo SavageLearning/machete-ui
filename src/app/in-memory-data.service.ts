@@ -132,10 +132,12 @@ export class InMemoryDataService implements InMemoryDbService {
     const reports = [
         {
           'name': 'DispatchesByJob',
+          'commonName': 'Dispatches by job, with some other text',
           'description': 'The number of completed dispatches, grouped by job (skill ID)',
           'sqlquery': 'SELECT\r\nconvert(varchar(24), @startDate, 126) + \'-\' + convert(varchar(23), @endDate, 126) + \'-\' + convert(varchar(5), min(wa.skillid)) as id,\r\nlskill.text_en  AS label,\r\ncount(lskill.text_en) value\r\nFROM [dbo].WorkAssignments as WA \r\njoin [dbo].lookups as lskill on (wa.skillid = lskill.id)\r\njoin [dbo].WorkOrders as WO ON (WO.ID = WA.workorderID)\r\njoin [dbo].lookups as lstatus on (WO.status = lstatus.id) \r\nWHERE wo.dateTimeOfWork < (@endDate) \r\nand wo.dateTimeOfWork > (@startDate)\r\nand lstatus.text_en = \'Completed\'\r\ngroup by lskill.text_en',
           'category': 'Dispatches',
           'subcategory': null,
+
           'idString': 'reportdef',
           'id': 1,
           'data': DispatchesByJob,
@@ -147,6 +149,8 @@ export class InMemoryDataService implements InMemoryDbService {
         },
         {
           'name': 'DispatchesByMonth',
+          'title': 'A different title for Dispatches by Month',
+          'commonName': 'Dispatches by Month, (weee!)',
           'description': 'The number of completed dispatches, grouped by month',
           'sqlquery': 'SELECT\r\nconvert(varchar(23), @startDate, 126) + \'-\' + convert(varchar(23), @endDate, 126) + \'-\' + convert(varchar(5), month(min(wo.datetimeofwork))) as id,\r\nconvert(varchar(7), min(wo.datetimeofwork), 126)  AS label,\r\ncount(*) value\r\nfrom workassignments wa\r\njoin workorders wo on wo.id = wa.workorderid\r\njoin lookups l on wo.status = l.id\r\nwhere  datetimeofwork >= @startDate\r\nand datetimeofwork < @endDate\r\nand l.text_en = \'Completed\'\r\nand wa.workerassignedid is not null\r\ngroup by month(wo.datetimeofwork)',
           'category': 'Dispatches',

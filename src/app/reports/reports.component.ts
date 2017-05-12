@@ -30,6 +30,8 @@ export class ReportsComponent implements OnInit {
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
     this.selectedReportID = '1';
+    this.title = 'loading';
+    this.description = 'loading...';
     this.o.beginDate = '1/1/2016';
     this.o.endDate = '1/1/2017';
     this.reportsDropDown = [];
@@ -43,21 +45,20 @@ export class ReportsComponent implements OnInit {
 
   updateDialog() {
     this.selectedReport = this.reportsService.listData.filter(x => x.id === Number(this.selectedReportID));
-    // TODO throw exception
+    // TODO catch exception if not found
     this.description = this.selectedReport[0].description;
-    this.title = this.selectedReport[0].name;
+    this.title = this.selectedReport[0].title || this.selectedReport[0].commonName;
   }
 
   ngOnInit() {
     this.reports$ = this.reportsService.subscribeToDataService();
     this.reports$.subscribe(
-      listData => this.reportsDropDown = listData.map(r => new MySelectItem(r.name, r.id.toString()) as SelectItem),
+      listData => this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.id.toString()) as SelectItem),
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit onCompleted'));
     // this.getList();
     this.getView();
   }
-
   getView() {
     this.reportsService.getReport(this.selectedReportID.toString(), this.o)
       .subscribe(

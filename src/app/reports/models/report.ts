@@ -4,6 +4,8 @@
 export class Report
 {
   'name': string;
+  'commonName': string;
+  'title': string;
   'description': string;
   'sqlquery': string;
   'category': string;
