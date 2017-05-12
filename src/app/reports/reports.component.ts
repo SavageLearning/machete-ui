@@ -62,10 +62,12 @@ export class ReportsComponent implements OnInit {
   getView() {
     this.reportsService.getReport(this.selectedReportID.toString(), this.o)
       .subscribe(
-        data => this.viewData = data,
+        data => {
+          this.viewData = data;
+          this.updateDialog();
+        },
         error => this.errorMessage = <any>error,
         () => console.log('getView onCompleted'));
-    this.updateDialog();
   }
   getList() {
     this.reportsService.getList();

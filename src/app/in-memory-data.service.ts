@@ -137,7 +137,6 @@ export class InMemoryDataService implements InMemoryDbService {
           'sqlquery': 'SELECT\r\nconvert(varchar(24), @startDate, 126) + \'-\' + convert(varchar(23), @endDate, 126) + \'-\' + convert(varchar(5), min(wa.skillid)) as id,\r\nlskill.text_en  AS label,\r\ncount(lskill.text_en) value\r\nFROM [dbo].WorkAssignments as WA \r\njoin [dbo].lookups as lskill on (wa.skillid = lskill.id)\r\njoin [dbo].WorkOrders as WO ON (WO.ID = WA.workorderID)\r\njoin [dbo].lookups as lstatus on (WO.status = lstatus.id) \r\nWHERE wo.dateTimeOfWork < (@endDate) \r\nand wo.dateTimeOfWork > (@startDate)\r\nand lstatus.text_en = \'Completed\'\r\ngroup by lskill.text_en',
           'category': 'Dispatches',
           'subcategory': null,
-
           'idString': 'reportdef',
           'id': 1,
           'data': DispatchesByJob,
