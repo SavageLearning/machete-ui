@@ -1,12 +1,9 @@
 <div class="ui-g">
   <div class="ui-g-12 ui-md-6">
-    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'15em'}"></p-dropdown>
+    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
     <!--<button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>-->
-    <button pButton type="button" icon="fa-question" (click)="showDialog()" iconPos="left"></button>
   </div>
-  <!--<div  class="ui-g-12 ui-md-6 ui-lg-3">-->
-    <!--<button pButton type="button" (click)="getView()" label="Search"></button>-->
-  <!--</div>-->
+
   <div class="ui-g-12 ui-md-6 ui-lg-3">
     <p-calendar  placeholder="Start date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
   </div>
@@ -20,10 +17,17 @@
 </p-dialog>
 <div>
 <p-dataTable
+  #dt
   [value]="viewData"
   sortField="value"
   sortOrder="-1"
   sortMode="single">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-download" iconPos="left" label="CSV" (click)="getExport(dt)" style="float:left"></button>
+      <button pButton type="button" icon="fa-question" (click)="showDialog()" iconPos="left" style="float:right"></button>
+    </div>
+  </p-header>
   <p-column field="label" header="{{headerLabel}}" [sortable]="true" class="removeBgImage"></p-column>
   <p-column field="value" header="{{headerValue}}" [sortable]="true" class="removeBgImage"></p-column>
 </p-dataTable>

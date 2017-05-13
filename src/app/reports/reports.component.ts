@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ReportsService} from './reports.service';
 import {SearchOptions } from './models/search-options';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
-import {SelectItem} from 'primeng/primeng';
+import {DataTable, SelectItem} from 'primeng/primeng';
 import {Report} from './models/report';
 import {Observable} from 'rxjs/Observable';
 
@@ -17,7 +17,7 @@ export class ReportsComponent implements OnInit {
   selectedReportID: string;
   selectedReport: Report[];
   title: string;
-  altname: string;
+  name: string;
   description: string;
   headerLabel: string;
   headerValue: string;
@@ -50,9 +50,10 @@ export class ReportsComponent implements OnInit {
     // TODO catch exception if not found
     this.description = this.selectedReport[0].description;
     this.title = this.selectedReport[0].title || this.selectedReport[0].commonName;
-    let foo = JSON.parse(this.selectedReport[0].columnLabelsJson);
+    const foo = JSON.parse(this.selectedReport[0].columnLabelsJson);
     this.headerLabel = foo.label;
     this.headerValue = foo.value;
+    this.name = this.selectedReport[0].name;
   }
 
   ngOnInit() {
@@ -61,7 +62,6 @@ export class ReportsComponent implements OnInit {
       listData => this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.id.toString()) as SelectItem),
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit onCompleted'));
-    // this.getList();
     this.getView();
   }
   getView() {
@@ -90,8 +90,9 @@ export class ReportsComponent implements OnInit {
     //   );
   }
 
-  showDetails() {
-
+  getExport(dt: DataTable) {
+    dt.exportFilename = this.name + '_' + this.o.beginDate.toString() + '_to_' + this.o.endDate.toString();
+    dt.exportCSV();
   }
 }
 
