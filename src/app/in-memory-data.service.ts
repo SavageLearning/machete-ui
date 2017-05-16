@@ -145,8 +145,23 @@ export class InMemoryDataService implements InMemoryDbService {
           'createdby': 'Init T. Script',
           'updatedby': 'Init T. Script',
           'idPrefix': 'reportdef1-',
-          'columnLabelsJson': '{ "label": "Job types", "value": "Count of jobs"}'
-
+          'columns': [
+            {
+              'field': 'id',
+              'header': 'id',
+              'visible': false
+            },
+            {
+              'field': 'label',
+              'header': 'label',
+              'visible': true
+            },
+            {
+              'field': 'value',
+              'header': 'value',
+              'visible': true
+            }
+          ]
         },
         {
           'name': 'DispatchesByMonth',
@@ -164,7 +179,23 @@ export class InMemoryDataService implements InMemoryDbService {
           'createdby': 'Init T. Script',
           'updatedby': 'Init T. Script',
           'idPrefix': 'reportdef2-',
-          'columnLabelsJson': '{ "label": "Month", "value": "Count of jobs"}'
+          'columns': [
+            {
+              'field': 'id',
+              'header': 'id',
+              'visible': false
+            },
+            {
+              'field': 'label',
+              'header': 'label',
+              'visible': true
+            },
+            {
+              'field': 'value',
+              'header': 'value',
+              'visible': true
+            }
+          ]
         }
       ];
 

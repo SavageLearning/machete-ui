@@ -19,25 +19,27 @@ export class ReportsComponent implements OnInit {
   title: string;
   name: string;
   description: string;
-  headerLabel: string;
-  headerValue: string;
   o: SearchOptions;
   errorMessage: string;
   reportsDropDown: SelectItem[];
   reports$: Observable<Report[]>;
   display = false;
+  cols: any[];
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
     this.selectedReportID = '1';
     this.title = 'loading';
     this.description = 'loading...';
-    this.headerLabel = 'loading...';
-    this.headerValue = 'loading...';
     this.o.beginDate = '1/1/2016';
     this.o.endDate = '1/1/2017';
     this.reportsDropDown = [];
     this.reportsDropDown.push({label: 'Select Report', value: null});
+    this.cols = [
+      {field: 'foo1', header: 'loading'},
+      {field: 'foo2', header: 'loading'},
+      {field: 'foo3', header: 'loading'}
+    ];
   }
 
   showDialog() {
@@ -50,10 +52,8 @@ export class ReportsComponent implements OnInit {
     // TODO catch exception if not found
     this.description = this.selectedReport[0].description;
     this.title = this.selectedReport[0].title || this.selectedReport[0].commonName;
-    const foo = JSON.parse(this.selectedReport[0].columnLabelsJson);
-    this.headerLabel = foo.label;
-    this.headerValue = foo.value;
     this.name = this.selectedReport[0].name;
+    this.cols = this.selectedReport[0].columns.filter(a => a.visible === true);
   }
 
   ngOnInit() {
@@ -77,17 +77,6 @@ export class ReportsComponent implements OnInit {
   getList() {
     this.reportsService.getList();
     console.log('getList called');
-      // .subscribe(
-      //   data => this.reports = data,
-      //   // data => this.reportsDropDown = data.map(r => new MySelectItem(r.name, r.id.toString()) as SelectItem),
-      //   error => this.errorMessage = <any>error,
-      //   () => console.log('getList onCompleted'));
-    // this.reportsService.getList()
-    //   .subscribe(
-    //     data => this.reports = data,
-    //     error => this.errorMessage = <any>error,
-    //     () => console.log('getList onCompleted')
-    //   );
   }
 
   getExport(dt: DataTable) {
