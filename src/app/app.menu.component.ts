@@ -21,13 +21,13 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-          {label: 'Employers', icon: 'business', routerLink: ['/employers']},
-          {label: 'Work Orders', icon: 'work', routerLink: ['/workorders']},
-          {label: 'Dispatch', icon: 'today', routerLink: ['/dispatch']},
-          {label: 'People', icon: 'people', routerLink: ['/people']},
-          {label: 'Activities', icon: 'local_activity', url: ['/activities']},
-          {label: 'Sign-ins', icon: 'track_changes', routerLink: ['/workersignins']},
-          {label: 'Emails', icon: 'email', routerLink: ['/emails']},
+          {label: 'Employers', icon: 'business', url: ['/Employer']},
+          {label: 'Work Orders', icon: 'work', url: ['/Workorder']},
+          {label: 'Dispatch', icon: 'today', url: ['/dispatch']},
+          {label: 'People', icon: 'people', url: ['/people']},
+          {label: 'Activities', icon: 'local_activity', url: ['/Activity']},
+          {label: 'Sign-ins', icon: 'track_changes', url: ['/workersignin']},
+          {label: 'Emails', icon: 'email', url: ['/email']},
           {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']}
 
         ];
