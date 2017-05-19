@@ -30,7 +30,7 @@ describe('ReportsService', () => {
 
   it('should get object from in-memory-web-api when no parameters present', async(inject([ReportsService], (service: ReportsService) => {
     const o = new SearchOptions();
-    service.getReport('1', o)
+    service.getReportData('1', o)
       .toPromise()
       .then(res => {
         expect(typeof res).toEqual('object', 'Get w/o query doesn\'t return an object');
@@ -41,7 +41,7 @@ describe('ReportsService', () => {
     const o = new SearchOptions();
     o.beginDate = '1/1/2016';
     o.endDate = '1/1/2017';
-    service.getReport('1', o)
+    service.getReportData('1', o)
       .toPromise()
       .then(rows => {
         expect(rows.length).toBe(18, 'expected 18 rows');

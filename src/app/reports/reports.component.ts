@@ -15,7 +15,7 @@ import {Observable} from 'rxjs/Observable';
 export class ReportsComponent implements OnInit {
   viewData: SimpleAggregateRow[];
   selectedReportID: string;
-  selectedReport: Report[];
+  selectedReport: Report;
   title: string;
   name: string;
   description: string;
@@ -23,11 +23,13 @@ export class ReportsComponent implements OnInit {
   errorMessage: string;
   reportsDropDown: SelectItem[];
   reports$: Observable<Report[]>;
-  display = false;
+  displayDescription = false;
+  displayDialog = true;
   cols: any[];
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
+    this.selectedReport = new Report();
     this.selectedReportID = '1';
     this.title = 'loading';
     this.description = 'loading...';
@@ -42,40 +44,43 @@ export class ReportsComponent implements OnInit {
     ];
   }
 
-  showDialog() {
-    this.updateDialog();
-    this.display = true;
+  showDescription() {
+    this.updateDescription();
+    this.displayDescription = true;
   }
 
-  updateDialog() {
-    this.selectedReport = this.reportsService.listData.filter(x => x.id === Number(this.selectedReportID));
+  updateDescription() {
+    this.selectedReport = this.reportsService.reportList.filter(x => x.id === Number(this.selectedReportID))[0];
     // TODO catch exception if not found
-    this.description = this.selectedReport[0].description;
-    this.title = this.selectedReport[0].title || this.selectedReport[0].commonName;
-    this.name = this.selectedReport[0].name;
-    this.cols = this.selectedReport[0].columns.filter(a => a.visible === true);
+    this.description = this.selectedReport.description;
+    this.title = this.selectedReport.title || this.selectedReport.commonName;
+    this.name = this.selectedReport.name;
+    this.cols = this.selectedReport.columns.filter(a => a.visible === true);
   }
 
   ngOnInit() {
     this.reports$ = this.reportsService.subscribeToDataService();
     this.reports$.subscribe(
-      listData => this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.id.toString()) as SelectItem),
+      listData => {
+        this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.id.toString()) as SelectItem);
+        this.getView();
+      },
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit onCompleted'));
-    this.getView();
+
   }
   getView() {
-    this.reportsService.getReport(this.selectedReportID.toString(), this.o)
+    this.reportsService.getReportData(this.selectedReportID.toString(), this.o)
       .subscribe(
         data => {
           this.viewData = data;
-          this.updateDialog();
+          this.updateDescription();
         },
         error => this.errorMessage = <any>error,
         () => console.log('getView onCompleted'));
   }
   getList() {
-    this.reportsService.getList();
+    this.reportsService.getReportList();
     console.log('getList called');
   }
 

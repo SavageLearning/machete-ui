@@ -11,49 +11,49 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ReportsService {
-    listData: Report[] = new Array<Report>();
-    listData$: BehaviorSubject<Report[]>;
+    reportList: Report[] = new Array<Report>();
+    reportList$: BehaviorSubject<Report[]>;
   constructor(private http: Http) {
     this.initializeDataService();
   }
 
   initializeDataService() {
-    if (!this.listData$) {
-      this.listData$ = <BehaviorSubject<Report[]>> new BehaviorSubject(new Array<Report>());
-
-      this.getList();
+    if (!this.reportList$) {
+      this.reportList$ = <BehaviorSubject<Report[]>> new BehaviorSubject(new Array<Report>());
+      this.getReportList();
     }
   }
 
   subscribeToDataService(): Observable<Report[]> {
-    return this.listData$.asObservable();
+    return this.reportList$.asObservable();
   }
-  getReport(report: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
+  //
+  getReportData(reportName: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
     // TODO throw exception if report is not populated
     const params = this.encodeData(o);
     let uri = '/api/reports';
-    if (report) {
-      uri = uri + '/' + report;
+    if (reportName) {
+      uri = uri + '/' + reportName;
     }
-    if (report && params) {
+    if (reportName && params) {
       uri = uri + '?' + params;
     }
-    console.log('reportsService.getReport: ' + uri);
+    console.log('reportsService.getReportData: ' + uri);
     return this.http.get(uri)
               .map(res => res.json().data as SimpleAggregateRow[])
               .catch(this.handleError);
   }
 
-  getList() {
+  getReportList() {
     let uri = '/api/reports';
-    console.log('reportsService.getList: ' + uri);
+    console.log('reportsService.getReportList: ' + uri);
     this.http.get(uri)
       .map(res => res.json().data as Report[])
       .catch(this.handleError)
       .subscribe(
         data => {
-          this.listData = data;
-          this.listData$.next(data);
+          this.reportList = data;
+          this.reportList$.next(data);
         },
         error => console.log('Error subscribing to DataService: ' + error)
       );

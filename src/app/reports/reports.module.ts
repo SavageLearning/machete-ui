@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule,
-  DialogModule, TabViewModule, CalendarModule } from 'primeng/primeng';
+  DialogModule, TabViewModule, CalendarModule, InputTextareaModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModul
     ButtonModule,
     DropdownModule,
     DialogModule,
+    InputTextareaModule,
     BrowserAnimationsModule
   ],
   exports: [
