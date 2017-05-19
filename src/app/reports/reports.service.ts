@@ -7,34 +7,56 @@ import { Report } from './models/report';
 import { SearchOptions } from './models/search-options';
 import {Observable} from 'rxjs/Observable';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ReportsService {
+    reportList: Report[] = new Array<Report>();
+    reportList$: BehaviorSubject<Report[]>;
+  constructor(private http: Http) {
+    this.initializeDataService();
+  }
 
-  constructor(private http: Http) {}
+  initializeDataService() {
+    if (!this.reportList$) {
+      this.reportList$ = <BehaviorSubject<Report[]>> new BehaviorSubject(new Array<Report>());
+      this.getReportList();
+    }
+  }
 
-  getReport(report: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
+  subscribeToDataService(): Observable<Report[]> {
+    return this.reportList$.asObservable();
+  }
+  //
+  getReportData(reportName: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
     // TODO throw exception if report is not populated
     const params = this.encodeData(o);
     let uri = '/api/reports';
-    if (report) {
-      uri = uri + '/' + report;
+    if (reportName) {
+      uri = uri + '/' + reportName;
     }
-    if (report && params) {
+    if (reportName && params) {
       uri = uri + '?' + params;
     }
-    console.log(uri);
+    console.log('reportsService.getReportData: ' + uri);
     return this.http.get(uri)
               .map(res => res.json().data as SimpleAggregateRow[])
               .catch(this.handleError);
   }
 
-  getList(): Observable<Report[]> {
+  getReportList() {
     let uri = '/api/reports';
-    console.log(uri);
-    return this.http.get(uri)
+    console.log('reportsService.getReportList: ' + uri);
+    this.http.get(uri)
       .map(res => res.json().data as Report[])
-      .catch(this.handleError);
+      .catch(this.handleError)
+      .subscribe(
+        data => {
+          this.reportList = data;
+          this.reportList$.next(data);
+        },
+        error => console.log('Error subscribing to DataService: ' + error)
+      );
   }
 
   private handleError(error: any): Promise<any> {

@@ -1,18 +1,76 @@
 <div class="ui-g">
-      <div>
-        <div>
-          <p-dropdown [options]="reports" (click)="getList()" [(ngModel)]="selectedReport" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
-          <p-calendar  placeholder="Start date" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
-          <p-calendar placeholder="End date" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
-          <button pButton type="button" (click)="getView()" label="Search"></button>
+  <div class="ui-g-12 ui-md-6">
+    <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
+    <button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>
+    <button pButton type="button" icon="fa-eye" (click)="displayDialog=true" iconPos="left"></button>
+
+  </div>
+
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <p-calendar  placeholder="Start date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <p-calendar placeholder="End date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
+  </div>
+
+</div>
+<p-dialog header="{{title}}" [(visible)]="displayDescription">
+  {{description}}
+</p-dialog>
+<div>
+<p-dataTable
+  #dt
+  [value]="viewData"
+  sortField="value"
+  sortOrder="-1"
+  sortMode="single"
+  >
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-download" iconPos="left" label="CSV" (click)="getExport(dt)" style="float:left"></button>
+      <button pButton type="button" icon="fa-question" (click)="showDescription()" iconPos="left" style="float:right"></button>
+    </div>
+  </p-header>
+  <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [sortable]="true"></p-column>
+</p-dataTable>
+  <p-dialog
+    header="Report Details"
+    [(visible)]="displayDialog"
+    [responsive]="true"
+    showEffect="fade"
+    [modal]="false"
+    resizable="true"
+    width="1000"
+  >
+    <div>
+      <div class="ui-g" style="display:flex">
+        <div class="ui-sm-4 ui-md-3 ui-lg-3" style="flex: 0"><label for="name">Name</label></div>
+        <div class="ui-sm-8 ui-md-9 ui-lg-9" style="flex: 1"><input pInputText id="name" [(ngModel)]="name" style="width: 100%;"/></div>
+      </div>
+      <div class="ui-g" style="display:flex">
+        <div class="ui-sm-4 ui-md-3 ui-lg-3" style="flex: 0"><label for="commonName">Common name</label></div>
+        <div class="ui-sm-8 ui-md-9 ui-lg-9" style="flex: 1"><input pInputText id="commonName" style="width: 100%;" [(ngModel)]="selectedReport.commonName" /></div>
+      </div>
+      <!--<div class="ui-g">-->
+        <!--<div class="ui-sm-4 ui-md-3 ui-lg-2"><label for="title">Title</label></div>-->
+        <!--<div class="ui-sm-8 ui-md-9 ui-lg-10"><input pInputText id="title" [(ngModel)]="selectedReport.title" /></div>-->
+      <!--</div>-->
+      <div class="ui-g">
+        <div class="ui-sm-4 ui-md-3 ui-lg-3" style="flex: 0"><label for="description">Description</label></div>
+        <div class="ui-sm-8 ui-md-9 ui-lg-9" style="flex: 1"><input pInputText id="description" style="width: 100%;" [(ngModel)]="selectedReport.description" /></div>
+      </div>
+      <div class="ui-g" style="display:flex">
+        <div class="ui-sm-4 ui-md-3 ui-lg-3" style="flex: 0"><label for="sqlquery">SQL Query</label></div>
+        <div class="ui-sm-8 ui-md-9 ui-lg-9" style="flex: 1">
+              <textarea pInputTextarea id="sqlquery" rows="20" style="width: 100%;" [(ngModel)]="selectedReport.sqlquery" autoResize="true"></textarea>
         </div>
       </div>
-      <p-dataTable
-        [value]="data"
-        sortField="value"
-        sortOrder="-1"
-        sortMode="single">
-        <p-column field="label" header="Type of Job" [sortable]="true"></p-column>
-        <p-column field="value" header="Count" [sortable]="true"></p-column>
-      </p-dataTable>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+        <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
 </div>
