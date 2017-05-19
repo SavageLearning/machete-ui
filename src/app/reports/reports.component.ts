@@ -24,7 +24,7 @@ export class ReportsComponent implements OnInit {
   reportsDropDown: SelectItem[];
   reports$: Observable<Report[]>;
   displayDescription = false;
-  displayDialog = true;
+  displayDialog = false;
   cols: any[];
 
   constructor(private reportsService: ReportsService) {

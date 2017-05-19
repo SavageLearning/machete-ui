@@ -1,9 +1,8 @@
 <div class="ui-g">
   <div class="ui-g-12 ui-md-6">
     <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
-    <button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>
-    <button pButton type="button" icon="fa-eye" (click)="displayDialog=true" iconPos="left"></button>
-
+    <button pButton type="button" icon="ui-icon-sync" (click)="getView()" iconPos="left"></button>
+    <button pButton type="button" icon="ui-icon-edit" (click)="displayDialog=true" iconPos="left"></button>
   </div>
 
   <div class="ui-g-12 ui-md-6 ui-lg-3">
@@ -24,11 +23,14 @@
   sortField="value"
   sortOrder="-1"
   sortMode="single"
+  [globalFilter]="gb"
   >
   <p-header>
     <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-download" iconPos="left" label="CSV" (click)="getExport(dt)" style="float:left"></button>
-      <button pButton type="button" icon="fa-question" (click)="showDescription()" iconPos="left" style="float:right"></button>
+      <button type="button" pButton icon="ui-icon-file-download" iconPos="left" label="CSV" (click)="getExport(dt)" style="float:left"></button>
+      <input #gb type="text" placeholder="Global search" width="200">
+
+      <button pButton type="button" icon="ui-icon-help-outline" (click)="showDescription()" iconPos="left" style="float:right"></button>
     </div>
   </p-header>
   <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [sortable]="true"></p-column>
