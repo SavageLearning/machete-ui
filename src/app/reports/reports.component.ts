@@ -5,6 +5,8 @@ import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {DataTable, SelectItem} from 'primeng/primeng';
 import {Report} from './models/report';
 import {Observable} from 'rxjs/Observable';
+import {SearchInputs} from './models/search-inputs';
+import {Column} from './models/column';
 
 @Component({
   selector: 'app-reports',
@@ -25,23 +27,20 @@ export class ReportsComponent implements OnInit {
   reports$: Observable<Report[]>;
   displayDescription = false;
   displayDialog = false;
-  cols: any[];
+  cols: Column[];
+  inputs: SearchInputs;
 
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
     this.selectedReport = new Report();
     this.selectedReportID = '1';
-    this.title = 'loading';
-    this.description = 'loading...';
+    // this.title = 'loading';
+    // this.description = 'loading...';
     this.o.beginDate = '1/1/2016';
     this.o.endDate = '1/1/2017';
     this.reportsDropDown = [];
     this.reportsDropDown.push({label: 'Select Report', value: null});
-    this.cols = [
-      {field: 'foo1', header: 'loading'},
-      {field: 'foo2', header: 'loading'},
-      {field: 'foo3', header: 'loading'}
-    ];
+    this.inputs = new SearchInputs();
   }
 
   showDescription() {
@@ -56,6 +55,7 @@ export class ReportsComponent implements OnInit {
     this.title = this.selectedReport.title || this.selectedReport.commonName;
     this.name = this.selectedReport.name;
     this.cols = this.selectedReport.columns.filter(a => a.visible === true);
+    this.inputs = this.selectedReport.inputs;
   }
 
   ngOnInit() {

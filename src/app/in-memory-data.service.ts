@@ -233,6 +233,11 @@ export class InMemoryDataService implements InMemoryDbService {
           'createdby': 'Init T. Script',
           'updatedby': 'Init T. Script',
           'idPrefix': 'reportdef1-',
+          'inputs': {
+            'beginDate': true,
+            'endDate': true,
+            'memberNumber': true
+          },
           'columns': [
             {
               'field': 'id',
@@ -267,6 +272,11 @@ export class InMemoryDataService implements InMemoryDbService {
           'createdby': 'Init T. Script',
           'updatedby': 'Init T. Script',
           'idPrefix': 'reportdef2-',
+          'inputs': {
+            'beginDate': false,
+            'endDate': false,
+            'memberNumber': true
+          },
           'columns': [
             {
               'field': 'id',
@@ -295,6 +305,11 @@ export class InMemoryDataService implements InMemoryDbService {
         'category': 'site-specific',
         'subcategory': null,
         'data': SeattleCityReport,
+        'inputs': {
+          'beginDate': true,
+          'endDate': true,
+          'memberNumber': false
+        },
         'columns': [
           {
             'field': 'id',
