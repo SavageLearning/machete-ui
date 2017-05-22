@@ -55,7 +55,8 @@ export class ReportsComponent implements OnInit {
     this.title = this.selectedReport.title || this.selectedReport.commonName;
     this.name = this.selectedReport.name;
     this.cols = this.selectedReport.columns.filter(a => a.visible === true);
-    this.inputs = this.selectedReport.inputs;
+    this.inputs = <SearchInputs>this.selectedReport.inputs;
+    console.log('updateDescription: ' + JSON.stringify(this.inputs, undefined, 2));
   }
 
   ngOnInit() {
