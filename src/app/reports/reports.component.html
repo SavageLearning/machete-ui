@@ -6,7 +6,7 @@
   </div>
   <div *ngIf="inputs.memberNumber === true" class="ui-g-12 ui-md-6">
     <label for="memberNumber">Membr number</label>
-    <input id="memberNumber" type="text" pInputText [(ngModel)]="o.dwccardnum" (onBlur)="getView()" dataType="number"/>
+    <input id="memberNumber" type="text" pInputText [(ngModel)]="o.memberNumber" (onBlur)="getView()" dataType="number"/>
   </div>
   <div *ngIf="inputs.beginDate === true" class="ui-g-12 ui-md-6 ui-lg-3">
     <p-calendar  placeholder="Start date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
