@@ -14,37 +14,21 @@ declare var jQuery: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-
     layoutCompact: boolean = false;
-
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
-
     darkMenu: boolean = true;
-
     profileMode: string = 'inline';
-
     rotateMenuButton: boolean;
-
     topbarMenuActive: boolean;
-
     overlayMenuActive: boolean;
-
     staticMenuDesktopInactive: boolean;
-
     staticMenuMobileActive: boolean;
-
     layoutContainer: HTMLDivElement;
-
     layoutMenuScroller: HTMLDivElement;
-
     menuClick: boolean;
-
     topbarItemClick: boolean;
-
     activeTopbarItem: any;
-
     documentClickListener: Function;
-
     resetMenu: boolean;
 
     @ViewChild('layoutContainer') layourContainerViewChild: ElementRef;

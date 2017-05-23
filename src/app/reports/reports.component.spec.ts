@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {CalendarModule, DataTableModule, TabViewModule, DropdownModule} from 'primeng/primeng';
+import {DialogModule, CalendarModule, DataTableModule, TabViewModule, DropdownModule} from 'primeng/primeng';
 import {ReportsComponent} from './reports.component';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
@@ -23,6 +23,7 @@ describe('ReportsComponent', () => {
         DropdownModule,
         TabViewModule,
         CalendarModule,
+        DialogModule,
         FormsModule,
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService)]
