@@ -295,9 +295,9 @@ export class InMemoryDataService implements InMemoryDbService {
             }
           ]
          },
-      {
-        'id': 21,
+        {
         'name': 'SeattleCityReport',
+        'id': 21,
         'title': null,
         'commonName': 'Seattle City report',
         'description': 'Casa Latina\'s monthly numbers for the City of Seattle',
@@ -389,8 +389,22 @@ export class InMemoryDataService implements InMemoryDbService {
         ]
       }
     ];
+    const exports = [
+      'Activities',
+      'ActivitySignins',
+      'Emails',
+      'Employers',
+      'Events',
+      'Persons',
+      'ReportDefinitions',
+      'WorkAssignments',
+      'WorkerRequests',
+      'Workers',
+      'WorkerSignins',
+      'WorkOrders'
+    ];
 
-    return {reports};
+    return {exports, reports };
   }
 
   // intercept response from the default HTTP method handlers

@@ -1,3 +1,8 @@
 <p>
   exports works!
 </p>
+<div class="ui-g">
+  <div class="ui-g-12 ui-md-6">
+    <p-dropdown [options]="exportsDropDown" (onChange)="getExportList()" [(ngModel)]="selectedExport" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
+  </div>
+</div>
