@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, JsonpModule } from '@angular/http';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { JsonpModule } from '@angular/http';
 import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule,
   DialogModule, TabViewModule, CalendarModule, InputTextareaModule } from 'primeng/primeng';
-
+import {ReportsRoutingModule } from './reports-routing.module';
 @NgModule({
   declarations: [
     ReportsComponent
@@ -19,17 +18,17 @@ import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModul
     SharedModule,
     CalendarModule,
     FormsModule,
-    HttpModule,
     JsonpModule,
     ButtonModule,
     DropdownModule,
     DialogModule,
     InputTextareaModule,
-    BrowserAnimationsModule
+    ReportsRoutingModule
   ],
-  exports: [
-    ReportsComponent
-  ],
-  bootstrap: [ReportsComponent]
+  bootstrap: []
 })
-export class ReportsModule {}
+export class ReportsModule {
+  constructor() {
+    console.log('reports');
+  }
+}

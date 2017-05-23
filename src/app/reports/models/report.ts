@@ -1,4 +1,5 @@
 import { Column } from './column';
+import {SearchInputs} from './search-inputs';
 /**
  * Created by jcarter on 3/9/17.
  */
@@ -20,4 +21,6 @@ export class Report
   updatedby: string;
   idPrefix: string;
   columns: Column[];
+  inputs: SearchInputs;
+
 }

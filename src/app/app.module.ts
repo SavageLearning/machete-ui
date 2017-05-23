@@ -1,22 +1,36 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
 import { NgModule, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
-import { ReportsModule } from './reports/reports.module';
 import { AppComponent } from './app.component';
+import {AppMenuComponent,AppSubMenu}  from './app.menu.component';
+import {AppTopBar}  from './app.topbar.component';
+import {AppFooter}  from './app.footer.component';
+import {InlineProfileComponent}  from './app.profile.component';
+import { PageNotFoundComponent }   from './not-found.component';
+import { Router } from '@angular/router';
 import { inMemoryBackendServiceFactory, InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AppMenuComponent,
+    AppSubMenu,
+    AppTopBar,
+    AppFooter,
+    InlineProfileComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
     FormsModule,
     HttpModule,
-    ReportsModule
-    ,InMemoryWebApiModule.forRoot(InMemoryDataService)
+    InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   providers: [
     {
@@ -27,7 +41,13 @@ import { environment } from '../environments/environment';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  // Diagnostic only: inspect router configuration
+  constructor(router: Router) {
+    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  }
+
+}
 
 export function getBackend(injector: Injector,
                            browser: BrowserXhr,

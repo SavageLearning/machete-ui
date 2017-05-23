@@ -1,18 +1,19 @@
 <div class="ui-g">
   <div class="ui-g-12 ui-md-6">
     <p-dropdown [options]="reportsDropDown" (onChange)="getView()" [(ngModel)]="selectedReportID" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
-    <button pButton type="button" icon="fa-refresh" (click)="getList()" iconPos="left"></button>
-    <button pButton type="button" icon="fa-eye" (click)="displayDialog=true" iconPos="left"></button>
-
+    <button pButton type="button" icon="ui-icon-sync" (click)="getView()" iconPos="left"></button>
+    <button pButton type="button" icon="ui-icon-edit" (click)="displayDialog=true" iconPos="left"></button>
   </div>
-
-  <div class="ui-g-12 ui-md-6 ui-lg-3">
+  <div *ngIf="inputs.memberNumber === true" class="ui-g-12 ui-md-6">
+    <label for="memberNumber">Membr number</label>
+    <input id="memberNumber" type="text" pInputText [(ngModel)]="o.memberNumber" (onBlur)="getView()" dataType="number"/>
+  </div>
+  <div *ngIf="inputs.beginDate === true" class="ui-g-12 ui-md-6 ui-lg-3">
     <p-calendar  placeholder="Start date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.beginDate" [showIcon]="true" dataType="string"></p-calendar>
   </div>
-  <div class="ui-g-12 ui-md-6 ui-lg-3">
+  <div *ngIf="inputs.endDate === true" class="ui-g-12 ui-md-6 ui-lg-3">
     <p-calendar placeholder="End date" (onSelect)="getView()" (onBlur)="getView()" [(ngModel)]="o.endDate" [showIcon]="true" dataType="string"></p-calendar>
   </div>
-
 </div>
 <p-dialog header="{{title}}" [(visible)]="displayDescription">
   {{description}}
@@ -24,11 +25,15 @@
   sortField="value"
   sortOrder="-1"
   sortMode="single"
+  [globalFilter]="gb"
+  [responsive]="true"
   >
   <p-header>
     <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-download" iconPos="left" label="CSV" (click)="getExport(dt)" style="float:left"></button>
-      <button pButton type="button" icon="fa-question" (click)="showDescription()" iconPos="left" style="float:right"></button>
+      <button type="button" pButton icon="ui-icon-file-download" iconPos="left" label="CSV" (click)="getExport(dt)" style="float:left"></button>
+      <input #gb type="text" placeholder="Global search" width="200">
+
+      <button pButton type="button" icon="ui-icon-help-outline" (click)="showDescription()" iconPos="left" style="float:right"></button>
     </div>
   </p-header>
   <p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [sortable]="true"></p-column>
@@ -68,8 +73,8 @@
     </div>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-        <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+        <!--<button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>-->
+        <!--<button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>-->
       </div>
     </p-footer>
   </p-dialog>
