@@ -7,14 +7,14 @@ import {InMemoryDataService} from '../in-memory-data.service';
 import {HttpModule} from '@angular/http';
 import {ExportsService} from './exports.service';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-
+import { ExportsOptionsComponent } from './exports-options.component';
 describe('ExportsComponent', () => {
   let component: ExportsComponent;
   let fixture: ComponentFixture<ExportsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExportsComponent ],
+      declarations: [ ExportsComponent, ExportsOptionsComponent ],
       providers: [ExportsService ],
       imports: [
         NoopAnimationsModule,

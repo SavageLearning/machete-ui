@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ExportsService} from './exports.service';
 import {Observable} from 'rxjs/Observable';
 import {MySelectItem} from '../reports/reports.component';
-
+import { Export } from './models/export';
+import {ExportColumn} from './models/export-column';
 @Component({
   selector: 'app-exports',
   templateUrl: './exports.component.html',
@@ -10,11 +11,12 @@ import {MySelectItem} from '../reports/reports.component';
   providers: [ExportsService]
 })
 export class ExportsComponent implements OnInit {
-  exports$: Observable<string[]>;
-  exports: string[];
-  selectedExport: string;
+  exports$: Observable<Export[]>;
+  exports: Export[];
+  selectedExportName: string;
   exportsDropDown: MySelectItem[];
   errorMessage: string;
+  selectedColumns: ExportColumn[];
 
   constructor(private exportsService: ExportsService) { }
 
@@ -23,13 +25,25 @@ export class ExportsComponent implements OnInit {
     this.exports$.subscribe(
       listData => {
         this.exports = listData;
-        this.exportsDropDown = listData.map(r => new MySelectItem(r, r));
+        this.exportsDropDown = listData.map(r =>
+          new MySelectItem(r.name, r.name));
       },
       error => this.errorMessage = <any>error,
       () => console.log('exports.component: ngOnInit onCompleted'));
   }
 
   getExportList() {
-    this.exportsService.getExportList();
+    this.exportsService.getExportsList();
+  }
+
+  getColumns() {
+    this.exportsService.getColumns(this.selectedExportName)
+      .subscribe(
+        data => {
+          this.selectedColumns = data;
+        },
+        error => this.errorMessage = <any>error,
+        () => console.log('exportsService.getColumns completed')
+      );
   }
 }

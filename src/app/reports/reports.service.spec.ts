@@ -52,10 +52,13 @@ describe('ReportsService', () => {
   it('should get array from getList',
     async(inject([ReportsService], (service: ReportsService) => {
       service.subscribeToDataService()
+        .delay(1000)
         .toPromise()
-        .then(rows => {
-          expect(rows.length).toBe(3, 'expected 3 report definitions');
+        .then((rows) => {
+          expect(rows.length).toBe(4, 'expected 3 report definitions');
         });
+      service.getReportList();
+
     }))
   );
 });

@@ -79,10 +79,10 @@ export class ReportsComponent implements OnInit {
         error => this.errorMessage = <any>error,
         () => console.log('getView onCompleted'));
   }
-  getList() {
-    this.reportsService.getReportList();
-    console.log('getList called');
-  }
+  // getList() {
+  //   this.reportsService.getReportList();
+  //   console.log('getList called');
+  // }
 
   getExport(dt: DataTable) {
     dt.exportFilename = this.name + '_' + this.o.beginDate.toString() + '_to_' + this.o.endDate.toString();

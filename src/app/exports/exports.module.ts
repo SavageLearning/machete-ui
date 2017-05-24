@@ -6,6 +6,7 @@ import { JsonpModule } from '@angular/http';
 import {ExportsRoutingModule} from './exports-routing.module';
 import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule,
   DialogModule, TabViewModule, CalendarModule, InputTextareaModule } from 'primeng/primeng';
+import { ExportsOptionsComponent } from './exports-options.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModul
     InputTextareaModule,
     ExportsRoutingModule
   ],
-  declarations: [ExportsComponent]
+  declarations: [ExportsComponent, ExportsOptionsComponent]
 })
 export class ExportsModule {
   constructor() {

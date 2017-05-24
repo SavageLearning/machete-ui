@@ -5,27 +5,28 @@ import 'rxjs/add/operator/catch';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-
+import { Export } from './models/export';
+import {ExportColumn} from './models/export-column';
 @Injectable()
 export class ExportsService {
-  exportList: string[] = new Array<string>();
-  exportList$: BehaviorSubject<string[]>;
+  exportsList: Export[] = new Array<Export>();
+  exportsList$: BehaviorSubject<Export[]>;
   constructor(private http: Http) {
     this.initializeDataService();
   }
 
   initializeDataService() {
-    if (!this.exportList$) {
-      this.exportList$ = <BehaviorSubject<string[]>> new BehaviorSubject(new Array<string>());
-      this.getExportList();
+    if (!this.exportsList$) {
+      this.exportsList$ = <BehaviorSubject<Export[]>> new BehaviorSubject(new Array<Export>());
+      this.getExportsList();
     }
   }
 
-  subscribeToListService(): Observable<string[]> {
-    return this.exportList$.asObservable();
+  subscribeToListService(): Observable<Export[]> {
+    return this.exportsList$.asObservable();
   }
 
-  getExportList() {
+  getExportsList() {
     let uri = '/api/exports';
     console.log('exportsService.getExportList: ' + uri);
     this.http.get(uri)
@@ -33,12 +34,22 @@ export class ExportsService {
       .catch(this.handleError)
       .subscribe(
         data => {
-          this.exportList = data;
-          this.exportList$.next(data);
+          this.exportsList = data;
+          this.exportsList$.next(data);
         },
         error => console.log('Error subscribing to DataService: ' + error)
       );
   }
+
+  getColumns(tableName: string): Observable<ExportColumn[]> {
+
+    let uri = '/api/exports/' + tableName.toLowerCase();
+    console.log('exportsService.getColumns ' + uri);
+    return this.http.get(uri)
+      .map(res => res.json().data as ExportColumn[])
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('ERROR', error);
     return Promise.reject(error.message || error);

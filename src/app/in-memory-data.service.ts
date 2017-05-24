@@ -389,19 +389,139 @@ export class InMemoryDataService implements InMemoryDbService {
         ]
       }
     ];
+    const Activities =  [
+      {
+        'name': 'ID',
+        'is_nullable': false,
+        'system_type_name': 'int'
+      },
+      {
+        'name': 'name',
+        'is_nullable': false,
+        'system_type_name': 'int'
+      },
+      {
+        'name': 'type',
+        'is_nullable': false,
+        'system_type_name': 'int'
+      },
+      {
+        'name': 'dateStart',
+        'is_nullable': false,
+        'system_type_name': 'datetime'
+      },
+      {
+        'name': 'dateEnd',
+        'is_nullable': false,
+        'system_type_name': 'datetime'
+      },
+      {
+        'name': 'teacher',
+        'is_nullable': false,
+        'system_type_name': 'nvarchar(max)'
+      },
+      {
+        'name': 'notes',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(4000)'
+      },
+      {
+        'name': 'datecreated',
+        'is_nullable': false,
+        'system_type_name': 'datetime'
+      },
+      {
+        'name': 'dateupdated',
+        'is_nullable': false,
+        'system_type_name': 'datetime'
+      },
+      {
+        'name': 'Createdby',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(30)'
+      },
+      {
+        'name': 'Updatedby',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(30)'
+      },
+      {
+        'name': 'recurring',
+        'is_nullable': false,
+        'system_type_name': 'bit'
+      },
+      {
+        'name': 'firstID',
+        'is_nullable': false,
+        'system_type_name': 'int'
+      },
+      {
+        'name': 'nameEN',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(50)'
+      },
+      {
+        'name': 'nameES',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(50)'
+      },
+      {
+        'name': 'typeEN',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(50)'
+      },
+      {
+        'name': 'typeES',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(50)'
+      }
+    ];
     const exports = [
-      'Activities',
-      'ActivitySignins',
-      'Emails',
-      'Employers',
-      'Events',
-      'Persons',
-      'ReportDefinitions',
-      'WorkAssignments',
-      'WorkerRequests',
-      'Workers',
-      'WorkerSignins',
-      'WorkOrders'
+      {
+        'id': 'activities',
+        'name': 'Activities',
+        'data': Activities
+      },
+      {
+        'name': 'ActivitySignins',
+        'data': []
+      },
+      {
+        'name': 'Employers',
+        'data': []
+      },
+      {
+        'name': 'Events',
+        'data': []
+      },
+      {
+        'name': 'Persons',
+        'data': []
+      },
+      {
+        'name': 'ReportDefinitions',
+        'data': []
+      },
+      {
+        'name': 'WorkAssignments',
+        'data': []
+      },
+      {
+        'name': 'WorkerRequests',
+        'data': []
+      },
+      {
+        'name': 'Workers',
+        'data': []
+      },
+      {
+        'name': 'WorkerSignins',
+        'data': []
+      },
+      {
+        'name': 'WorkOrders',
+        'data': []
+      }
     ];
 
     return {exports, reports };
@@ -409,47 +529,47 @@ export class InMemoryDataService implements InMemoryDbService {
 
   // intercept response from the default HTTP method handlers
   responseInterceptor(response: ResponseOptions, reqInfo: RequestInfo) {
-    // response.body = (<SimpleAggregateRow[]>response.body); // matches web api controller
-    // const method = RequestMethod[reqInfo.req.method].toUpperCase();
-    // const body = JSON.stringify(response.body);
+    response.body = (<any[]>response.body); // matches web api controller
+    const method = RequestMethod[reqInfo.req.method].toUpperCase();
+    const body = JSON.stringify(response.body);
     // console.log(`responseInterceptor: ${method} ${reqInfo.req.url}: \n${body}`);
+    console.log(`responseInterceptor: ${method} ${reqInfo.req.url}`);
     if (typeof reqInfo.query === 'object') {
       // if query parameters present, replace object w/ data key's value.
       // useful for testing; matches API behavior
-      response.body = (<Report>response.body).data;
+      response.body = (<any>response.body).data;
     }
    return response;
   }
 
-  // parseUrl(url: string): ParsedUrl {
-  //   try {
-  //     const loc = this.getLocation(url);
-  //     let drop = 0;
-  //     let urlRoot = '';
-  //     if (loc.host !== undefined) {
-  //       // url for a server on a different host!
-  //       // assume it's collection is actually here too.
-  //       drop = 1; // the leading slash
-  //       urlRoot = loc.protocol + '//' + loc.host + '/';
-  //     }
-  //     const path = loc.pathname.substring(drop);
-  //     let [base, collectionName, id] = path.split('/');
-  //     const resourceUrl = urlRoot + base + '/' + collectionName + '/';
-  //     [collectionName] = collectionName.split('.'); // ignore anything after the '.', e.g., '.json'
-  //     const query = loc.search && new URLSearchParams(loc.search.substr(1));
-  //
-  //     const result = { base, collectionName, id, query, resourceUrl };
-  //     console.log('override parseUrl:');
-  //     console.log(result);
-  //     return result;
-  //   } catch (err) {
-  //     const msg = `unable to parse url '${url}'; original error: ${err.message}`;
-  //     throw new Error(msg);
-  //   }
-  // }
-  // private getLocation(href: string) {
-  //   const l = document.createElement('a');
-  //   l.href = href;
-  //   return l;
-  // };
+  parseUrl(url: string): ParsedUrl {
+    try {
+      const loc = this.getLocation(url);
+      let drop = 0;
+      let urlRoot = '';
+      if (loc.host !== undefined) {
+        // url for a server on a different host!
+        // assume it's collection is actually here too.
+        drop = 1; // the leading slash
+        urlRoot = loc.protocol + '//' + loc.host + '/';
+      }
+      const path = loc.pathname.substring(drop);
+      let [base, collectionName, id] = path.split('/');
+      const resourceUrl = urlRoot + base + '/' + collectionName + '/';
+      [collectionName] = collectionName.split('.'); // ignore anything after the '.', e.g., '.json'
+      const query = loc.search && new URLSearchParams(loc.search.substr(1));
+
+      const result = { base, collectionName, id, query, resourceUrl };
+      console.log('parsedUrl: ' + JSON.stringify(result));
+      return result;
+    } catch (err) {
+      const msg = `unable to parse url '${url}'; original error: ${err.message}`;
+      throw new Error(msg);
+    }
+  }
+  private getLocation(href: string) {
+    const l = document.createElement('a');
+    l.href = href;
+    return l;
+  };
 }
