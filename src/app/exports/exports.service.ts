@@ -9,36 +9,14 @@ import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
 @Injectable()
 export class ExportsService {
-  exportsList: Export[] = new Array<Export>();
-  exportsList$: BehaviorSubject<Export[]>;
   constructor(private http: Http) {
-    this.initializeDataService();
   }
-
-  initializeDataService() {
-    if (!this.exportsList$) {
-      this.exportsList$ = <BehaviorSubject<Export[]>> new BehaviorSubject(new Array<Export>());
-      this.getExportsList();
-    }
-  }
-
-  subscribeToListService(): Observable<Export[]> {
-    return this.exportsList$.asObservable();
-  }
-
-  getExportsList() {
+  getExportsList(): Observable<Export[]> {
     let uri = '/api/exports';
     console.log('exportsService.getExportList: ' + uri);
-    this.http.get(uri)
+    return this.http.get(uri)
       .map(res => res.json().data as string[])
-      .catch(this.handleError)
-      .subscribe(
-        data => {
-          this.exportsList = data;
-          this.exportsList$.next(data);
-        },
-        error => console.log('Error subscribing to DataService: ' + error)
-      );
+      .catch(this.handleError);
   }
 
   getColumns(tableName: string): Observable<ExportColumn[]> {

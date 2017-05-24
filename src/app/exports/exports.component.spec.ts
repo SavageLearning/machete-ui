@@ -43,10 +43,10 @@ describe('ExportsComponent', () => {
 
   it('should populate the export list',
     async(inject([ExportsService], (service: ExportsService) => {
-      service.subscribeToListService()
+      service.getExportsList()
         .toPromise()
         .then(rows => {
-          expect(rows.length).toBe(3, 'expected 3 report definitions');
+          expect(rows.length).toBe(2, 'expected 2 in exports list');
         });
     }))
   );

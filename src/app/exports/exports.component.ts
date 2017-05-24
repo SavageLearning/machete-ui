@@ -11,7 +11,6 @@ import {ExportColumn} from './models/export-column';
   providers: [ExportsService]
 })
 export class ExportsComponent implements OnInit {
-  exports$: Observable<Export[]>;
   exports: Export[];
   selectedExportName: string;
   exportsDropDown: MySelectItem[];
@@ -21,8 +20,8 @@ export class ExportsComponent implements OnInit {
   constructor(private exportsService: ExportsService) { }
 
   ngOnInit() {
-    this.exports$ = this.exportsService.subscribeToListService();
-    this.exports$.subscribe(
+    this.exportsService.getExportsList()
+      .subscribe(
       listData => {
         this.exports = listData;
         this.exportsDropDown = listData.map(r =>
@@ -30,10 +29,6 @@ export class ExportsComponent implements OnInit {
       },
       error => this.errorMessage = <any>error,
       () => console.log('exports.component: ngOnInit onCompleted'));
-  }
-
-  getExportList() {
-    this.exportsService.getExportsList();
   }
 
   getColumns() {

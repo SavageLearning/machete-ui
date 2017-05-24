@@ -476,51 +476,17 @@ export class InMemoryDataService implements InMemoryDbService {
         'system_type_name': 'nvarchar(50)'
       }
     ];
+    const ActivitySignins = [{'name': 'ID', 'is_nullable': false, 'system_type_name': 'int'}, {'name': 'ActivityID', 'is_nullable': false, 'system_type_name': 'int'}, {'name': 'dwccardnum', 'is_nullable': false, 'system_type_name': 'int'}, {'name': 'memberStatus', 'is_nullable': true, 'system_type_name': 'int'}, {'name': 'dateforsignin', 'is_nullable': false, 'system_type_name': 'datetime'}, {'name': 'datecreated', 'is_nullable': false, 'system_type_name': 'datetime'}, {'name': 'dateupdated', 'is_nullable': false, 'system_type_name': 'datetime'}, {'name': 'Createdby', 'is_nullable': true, 'system_type_name': 'nvarchar(30)'}, {'name': 'Updatedby', 'is_nullable': true, 'system_type_name': 'nvarchar(30)'}, {'name': 'personID', 'is_nullable': true, 'system_type_name': 'int'}, {'name': 'timeZoneOffset', 'is_nullable': false, 'system_type_name': 'float'}];
     const exports = [
       {
-        'id': 'activities',
+        'id': 'activities', // needed for in-memory db, not real
         'name': 'Activities',
         'data': Activities
       },
       {
+        'id': 'activitysignins', // needed for in-memory db, not real
         'name': 'ActivitySignins',
-        'data': []
-      },
-      {
-        'name': 'Employers',
-        'data': []
-      },
-      {
-        'name': 'Events',
-        'data': []
-      },
-      {
-        'name': 'Persons',
-        'data': []
-      },
-      {
-        'name': 'ReportDefinitions',
-        'data': []
-      },
-      {
-        'name': 'WorkAssignments',
-        'data': []
-      },
-      {
-        'name': 'WorkerRequests',
-        'data': []
-      },
-      {
-        'name': 'Workers',
-        'data': []
-      },
-      {
-        'name': 'WorkerSignins',
-        'data': []
-      },
-      {
-        'name': 'WorkOrders',
-        'data': []
+        'data': ActivitySignins
       }
     ];
 
@@ -537,6 +503,9 @@ export class InMemoryDataService implements InMemoryDbService {
     if (typeof reqInfo.query === 'object') {
       // if query parameters present, replace object w/ data key's value.
       // useful for testing; matches API behavior
+      response.body = (<any>response.body).data;
+    }
+    if (reqInfo.req.url === '/api/exports/activities') {
       response.body = (<any>response.body).data;
     }
    return response;

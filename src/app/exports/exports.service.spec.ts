@@ -23,10 +23,10 @@ describe('ExportsService', () => {
 
   it('should get array from getList',
     async(inject([ExportsService], (service: ExportsService) => {
-      service.subscribeToListService()
+      service.getColumns('activities')
         .toPromise()
         .then(rows => {
-          expect(rows.length).toBe(13, 'expected 13 table names in list');
+          expect(rows.length).toBe(17, 'expected 17 columns from activities');
         });
     }))
   );
