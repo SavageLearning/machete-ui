@@ -6,4 +6,4 @@
     <p-dropdown [options]="exportsDropDown" (onChange)="getColumns()" [(ngModel)]="selectedExportName" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
   </div>
 </div>
-<exports-options></exports-options>
+<exports-options [columns]="selectedColumns"></exports-options>
