@@ -4,8 +4,10 @@ import { ExportsComponent } from './exports.component';
 import { FormsModule } from '@angular/forms';
 import { JsonpModule } from '@angular/http';
 import {ExportsRoutingModule} from './exports-routing.module';
-import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule,
-  DialogModule, TabViewModule, CalendarModule, InputTextareaModule } from 'primeng/primeng';
+import {
+  ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule,
+  DialogModule, TabViewModule, CalendarModule, InputTextareaModule, InputSwitchModule
+} from 'primeng/primeng';
 import { ExportsOptionsComponent } from './exports-options.component';
 
 @NgModule({
@@ -21,6 +23,7 @@ import { ExportsOptionsComponent } from './exports-options.component';
     ButtonModule,
     DropdownModule,
     DialogModule,
+    InputSwitchModule,
     InputTextareaModule,
     ExportsRoutingModule
   ],

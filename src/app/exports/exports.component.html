@@ -1,9 +1,16 @@
-<p>
-  exports works!
-</p>
+<h1>Exports</h1>
 <div class="ui-g">
   <div class="ui-g-12 ui-md-6">
-    <p-dropdown [options]="exportsDropDown" (onChange)="getColumns()" [(ngModel)]="selectedExportName" [filter]="true" [style]="{'width':'20em'}"></p-dropdown>
+    <p-dropdown id="exportsDD" placeholder="Select a table" [options]="exportsDropDown" (onChange)="getColumns()" [(ngModel)]="selectedExportName" [filter]="true" [style]="{'width':'10em'}"></p-dropdown>
+  </div>
+  <div class="ui-g-12 ui-md-6">
+    <p-dropdown placeholder="date field for filter" [options]="dateFilterDropDown" [(ngModel)]="selectedDateFilter" [style]="{'width':'10em'}"></p-dropdown>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <p-calendar  placeholder="Start date" [showIcon]="true" dataType="string"></p-calendar>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <p-calendar placeholder="End date" [showIcon]="true" dataType="string"></p-calendar>
   </div>
 </div>
 <exports-options [columns]="selectedColumns"></exports-options>

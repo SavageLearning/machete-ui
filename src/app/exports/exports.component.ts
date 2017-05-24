@@ -12,10 +12,12 @@ import {ExportColumn} from './models/export-column';
 })
 export class ExportsComponent implements OnInit {
   exports: Export[];
-  selectedExportName: string;
+  dateFilterDropDown: MySelectItem[];
   exportsDropDown: MySelectItem[];
   errorMessage: string;
   selectedColumns: ExportColumn[];
+  selectedExportName: string;
+  selectedDateFilter: string;
 
   constructor(private exportsService: ExportsService) { }
 
@@ -36,6 +38,9 @@ export class ExportsComponent implements OnInit {
       .subscribe(
         data => {
           this.selectedColumns = data;
+          this.dateFilterDropDown = data.filter(f => f.system_type_name === 'datetime')
+            .map(r =>
+              new MySelectItem(r.name, r.name));
         },
         error => this.errorMessage = <any>error,
         () => console.log('exportsService.getColumns completed')
