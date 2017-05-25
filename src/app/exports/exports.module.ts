@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExportsComponent } from './exports.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JsonpModule } from '@angular/http';
 import {ExportsRoutingModule} from './exports-routing.module';
 import {
@@ -14,6 +14,7 @@ import { ExportsOptionsComponent } from './exports-options.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     JsonpModule,
     TabViewModule,
     ChartModule,

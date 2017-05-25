@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { ExportColumn } from './models/export-column';
+import {FormGroup} from '@angular/forms';
 @Component({
   selector: 'exports-options',
   templateUrl: './exports-options.component.html',
@@ -7,6 +8,7 @@ import { ExportColumn } from './models/export-column';
 })
 export class ExportsOptionsComponent implements OnInit {
   @Input() columns: ExportColumn[] = [];
+  @Input() form: FormGroup;
   constructor() { }
 
   ngOnInit() {
