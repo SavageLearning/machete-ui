@@ -63,12 +63,11 @@ export class ExportsComponent implements OnInit {
 
   onSubmit()
   {
-    let data: SearchOptions = {
+    let data = Object.assign( {
       beginDate: this.selectedStartDate,
       endDate: this.selectedEndDate,
-      filterField: this.selectedDateFilter,
-      formData: this.form.value
-    };
+      filterField: this.selectedDateFilter
+    }, this.form.value);
     console.log(this.form.value);
     this.exportsService.getExport(this.selectedExportName, data)
       .subscribe((res: Response) => {
