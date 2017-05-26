@@ -37,7 +37,7 @@ export class ExportsService {
     });
     let params = this.encodeData(o);
     console.log('exportsService.getExport: ' + JSON.stringify(params));
-    const uri = this.uriBase + '/' + tableName + '?' + params;
+    const uri = this.uriBase + '/' + tableName + '/execute?' + params;
     return this.http.get(uri, options)
       .map((res: Response) => res['_body']);
   }
