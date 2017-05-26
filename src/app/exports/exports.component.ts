@@ -3,10 +3,10 @@ import {ExportsService} from './exports.service';
 import {MySelectItem} from '../reports/reports.component';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
-import {Http, Headers, Response, RequestOptions, ResponseContentType} from '@angular/http';
+import {Response} from '@angular/http';
 import { saveAs } from 'file-saver';
-import {Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
-import {SearchOptions} from '../reports/models/search-options';
+import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
+import * as contentDisposition from 'content-disposition';
 @Component({
   selector: 'app-exports',
   templateUrl: './exports.component.html',
@@ -72,7 +72,7 @@ export class ExportsComponent implements OnInit {
     this.exportsService.getExport(this.selectedExportName, data)
       .subscribe((res: Response) => {
         this.downloadFile(res['_body'].data,
-          res.headers.get('filename'),
+          this.getFilename(res.headers.get('content-disposition')),
           res.headers.get('ContentType'));
       }
       ),
@@ -82,8 +82,10 @@ export class ExportsComponent implements OnInit {
 
   downloadFile(data: any, fileName: string, ttype: string) {
     const blob = new Blob([data], {type: ttype});
-    // const url = window.URL.createObjectURL(blob);
     saveAs(blob, fileName);
-    // window.open(url);
+  }
+
+  getFilename(content: string): string {
+    return contentDisposition.parse(content).parameters['filename'];
   }
 }
