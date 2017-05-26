@@ -550,6 +550,260 @@ export class InMemoryDataService implements InMemoryDbService {
         'system_type_name': 'float',
         'include': true
       }];
+    const Workers = [
+      {
+        'name': 'ID', 'is_nullable': false, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'typeOfWorkID',
+        'is_nullable': false,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'dateOfMembership', 'is_nullable': false, 'system_type_name': 'datetime', 'include': true
+      }, {
+        'name': 'dateOfBirth',
+        'is_nullable': true,
+        'system_type_name': 'datetime',
+        'include': true
+      }, {
+        'name': 'memberStatus', 'is_nullable': false, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'memberReactivateDate',
+        'is_nullable': true,
+        'system_type_name': 'datetime',
+        'include': true
+      }, {
+        'name': 'active', 'is_nullable': true, 'system_type_name': 'bit', 'include': true
+      }, {
+        'name': 'RaceID',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'raceother', 'is_nullable': true, 'system_type_name': 'nvarchar(20)', 'include': true
+      }, {
+        'name': 'height',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(50)',
+        'include': true
+      }, {
+        'name': 'weight', 'is_nullable': true, 'system_type_name': 'nvarchar(10)', 'include': true
+      }, {
+        'name': 'englishlevelID',
+        'is_nullable': false,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'recentarrival', 'is_nullable': true, 'system_type_name': 'bit', 'include': true
+      }, {
+        'name': 'dateinUSA',
+        'is_nullable': true,
+        'system_type_name': 'datetime',
+        'include': true
+      }, {
+        'name': 'dateinseattle', 'is_nullable': true, 'system_type_name': 'datetime', 'include': true
+      }, {
+        'name': 'disabled',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'disabilitydesc', 'is_nullable': true, 'system_type_name': 'nvarchar(50)', 'include': true
+      }, {
+        'name': 'maritalstatus',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'livewithchildren', 'is_nullable': true, 'system_type_name': 'bit', 'include': true
+      }, {
+        'name': 'numofchildren',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'incomeID', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'livealone',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'emcontUSAname', 'is_nullable': true, 'system_type_name': 'nvarchar(50)', 'include': true
+      }, {
+        'name': 'emcontUSArelation',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(30)',
+        'include': true
+      }, {
+        'name': 'emcontUSAphone', 'is_nullable': true, 'system_type_name': 'nvarchar(14)', 'include': true
+      }, {
+        'name': 'dwccardnum',
+        'is_nullable': false,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'neighborhoodID', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'immigrantrefugee',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'countryoforiginID', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'emcontoriginname',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(50)',
+        'include': true
+
+      }, {
+        'name': 'emcontoriginrelation',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(30)',
+        'include': true
+
+      }, {
+        'name': 'emcontoriginphone',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(14)',
+        'include': true
+      }, {
+        'name': 'memberexpirationdate', 'is_nullable': false, 'system_type_name': 'datetime', 'include': true
+      }, {
+        'name': 'driverslicense',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'licenseexpirationdate', 'is_nullable': true, 'system_type_name': 'datetime', 'include': true
+      }, {
+        'name': 'carinsurance',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'insuranceexpiration', 'is_nullable': true, 'system_type_name': 'datetime', 'include': true
+      }, {
+        'name': 'ImageID',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'skill1', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'skill2',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'skill3', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'datecreated',
+        'is_nullable': false,
+        'system_type_name': 'datetime',
+        'include': true
+      }, {
+        'name': 'dateupdated', 'is_nullable': false, 'system_type_name': 'datetime', 'include': true
+      }, {
+        'name': 'Createdby',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(30)',
+        'include': true
+      }, {
+        'name': 'Updatedby', 'is_nullable': true, 'system_type_name': 'nvarchar(30)', 'include': true
+      }, {
+        'name': 'homeless',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'workerRating', 'is_nullable': true, 'system_type_name': 'real', 'include': true
+      }, {
+        'name': 'housingType',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'liveWithSpouse', 'is_nullable': true, 'system_type_name': 'bit', 'include': true
+      }, {
+        'name': 'liveWithDescription',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(1000)',
+        'include': true
+      }, {
+        'name': 'americanBornChildren', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'numChildrenUnder18',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'educationLevel', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'farmLaborCharacteristics',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'wageTheftVictim', 'is_nullable': true, 'system_type_name': 'bit', 'include': true
+      }, {
+        'name': 'wageTheftRecoveryAmount',
+        'is_nullable': true,
+        'system_type_name': 'float',
+        'include': true
+      }, {
+        'name': 'lastPaymentDate', 'is_nullable': true, 'system_type_name': 'datetime', 'include': true
+      }, {
+        'name': 'lastPaymentAmount',
+        'is_nullable': true,
+        'system_type_name': 'float',
+        'include': true
+      }, {
+        'name': 'ownTools', 'is_nullable': true, 'system_type_name': 'bit', 'include': true
+      }, {
+        'name': 'healthInsurance',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'usVeteran', 'is_nullable': true, 'system_type_name': 'bit', 'include': true
+      }, {
+        'name': 'healthInsuranceDate',
+        'is_nullable': true,
+        'system_type_name': 'datetime',
+        'include': true
+      }, {
+        'name': 'vehicleTypeID', 'is_nullable': true, 'system_type_name': 'int', 'include': true
+      }, {
+        'name': 'incomeSourceID',
+        'is_nullable': true,
+        'system_type_name': 'int',
+        'include': true
+      }, {
+        'name': 'introToCenter', 'is_nullable': true, 'system_type_name': 'nvarchar(1000)', 'include': true
+      }, {
+        'name': 'lgbtq',
+        'is_nullable': true,
+        'system_type_name': 'bit',
+        'include': true
+      }, {
+        'name': 'typeOfWork', 'is_nullable': true, 'system_type_name': 'nvarchar(max)', 'include': true
+      }, {
+        'name': 'memberStatusEN',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(50)',
+        'include': true
+      }, {
+        'name': 'memberStatusES', 'is_nullable': true, 'system_type_name': 'nvarchar(50)', 'include': true
+      }, {
+        'name': 'fullNameAndID',
+        'is_nullable': true,
+        'system_type_name': 'nvarchar(100)',
+        'include': true
+      }, {
+        'name': 'skillCodes', 'is_nullable': true, 'system_type_name': 'nvarchar(max)', 'include': true
+      }];
     const exports = [
       {
         'id': 'activities', // needed for in-memory db, not real
@@ -560,6 +814,11 @@ export class InMemoryDataService implements InMemoryDbService {
         'id': 'activitysignins', // needed for in-memory db, not real
         'name': 'ActivitySignins',
         'data': ActivitySignins
+      },
+      {
+        id: 'workers',
+        name: 'Workers',
+        data: Workers
       }
     ];
 
@@ -579,7 +838,8 @@ export class InMemoryDataService implements InMemoryDbService {
       response.body = (<any>response.body).data;
     }
     if (reqInfo.req.url === '/api/exports/activities' ||
-      reqInfo.req.url === '/api/exports/activitysignins') {
+      reqInfo.req.url === '/api/exports/activitysignins' ||
+      reqInfo.req.url === '/api/exports/workers') {
       response.body = (<any>response.body).data;
     }
     return response;
