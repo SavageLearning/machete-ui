@@ -6,6 +6,7 @@ import {Http, Headers, Response, RequestOptions, ResponseContentType} from '@ang
 import {Observable} from 'rxjs/Observable';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
+import {SearchOptions} from '../reports/models/search-options';
 @Injectable()
 export class ExportsService {
   uriBase = '/api/exports';
@@ -28,20 +29,27 @@ export class ExportsService {
       .catch(this.handleError);
   }
 
-  postExport(columnDetails: string): Observable<Blob> {
+  getExport(tableName: string, o: SearchOptions): Observable<Blob> {
     let headers = new Headers({ 'Content-Type': 'application/text' });
     let options = new RequestOptions({
       headers: headers,
       responseType: ResponseContentType.Blob
     });
-    console.log('exportsService.postExport: ' + JSON.stringify(columnDetails));
-
-    return this.http.post(this.uriBase, { columnDetails }, options)
+    let params = this.encodeData(o);
+    console.log('exportsService.getExport: ' + JSON.stringify(params));
+    const uri = this.uriBase + '/' + tableName + '?' + params;
+    return this.http.get(uri, options)
       .map((res: Response) => res['_body']);
   }
 
   private handleError(error: any): Promise<any> {
     console.error('ERROR', error);
     return Promise.reject(error.message || error);
+  }
+
+  public encodeData(data: any): string {
+    return Object.keys(data).map((key) => {
+      return [key, data[key]].map(encodeURIComponent).join('=');
+    }).join('&');
   }
 }

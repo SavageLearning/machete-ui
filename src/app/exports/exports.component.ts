@@ -4,7 +4,7 @@ import {MySelectItem} from '../reports/reports.component';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
 import {Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
+import {SearchOptions} from '../reports/models/search-options';
 @Component({
   selector: 'app-exports',
   templateUrl: './exports.component.html',
@@ -19,6 +19,8 @@ export class ExportsComponent implements OnInit {
   selectedColumns: ExportColumn[];
   selectedExportName: string;
   selectedDateFilter: string;
+  selectedStartDate: string;
+  selectedEndDate: string;
   form: FormGroup;
 
   constructor(private exportsService: ExportsService, private _fb: FormBuilder)
@@ -59,11 +61,17 @@ export class ExportsComponent implements OnInit {
 
   onSubmit()
   {
-    this.exportsService.postExport(this.form.value)
+    let o = {
+      beginDate: this.selectedStartDate,
+      endDate: this.selectedEndDate,
+      filterField: this.selectedDateFilter
+    };
+    o = Object.assign(o, this.form.value);
+    console.log(this.form.value);
+    this.exportsService.getExport(this.selectedExportName, o)
       .subscribe(data => this.downloadFile(data)),
       error => this.errorMessage = <any>error,
       () => console.log('exportsService.getColumns completed');
-
   }
 
   downloadFile(data: any) {
