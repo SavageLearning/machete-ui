@@ -3,6 +3,8 @@ import {ExportsService} from './exports.service';
 import {MySelectItem} from '../reports/reports.component';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
+import {Http, Headers, Response, RequestOptions, ResponseContentType} from '@angular/http';
+import { saveAs } from 'file-saver';
 import {Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import {SearchOptions} from '../reports/models/search-options';
 @Component({
@@ -61,22 +63,28 @@ export class ExportsComponent implements OnInit {
 
   onSubmit()
   {
-    let o = {
+    let data: SearchOptions = {
       beginDate: this.selectedStartDate,
       endDate: this.selectedEndDate,
-      filterField: this.selectedDateFilter
+      filterField: this.selectedDateFilter,
+      formData: this.form.value
     };
-    o = Object.assign(o, this.form.value);
     console.log(this.form.value);
-    this.exportsService.getExport(this.selectedExportName, o)
-      .subscribe(data => this.downloadFile(data)),
+    this.exportsService.getExport(this.selectedExportName, data)
+      .subscribe((res: Response) => {
+        this.downloadFile(res['_body'].data,
+          res.headers.get('filename'),
+          res.headers.get('ContentType'));
+      }
+      ),
       error => this.errorMessage = <any>error,
       () => console.log('exportsService.getColumns completed');
   }
 
-  downloadFile(data: any) {
-    const blob = new Blob([data], {type: 'text/csv'});
-    const url = window.URL.createObjectURL(blob);
-    window.open(url);
+  downloadFile(data: any, fileName: string, ttype: string) {
+    const blob = new Blob([data], {type: ttype});
+    // const url = window.URL.createObjectURL(blob);
+    saveAs(blob, fileName);
+    // window.open(url);
   }
 }

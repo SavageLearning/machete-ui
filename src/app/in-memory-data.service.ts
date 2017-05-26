@@ -837,7 +837,8 @@ export class InMemoryDataService implements InMemoryDbService {
       // useful for testing; matches API behavior
       response.body = (<any>response.body).data;
     }
-    if (reqInfo.req.url === '/api/exports/activities' ||
+    if (reqInfo.req.url === '/api/exports/Activities' ||
+      reqInfo.req.url === '/api/exports/activities' ||
       reqInfo.req.url === '/api/exports/activitysignins' ||
       reqInfo.req.url === '/api/exports/workers') {
       response.body = (<any>response.body).data;

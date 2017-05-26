@@ -29,7 +29,7 @@ export class ExportsService {
       .catch(this.handleError);
   }
 
-  getExport(tableName: string, o: SearchOptions): Observable<Blob> {
+  getExport(tableName: string, o: SearchOptions): Observable<Response> {
     let headers = new Headers({ 'Content-Type': 'application/text' });
     let options = new RequestOptions({
       headers: headers,
@@ -37,9 +37,12 @@ export class ExportsService {
     });
     let params = this.encodeData(o);
     console.log('exportsService.getExport: ' + JSON.stringify(params));
-    const uri = this.uriBase + '/' + tableName + '/execute?' + params;
+    const uri = this.uriBase + '/' + tableName.toLowerCase();
+    //const uri = this.uriBase + '/' + tableName + '/execute?' + params;
     return this.http.get(uri, options)
-      .map((res: Response) => res['_body']);
+      .map((res: Response) => {
+        return res;
+    });
   }
 
   private handleError(error: any): Promise<any> {
