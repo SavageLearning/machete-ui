@@ -73,7 +73,7 @@ export class ExportsComponent implements OnInit {
       .subscribe((res: Response) => {
         this.downloadFile(res['_body'].data,
           this.getFilename(res.headers.get('content-disposition')),
-          res.headers.get('ContentType'));
+          'application/ms-excel');
       }
       ),
       error => this.errorMessage = <any>error,
