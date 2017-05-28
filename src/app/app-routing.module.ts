@@ -14,6 +14,10 @@ const appRoutes: Routes = [
     loadChildren: 'app/employers/employers.module#EmployersModule'
   },
   {
+    path: 'onlineorders',
+    loadChildren: 'app/online-orders/online-orders.module#OnlineOrdersModule'
+  },
+  {
     path: 'reports',
     loadChildren: 'app/reports/reports.module#ReportsModule'
   },
