@@ -28,7 +28,7 @@ describe('ReportsService', () => {
       .toEqual('beginDate=1%2F1%2F2017&endDate=3%2F1%2F2017');
   }));
 
-  it('should get object from in-memory-web-api when no parameters present', async(inject([ReportsService], (service: ReportsService) => {
+  it('should get object from getReportData when no parameters present', async(inject([ReportsService], (service: ReportsService) => {
     const o = new SearchOptions();
     service.getReportData('1', o)
       .toPromise()
@@ -37,7 +37,8 @@ describe('ReportsService', () => {
       });
   })));
 
-  it('should get array from in-memory-web-api when parameters present', async(inject([ReportsService], (service: ReportsService) => {
+  it('should get array from getReportData when parameters present',
+    async(inject([ReportsService], (service: ReportsService) => {
     const o = new SearchOptions();
     o.beginDate = '1/1/2016';
     o.endDate = '1/1/2017';
@@ -47,4 +48,17 @@ describe('ReportsService', () => {
         expect(rows.length).toBe(18, 'expected 18 rows');
       });
   })));
+
+  it('should get array from getList',
+    async(inject([ReportsService], (service: ReportsService) => {
+      service.subscribeToDataService()
+        .delay(1000)
+        .toPromise()
+        .then((rows) => {
+          expect(rows.length).toBe(4, 'expected 3 report definitions');
+        });
+      service.getReportList();
+
+    }))
+  );
 });

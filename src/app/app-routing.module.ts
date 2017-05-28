@@ -17,8 +17,12 @@ const appRoutes: Routes = [
     path: 'reports',
     loadChildren: 'app/reports/reports.module#ReportsModule'
   },
+  {
+    path: 'exports',
+    loadChildren: 'app/exports/exports.module#ExportsModule'
+  },
   //{ path: '**', component: PageNotFoundComponent }
-  { path: '**', redirectTo: '/reports' }
+  { path: '**', redirectTo: '/exports' }
 ];
 
 @NgModule({

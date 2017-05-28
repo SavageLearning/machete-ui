@@ -28,8 +28,8 @@ export class AppMenuComponent implements OnInit {
           {label: 'Activities', icon: 'local_activity', url: ['/Activity']},
           {label: 'Sign-ins', icon: 'track_changes', url: ['/workersignin']},
           {label: 'Emails', icon: 'email', url: ['/email']},
-          {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']}
-
+          {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']},
+          {label: 'Exports', icon: 'file_download', routerLink: ['/exports']}
         ];
     }
 

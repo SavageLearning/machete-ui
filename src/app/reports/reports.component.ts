@@ -56,7 +56,6 @@ export class ReportsComponent implements OnInit {
     this.name = this.selectedReport.name;
     this.cols = this.selectedReport.columns.filter(a => a.visible === true);
     this.inputs = <SearchInputs>this.selectedReport.inputs;
-    console.log('updateDescription: ' + JSON.stringify(this.inputs, undefined, 2));
   }
 
   ngOnInit() {
@@ -80,10 +79,10 @@ export class ReportsComponent implements OnInit {
         error => this.errorMessage = <any>error,
         () => console.log('getView onCompleted'));
   }
-  getList() {
-    this.reportsService.getReportList();
-    console.log('getList called');
-  }
+  // getList() {
+  //   this.reportsService.getReportList();
+  //   console.log('getList called');
+  // }
 
   getExport(dt: DataTable) {
     dt.exportFilename = this.name + '_' + this.o.beginDate.toString() + '_to_' + this.o.endDate.toString();

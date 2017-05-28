@@ -16,7 +16,7 @@ export class ReportsService {
   constructor(private http: Http) {
     this.initializeDataService();
   }
-
+  // https://stackoverflow.com/questions/39627396/angular-2-observable-with-multiple-subscribers
   initializeDataService() {
     if (!this.reportList$) {
       this.reportList$ = <BehaviorSubject<Report[]>> new BehaviorSubject(new Array<Report>());

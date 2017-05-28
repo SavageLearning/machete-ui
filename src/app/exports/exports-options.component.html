@@ -1,0 +1,12 @@
+<div [formGroup]="form">
+  <p-dataTable  [value]="columns" [responsive]="true">
+    <p-column field="name" header="Column name"></p-column>
+    <p-column field="is_nullable" header="Contains nulls?"></p-column>
+    <p-column field="system_type_name" header="Data type"></p-column>
+    <p-column header="Include in export">
+      <ng-template let-foo="rowData" pTemplate="body">
+        <p-inputSwitch onLabel="Yes" offLabel="No" [(ngModel)]="foo.include" [formControlName]="foo.name"></p-inputSwitch>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</div>
