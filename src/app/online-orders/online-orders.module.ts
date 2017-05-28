@@ -7,11 +7,21 @@ import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkAssignmentsComponent } from './work-assignments/work-assignments.component';
 import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
+import {StepsModule, MenuItem} from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
+    StepsModule,
     OnlineOrdersRoutingModule
   ],
-  declarations: [IntroductionComponent, OnlineOrdersComponent, IntroConfirmComponent, WorkOrderComponent, WorkAssignmentsComponent, FinalConfirmComponent]
+  declarations: [
+    IntroductionComponent,
+    OnlineOrdersComponent,
+    IntroConfirmComponent,
+    WorkOrderComponent,
+    WorkAssignmentsComponent,
+    FinalConfirmComponent
+  ]
 })
 export class OnlineOrdersModule { }
