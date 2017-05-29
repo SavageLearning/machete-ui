@@ -8,7 +8,7 @@ import {MenuItem} from 'primeng/primeng';
 })
 export class OnlineOrdersComponent implements OnInit {
   private items: MenuItem[];
-  activeIndex: number = 1;
+  activeIndex: number = 0;
   constructor() { }
 
   ngOnInit() {

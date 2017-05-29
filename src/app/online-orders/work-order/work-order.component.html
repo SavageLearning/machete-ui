@@ -1,3 +1,102 @@
-<p>
-  work-order works!
-</p>
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="card">
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4  ui-g-nopad">
+                <label for="dateTimeofWork">Time needed</label>
+              </div>
+              <div class="ui-g-12 ui-md-8  ui-g-nopad">
+                <p-calendar id="dateTimeofWork"></p-calendar>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="contactName">Contact name</label>
+              </div>
+              <div class="ui-g-12  ui-md-8 ui-g-nopad">
+                <input class="ui-inputtext" id="contactName" type="text" pInputText/>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="worksiteAddress1">Address (1)</label>
+              </div>
+              <div class="ui-g-12  ui-md-8 ui-g-nopad">
+                <input class="ui-inputtext" id="worksiteAddress1" type="text" pInputText/>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4  ui-g-nopad">
+                <label for="worksiteAddress2">Address (2)</label>
+              </div>
+              <div class="ui-g-12  ui-md-8 ui-g-nopad">
+                <input class="ui-inputtext" id="worksiteAddress2" type="text" pInputText/>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="city">City</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-g-nopad">
+                <input class="ui-inputtext" id="city" type="text" pInputText/>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="state">State</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-g-nopad">
+                <input class="ui-inputtext" id="state" type="text" pInputText/>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="zipcode">Zipcode</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-g-nopad">
+                <input class="ui-inputtext" id="zipcode" type="text" pInputText/>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="phone">Phone</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-g-nopad">
+                <input class="ui-inputtext" id="phone" type="text" pInputText/>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="description">Work Description</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-g-nopad">
+                <textarea rows="5" pInputTextarea autoResize="autoResize" class="ui-inputtextarea" id="description" type="text" ></textarea>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="additionalNotes">Additional notes to dispatcher</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-g-nopad">
+                <textarea rows="5" pInputTextarea autoResize="autoResize" class="ui-inputtextarea" id="additionalNotes" type="text" ></textarea>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                <label for="transportMethodID">Transport method</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-g-nopad">
+                <p-dropdown id="transportMethodID" [options]="transportMethods" [(ngModel)]="selectedTransportMethod" [autoWidth]="false"></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

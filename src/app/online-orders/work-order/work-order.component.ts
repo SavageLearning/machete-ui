@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MySelectItem} from '../../reports/reports.component';
 
 @Component({
   selector: 'app-work-order',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./work-order.component.css']
 })
 export class WorkOrderComponent implements OnInit {
+  selectedTransportMethod: number;
+  transportMethods: MySelectItem[];
 
   constructor() { }
 
