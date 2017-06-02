@@ -26,7 +26,7 @@ const appRoutes: Routes = [
     loadChildren: 'app/exports/exports.module#ExportsModule'
   },
   //{ path: '**', component: PageNotFoundComponent }
-  { path: '**', redirectTo: '/exports' }
+  { path: '**', redirectTo: '/online-orders/work-order' }
 ];
 
 @NgModule({
