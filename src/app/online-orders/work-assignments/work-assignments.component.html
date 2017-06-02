@@ -1,3 +1,54 @@
-<p>
-  work-assignments works!
-</p>
+<div class="ui-fluid">
+  <div class="card">
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="skillsList">Skill needed</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            <p-dropdown id="skillsList" [options]="skillsList" [(ngModel)]="selectedSkill" [autoWidth]="false"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="hours">Hours needed</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            <input class="ui-inputtext" id="hours" type="text" pInputText/>
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="description">Additional info about job</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            <textarea rows="3" class="ui-inputtext" id="description" type="text" pInputText></textarea>
+          </div>
+        </div>
+        <div>
+          <div class="ui-g-12 ui-md-6">
+            <button pButton type="button" label="Save" icon="ui-icon-"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p-dataTable [value]="workerRequestList">
+      <p-column field="skill" header="Skill needed"></p-column>
+      <p-column field="hours" header="hours requested"></p-column>
+      <p-column field="description" header="notes"></p-column>
+      <p-column field="requiresHeavyLifting" header="Heavy lifting?"></p-column>
+      <p-column field="wage" header="Hourly wage"></p-column>
+
+      <p-column styleClass="col-button">
+        <ng-template pTemplate="header">
+          <button type="button" pButton icon="ui-icon-edit"></button>
+        </ng-template>
+        <ng-template let-request="rowData" pTemplate="body">
+          <button type="button" pButton (click)="selectRequest(request)" icon="ui-icon-edit"></button>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
