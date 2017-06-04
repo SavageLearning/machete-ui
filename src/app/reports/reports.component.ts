@@ -33,7 +33,7 @@ export class ReportsComponent implements OnInit {
   constructor(private reportsService: ReportsService) {
     this.o = new SearchOptions();
     this.selectedReport = new Report();
-    this.selectedReportID = '1';
+    this.selectedReportID = 'DispatchesByJob';
     // this.title = 'loading';
     // this.description = 'loading...';
     this.o.beginDate = '1/1/2016';
@@ -49,7 +49,7 @@ export class ReportsComponent implements OnInit {
   }
 
   updateDescription() {
-    this.selectedReport = this.reportsService.reportList.filter(x => x.id === Number(this.selectedReportID))[0];
+    this.selectedReport = this.reportsService.reportList.filter(x => x.name === this.selectedReportID)[0];
     // TODO catch exception if not found
     this.description = this.selectedReport.description;
     this.title = this.selectedReport.title || this.selectedReport.commonName;
@@ -62,7 +62,7 @@ export class ReportsComponent implements OnInit {
     this.reports$ = this.reportsService.subscribeToDataService();
     this.reports$.subscribe(
       listData => {
-        this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.id.toString()) as SelectItem);
+        this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.name) as SelectItem);
         this.getView();
       },
       error => this.errorMessage = <any>error,

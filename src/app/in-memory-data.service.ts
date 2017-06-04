@@ -1,10 +1,10 @@
 import {InMemoryDbService, RequestInfo, ParsedUrl} from 'angular-in-memory-web-api';
 import {RequestMethod, ResponseOptions, URLSearchParams} from '@angular/http';
 import {Report} from './reports/models/report';
+import {isNullOrUndefined} from 'util';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
-    const DispatchesByMonth =
-      [
+    const DispatchesByMonth = [
         {
           'id': '2016-01-01T00:00:00-2017-01-01T00:00:00-1',
           'label': '2016-01',
@@ -54,8 +54,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'label': '2016-12',
         'value': 296
       }];
-    const DispatchesByJob =
-      [
+    const DispatchesByJob = [
         {
           'id': '2017-01-01T00:00:00-2017-03-01T00:00:00-83',
           'label': 'Advanced Gardening',
@@ -129,8 +128,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'label': 'Yardwork',
         'value': 35
       }];
-    const SeattleCityReport =
-      [
+    const SeattleCityReport = [
         {
           'id': '20160101-20170101-CityReport-ESL-2016',
           'label': 'Counts of members who accessed at least 12 hours of ESL classes',
@@ -848,7 +846,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': 'default',
         'active': true,
         'idString': 'lookup',
-        'ID': 63,
+        'id': 63,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -876,7 +874,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 64,
+        'id': 64,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -904,7 +902,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 65,
+        'id': 65,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -932,7 +930,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 66,
+        'id': 66,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -960,7 +958,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 67,
+        'id': 67,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -988,7 +986,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 68,
+        'id': 68,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1016,7 +1014,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 69,
+        'id': 69,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1044,7 +1042,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 70,
+        'id': 70,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1072,7 +1070,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 71,
+        'id': 71,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1100,7 +1098,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 72,
+        'id': 72,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1128,7 +1126,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 73,
+        'id': 73,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1156,7 +1154,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 74,
+        'id': 74,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1184,7 +1182,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 75,
+        'id': 75,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1212,7 +1210,7 @@ export class InMemoryDataService implements InMemoryDbService {
         'key': null,
         'active': true,
         'idString': 'lookup',
-        'ID': 76,
+        'id': 76,
         'datecreated': '2017-05-22T15:20:44.767',
         'dateupdated': '2017-05-22T15:20:44.767',
         'createdby': 'Init T. Script',
@@ -1220,7 +1218,8 @@ export class InMemoryDataService implements InMemoryDbService {
         'idPrefix': 'lookup76-'
       }
     ];
-    return {exports, reports, lookups};
+    //
+    return { exports, reports, lookups, DispatchesByMonth, DispatchesByJob, SeattleCityReport };
   }
 
   // intercept response from the default HTTP method handlers
@@ -1230,11 +1229,11 @@ export class InMemoryDataService implements InMemoryDbService {
     const body = JSON.stringify(response.body);
     // console.log(`responseInterceptor: ${method} ${reqInfo.req.url}: \n${body}`);
     console.log(`responseInterceptor: ${method} ${reqInfo.req.url}`);
-    if (typeof reqInfo.query === 'object') {
-      // if query parameters present, replace object w/ data key's value.
-      // useful for testing; matches API behavior
-      response.body = (<any>response.body).data;
-    }
+    // if (typeof reqInfo.query === 'object') {
+    //   // if query parameters present, replace object w/ data key's value.
+    //   // useful for testing; matches API behavior
+    //   response.body = (<any>response.body).data;
+    // }
     if (reqInfo.req.url === '/api/exports/Activities' ||
       reqInfo.req.url === '/api/exports/activities' ||
       reqInfo.req.url === '/api/exports/activitysignins' ||
@@ -1256,10 +1255,28 @@ export class InMemoryDataService implements InMemoryDbService {
         urlRoot = loc.protocol + '//' + loc.host + '/';
       }
       const path = loc.pathname.substring(drop);
-      let [base, collectionName, id] = path.split('/');
-      const resourceUrl = urlRoot + base + '/' + collectionName + '/';
+      const regexDefault = new RegExp('^((?:[A-Za-z0-9_\-]+\/)+)([A-Za-z0-9_\-]*)'); //
+      const regexExports = new RegExp('(api\/)(exports)\/([A-Za-z0-9_\-]+)'); //
+      const regexExportsExecute = new RegExp('(api\/exports\/)([A-Za-z0-9_\-]+)(?:\/(execute))'); //
+      let base;
+      let collectionName;
+      let id;
+      let matched;
+      if (matched = regexExportsExecute.exec(path)) {}
+      else if (matched = regexExports.exec(path)) {}
+      else if (matched = regexDefault.exec(path)) {}
+
+      if (matched === null) {
+        throw new Error('in-memory-parsedUrl regex error on: ' + path);
+      }
+      //
+      base = matched[1];
+      collectionName = matched[2];
+      id = matched[3] || null;
+      // [base, collectionName, id] = path.split('/');
+      const resourceUrl = urlRoot + base + collectionName + '/';
       [collectionName] = collectionName.split('.'); // ignore anything after the '.', e.g., '.json'
-      const query = loc.search && new URLSearchParams(loc.search.substr(1));
+      const query = null; // loc.search && new URLSearchParams(loc.search.substr(1));
 
       const result = {base, collectionName, id, query, resourceUrl};
       console.log('parsedUrl: ' + JSON.stringify(result));
