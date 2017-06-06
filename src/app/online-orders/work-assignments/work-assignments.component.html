@@ -7,7 +7,13 @@
             <label for="skillsList">Skill needed</label>
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
-            <p-dropdown id="skillsList" [options]="skillsDropDown" [(ngModel)]="selectedSkill" [autoWidth]="false"></p-dropdown>
+            <p-dropdown id="skillsList"
+                        [options]="skillsDropDown"
+                        [(ngModel)]="request.skillId"
+                        (click)="selectSkill(request.skillId)"
+                        [autoWidth]="false"
+                        placeholder="Select a skill"></p-dropdown>
+
           </div>
         </div>
         <div class="ui-g-12">
@@ -15,26 +21,59 @@
             <label for="hours">Hours needed</label>
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
-            <input class="ui-inputtext" id="hours" type="text" pInputText/>
+            <input class="ui-inputtext" [(ngModel)]="request.hours" id="hours" type="text" pInputText/>
           </div>
         </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="requiresHeavyLifting">Requires heavy lifting?</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            <p-inputSwitch id="requiresHeavyLifting" [(ngModel)]="request.requiresHeavyLifting"></p-inputSwitch>
+          </div>
+        </div>
+
         <div class="ui-g-12">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
             <label for="description">Additional info about job</label>
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
-            <textarea rows="3" class="ui-inputtext" id="description" type="text" pInputText></textarea>
-          </div>
-        </div>
-        <div>
-          <div class="ui-g-12 ui-md-6">
-            <button pButton type="button" label="Save" icon="ui-icon-"></button>
+            <textarea rows="3" class="ui-inputtext" [(ngModel)]="request.description" id="description" type="text" pInputText></textarea>
           </div>
         </div>
       </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            Skill description
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{this.selectedSkill.skillDescriptionEn}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            Hourly rate
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{this.selectedSkill.wage}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            Minimum time
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{this.selectedSkill.minHour}}
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <button pButton type="button" label="Save" (click)="saveRequest()"></button>
+      </div>
     </div>
 
-    <p-dataTable [value]="workerRequestList">
+    <p-dataTable [value]="requestList" [(selection)]="selectedRequest" (onRowSelect)="onRowSelect($event)" [responsive]="true">
       <p-column field="skill" header="Skill needed"></p-column>
       <p-column field="hours" header="hours requested"></p-column>
       <p-column field="description" header="notes"></p-column>
@@ -43,10 +82,11 @@
 
       <p-column styleClass="col-button">
         <ng-template pTemplate="header">
-          <button type="button" pButton icon="ui-icon-edit"></button>
+          Actions
         </ng-template>
         <ng-template let-request="rowData" pTemplate="body">
-          <button type="button" pButton (click)="selectRequest(request)" icon="ui-icon-edit"></button>
+          <button type="button" pButton (click)="editRequest(request)" icon="ui-icon-edit"></button>
+          <button type="button" pButton (click)="deleteRequest(request)" icon="ui-icon-delete"></button>
         </ng-template>
       </p-column>
     </p-dataTable>

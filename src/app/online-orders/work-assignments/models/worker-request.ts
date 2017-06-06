@@ -9,4 +9,5 @@ export class WorkerRequest
   hours: number;
   description: string;
   requiresHeavyLifting: boolean;
+  wage: number;
 }
