@@ -10,7 +10,7 @@
             <p-dropdown id="skillsList"
                         [options]="skillsDropDown"
                         [(ngModel)]="request.skillId"
-                        (click)="selectSkill(request.skillId)"
+                        (onChange)="selectSkill(request.skillId)"
                         [autoWidth]="false"
                         placeholder="Select a skill"></p-dropdown>
 

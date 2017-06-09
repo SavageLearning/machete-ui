@@ -3,11 +3,11 @@ import {MySelectItem} from '../../reports/reports.component';
 import {WorkerRequest} from './models/worker-request';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
+import {OnlineOrdersService} from '../online-orders.service';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
-  styleUrls: ['./work-assignments.component.css'],
-  providers: [ LookupsService ]
+  styleUrls: ['./work-assignments.component.css']
 })
 export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service
@@ -18,8 +18,8 @@ export class WorkAssignmentsComponent implements OnInit {
   selectedRequest: WorkerRequest;
   errorMessage: string;
   newRequest: boolean = true;
-  constructor(private lookupsService: LookupsService) {
-
+  constructor(private lookupsService: LookupsService, private ordersService: OnlineOrdersService) {
+    console.log('work-assignments.component: ' + JSON.stringify(ordersService.getRequests()));
   }
 
   ngOnInit() {
@@ -32,6 +32,7 @@ export class WorkAssignmentsComponent implements OnInit {
         },
         error => this.errorMessage = <any>error,
         () => console.log('exports.component: ngOnInit onCompleted'));
+    this.requestList = this.ordersService.getRequests();
   }
 
   selectSkill(skillId: number) {
@@ -51,20 +52,15 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   saveRequest() {
-    let requests = [...this.requestList];
     if (this.newRequest) {
-      requests.push(this.request); //   cars.push(this.car);
+      this.ordersService.createRequest(this.request);
     } else {
-      requests[this.findSelectedRequestIndex()] = this.request;
+      this.ordersService.saveRequest(this.request);
     }
 
-    this.requestList = requests; // this.cars = cars;
-    this.request = new WorkerRequest(); // this.car = null;
+    this.requestList = [...this.ordersService.getRequests()];
+    this.request = new WorkerRequest();
     this.newRequest = true;
-  }
-
-  findSelectedRequestIndex(): number {
-    return this.requestList.indexOf(this.selectedRequest);
   }
 
   onRowSelect(event) {
