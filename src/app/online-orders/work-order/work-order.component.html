@@ -1,6 +1,6 @@
-<div class="ui-fluid">
+<div class="ui-fluid">Seattle Family Biking
       <div class="card">
-        <div class="ui-g form-group">
+        <form [formGroup]="orderForm" class="ui-g form-group">
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-12">
               <div class="ui-g-12 ui-md-4  ui-g-nopad">
@@ -89,10 +89,10 @@
                 <label for="transportMethodID">Transport method</label>
               </div>
               <div class="ui-g-12 ui-md-8 ui-g-nopad">
-                <p-dropdown id="transportMethodID" [options]="transportMethods" [(ngModel)]="selectedTransportMethod" [autoWidth]="false"></p-dropdown>
+                <p-dropdown id="transportMethodID" [options]="transportMethods" formControlName="selectedTransportMethod" [autoWidth]="false"></p-dropdown>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MySelectItem} from '../../reports/reports.component';
 import {WorkerRequest} from './models/worker-request';
 import { LookupsService } from '../../lookups/lookups.service';
@@ -18,7 +19,32 @@ export class WorkAssignmentsComponent implements OnInit {
   selectedRequest: WorkerRequest;
   errorMessage: string;
   newRequest: boolean = true;
-  constructor(private lookupsService: LookupsService, private ordersService: OnlineOrdersService) {
+  requestForm: FormGroup;
+  showErrors: boolean = false;
+
+  formErrors = {
+    'skillId': '',
+    'skill': '',
+    'hours': '',
+    'description': '',
+    'requiresHeavyLifting': '',
+    'wage': ''
+  };
+
+  validationMessages = {
+    'skillId': {'required': 'Please select the type of work to be performed.' },
+    'skill': { 'required': 'skill is required.' },
+    'hours': {'required': 'Please enter the number of hours needed.' },
+    'description': {'required': 'description is required.' },
+    'requiresHeavyLifting': {'required': 'requiresHeavyLifting is required.' },
+    'wage': {'required': 'wage is required.' },
+
+  };
+
+  constructor(
+    private lookupsService: LookupsService,
+    private ordersService: OnlineOrdersService,
+    private fb: FormBuilder) {
     console.log('work-assignments.component: ' + JSON.stringify(ordersService.getRequests()));
   }
 
@@ -33,6 +59,40 @@ export class WorkAssignmentsComponent implements OnInit {
         error => this.errorMessage = <any>error,
         () => console.log('exports.component: ngOnInit onCompleted'));
     this.requestList = this.ordersService.getRequests();
+    this.buildForm();
+  }
+
+  buildForm(): void {
+    this.requestForm = this.fb.group({
+      'skillId': [this.request.skillId, Validators.required],
+      'skill': [this.request.skill],
+      'hours': [this.request.hours, Validators.required],
+      'description': [this.request.description],
+      'requiresHeavyLifting': [this.request.requiresHeavyLifting],
+      'wage': [this.request.wage]
+    });
+
+    this.requestForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged();
+  }
+
+  onValueChanged(data?: any) {
+    const form = this.requestForm;
+
+    for (const field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
   }
 
   selectSkill(skillId: number) {
@@ -41,8 +101,8 @@ export class WorkAssignmentsComponent implements OnInit {
       throw new Error('Can\'t find selected skill in component\'s list');
     }
     this.selectedSkill = skill;
-    this.request.skill = skill.text_EN;
-    this.request.wage = skill.wage;
+    this.requestForm.controls['skill'].setValue(skill.text_EN);
+    this.requestForm.controls['wage'].setValue(skill.wage);
   }
 
   editRequest(request: WorkerRequest) {
@@ -52,14 +112,32 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   saveRequest() {
+    this.onValueChanged();
+    if (this.requestForm.status === 'INVALID') {
+      this.showErrors = true;
+      return;
+    }
+    this.showErrors = false;
+    const formModel = this.requestForm.value;
+
+
+    const saveRequest: WorkerRequest = {
+      skillId: formModel.skillId,
+      skill: formModel.skill,
+      hours: formModel.hours,
+      description: formModel.description,
+      requiresHeavyLifting: formModel.requiresHeavyLifting,
+      wage: formModel.wage
+    };
+
     if (this.newRequest) {
-      this.ordersService.createRequest(this.request);
+      this.ordersService.createRequest(saveRequest);
     } else {
-      this.ordersService.saveRequest(this.request);
+      this.ordersService.saveRequest(saveRequest);
     }
 
     this.requestList = [...this.ordersService.getRequests()];
-    this.request = new WorkerRequest();
+    this.requestForm.reset();
     this.newRequest = true;
   }
 

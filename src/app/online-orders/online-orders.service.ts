@@ -22,7 +22,7 @@ export class OnlineOrdersService {
 
   deleteRequest() {}
 
-  clearRequest() {}
+  clearRequests() {}
 
   findSelectedRequestIndex(request: WorkerRequest): number {
     return this.requests.indexOf(request);

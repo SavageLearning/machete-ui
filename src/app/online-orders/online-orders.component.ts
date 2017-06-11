@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {MenuItem} from 'primeng/primeng';
 import { LookupsService } from '../lookups/lookups.service';
 import {OnlineOrdersService} from './online-orders.service';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-online-orders',
   templateUrl: './online-orders.component.html',
   styleUrls: ['./online-orders.component.css'],
-  providers: [ LookupsService, OnlineOrdersService ]
+  providers: [ LookupsService, OnlineOrdersService, FormBuilder ]
 })
 export class OnlineOrdersComponent implements OnInit {
   private items: MenuItem[];

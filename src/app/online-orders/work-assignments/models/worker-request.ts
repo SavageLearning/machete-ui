@@ -3,11 +3,10 @@
  */
 export class WorkerRequest
 {
-  listId: number;
   skillId: number;
   skill: string;
   hours: number;
   description: string;
-  requiresHeavyLifting: boolean;
+  requiresHeavyLifting: boolean = false;
   wage: number;
 }
