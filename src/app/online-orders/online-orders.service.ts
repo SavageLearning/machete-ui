@@ -16,11 +16,31 @@ export class OnlineOrdersService {
   createRequest(request: WorkerRequest) {
     this.requests.push(request);
   }
+
   saveRequest(request: WorkerRequest) {
     this.requests[this.findSelectedRequestIndex(request)] = request;
   }
 
-  deleteRequest() {}
+  getNextRequestId() {
+    const sorted: WorkerRequest[] =  this.requests.sort(this.sortRequests);
+    if (sorted.length === 0) {
+      return 0;
+    } else {
+      return sorted[sorted.length - 1].id + 1;
+    }
+  }
+
+  private sortRequests(a: WorkerRequest, b: WorkerRequest) {
+    if (a.id < b.id) { return -1; }
+    if (a.id > b.id) { return 1; }
+    return 0;
+  }
+  deleteRequest(request: WorkerRequest) {
+    const index: number = this.requests.indexOf(request);
+    if (index > -1) {
+      this.requests.splice(index, 1);
+    }
+  }
 
   clearRequests() {}
 

@@ -3,6 +3,7 @@
  */
 export class WorkerRequest
 {
+  id: number;
   skillId: number;
   skill: string;
   hours: number;
