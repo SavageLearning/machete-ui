@@ -18,15 +18,16 @@ export class OnlineOrdersService {
   }
 
   saveRequest(request: WorkerRequest) {
-    this.requests[this.findSelectedRequestIndex(request)] = request;
+    const index = this.findSelectedRequestIndex(request);
+    this.requests[index] = request;
   }
 
   getNextRequestId() {
     const sorted: WorkerRequest[] =  this.requests.sort(this.sortRequests);
     if (sorted.length === 0) {
-      return 0;
+      return 1;
     } else {
-      return sorted[sorted.length - 1].id + 1;
+      return sorted[sorted.length].id + 1;
     }
   }
 
@@ -45,6 +46,6 @@ export class OnlineOrdersService {
   clearRequests() {}
 
   findSelectedRequestIndex(request: WorkerRequest): number {
-    return this.requests.indexOf(request);
+    return this.requests.findIndex(a => a.id === request.id);
   }
 }

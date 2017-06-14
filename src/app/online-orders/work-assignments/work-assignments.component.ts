@@ -64,6 +64,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
   buildForm(): void {
     this.requestForm = this.fb.group({
+      'id': '',
       'skillId': ['', Validators.required],
       'skill': [''],
       'hours': ['', Validators.required],
@@ -106,7 +107,14 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   editRequest(request: WorkerRequest) {
-    console.log(JSON.stringify(request));
+    this.requestForm.controls['id'].setValue(request.id);
+    this.requestForm.controls['skillId'].setValue(request.skillId);
+    this.requestForm.controls['skill'].setValue(request.skill);
+    this.requestForm.controls['hours'].setValue(request.hours);
+    this.requestForm.controls['description'].setValue(request.description);
+    this.requestForm.controls['requiresHeavyLifting'].setValue(request.requiresHeavyLifting);
+    this.requestForm.controls['wage'].setValue(request.wage);
+    this.newRequest = false;
   }
 
   deleteRequest(request: WorkerRequest) {
@@ -127,7 +135,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
 
     const saveRequest: WorkerRequest = {
-      id: this.ordersService.getNextRequestId(),
+      id: formModel.id || this.ordersService.getNextRequestId(),
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,
