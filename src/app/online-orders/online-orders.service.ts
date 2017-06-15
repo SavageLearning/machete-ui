@@ -27,7 +27,7 @@ export class OnlineOrdersService {
     if (sorted.length === 0) {
       return 1;
     } else {
-      return sorted[sorted.length].id + 1;
+      return sorted[sorted.length - 1].id + 1;
     }
   }
 

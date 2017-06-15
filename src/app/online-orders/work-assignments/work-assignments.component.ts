@@ -69,7 +69,7 @@ export class WorkAssignmentsComponent implements OnInit {
       'skill': [''],
       'hours': ['', Validators.required],
       'description': [''],
-      'requiresHeavyLifting': [''],
+      'requiresHeavyLifting': [false, Validators.required],
       'wage': ['', Validators.required]
     });
 
@@ -152,6 +152,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
     this.requestList = [...this.ordersService.getRequests()];
     this.requestForm.reset();
+    this.buildForm();
     this.newRequest = true;
   }
 
