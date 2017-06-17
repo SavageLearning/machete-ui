@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {WorkerRequest} from './work-assignments/models/worker-request';
 import {Observable} from 'rxjs/Observable';
+import {WorkOrder} from './work-order/models/work-order';
 
 @Injectable()
 export class OnlineOrdersService {
   requests: WorkerRequest[] = new Array<WorkerRequest>();
+  order: WorkOrder = new WorkOrder();
   constructor() {
     console.log('online-orders.service: ' + JSON.stringify(this.getRequests()));
   }
@@ -48,4 +50,12 @@ export class OnlineOrdersService {
   findSelectedRequestIndex(request: WorkerRequest): number {
     return this.requests.findIndex(a => a.id === request.id);
   }
+
+  createOrder(order: WorkOrder) {}
+
+  saveOrder(order: WorkOrder) {}
+
+  getOrder() {}
+
+  deleteOrder() {}
 }

@@ -37,15 +37,13 @@ export class WorkAssignmentsComponent implements OnInit {
     'hours': {'required': 'Please enter the number of hours needed.' },
     'description': {'required': 'description is required.' },
     'requiresHeavyLifting': {'required': 'requiresHeavyLifting is required.' },
-    'wage': {'required': 'wage is required.' },
-
+    'wage': {'required': 'wage is required.' }
   };
 
   constructor(
     private lookupsService: LookupsService,
     private ordersService: OnlineOrdersService,
     private fb: FormBuilder) {
-    console.log('work-assignments.component: ' + JSON.stringify(ordersService.getRequests()));
   }
 
   ngOnInit() {
@@ -57,7 +55,7 @@ export class WorkAssignmentsComponent implements OnInit {
             new MySelectItem(l.text_EN, String(l.id)));
         },
         error => this.errorMessage = <any>error,
-        () => console.log('exports.component: ngOnInit onCompleted'));
+        () => console.log('work-assignments.component: ngOnInit onCompleted'));
     this.requestList = this.ordersService.getRequests();
     this.buildForm();
   }
