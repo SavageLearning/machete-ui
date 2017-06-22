@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 import { inMemoryBackendServiceFactory, InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 import { environment } from '../environments/environment';
+import {LoginRoutingModule} from './login-routing.module';
+import {LoginComponent} from './login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,12 +23,14 @@ import { environment } from '../environments/environment';
     AppSubMenu,
     AppTopBar,
     AppFooter,
+    LoginComponent,
     InlineProfileComponent,
     PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    LoginRoutingModule,
     AppRoutingModule,
     FormsModule,
     HttpModule,
