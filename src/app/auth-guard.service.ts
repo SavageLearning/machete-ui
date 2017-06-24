@@ -7,11 +7,13 @@ import {
   NavigationExtras,
   CanLoad, Route
 }                           from '@angular/router';
-import { AuthService }      from './auth.service';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: OAuthService, private router: Router) {
+
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = state.url;
@@ -30,10 +32,12 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   checkLogin(url: string): boolean {
-    if (this.authService.isLoggedIn) { return true; }
+    if (this.authService.hasValidAccessToken()) {
+      return true;
+    }
 
     // Store the attempted URL for redirecting
-    this.authService.redirectUrl = url;
+    this.authService.redirectUri = url;
 
     // Create a dummy session id
     let sessionId = 123456789;

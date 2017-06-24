@@ -26,7 +26,7 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
           {label: 'Place an order', icon: 'business', routerLink: ['/online-orders']},
-          {label: 'Employers', icon: 'business', url: ['/employer']},
+          {label: 'Employers', icon: 'business', routerLink: ['/employers']},
           {label: 'Work Orders', icon: 'work', url: ['/Workorder']},
           {label: 'Dispatch', icon: 'today', url: ['/dispatch']},
           {label: 'People', icon: 'people', url: ['/person']},

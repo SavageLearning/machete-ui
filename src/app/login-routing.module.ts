@@ -1,7 +1,7 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard }            from './auth-guard.service';
-import { AuthService }          from './auth.service';
+import { OAuthService } from 'angular-oauth2-oidc';
 import { LoginComponent }       from './login.component';
 
 const loginRoutes: Routes = [
@@ -17,7 +17,7 @@ const loginRoutes: Routes = [
   ],
   providers: [
     AuthGuard,
-    AuthService
+    OAuthService
   ]
 })
 export class LoginRoutingModule {}
