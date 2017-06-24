@@ -34,14 +34,14 @@ import {LoginComponent} from './login.component';
     AppRoutingModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService)
+    //InMemoryWebApiModule.forRoot(InMemoryDataService, { passThruUnknownUrl: true})
   ],
   providers: [
-    {
-      provide: XHRBackend,
-      useFactory: getBackend,
-      deps: [ Injector, BrowserXhr, XSRFStrategy, ResponseOptions ]
-    }
+    // {
+    //   provide: XHRBackend,
+    //   useFactory: getBackend,
+    //   deps: [ Injector, BrowserXhr, XSRFStrategy, ResponseOptions ]
+    // }
   ],
   bootstrap: [AppComponent]
 })
@@ -59,9 +59,9 @@ export function getBackend(injector: Injector,
                            options: ResponseOptions): any {
   {
     if (environment.production) {
-      return new XHRBackend(browser, options, xsrf)
+      return new XHRBackend(browser, options, xsrf);
     } else {
-      return inMemoryBackendServiceFactory(injector, new InMemoryDataService(), {})
+      return inMemoryBackendServiceFactory(injector, new InMemoryDataService(), {});
     }
   }
 }
