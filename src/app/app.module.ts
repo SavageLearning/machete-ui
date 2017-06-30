@@ -16,6 +16,7 @@ import { InMemoryDataService }  from './in-memory-data.service';
 import { environment } from '../environments/environment';
 import {LoginRoutingModule} from './login-routing.module';
 import {LoginComponent} from './login.component';
+import {AuthService} from './auth.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import {LoginComponent} from './login.component';
     //InMemoryWebApiModule.forRoot(InMemoryDataService, { passThruUnknownUrl: true})
   ],
   providers: [
+    AuthService
     // {
     //   provide: XHRBackend,
     //   useFactory: getBackend,
