@@ -7,11 +7,11 @@ import {
   NavigationExtras,
   CanLoad, Route
 }                           from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
+import {AuthService} from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private authService: OAuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
 
   }
 
@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     }
 
     // Store the attempted URL for redirecting
-    this.authService.redirectUri = url;
+    this.authService.redirectUrl = url;
 
     // Create a dummy session id
     let sessionId = 123456789;

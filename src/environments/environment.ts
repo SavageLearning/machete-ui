@@ -4,5 +4,9 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // dataUrl: 'https://test.machetessl.org',
+  // authUrl: 'https://test.machetessl.org',
+  dataUrl: 'https://192.168.1.193:44300',
+  authUrl: 'https://192.168.1.193:44300'
 };

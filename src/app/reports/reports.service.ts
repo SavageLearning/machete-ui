@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, Headers, Request, RequestMethod} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -8,12 +8,15 @@ import { SearchOptions } from './models/search-options';
 import {Observable} from 'rxjs/Observable';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { environment } from '../../environments/environment';
+import {AuthService} from '../auth.service';
 
 @Injectable()
 export class ReportsService {
     reportList: Report[] = new Array<Report>();
     reportList$: BehaviorSubject<Report[]>;
-  constructor(private http: Http) {
+
+  constructor(private http: Http, private auth: AuthService) {
     this.initializeDataService();
   }
   // https://stackoverflow.com/questions/39627396/angular-2-observable-with-multiple-subscribers
@@ -31,7 +34,7 @@ export class ReportsService {
   getReportData(reportName: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
     // TODO throw exception if report is not populated
     const params = this.encodeData(o);
-    let uri = '/api/reports';
+    let uri = environment.dataUrl + '/api/reports';
     if (reportName) {
       uri = uri + '/' + reportName;
     }
@@ -39,15 +42,19 @@ export class ReportsService {
       uri = uri + '?' + params;
     }
     console.log('reportsService.getReportData: ' + uri);
-    return this.http.get(uri)
+    const options = this.auth.getRequestOptions();
+    options.method = RequestMethod.Get;
+    return this.http.get(uri,options)
               .map(res => res.json().data as SimpleAggregateRow[])
               .catch(this.handleError);
   }
 
   getReportList() {
-    let uri = '/api/reports';
+    let uri = environment.dataUrl + '/api/reports';
     console.log('reportsService.getReportList: ' + uri);
-    this.http.get(uri)
+    const options = this.auth.getRequestOptions();
+    options.method = RequestMethod.Get;
+    this.http.get(uri, options)
       .map(res => res.json().data as Report[])
       .catch(this.handleError)
       .subscribe(
