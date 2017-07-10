@@ -14,10 +14,11 @@ import { Router } from '@angular/router';
 import { inMemoryBackendServiceFactory, InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 import { environment } from '../environments/environment';
-import { LoginRoutingModule} from './login-routing.module';
-import { LoginComponent} from './login.component';
-import { AuthService} from './auth.service';
-import { requestOptionsProvider} from './request-options.service';
+// import { LoginRoutingModule} from './login-routing.module';
+// import { LoginComponent} from './login.component';
+import { AuthService} from './shared/services/auth.service';
+import { Log } from 'oidc-client';
+// import { requestOptionsProvider} from './request-options.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,14 +26,14 @@ import { requestOptionsProvider} from './request-options.service';
     AppSubMenu,
     AppTopBar,
     AppFooter,
-    LoginComponent,
+    //LoginComponent,
     InlineProfileComponent,
     PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    LoginRoutingModule,
+    //LoginRoutingModule,
     AppRoutingModule,
     FormsModule,
     HttpModule,
@@ -53,7 +54,12 @@ import { requestOptionsProvider} from './request-options.service';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+    if (!environment.production) {
+      Log.level = Log.DEBUG;
+      Log.logger = console;
+    }
+    Log.info('app.module.ctor()');
+    //console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 
 }

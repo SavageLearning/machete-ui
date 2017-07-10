@@ -9,7 +9,11 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        {"glob":"**/*.js", "input":"../node_modules/oidc-client/dist/","output":"./"},
+        { "glob": "auth.html", "input": "./", "output": "./" },
+        { "glob": "silent-renew.html", "input": "./", "output": "./" },
+        { "glob": "**/*.js", "input": "./scripts/", "output": "./"}
       ],
       "index": "index.html",
       "main": "main.ts",

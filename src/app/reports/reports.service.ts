@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers, Request, RequestMethod} from '@angular/http';
+import {Http, Headers, Request, RequestMethod, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -9,7 +9,7 @@ import {Observable} from 'rxjs/Observable';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { environment } from '../../environments/environment';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../shared/services/auth.service';
 
 @Injectable()
 export class ReportsService {
@@ -42,9 +42,9 @@ export class ReportsService {
       uri = uri + '?' + params;
     }
     console.log('reportsService.getReportData: ' + uri);
-    const options = this.auth.getRequestOptions();
+    const options = new RequestOptions(); //this.auth.getRequestOptions();
     options.method = RequestMethod.Get;
-    return this.http.get(uri,options)
+    return this.http.get(uri, options)
               .map(res => res.json().data as SimpleAggregateRow[])
               .catch(this.handleError);
   }
@@ -52,7 +52,7 @@ export class ReportsService {
   getReportList() {
     let uri = environment.dataUrl + '/api/reports';
     console.log('reportsService.getReportList: ' + uri);
-    const options = this.auth.getRequestOptions();
+    const options = new RequestOptions(); //.auth.getRequestOptions();
     options.method = RequestMethod.Get;
     this.http.get(uri, options)
       .map(res => res.json().data as Report[])
