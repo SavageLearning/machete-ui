@@ -7,7 +7,9 @@ import { Log } from 'oidc-client';
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private authService: AuthService, private router: Router) {
+      Log.info('auth-guard.service.ctor called');
+    }
     canActivate() {
         Log.info('auth-guard.service.canActivate: called');
         let isLoggedIn = this.authService.isLoggedInObs();

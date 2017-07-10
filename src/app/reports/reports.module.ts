@@ -6,6 +6,7 @@ import { JsonpModule } from '@angular/http';
 import { ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule,
   DialogModule, TabViewModule, CalendarModule, InputTextareaModule } from 'primeng/primeng';
 import {ReportsRoutingModule } from './reports-routing.module';
+import { Log } from 'oidc-client';
 @NgModule({
   declarations: [
     ReportsComponent
@@ -29,6 +30,6 @@ import {ReportsRoutingModule } from './reports-routing.module';
 })
 export class ReportsModule {
   constructor() {
-    console.log('reports');
+    Log.info('reports.module.ctor called');
   }
 }

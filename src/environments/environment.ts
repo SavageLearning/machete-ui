@@ -7,6 +7,6 @@ export const environment = {
   production: false,
   // dataUrl: 'https://test.machetessl.org',
   // authUrl: 'https://test.machetessl.org',
-  dataUrl: 'https://192.168.1.193:44300',
-  authUrl: 'https://192.168.1.193:44300'
+  dataUrl: 'http://localhost:63374',
+  authUrl: 'https://localhost:44379/id'
 };

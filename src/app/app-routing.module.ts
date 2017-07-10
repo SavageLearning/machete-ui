@@ -10,7 +10,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {ProtectedComponent} from './protected/protected.component';
 import {LoginComponent} from './login/login.component';
-
+import { Log } from 'oidc-client';
 
 const appRoutes: Routes = [
   {
@@ -39,20 +39,20 @@ const appRoutes: Routes = [
   {
     path: 'online-orders',
     loadChildren: 'app/online-orders/online-orders.module#OnlineOrdersModule',
-    canLoad: [AuthGuardService]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'reports',
     loadChildren: 'app/reports/reports.module#ReportsModule',
-    canLoad: [AuthGuardService]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'exports',
     loadChildren: 'app/exports/exports.module#ExportsModule',
-    canLoad: [AuthGuardService]
+    canActivate: [AuthGuardService]
   },
   //{ path: '**', component: PageNotFoundComponent }
-  //{ path: '**', redirectTo: '/online-orders/work-order' }
+  { path: '**', redirectTo: '/reports' }
 ];
 
 @NgModule({
@@ -79,4 +79,8 @@ const appRoutes: Routes = [
     SelectivePreloadingStrategy
   ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  constructor() {
+    Log.info('app-routing.module.ctor called');
+  }
+}

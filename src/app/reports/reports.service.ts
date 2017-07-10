@@ -10,6 +10,7 @@ import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { environment } from '../../environments/environment';
 import {AuthService} from '../shared/services/auth.service';
+import { Log } from 'oidc-client';
 
 @Injectable()
 export class ReportsService {
@@ -41,7 +42,7 @@ export class ReportsService {
     if (reportName && params) {
       uri = uri + '?' + params;
     }
-    console.log('reportsService.getReportData: ' + uri);
+    Log.info('reportsService.getReportData: ' + uri);
     const options = new RequestOptions(); //this.auth.getRequestOptions();
     options.method = RequestMethod.Get;
     return this.http.get(uri, options)
@@ -51,7 +52,7 @@ export class ReportsService {
 
   getReportList() {
     let uri = environment.dataUrl + '/api/reports';
-    console.log('reportsService.getReportList: ' + uri);
+    Log.info('reportsService.getReportList: ' + uri);
     const options = new RequestOptions(); //.auth.getRequestOptions();
     options.method = RequestMethod.Get;
     this.http.get(uri, options)
@@ -62,7 +63,7 @@ export class ReportsService {
           this.reportList = data;
           this.reportList$.next(data);
         },
-        error => console.log('Error subscribing to DataService: ' + error)
+        error => Log.info('Error subscribing to DataService: ' + error)
       );
   }
 
