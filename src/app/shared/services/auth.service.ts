@@ -34,10 +34,11 @@ export class AuthService {
 
 
   constructor(private http: Http) {
-
+    Log.info('auth.serive.ctor: called');
     this.mgr.getUser()
       .then((user) => {
         if (user) {
+          Log.info('auth.service.getUser.callback user:' + JSON.stringify(user));
           this.loggedIn = true;
           this.currentUser = user;
           this.userLoadededEvent.emit(user);

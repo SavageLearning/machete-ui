@@ -19,7 +19,6 @@ const reportsRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    AuthService,
     AuthGuardService
   ]
 })

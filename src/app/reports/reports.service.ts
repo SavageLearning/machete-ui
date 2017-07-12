@@ -43,9 +43,7 @@ export class ReportsService {
       uri = uri + '?' + params;
     }
     Log.info('reportsService.getReportData: ' + uri);
-    const options = new RequestOptions(); //this.auth.getRequestOptions();
-    options.method = RequestMethod.Get;
-    return this.http.get(uri, options)
+    return this.auth.AuthGet(uri)
               .map(res => res.json().data as SimpleAggregateRow[])
               .catch(this.handleError);
   }
@@ -53,9 +51,7 @@ export class ReportsService {
   getReportList() {
     let uri = environment.dataUrl + '/api/reports';
     Log.info('reportsService.getReportList: ' + uri);
-    const options = new RequestOptions(); //.auth.getRequestOptions();
-    options.method = RequestMethod.Get;
-    this.http.get(uri, options)
+    this.auth.AuthGet(uri)
       .map(res => res.json().data as Report[])
       .catch(this.handleError)
       .subscribe(

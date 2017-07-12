@@ -30,6 +30,7 @@ const appRoutes: Routes = [
     path: 'protected',
     component: ProtectedComponent,
     canActivate: [AuthGuardService]
+    // TODO: add CanLoad as well
   },
   {
     path: 'employers',
@@ -74,7 +75,6 @@ const appRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    AuthService,
     AuthGuardService,
     SelectivePreloadingStrategy
   ]

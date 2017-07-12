@@ -55,7 +55,7 @@ export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
     if (!environment.production) {
-      Log.level = Log.DEBUG;
+      Log.level = Log.INFO;
       Log.logger = console;
     }
     Log.info('app.module.ctor()');
