@@ -2,20 +2,22 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {Http, Headers, Response, RequestOptions, ResponseContentType} from '@angular/http';
+import {Headers, Response, RequestOptions, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
 import {SearchOptions} from '../reports/models/search-options';
+import {AuthService} from '../shared/services/auth.service';
+import {environment} from '../../environments/environment';
 @Injectable()
 export class ExportsService {
-  uriBase = '/api/exports';
-  constructor(private http: Http) {
+  uriBase = environment.dataUrl + '/api/exports';
+  constructor(private auth: AuthService) {
   }
   getExportsList(): Observable<Export[]> {
 
     console.log('exportsService.getExportList: ' + this.uriBase);
-    return this.http.get(this.uriBase)
+    return this.auth.AuthGet(this.uriBase)
       .map(res => res.json().data as string[])
       .catch(this.handleError);
   }
@@ -24,7 +26,7 @@ export class ExportsService {
 
     let uri = this.uriBase + '/' + tableName.toLowerCase();
     console.log('exportsService.getColumns ' + uri);
-    return this.http.get(uri)
+    return this.auth.AuthGet(uri)
       .map(res => res.json().data as ExportColumn[])
       .catch(this.handleError);
   }
@@ -39,7 +41,7 @@ export class ExportsService {
     console.log('exportsService.getExport: ' + JSON.stringify(params));
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;
-    return this.http.get(uri, options)
+    return this.auth.AuthGet(uri, options)
       .map((res: Response) => {
         return res;
     });

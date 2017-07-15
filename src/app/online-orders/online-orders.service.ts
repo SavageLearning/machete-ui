@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {WorkerRequest} from './work-assignments/models/worker-request';
 import {Observable} from 'rxjs/Observable';
 import {WorkOrder} from './work-order/models/work-order';
+import {AuthService} from "../shared/services/auth.service";
 
 @Injectable()
 export class OnlineOrdersService {
   requests: WorkerRequest[] = new Array<WorkerRequest>();
   order: WorkOrder = new WorkOrder();
-  constructor() {
+  constructor(private auth: AuthService) {
     console.log('online-orders.service: ' + JSON.stringify(this.getRequests()));
   }
 

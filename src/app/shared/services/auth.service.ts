@@ -5,27 +5,11 @@ import { Log } from 'oidc-client';
 import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
 
-const settings: any = {
-  authority: 'https://localhost:44379/id',
-  client_id: 'machete-ui-local',
-  redirect_uri: 'http://localhost:4200/auth.html',
-  post_logout_redirect_uri: 'http://localhost:4200/index.html',
-  response_type: 'id_token token',
-  scope: 'openid email roles api profile',
-
-  silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
-  automaticSilentRenew: true,
-  accessTokenExpiringNotificationTime: 4,
-  // silentRequestTimeout:10000,
-
-  filterProtocolClaims: true,
-  loadUserInfo: true
-};
 
 
 @Injectable()
 export class AuthService {
-  mgr: UserManager = new UserManager(settings);
+  mgr: UserManager = new UserManager(environment.oidc_client_settings);
   userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
   currentUser: User;
   loggedIn = false;
