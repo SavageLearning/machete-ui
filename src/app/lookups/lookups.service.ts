@@ -17,7 +17,7 @@ export class LookupsService {
     }
     console.log('lookupsService.getLookups: ' + uri);
     return this.auth.AuthGet(uri)
-      .map(res => res.json().data as string[])
+      .map(res => res.json().data as Lookup[])
       .catch(HandleError.error);
   }
 }

@@ -1,7 +1,17 @@
 /**
  * Created by jcii on 6/2/17.
  */
-export class Lookup {
+
+export class Record {
+  idString: string;
+  id: number;
+  datecreated: Date;
+  dateupdated: Date;
+  createdby: string;
+  updatedby: string;
+  idPrefix: string;
+}
+export class Lookup extends Record {
   category: string;
   text_EN: string;
   text_ES: string;
@@ -21,11 +31,5 @@ export class Lookup {
   minimumCost?: number;
   key: string;
   active: boolean;
-  idString: string;
-  id: number;
-  datecreated: Date;
-  dateupdated: Date;
-  createdby: string;
-  updatedby: string;
-  idPrefix: string;
+
 }
