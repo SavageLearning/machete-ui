@@ -135,7 +135,7 @@
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-              <p-dropdown id="transportMethodID" [options]="transportMethods" formControlName="selectedTransportMethod"
+              <p-dropdown id="transportMethodID" [options]="transportMethodsDropDown" formControlName="selectedTransportMethod"
                           [autoWidth]="false"></p-dropdown>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.transportMethodID}}
