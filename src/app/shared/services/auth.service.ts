@@ -13,7 +13,7 @@ export class AuthService {
   userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
   currentUser: User;
   loggedIn = false;
-
+  redirectUrl: string;
   authHeaders: Headers;
 
 

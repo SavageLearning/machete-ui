@@ -14,12 +14,12 @@ export class AuthGuardService implements CanActivate {
         Log.info('auth-guard.service.canActivate: called');
         let isLoggedIn = this.authService.isLoggedInObs();
         isLoggedIn.subscribe((loggedin) => {
-          if (!environment.production) {
-            Log.info('auth-guard.service.canActivate isLoggedInObs:' + JSON.stringify((loggedin)));
-          }
-            if (!loggedin) {
-                this.router.navigate(['unauthorized']);
-            }
+        Log.info('auth-guard.service.canActivate isLoggedInObs:' + JSON.stringify(loggedin));
+        if (!loggedin) {
+            Log.info('auth-guard.service.canActivate !loggedIn: url:' + this.router.url)
+            this.authService.redirectUrl = this.router.url;
+            this.router.navigate(['unauthorized']);
+        }
         });
         return isLoggedIn;
 
