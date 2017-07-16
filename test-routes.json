@@ -1,8 +1,0 @@
-/**
- * Created by jcii on 6/17/17.
- */
-{
-  "/api/": "/",
-  "/api/reports/:id": "/reports/:id",
-  "/api/reports/DispatchesByJob": "/DispatchesByJob"
-}
