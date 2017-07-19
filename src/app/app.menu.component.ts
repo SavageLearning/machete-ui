@@ -112,13 +112,8 @@ export class AppSubMenu {
 
         //execute command
         if(item.command) {
-            if(!item.eventEmitter) {
-                item.eventEmitter = new EventEmitter();
-                item.eventEmitter.subscribe(item.command);
-            }
-
-            item.eventEmitter.emit({
-                originalEvent: event,
+            item.command({
+               originalEvent: event,
                 item: item
             });
         }

@@ -23,8 +23,8 @@ export class ReportsComponent implements OnInit {
   description: string;
   o: SearchOptions;
   errorMessage: string;
+  reportList: Report[];
   reportsDropDown: SelectItem[];
-  reports$: Observable<Report[]>;
   displayDescription = false;
   displayDialog = false;
   cols: Column[];
@@ -49,7 +49,7 @@ export class ReportsComponent implements OnInit {
   }
 
   updateDescription() {
-    this.selectedReport = this.reportsService.reportList.filter(x => x.name === this.selectedReportID)[0];
+    this.selectedReport = this.reportList.filter(x => x.name === this.selectedReportID)[0];
     // TODO catch exception if not found
     this.description = this.selectedReport.description;
     this.title = this.selectedReport.title || this.selectedReport.commonName;
@@ -59,9 +59,10 @@ export class ReportsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.reports$ = this.reportsService.subscribeToDataService();
-    this.reports$.subscribe(
+    this.reportsService.getReportList()
+      .subscribe(
       listData => {
+        this.reportList = listData;
         this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.name) as SelectItem);
         this.getView();
       },

@@ -10,8 +10,8 @@ export const environment = {
   oidc_client_settings: {
     authority: 'https://localhost:44379/id',
     client_id: 'machete-ui-local',
-    redirect_uri: 'http://localhost:4200/auth.html',
-    post_logout_redirect_uri: 'http://localhost:4200/index.html',
+    redirect_uri: 'http://localhost:4200/authorize',
+    post_logout_redirect_uri: 'http://localhost:4200',
     response_type: 'id_token token',
     scope: 'openid email roles api profile',
     silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
