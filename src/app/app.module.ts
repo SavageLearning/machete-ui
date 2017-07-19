@@ -3,6 +3,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import { NgModule, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
 import { HttpModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppMenuComponent, AppSubMenu }  from './app.menu.component';
@@ -16,6 +18,8 @@ import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
 import { Log } from 'oidc-client';
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
+import { TokenInterceptor } from './shared/services/token.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,9 +37,15 @@ import { AuthorizeComponent } from './auth/authorize/authorize.component';
     AppRoutingModule,
     FormsModule,
     HttpModule,
+    HttpClientModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
 
   ],
   bootstrap: [AppComponent]

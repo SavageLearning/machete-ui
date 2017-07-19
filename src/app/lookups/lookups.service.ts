@@ -3,12 +3,12 @@ import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { Lookup } from './models/lookup';
 import { HandleError } from '../shared/handle-error';
-import {AuthService} from "../shared/services/auth.service";
 import {environment} from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
-  constructor(private auth: AuthService) {
+  constructor(private http: HttpClient) {
   }
   getLookups(category?: string): Observable<Lookup[]> {
     let uri = this.uriBase;
@@ -16,8 +16,8 @@ export class LookupsService {
       uri = uri + '?category=' + category;
     }
     console.log('lookupsService.getLookups: ' + uri);
-    return this.auth.AuthGet(uri)
-      .map(res => res.json().data as Lookup[])
+    return this.http.get(uri)
+      .map(res => res['data'] as Lookup[])
       .catch(HandleError.error);
   }
 }
