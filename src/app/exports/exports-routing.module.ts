@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ExportsComponent} from './exports.component';
+import { AuthGuardService } from '../shared/services/auth-guard.service';
 
 const exportsRoutes: Routes = [
   {
-    path: '',
-    component: ExportsComponent
+    path: 'exports',
+    component: ExportsComponent,
+    canLoad: [AuthGuardService]
   }
 ];
 @NgModule({

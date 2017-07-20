@@ -9,7 +9,6 @@ import {Observable} from 'rxjs/Observable';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { environment } from '../../environments/environment';
-import {AuthService} from '../shared/services/auth.service';
 import { Log } from 'oidc-client';
 import { HttpClient } from "@angular/common/http";
 

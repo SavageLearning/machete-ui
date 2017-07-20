@@ -29,28 +29,8 @@ const appRoutes: Routes = [
     path: 'authorize',
     component: AuthorizeComponent
   },
-  {
-    path: 'employers',
-    loadChildren: 'app/employers/employers.module#EmployersModule',
-    canLoad: [AuthGuardService]
-  },
-  {
-    path: 'online-orders',
-    loadChildren: 'app/online-orders/online-orders.module#OnlineOrdersModule',
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'reports',
-    loadChildren: 'app/reports/reports.module#ReportsModule',
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'exports',
-    loadChildren: 'app/exports/exports.module#ExportsModule',
-    canActivate: [AuthGuardService]
-  },
   //{ path: '**', component: PageNotFoundComponent }
-  { path: '**', redirectTo: '/reports' }
+  { path: '**', redirectTo: '/dashboard' }
 ];
 
 @NgModule({
