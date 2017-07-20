@@ -19,6 +19,9 @@ import { AuthService} from './shared/services/auth.service';
 import { Log } from 'oidc-client';
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { TokenInterceptor } from './shared/services/token.interceptor';
+import { OnlineOrdersModule } from "./online-orders/online-orders.module";
+import { ReportsModule } from "./reports/reports.module";
+import { ExportsModule } from "./exports/exports.module";
 
 @NgModule({
   declarations: [
@@ -34,10 +37,13 @@ import { TokenInterceptor } from './shared/services/token.interceptor';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    ReportsModule,
+    OnlineOrdersModule,
+    ExportsModule,
+    AppRoutingModule
   ],
   providers: [
     AuthService,
