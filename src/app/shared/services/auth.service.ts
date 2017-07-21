@@ -94,8 +94,8 @@ export class AuthService {
       Log.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
     });
   }
-  endSigninMainWindow() {
-    this.mgr.signinRedirectCallback().then(function (user) {
+  endSigninMainWindow(url?: string) {
+    this.mgr.signinRedirectCallback(url).then(function (user) {
       console.log('signed in', user);
     }).catch(function (err) {
       Log.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));

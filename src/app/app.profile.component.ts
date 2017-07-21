@@ -6,30 +6,7 @@ import {AppComponent} from './app.component';
 
 @Component({
     selector: 'inline-profile',
-    template: `
-        <div class="profile" [ngClass]="{'profile-expanded':active}">
-            <div class="profile-image"></div>
-            <a href="#" (click)="onClick($event)">
-                <span class="profile-name">Jimmy Carter</span>
-                <i class="material-icons">keyboard_arrow_down</i>
-            </a>
-        </div>
-
-        <ul class="ultima-menu profile-menu" [@menu]="active ? 'visible' : 'hidden'">
-            <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="material-icons">person</i>
-                    <span>Profile</span>
-                </a>
-            </li>
-            <li role="menuitem">
-                <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="material-icons">power_settings_new</i>
-                    <span>Logout</span>
-                </a>
-            </li>
-        </ul>
-    `,
+    templateUrl: './app.profile.component.html',
     animations: [
         trigger('menu', [
             state('hidden', style({
