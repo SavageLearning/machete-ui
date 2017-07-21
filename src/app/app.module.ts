@@ -3,6 +3,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import { NgModule, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
 import { HttpModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppMenuComponent, AppSubMenu }  from './app.menu.component';
@@ -12,13 +14,15 @@ import { InlineProfileComponent}  from './app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
 import { inMemoryBackendServiceFactory, InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
 import { environment } from '../environments/environment';
-// import { LoginRoutingModule} from './login-routing.module';
-// import { LoginComponent} from './login.component';
 import { AuthService} from './shared/services/auth.service';
 import { Log } from 'oidc-client';
-// import { requestOptionsProvider} from './request-options.service';
+import { AuthorizeComponent } from './auth/authorize/authorize.component';
+import { TokenInterceptor } from './shared/services/token.interceptor';
+import { OnlineOrdersModule } from "./online-orders/online-orders.module";
+import { ReportsModule } from "./reports/reports.module";
+import { ExportsModule } from "./exports/exports.module";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,28 +30,29 @@ import { Log } from 'oidc-client';
     AppSubMenu,
     AppTopBar,
     AppFooter,
-    //LoginComponent,
     InlineProfileComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AuthorizeComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    //LoginRoutingModule,
-    AppRoutingModule,
     FormsModule,
     HttpModule,
-    //InMemoryWebApiModule.forRoot(InMemoryDataService, { passThruUnknownUrl: true})
+    HttpClientModule,
+    ReportsModule,
+    OnlineOrdersModule,
+    ExportsModule,
+    AppRoutingModule
   ],
   providers: [
-    //requestOptionsProvider,
-    AuthService
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
 
-    // {
-    //   provide: XHRBackend,
-    //   useFactory: getBackend,
-    //   deps: [ Injector, BrowserXhr, XSRFStrategy, ResponseOptions ]
-    // }
   ],
   bootstrap: [AppComponent]
 })
@@ -62,17 +67,4 @@ export class AppModule {
     //console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 
-}
-
-export function getBackend(injector: Injector,
-                           browser: BrowserXhr,
-                           xsrf: XSRFStrategy,
-                           options: ResponseOptions): any {
-  {
-    if (environment.production) {
-      return new XHRBackend(browser, options, xsrf);
-    } else {
-      return inMemoryBackendServiceFactory(injector, new InMemoryDataService(), {});
-    }
-  }
 }

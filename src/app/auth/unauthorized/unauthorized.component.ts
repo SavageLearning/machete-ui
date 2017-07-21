@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-unauthorized',
@@ -9,7 +9,7 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class UnauthorizedComponent implements OnInit {
   //, private location:Location
-  constructor(private location:Location, private service: AuthService) {
+  constructor(private location: Location, private service: AuthService) {
 
   }
 

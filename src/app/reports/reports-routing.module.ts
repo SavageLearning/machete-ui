@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ReportsComponent} from './reports.component';
-import { AuthService } from '../shared/services/auth.service';
 import { AuthGuardService } from '../shared/services/auth-guard.service';
 
 const reportsRoutes: Routes = [
   {
-    path: '',
+    path: 'reports',
     component: ReportsComponent,
     canLoad: [AuthGuardService]
   }

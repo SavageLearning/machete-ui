@@ -17,11 +17,11 @@ export class OnlineOrdersComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      {label: 'Introduction', routerLink: ['online-orders/introduction']},
-      {label: 'Confirm', routerLink: ['online-orders/intro-confirm']},
-      {label: 'work site details', routerLink: ['online-orders/work-order']},
-      {label: 'worker details', routerLink: ['online-orders/work-assignments']},
-      {label: 'finalize', routerLink: ['online-orders/final-confirm']}
+      {label: 'Introduction', routerLink: ['introduction']},
+      {label: 'Confirm', routerLink: ['intro-confirm']},
+      {label: 'work site details', routerLink: ['work-order']},
+      {label: 'worker details', routerLink: ['work-assignments']},
+      {label: 'finalize', routerLink: ['final-confirm']}
     ];
   }
 

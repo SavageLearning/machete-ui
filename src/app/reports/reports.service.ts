@@ -9,30 +9,13 @@ import {Observable} from 'rxjs/Observable';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { environment } from '../../environments/environment';
-import {AuthService} from '../shared/services/auth.service';
 import { Log } from 'oidc-client';
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class ReportsService {
-    reportList: Report[] = new Array<Report>();
-    reportList$: BehaviorSubject<Report[]>;
-
-  constructor(private auth: AuthService) {
-    this.initializeDataService();
-  }
-  // https://stackoverflow.com/questions/39627396/angular-2-observable-with-multiple-subscribers
-  initializeDataService() {
-    if (!this.reportList$) {
-      this.reportList$ = <BehaviorSubject<Report[]>> new BehaviorSubject(new Array<Report>());
-      this.getReportList();
-    }
-  }
-
-  subscribeToDataService(): Observable<Report[]> {
-    return this.reportList$.asObservable();
-  }
-  //
-  getReportData(reportName: string, o: SearchOptions): Observable<SimpleAggregateRow[]> {
+  constructor(private http: HttpClient) {}
+  getReportData(reportName: string, o: SearchOptions): Observable<any[]> {
     // TODO throw exception if report is not populated
     const params = this.encodeData(o);
     let uri = environment.dataUrl + '/api/reports';
@@ -43,24 +26,17 @@ export class ReportsService {
       uri = uri + '?' + params;
     }
     Log.info('reportsService.getReportData: ' + uri);
-    return this.auth.AuthGet(uri)
-              .map(res => res.json().data as SimpleAggregateRow[])
+    return this.http.get(uri)
+              .map(res => res['data'] as any)
               .catch(this.handleError);
   }
 
-  getReportList() {
+  getReportList(): Observable<Report[]> {
     let uri = environment.dataUrl + '/api/reports';
     Log.info('reportsService.getReportList: ' + uri);
-    this.auth.AuthGet(uri)
-      .map(res => res.json().data as Report[])
-      .catch(this.handleError)
-      .subscribe(
-        data => {
-          this.reportList = data;
-          this.reportList$.next(data);
-        },
-        error => Log.info('Error subscribing to DataService: ' + error)
-      );
+    return this.http.get(uri)
+      .map(o => o['data'] as Report[])
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
