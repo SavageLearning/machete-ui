@@ -1,0 +1,19 @@
+<p>
+  work-orders works!
+</p>
+<p-dataTable
+  #dt
+  [value]="orders"
+  >
+  <p-header>
+    
+  </p-header>
+  <p-column field="paperOrderNum" header="Order #"></p-column>
+  <p-column field="dateTimeOfWork" header="Time needed"></p-column>
+  <p-column field="statusEN" header="Status"></p-column>
+  <p-column field="transportMethodEN" header="Trans. method"></p-column>
+  <p-column field="" header="Worker count"></p-column>
+  <p-column field="contactName" header="Contact name"></p-column>
+  <p-column field="address" header="Address"></p-column>
+  <p-column field="zipcode" header="Zipcode"></p-column>
+</p-dataTable>
