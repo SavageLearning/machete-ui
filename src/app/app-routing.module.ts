@@ -25,6 +25,7 @@ const appRoutes: Routes = [
     path: 'unauthorized',
     component: UnauthorizedComponent
   },
+  // Used to receive redirect from Identity server
   {
     path: 'authorize',
     component: AuthorizeComponent
