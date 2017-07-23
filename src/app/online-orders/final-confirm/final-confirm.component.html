@@ -1,3 +1,99 @@
-<p>
-  final-confirm works!
-</p>
+<div class="ui-fluid">
+  <div class="card">
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="dateTimeofWork">Time needed</label>
+          </div>
+          <div class="ui-g-12 ui-md-8  ui-g-nopad">
+            {{order.dateTimeofWork}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="contactName">Contact name</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            {{order.contactName}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="worksiteAddress1">Address (1)</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            {{order.worksiteAddress1}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="worksiteAddress2">Address (2)</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            {{order.worksiteAddress2}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="city">City</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{order.city}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="state">State</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{order.state}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="zipcode">Zipcode</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{order.zipcode}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="phone">Phone</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{order.phone}}
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="description">Work Description</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{order.description}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="additionalNotes">Additional notes to dispatcher</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{order.additionalNotes}}
+          </div>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+            <label for="transportMethodID">Transport method</label>
+          </div>
+          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{order.transportMethodID}}
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Save"></button>
+      </div>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import {AuthService} from "../shared/services/auth.service";
 export class OnlineOrdersService {
   requests: WorkerRequest[] = new Array<WorkerRequest>();
   order: WorkOrder = new WorkOrder();
+  
   constructor(private auth: AuthService) {
     console.log('online-orders.service: ' + JSON.stringify(this.getRequests()));
   }
@@ -56,7 +57,9 @@ export class OnlineOrdersService {
 
   saveOrder(order: WorkOrder) {}
 
-  getOrder() {}
+  getOrder(): WorkOrder {
+    return this.order;
+  }
 
   deleteOrder() {}
 }

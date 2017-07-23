@@ -114,6 +114,17 @@ export class WorkOrderComponent implements OnInit {
       return;
     }
     this.showErrors = false;
+
+    const order = this.prepareOrderForSave();
+    if (this.newOrder) {
+      this.ordersService.createOrder(order);
+    } else {
+      this.ordersService.saveOrder(order);
+    }
+    this.newOrder = false;
+  }
+
+  prepareOrderForSave(): WorkOrder {
     const formModel = this.orderForm.value;
 
     const order: WorkOrder = {
@@ -129,13 +140,7 @@ export class WorkOrderComponent implements OnInit {
       additionalNotes: formModel.additionalNotes,
       transportMethodID: formModel.transportMethodID
     };
-
-    if (this.newOrder) {
-      this.ordersService.createOrder(order);
-    } else {
-      this.ordersService.saveOrder(order);
-    }
-    this.newOrder = false;
+    return order;
   }
 
   clearOrder() {
