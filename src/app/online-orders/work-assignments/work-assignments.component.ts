@@ -5,6 +5,7 @@ import {WorkerRequest} from './models/worker-request';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
+import { WorkAssignmentService } from "./work-assignment.service";
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -42,7 +43,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
-    private ordersService: OnlineOrdersService,
+    private waService: WorkAssignmentService,
     private fb: FormBuilder) {
   }
 
@@ -56,7 +57,7 @@ export class WorkAssignmentsComponent implements OnInit {
         },
         error => this.errorMessage = <any>error,
         () => console.log('work-assignments.component: ngOnInit onCompleted'));
-    this.requestList = this.ordersService.getRequests();
+    this.requestList = this.waService.getAll();
     this.buildForm();
   }
 
@@ -116,8 +117,8 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   deleteRequest(request: WorkerRequest) {
-    this.ordersService.deleteRequest(request);
-    this.requestList = [...this.ordersService.getRequests()];
+    this.waService.delete(request);
+    this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.newRequest = true;
   }
@@ -133,7 +134,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
 
     const saveRequest: WorkerRequest = {
-      id: formModel.id || this.ordersService.getNextRequestId(),
+      id: formModel.id || this.waService.getNextRequestId(),
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,
@@ -143,12 +144,12 @@ export class WorkAssignmentsComponent implements OnInit {
     };
 
     if (this.newRequest) {
-      this.ordersService.createRequest(saveRequest);
+      this.waService.create(saveRequest);
     } else {
-      this.ordersService.saveRequest(saveRequest);
+      this.waService.save(saveRequest);
     }
 
-    this.requestList = [...this.ordersService.getRequests()];
+    this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.buildForm();
     this.newRequest = true;

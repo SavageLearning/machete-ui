@@ -5,6 +5,8 @@ import {WorkOrder} from './models/work-order';
 import {LookupsService} from '../../lookups/lookups.service';
 import {OnlineOrdersService} from '../online-orders.service';
 import {Lookup} from '../../lookups/models/lookup';
+import { Employer } from "../../shared/models/employer";
+import { WorkOrderService } from "./work-order.service";
 
 @Component({
   selector: 'app-work-order',
@@ -49,10 +51,11 @@ export class WorkOrderComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
-    private ordersService: OnlineOrdersService,
+    private orderService: WorkOrderService,
     private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.buildForm();
     this.lookupsService.getLookups('transportmethod')
       .subscribe(
         listData => {
@@ -62,20 +65,37 @@ export class WorkOrderComponent implements OnInit {
         },
         error => this.errorMessage = <any>error,
         () => console.log('work-assignments.component: ngOnInit onCompleted'));
-    this.buildForm();
+    this.orderService.loadProfile()
+      .subscribe(
+        data => {
+          this.order =this.mapOrderFrom(data);
+          this.buildForm();
+        }
+      );
+    
   }
+  mapOrderFrom(employer: Employer): WorkOrder {
+    const order = new WorkOrder();
+    order.contactName = employer.name;
+    order.worksiteAddress1 = employer.address1;
+    order.worksiteAddress2 = employer.address2;
+    order.city = employer.city;
+    order.state = employer.state;
+    order.zipcode = employer.zipcode;
+    return order;
+  }
+
   buildForm(): void {
     this.orderForm = this.fb.group({
-      'employerId': '',
-      'dateTimeofWork': ['', Validators.required],
-      'contactName': ['', Validators.required],
-      'worksiteAddress1': ['', Validators.required],
-      'worksiteAddress2': ['', Validators.required],
-      'city': ['', Validators.required],
-      'state': ['', Validators.required],
-      'zipcode': ['', Validators.required],
-      'phone': ['', Validators.required],
-      'description': ['', Validators.required],
+      'dateTimeofWork': [this.order.dateTimeofWork, Validators.required],
+      'contactName': [this.order.contactName, Validators.required],
+      'worksiteAddress1': [this.order.worksiteAddress1, Validators.required],
+      'worksiteAddress2': [this.order.worksiteAddress2, Validators.required],
+      'city': [this.order.city, Validators.required],
+      'state': [this.order.state, Validators.required],
+      'zipcode': [this.order.zipcode, Validators.required],
+      'phone': [this.order.phone, Validators.required],
+      'description': [this.order.description, Validators.required],
       'additionalNotes': '',
       'selectedTransportMethod': [this.order.transportMethodID, Validators.required]
     });
@@ -117,9 +137,9 @@ export class WorkOrderComponent implements OnInit {
 
     const order = this.prepareOrderForSave();
     if (this.newOrder) {
-      this.ordersService.createOrder(order);
+      this.orderService.create(order);
     } else {
-      this.ordersService.saveOrder(order);
+      this.orderService.save(order);
     }
     this.newOrder = false;
   }
