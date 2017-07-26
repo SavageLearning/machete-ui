@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OnlineOrdersService } from "../online-orders.service";
-import { WorkOrder } from "../work-order/models/work-order";
+import { OnlineOrdersService } from '../online-orders.service';
+import { WorkOrder } from '../work-order/models/work-order';
+import { WorkOrderService } from '../work-order/work-order.service';
 
 @Component({
   selector: 'app-final-confirm',
@@ -9,10 +10,10 @@ import { WorkOrder } from "../work-order/models/work-order";
 })
 export class FinalConfirmComponent implements OnInit {
   order: WorkOrder;
-  constructor(private ordersService: OnlineOrdersService) { }
+  constructor(private ordersService: WorkOrderService) { }
 
   ngOnInit() {
-    this.order = this.ordersService.getOrder();
+    this.order = this.ordersService.get();
   }
 
 }
