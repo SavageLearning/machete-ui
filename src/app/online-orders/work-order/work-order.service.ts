@@ -6,20 +6,14 @@ import { Employer } from '../../shared/models/employer';
 import { Log } from "oidc-client";
 @Injectable()
 export class WorkOrderService {
-  order: WorkOrder = new WorkOrder();
+  order: WorkOrder;
   constructor(private employerService: EmployersService) {
     Log.info('work-order.service: ' + JSON.stringify(this.get()));
   }
 
-  loadProfile(): Observable<Employer> {
+  loadFromProfile(): Observable<Employer> {
     Log.info('work-order.service.loadFromProfile: called');
     return this.employerService.getEmployerBySubject();
-
-  }
-
-
-
-  create(order: WorkOrder) {
   }
 
   save(order: WorkOrder) {
@@ -33,8 +27,6 @@ export class WorkOrderService {
   }
 
   clear() {
-
+    this.order = null;
   }
-
-  delete() {}
 }

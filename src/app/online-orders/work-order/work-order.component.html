@@ -116,8 +116,13 @@
             <label for="description">Work Description</label>
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
-            <textarea rows="5" pInputTextarea autoResize="autoResize" class="ui-inputtextarea"
-                      formControlName="description" id="description" type="text"></textarea>
+            <span class="md-inputfield">
+              <textarea rows="5" pInputTextarea autoResize="autoResize" class="ui-inputtextarea"
+                        formControlName="description" id="description" type="text"></textarea>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+                  {{formErrors.description}}
+              </div>
+            </span>
           </div>
         </div>
         <div class="ui-g-12">
@@ -135,7 +140,7 @@
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-              <p-dropdown id="transportMethodID" [options]="transportMethodsDropDown" formControlName="selectedTransportMethod"
+              <p-dropdown id="transportMethodID" [options]="transportMethodsDropDown" formControlName="transportMethodID"
                           [autoWidth]="false"></p-dropdown>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.transportMethodID}}

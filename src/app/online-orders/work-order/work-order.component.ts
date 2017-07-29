@@ -70,14 +70,19 @@ export class WorkOrderComponent implements OnInit {
         },
         error => this.errorMessage = <any>error,
         () => Log.info(this.logPrefix + 'ngOnInit: getLookups onCompleted'));
-    this.orderService.loadFromProfile()
-      .subscribe(
-        data => {
-          Log.info(this.logPrefix + 'ngOnInit: loadFromProfile ' +JSON.stringify(this.order))
-          this.order =this.mapOrderFrom(data);
-          this.buildForm();
-        }
-      );
+    if (this.orderService.get() == null) {
+      this.orderService.loadFromProfile()
+        .subscribe(
+          data => {
+            Log.info(this.logPrefix + 'ngOnInit: loadFromProfile ' +JSON.stringify(this.order))
+            this.order =this.mapOrderFrom(data);
+            this.buildForm();
+          }
+        );
+    } else {
+      this.order = this.orderService.get();
+      this.buildForm();
+    }
     
   }
   mapOrderFrom(employer: Employer): WorkOrder {
@@ -96,14 +101,14 @@ export class WorkOrderComponent implements OnInit {
       'dateTimeofWork': [this.order.dateTimeofWork, Validators.required],
       'contactName': [this.order.contactName, Validators.required],
       'worksiteAddress1': [this.order.worksiteAddress1, Validators.required],
-      'worksiteAddress2': [this.order.worksiteAddress2, Validators.required],
+      'worksiteAddress2': [this.order.worksiteAddress2],
       'city': [this.order.city, Validators.required],
       'state': [this.order.state, Validators.required],
       'zipcode': [this.order.zipcode, Validators.required],
       'phone': [this.order.phone, Validators.required],
       'description': [this.order.description, Validators.required],
       'additionalNotes': '',
-      'selectedTransportMethod': [this.order.transportMethodID, Validators.required]
+      'transportMethodID': [this.order.transportMethodID, Validators.required]
     });
 
     this.orderForm.valueChanges
@@ -129,11 +134,11 @@ export class WorkOrderComponent implements OnInit {
     }
   }
 
-  loadOrder() {
+  load() {
 
   }
 
-  saveOrder() {
+  save() {
     this.onValueChanged();
     if (this.orderForm.status === 'INVALID') {
       Log.info(this.logPrefix + 'save: INVALID: ' + JSON.stringify(this.formErrors))
@@ -143,11 +148,7 @@ export class WorkOrderComponent implements OnInit {
     this.showErrors = false;
 
     const order = this.prepareOrderForSave();
-    if (this.newOrder) {
-      this.orderService.create(order);
-    } else {
-      this.orderService.save(order);
-    }
+    this.orderService.save(order);
     this.newOrder = false;
   }
 
