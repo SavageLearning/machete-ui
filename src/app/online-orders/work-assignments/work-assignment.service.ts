@@ -8,7 +8,7 @@ export class WorkAssignmentService {
   requests: WorkerRequest[] = new Array<WorkerRequest>();
 
   constructor() {
-    Log.info('online-orders.work-assignment.service: ' + JSON.stringify(this.getAll()));
+    Log.info('work-assignment.service: ' + JSON.stringify(this.getAll()));
   }
   
   getAll(): WorkerRequest[] {

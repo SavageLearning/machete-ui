@@ -7,6 +7,7 @@ import {OnlineOrdersService} from '../online-orders.service';
 import {Lookup} from '../../lookups/models/lookup';
 import { Employer } from "../../shared/models/employer";
 import { WorkOrderService } from "./work-order.service";
+import { Log } from "oidc-client";
 
 @Component({
   selector: 'app-work-order',
@@ -14,6 +15,7 @@ import { WorkOrderService } from "./work-order.service";
   styleUrls: ['./work-order.component.css']
 })
 export class WorkOrderComponent implements OnInit {
+  logPrefix = 'work-order.component.';
   transportMethods: Lookup[];
   transportMethodsDropDown: MySelectItem[];
   orderForm: FormGroup;
@@ -52,7 +54,9 @@ export class WorkOrderComponent implements OnInit {
   constructor(
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) {
+      Log.info(this.logPrefix + 'ctor: called');
+     }
 
   ngOnInit() {
     this.buildForm();
@@ -61,13 +65,15 @@ export class WorkOrderComponent implements OnInit {
         listData => {
           this.transportMethods = listData;
           this.transportMethodsDropDown = listData.map(l =>
-            new MySelectItem(l.text_EN, String(l.id)));
+            new MySelectItem(l.text_EN, String(l.id))
+          );
         },
         error => this.errorMessage = <any>error,
-        () => console.log('work-assignments.component: ngOnInit onCompleted'));
-    this.orderService.loadProfile()
+        () => Log.info(this.logPrefix + 'ngOnInit: getLookups onCompleted'));
+    this.orderService.loadFromProfile()
       .subscribe(
         data => {
+          Log.info(this.logPrefix + 'ngOnInit: loadFromProfile ' +JSON.stringify(this.order))
           this.order =this.mapOrderFrom(data);
           this.buildForm();
         }
@@ -130,6 +136,7 @@ export class WorkOrderComponent implements OnInit {
   saveOrder() {
     this.onValueChanged();
     if (this.orderForm.status === 'INVALID') {
+      Log.info(this.logPrefix + 'save: INVALID: ' + JSON.stringify(this.formErrors))
       this.showErrors = true;
       return;
     }
