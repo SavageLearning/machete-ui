@@ -19,7 +19,7 @@ export class WorkAssignmentsComponent implements OnInit {
   request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
   selectedRequest: WorkAssignment;
   errorMessage: string;
-  newRequest: boolean = true;
+  newRequest: boolean = true; // default state of record in form
   requestForm: FormGroup;
   showErrors: boolean = false;
 
@@ -104,8 +104,8 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['skill'].setValue(skill.text_EN);
     this.requestForm.controls['wage'].setValue(skill.wage);
   }
-
-  editRequest(request: WorkAssignment) {
+  // loads an existing item into the form fields
+  editRequest(request: WorkerRequest) {
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
     this.requestForm.controls['skill'].setValue(request.skill);

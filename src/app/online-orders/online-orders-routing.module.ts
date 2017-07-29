@@ -7,6 +7,7 @@ import {WorkOrderComponent} from './work-order/work-order.component';
 import {WorkAssignmentsComponent} from './work-assignments/work-assignments.component';
 import {FinalConfirmComponent} from './final-confirm/final-confirm.component';
 import { AuthGuardService } from '../shared/services/auth-guard.service';
+import { SequenceGuardService } from "./sequence-guard.service";
 
 const onlineOrderRoutes: Routes = [
   {
@@ -50,6 +51,7 @@ const onlineOrderRoutes: Routes = [
     RouterModule
   ],
   providers: [
+    SequenceGuardService
   ]
 })
 export class OnlineOrdersRoutingModule { }
