@@ -48,7 +48,7 @@ export class WorkOrderComponent implements OnInit {
     'phone': { 'required': 'Phone is required.' },
     'description': { 'required': 'Description is required.' },
     'additionalNotes': { },
-    'transportMethodID': { 'required': 'skill is required.' }
+    'transportMethodID': { 'required': 'A transport method is required.' }
   };
 
   constructor(
