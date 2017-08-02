@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
-import {WorkerRequest} from './models/worker-request';
+import {WorkAssignment} from './models/work-assignment';
 import {Observable} from 'rxjs/Observable';
 import { Log } from "oidc-client";
 
 @Injectable()
 export class WorkAssignmentService {
-  requests: WorkerRequest[] = new Array<WorkerRequest>();
+  requests: WorkAssignment[] = new Array<WorkAssignment>();
 
   constructor() {
     Log.info('work-assignment.service: ' + JSON.stringify(this.getAll()));
   }
   
-  getAll(): WorkerRequest[] {
+  getAll(): WorkAssignment[] {
     return this.requests;
   }
 
-  create(request: WorkerRequest) {
+  create(request: WorkAssignment) {
     this.requests.push(request);
   }
 
-  save(request: WorkerRequest) {
+  save(request: WorkAssignment) {
     const index = this.findSelectedRequestIndex(request);
     this.requests[index] = request;
   }
 
   getNextRequestId() {
-    const sorted: WorkerRequest[] =  this.requests.sort(this.sort);
+    const sorted: WorkAssignment[] =  this.requests.sort(this.sort);
     if (sorted.length === 0) {
       return 1;
     } else {
@@ -33,12 +33,12 @@ export class WorkAssignmentService {
     }
   }
 
-  private sort(a: WorkerRequest, b: WorkerRequest) {
+  private sort(a: WorkAssignment, b: WorkAssignment) {
     if (a.id < b.id) { return -1; }
     if (a.id > b.id) { return 1; }
     return 0;
   }
-  delete(request: WorkerRequest) {
+  delete(request: WorkAssignment) {
     const index: number = this.requests.indexOf(request);
     if (index > -1) {
       this.requests.splice(index, 1);
@@ -47,7 +47,7 @@ export class WorkAssignmentService {
 
   clear() {}
 
-  findSelectedRequestIndex(request: WorkerRequest): number {
+  findSelectedRequestIndex(request: WorkAssignment): number {
     return this.requests.findIndex(a => a.id === request.id);
   }
 

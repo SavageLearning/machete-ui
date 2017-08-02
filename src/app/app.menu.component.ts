@@ -34,7 +34,8 @@ export class AppMenuComponent implements OnInit {
           {label: 'Sign-ins', icon: 'track_changes', url: ['/workersignin']},
           {label: 'Emails', icon: 'email', url: ['/email']},
           {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']},
-          {label: 'Exports', icon: 'file_download', routerLink: ['/exports']}
+          {label: 'Exports', icon: 'file_download', routerLink: ['/exports']},
+          {label: 'Dashboard', icon: 'file_download', routerLink: ['/dashboard']}
         ];
     }
 

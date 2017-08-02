@@ -1,7 +1,7 @@
 /**
  * Created by jcii on 5/31/17.
  */
-export class WorkerRequest
+export class WorkAssignment
 {
   id: number;
   skillId: number;

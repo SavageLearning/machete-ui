@@ -9,11 +9,22 @@ import { WorkOrderService } from '../work-order/work-order.service';
   styleUrls: ['./final-confirm.component.css']
 })
 export class FinalConfirmComponent implements OnInit {
-  order: WorkOrder;
-  constructor(private ordersService: WorkOrderService) { }
+  order: WorkOrder = new WorkOrder();
+  constructor(
+    private ordersService: WorkOrderService,
+    private onlineService: OnlineOrdersService
+  ) { }
 
   ngOnInit() {
-    this.order = this.ordersService.get();
+    const savedOrder = this.ordersService.get();
+    if (savedOrder) {
+      this.order = savedOrder;
+      
+    }
+  }
+
+  submit() {
+    this.onlineService.postToApi();
   }
 
 }

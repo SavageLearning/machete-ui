@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MySelectItem} from '../../reports/reports.component';
-import {WorkerRequest} from './models/worker-request';
+import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
@@ -15,9 +15,9 @@ export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service
   skillsDropDown: MySelectItem[];
   selectedSkill: Lookup = new Lookup();
-  requestList: WorkerRequest[] = new Array<WorkerRequest>(); // list built by user in UI
-  request: WorkerRequest = new WorkerRequest(); // composed by UI to make/edit a request
-  selectedRequest: WorkerRequest;
+  requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
+  request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
+  selectedRequest: WorkAssignment;
   errorMessage: string;
   newRequest: boolean = true;
   requestForm: FormGroup;
@@ -105,7 +105,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['wage'].setValue(skill.wage);
   }
 
-  editRequest(request: WorkerRequest) {
+  editRequest(request: WorkAssignment) {
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
     this.requestForm.controls['skill'].setValue(request.skill);
@@ -116,7 +116,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.newRequest = false;
   }
 
-  deleteRequest(request: WorkerRequest) {
+  deleteRequest(request: WorkAssignment) {
     this.waService.delete(request);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
@@ -133,7 +133,7 @@ export class WorkAssignmentsComponent implements OnInit {
     const formModel = this.requestForm.value;
 
 
-    const saveRequest: WorkerRequest = {
+    const saveRequest: WorkAssignment = {
       id: formModel.id || this.waService.getNextRequestId(),
       skillId: formModel.skillId,
       skill: formModel.skill,
@@ -160,8 +160,8 @@ export class WorkAssignmentsComponent implements OnInit {
     this.request = this.cloneRequest(event.data);
   }
 
-  cloneRequest(c: WorkerRequest): WorkerRequest {
-    let request = new WorkerRequest();
+  cloneRequest(c: WorkAssignment): WorkAssignment {
+    let request = new WorkAssignment();
     for (let prop in c) {
       request[prop] = c[prop];
     }
