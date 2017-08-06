@@ -93,6 +93,7 @@ export class WorkOrderComponent implements OnInit {
     order.city = employer.city;
     order.state = employer.state;
     order.zipcode = employer.zipcode;
+    order.phone = employer.phone || employer.cellphone;
     return order;
   }
 

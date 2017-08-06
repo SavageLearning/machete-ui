@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import { HttpClient } from "@angular/common/http";
 import { WorkOrderService } from "./work-order/work-order.service";
-import { WorkAssignmentService } from "./work-assignments/work-assignment.service";
+import { WorkAssignmentsService } from "./work-assignments/work-assignments.service";
 import { WorkOrder } from "./work-order/models/work-order";
 import { WorkAssignment } from "./work-assignments/models/work-assignment";
 import { environment } from "../../environments/environment";
@@ -16,7 +16,7 @@ export class OnlineOrdersService {
   constructor(
     private http: HttpClient, 
     private orderService: WorkOrderService,
-    private assignmentService: WorkAssignmentService
+    private assignmentService: WorkAssignmentsService
   ) {  }
 
   validate() {}

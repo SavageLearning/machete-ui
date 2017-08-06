@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import { Log } from "oidc-client";
 
 @Injectable()
-export class WorkAssignmentService {
+export class WorkAssignmentsService {
   requests: WorkAssignment[] = new Array<WorkAssignment>();
 
   constructor() {

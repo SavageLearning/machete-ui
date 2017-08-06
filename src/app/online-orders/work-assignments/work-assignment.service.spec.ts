@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { WorkAssignmentService } from './work-assignment.service';
+import { WorkAssignmentsService } from './work-assignments.service';
 
-describe('WorkAssignmentService', () => {
+describe('WorkAssignmentsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [WorkAssignmentService]
+      providers: [WorkAssignmentsService]
     });
   });
 
-  it('should be created', inject([WorkAssignmentService], (service: WorkAssignmentService) => {
+  it('should be created', inject([WorkAssignmentsService], (service: WorkAssignmentsService) => {
     expect(service).toBeTruthy();
   }));
 });

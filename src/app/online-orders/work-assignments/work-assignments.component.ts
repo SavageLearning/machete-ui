@@ -5,7 +5,7 @@ import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
-import { WorkAssignmentService } from "./work-assignment.service";
+import { WorkAssignmentsService } from "./work-assignments.service";
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -43,7 +43,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
-    private waService: WorkAssignmentService,
+    private waService: WorkAssignmentsService,
     private fb: FormBuilder) {
   }
 
