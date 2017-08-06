@@ -25,16 +25,17 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-          {label: 'Place an order', icon: 'business', routerLink: ['/online-orders']},
+          {label: 'Place an order', icon: 'business', routerLink: ['/online-orders/introduction']},
           {label: 'Employers', icon: 'business', routerLink: ['/employers']},
-          {label: 'Work Orders', icon: 'work', url: ['/Workorder']},
-          {label: 'Dispatch', icon: 'today', url: ['/dispatch']},
+          {label: 'Work Orders', icon: 'work', routerLink: ['/work-orders']},
+          {label: 'Dispatch', icon: 'today', url: ['/workassignment']},
           {label: 'People', icon: 'people', url: ['/person']},
           {label: 'Activities', icon: 'local_activity', url: ['/Activity']},
           {label: 'Sign-ins', icon: 'track_changes', url: ['/workersignin']},
           {label: 'Emails', icon: 'email', url: ['/email']},
           {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']},
-          {label: 'Exports', icon: 'file_download', routerLink: ['/exports']}
+          {label: 'Exports', icon: 'file_download', routerLink: ['/exports']},
+          {label: 'Dashboard', icon: 'file_download', routerLink: ['/dashboard']}
         ];
     }
 
@@ -42,37 +43,7 @@ export class AppMenuComponent implements OnInit {
 
 @Component({
     selector: '[app-submenu]',
-    template: `
-        <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
-            <li [ngClass]="{'active-menuitem': isActive(i)}" *ngIf="child.visible === false ? false : true">
-                <a [href]="child.url||'#'" 
-                   (click)="itemClick($event,child,i)" 
-                   class="ripplelink" 
-                   *ngIf="!child.routerLink" 
-                   [attr.tabindex]="!visible ? '-1' : null" 
-                   [attr.target]="child.target">
-                    <i class="material-icons">{{child.icon}}</i>
-                    <span>{{child.label}}</span>
-                    <i class="material-icons" *ngIf="child.items">keyboard_arrow_down</i>
-                </a>
-
-                <a (click)="itemClick($event,child,i)" 
-                   class="ripplelink" 
-                   *ngIf="child.routerLink"
-                   [routerLink]="child.routerLink" 
-                   routerLinkActive="active-menuitem-routerlink" 
-                   [routerLinkActiveOptions]="{exact: true}" 
-                   [attr.tabindex]="!visible ? '-1' : null" 
-                   [attr.target]="child.target">
-                    <i class="material-icons">{{child.icon}}</i>
-                    <span>{{child.label}}</span>
-                    <i class="material-icons" *ngIf="child.items">keyboard_arrow_down</i>
-                </a>
-                <ul app-submenu [item]="child" *ngIf="child.items" [@children]="isActive(i) ? 'visible' : 'hidden'" 
-                    [visible]="isActive(i)" [reset]="reset"></ul>
-            </li>
-        </ng-template>
-    `,
+    templateUrl: './app.menu.component.html',
     animations: [
         trigger('children', [
             state('hidden', style({

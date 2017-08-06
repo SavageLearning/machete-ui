@@ -22,6 +22,8 @@ import { TokenInterceptor } from './shared/services/token.interceptor';
 import { OnlineOrdersModule } from "./online-orders/online-orders.module";
 import { ReportsModule } from "./reports/reports.module";
 import { ExportsModule } from "./exports/exports.module";
+import { WorkOrdersModule } from "./work-orders/work-orders.module";
+import { EmployersModule } from "./employers/employers.module";
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { ExportsModule } from "./exports/exports.module";
     ReportsModule,
     OnlineOrdersModule,
     ExportsModule,
+    WorkOrdersModule,
+    EmployersModule,
     AppRoutingModule
   ],
   providers: [

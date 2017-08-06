@@ -7,8 +7,9 @@
     "start": "ng serve --host 0.0.0.0",
     "start-prod": "ng serve --host 0.0.0.0 --environment prod",
     "build": "ng build",
-    "build-iis": "ng build --output-path ..\\..\\Content\\bundles --deploy-url /Content/bundles/ --environment prod",
-    "build-prod": "ng build --environment prod",
+    "build-prod": "ng build --output-path ..\\..\\Content\\bundles --deploy-url /Content/bundles/ --environment prod",
+    "build-cloud-test": "ng build --output-path ..\\..\\Content\\bundles --deploy-url /Content/bundles/ --environment cloud-test",
+    "build-local-embedded": "ng build --envirnoment ",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

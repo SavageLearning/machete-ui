@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import {environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { Log } from 'oidc-client';
 import { Observable } from "rxjs/Observable";
 
