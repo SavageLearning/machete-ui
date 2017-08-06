@@ -1,3 +1,229 @@
 <p>
   employers works!
 </p>
+<div class="ui-fluid">
+  <div class="card">
+    <form [formGroup]="employerForm" (ngSubmit)="saveEmployer()" class="ui-g form-group">
+      <div class="ui-g-12 ui-md-6">
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="name">Name</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="name" 
+                      id="name"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.name}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="phone">Phone number</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="phone" 
+                      id="phone"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.phone}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="cellphone">Cell phone</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="cellphone" 
+                      id="cellphone"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.cellphone}}
+              </div>
+            </span>
+          </div>
+        </div>
+        
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="email">Email</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="email" 
+                      id="email"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.email}}
+              </div>
+            </span>
+          </div>
+        </div>
+        
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="referredBy">Referred by?</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="referredBy" 
+                      id="referredBy"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.referredBy}}
+              </div>
+            </span>
+          </div>
+        </div>
+        
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="referredByOther">Referred by notes</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="referredByOther" 
+                      id="referredByOther"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.referredByOther}}
+              </div>
+            </span>
+          </div>
+        </div>
+        
+        
+      </div>
+      <!-- -------------------------vertical divide---------------------------- -->
+      <div class="ui-g-12  ui-md-6">
+        
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="business">Is a business?</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="business" 
+                      id="business"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.business}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="address1">Address (1)</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="address1" 
+                      id="address1"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.address1}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="address2">Address (2)</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="address2" 
+                      id="address2"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.address1}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="city">City</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="city" 
+                      id="city"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.state}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="state">State</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="state" 
+                      id="state"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.state}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="zipcode">Zipcode</label>
+          </div>
+          <div class="ui-g-12  ui-md-8 ui-g-nopad">
+            <span class="md-inputfield">
+                <input class="ui-inputtext ng-dirty ng-invalid" 
+                      formControlName="zipcode" 
+                      id="zipcode"
+                      type="text" pInputText/>
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
+                {{formErrors.state}}
+              </div>
+            </span>
+          </div>
+        </div>
+
+        
+      </div>
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Save"></button>
+      </div>
+    </form>
+  </div>
+</div>        

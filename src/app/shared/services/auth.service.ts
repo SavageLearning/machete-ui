@@ -22,7 +22,7 @@ export class AuthService {
     this.mgr.getUser()
       .then((user) => {
         if (user) {
-          Log.info('auth.service.getUser.callback user:' + JSON.stringify(user));
+          Log.debug('auth.service.getUser.callback user:' + JSON.stringify(user));
           this.loggedIn = true;
           this.currentUser = user;
           this.userLoadededEvent.emit(user);
@@ -38,7 +38,7 @@ export class AuthService {
     this.mgr.events.addUserLoaded((user) => {
       this.currentUser = user;
       this.loggedIn = !(user === undefined);
-        Log.info('auth.service.ctor.event: addUserLoaded: ', user);
+        Log.debug('auth.service.ctor.event: addUserLoaded: ', user);
       });
 
     this.mgr.events.addUserUnloaded((e) => {
