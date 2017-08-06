@@ -1,42 +1,62 @@
 import { Injectable } from '@angular/core';
+import {WorkerRequest} from './work-assignments/models/worker-request';
 import {Observable} from 'rxjs/Observable';
-import { HttpClient } from "@angular/common/http";
-import { WorkOrderService } from "./work-order/work-order.service";
-import { WorkAssignmentService } from "./work-assignments/work-assignment.service";
-import { WorkOrder } from "./work-order/models/work-order";
-import { WorkAssignment } from "./work-assignments/models/work-assignment";
-import { environment } from "../../environments/environment";
-import { HttpHeaders } from "@angular/common/http";
-import { HttpErrorResponse } from "@angular/common/http";
-import { Log } from "oidc-client";
+import {WorkOrder} from './work-order/models/work-order';
+import {AuthService} from "../shared/services/auth.service";
 
 @Injectable()
 export class OnlineOrdersService {
-  order: WorkOrder;
-  constructor(
-    private http: HttpClient, 
-    private orderService: WorkOrderService,
-    private assignmentService: WorkAssignmentService
-  ) {  }
-
-  validate() {}
-
-  postToApi() {
-    let url = environment.dataUrl + '/api/onlineorders';
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    this.order = this.orderService.get();
-    this.order.workAssignments = this.assignmentService.getAll();
-    this.http.post(url, JSON.stringify(this.order), {
-      headers: postHeaders
-      }).subscribe(
-      (data) => {},
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('Client-side error occured.');
-        } else {
-          Log.error('online-orders.service.POST: '+ err.message);
-        }
-      }
-    );
+  requests: WorkerRequest[] = new Array<WorkerRequest>();
+  order: WorkOrder = new WorkOrder();
+  constructor(private auth: AuthService) {
+    console.log('online-orders.service: ' + JSON.stringify(this.getRequests()));
   }
+
+  getRequests(): WorkerRequest[] {
+    return this.requests;
+  }
+
+  createRequest(request: WorkerRequest) {
+    this.requests.push(request);
+  }
+
+  saveRequest(request: WorkerRequest) {
+    const index = this.findSelectedRequestIndex(request);
+    this.requests[index] = request;
+  }
+
+  getNextRequestId() {
+    const sorted: WorkerRequest[] =  this.requests.sort(this.sortRequests);
+    if (sorted.length === 0) {
+      return 1;
+    } else {
+      return sorted[sorted.length - 1].id + 1;
+    }
+  }
+
+  private sortRequests(a: WorkerRequest, b: WorkerRequest) {
+    if (a.id < b.id) { return -1; }
+    if (a.id > b.id) { return 1; }
+    return 0;
+  }
+  deleteRequest(request: WorkerRequest) {
+    const index: number = this.requests.indexOf(request);
+    if (index > -1) {
+      this.requests.splice(index, 1);
+    }
+  }
+
+  clearRequests() {}
+
+  findSelectedRequestIndex(request: WorkerRequest): number {
+    return this.requests.findIndex(a => a.id === request.id);
+  }
+
+  createOrder(order: WorkOrder) {}
+
+  saveOrder(order: WorkOrder) {}
+
+  getOrder() {}
+
+  deleteOrder() {}
 }

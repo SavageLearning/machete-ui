@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MySelectItem} from '../../reports/reports.component';
-import {WorkAssignment} from './models/work-assignment';
+import {WorkerRequest} from './models/worker-request';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
-import { WorkAssignmentService } from "./work-assignment.service";
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -15,9 +14,9 @@ export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service
   skillsDropDown: MySelectItem[];
   selectedSkill: Lookup = new Lookup();
-  requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
-  request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
-  selectedRequest: WorkAssignment;
+  requestList: WorkerRequest[] = new Array<WorkerRequest>(); // list built by user in UI
+  request: WorkerRequest = new WorkerRequest(); // composed by UI to make/edit a request
+  selectedRequest: WorkerRequest;
   errorMessage: string;
   newRequest: boolean = true;
   requestForm: FormGroup;
@@ -43,7 +42,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
-    private waService: WorkAssignmentService,
+    private ordersService: OnlineOrdersService,
     private fb: FormBuilder) {
   }
 
@@ -57,7 +56,7 @@ export class WorkAssignmentsComponent implements OnInit {
         },
         error => this.errorMessage = <any>error,
         () => console.log('work-assignments.component: ngOnInit onCompleted'));
-    this.requestList = this.waService.getAll();
+    this.requestList = this.ordersService.getRequests();
     this.buildForm();
   }
 
@@ -105,7 +104,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['wage'].setValue(skill.wage);
   }
 
-  editRequest(request: WorkAssignment) {
+  editRequest(request: WorkerRequest) {
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
     this.requestForm.controls['skill'].setValue(request.skill);
@@ -116,9 +115,9 @@ export class WorkAssignmentsComponent implements OnInit {
     this.newRequest = false;
   }
 
-  deleteRequest(request: WorkAssignment) {
-    this.waService.delete(request);
-    this.requestList = [...this.waService.getAll()];
+  deleteRequest(request: WorkerRequest) {
+    this.ordersService.deleteRequest(request);
+    this.requestList = [...this.ordersService.getRequests()];
     this.requestForm.reset();
     this.newRequest = true;
   }
@@ -133,8 +132,8 @@ export class WorkAssignmentsComponent implements OnInit {
     const formModel = this.requestForm.value;
 
 
-    const saveRequest: WorkAssignment = {
-      id: formModel.id || this.waService.getNextRequestId(),
+    const saveRequest: WorkerRequest = {
+      id: formModel.id || this.ordersService.getNextRequestId(),
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,
@@ -144,12 +143,12 @@ export class WorkAssignmentsComponent implements OnInit {
     };
 
     if (this.newRequest) {
-      this.waService.create(saveRequest);
+      this.ordersService.createRequest(saveRequest);
     } else {
-      this.waService.save(saveRequest);
+      this.ordersService.saveRequest(saveRequest);
     }
 
-    this.requestList = [...this.waService.getAll()];
+    this.requestList = [...this.ordersService.getRequests()];
     this.requestForm.reset();
     this.buildForm();
     this.newRequest = true;
@@ -160,8 +159,8 @@ export class WorkAssignmentsComponent implements OnInit {
     this.request = this.cloneRequest(event.data);
   }
 
-  cloneRequest(c: WorkAssignment): WorkAssignment {
-    let request = new WorkAssignment();
+  cloneRequest(c: WorkerRequest): WorkerRequest {
+    let request = new WorkerRequest();
     for (let prop in c) {
       request[prop] = c[prop];
     }

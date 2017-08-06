@@ -10,7 +10,7 @@ export class AuthorizeComponent implements OnInit {
   constructor(private auth: AuthService) { }
 
   ngOnInit() {
-    this.auth.endSigninMainWindow(this.auth.redirectUrl);
+    this.auth.endSigninMainWindow();
   }
 
 }
