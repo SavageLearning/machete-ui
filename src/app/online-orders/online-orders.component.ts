@@ -17,7 +17,8 @@ import { OnlineOrdersService } from './online-orders.service';
     EmployersService,
     WorkOrderService,
     WorkAssignmentService,
-    FormBuilder
+    FormBuilder,
+    OnlineOrdersService
   ]
 })
 export class OnlineOrdersComponent implements OnInit {
