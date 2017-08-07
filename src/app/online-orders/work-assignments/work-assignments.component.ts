@@ -105,7 +105,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['wage'].setValue(skill.wage);
   }
   // loads an existing item into the form fields
-  editRequest(request: WorkerRequest) {
+  editRequest(request: WorkAssignment) {
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
     this.requestForm.controls['skill'].setValue(request.skill);
