@@ -43,8 +43,8 @@
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",
         "cloud-test": "environments/environment.cloud-test.ts",
-        "remote-identity": "environments/environment.remote-identity",
-        "local-embedded": "environments/environment.local-embedded"
+        "remote-identity": "environments/environment.remote-identity.ts",
+        "local-embedded": "environments/environment.local-embedded.ts"
       }
     }
   ],

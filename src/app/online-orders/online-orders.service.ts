@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { WorkOrder } from "./work-order/models/work-order";
-import { HttpClient } from "@angular/common/http";
-import { WorkOrderService } from "./work-order/work-order.service";
-import { WorkAssignmentService } from "./work-assignments/work-assignment.service";
-import { HttpHeaders } from "@angular/common/http";
-import { HttpErrorResponse } from "@angular/common/http";
-import { environment } from "../../environments/environment";
-import { Log } from "oidc-client";
+import { WorkOrder } from './work-order/models/work-order';
+import { HttpClient } from '@angular/common/http';
+import { WorkOrderService } from './work-order/work-order.service';
+import { WorkAssignmentService } from './work-assignments/work-assignment.service';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Log } from 'oidc-client';
 
 @Injectable()
 export class OnlineOrdersService {
