@@ -1,13 +1,14 @@
 import { async, TestBed, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { ReportsService } from './reports.service';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { SearchOptions } from './models/search-options';
 import {Report} from './models/report';
+import { HttpClient } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
 describe('ReportsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ReportsService],
+      providers: [ReportsService, HttpClient, HttpHandler],
       imports: [
         HttpModule
       ]

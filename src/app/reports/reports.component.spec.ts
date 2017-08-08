@@ -3,8 +3,9 @@ import {DialogModule, CalendarModule, DataTableModule, TabViewModule, DropdownMo
 import {ReportsComponent} from './reports.component';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { HttpClient } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
 
 
 describe('ReportsComponent', () => {
@@ -25,6 +26,10 @@ describe('ReportsComponent', () => {
         DialogModule,
         FormsModule,
         HttpModule,
+      ],
+      providers: [
+        HttpClient,
+        HttpHandler
       ]
     })
       .compileComponents();

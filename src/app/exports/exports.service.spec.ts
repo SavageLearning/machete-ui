@@ -2,13 +2,14 @@ import { async, TestBed, inject } from '@angular/core/testing';
 
 import { ExportsService } from './exports.service';
 import {HttpModule} from '@angular/http';
-import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {ExportsOptionsComponent} from './exports-options.component';
+import { HttpClient } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
 
 describe('ExportsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ExportsService],
+      providers: [ExportsService, HttpClient, HttpHandler],
       imports: [
         HttpModule
       ]

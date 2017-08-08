@@ -61,8 +61,7 @@ export class ExportsComponent implements OnInit {
       );
   }
 
-  onSubmit()
-  {
+  onSubmit() {
     let data = Object.assign( {
       beginDate: this.selectedStartDate,
       endDate: this.selectedEndDate,
@@ -70,14 +69,16 @@ export class ExportsComponent implements OnInit {
     }, this.form.value);
     console.log(this.form.value);
     this.exportsService.getExport(this.selectedExportName, data)
-      .subscribe((res: Response) => {
-        this.downloadFile(res['_body'],
+      .subscribe(
+        (res: Response) => {
+          this.downloadFile(res['_body'],
           this.getFilename(res.headers.get('content-disposition')),
           res['_body'].type);
-      }
-      ),
-      error => this.errorMessage = <any>error,
-      () => console.log('exportsService.getColumns completed');
+        },
+        error => {
+          this.errorMessage = <any>error;
+        },
+      () => console.log('exportsService.getColumns completed'));
   }
 
   downloadFile(data: any, fileName: string, ttype: string) {
