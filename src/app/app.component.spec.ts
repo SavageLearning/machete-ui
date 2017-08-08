@@ -1,5 +1,4 @@
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';

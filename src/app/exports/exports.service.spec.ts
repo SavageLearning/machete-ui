@@ -3,7 +3,6 @@ import { async, TestBed, inject } from '@angular/core/testing';
 import { ExportsService } from './exports.service';
 import {HttpModule} from '@angular/http';
 import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
-import {InMemoryDataService} from '../in-memory-data.service';
 import {ExportsOptionsComponent} from './exports-options.component';
 
 describe('ExportsService', () => {
@@ -11,8 +10,7 @@ describe('ExportsService', () => {
     TestBed.configureTestingModule({
       providers: [ExportsService],
       imports: [
-        HttpModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService)
+        HttpModule
       ]
     });
   });

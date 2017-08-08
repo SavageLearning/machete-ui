@@ -4,7 +4,6 @@ import {ReportsComponent} from './reports.component';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
-import {InMemoryDataService} from '../in-memory-data.service';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -26,7 +25,7 @@ describe('ReportsComponent', () => {
         DialogModule,
         FormsModule,
         HttpModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService)]
+      ]
     })
       .compileComponents();
   }));

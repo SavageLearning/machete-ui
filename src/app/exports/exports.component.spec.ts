@@ -3,7 +3,6 @@ import {DialogModule, CalendarModule, DataTableModule, TabViewModule, DropdownMo
 import {FormsModule} from '@angular/forms';
 import { ExportsComponent } from './exports.component';
 import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
-import {InMemoryDataService} from '../in-memory-data.service';
 import {HttpModule} from '@angular/http';
 import {ExportsService} from './exports.service';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -24,8 +23,7 @@ describe('ExportsComponent', () => {
         CalendarModule,
         DialogModule,
         FormsModule,
-        HttpModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService)
+        HttpModule
       ]
     })
     .compileComponents();
