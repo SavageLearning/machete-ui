@@ -25,8 +25,7 @@ export class ExportsComponent implements OnInit {
   selectedEndDate: string;
   form: FormGroup;
 
-  constructor(private exportsService: ExportsService, private _fb: FormBuilder)
-  {
+  constructor(private exportsService: ExportsService, private _fb: FormBuilder) {
     this.form = new FormGroup({});
   }
 

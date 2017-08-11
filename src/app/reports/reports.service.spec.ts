@@ -5,48 +5,58 @@ import { SearchOptions } from './models/search-options';
 import {Report} from './models/report';
 import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
+import { HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 describe('ReportsService', () => {
+  let service: ReportsService;
+  let httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ReportsService, HttpClient, HttpHandler],
+      providers: [ReportsService  ],
       imports: [
-        HttpModule
+        HttpClientTestingModule
       ]
     });
+    service = TestBed.get(ReportsService);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('should create the service', inject([ReportsService], (service: ReportsService) => {
-    expect(service).toBeTruthy();
+  it('should create the service', inject([ReportsService], (service1: ReportsService) => {
+    expect(service1).toBeTruthy();
   }));
 
-  it('should encode parameters', inject([ReportsService], (service: ReportsService) => {
+  it('should encode parameters', inject([ReportsService], (service2: ReportsService) => {
     const o = new SearchOptions();
     o.beginDate = new Date('01/01/2017').toLocaleDateString();
     o.endDate = new Date('03/01/2017').toLocaleDateString();
-    expect(service.encodeData(o))
+    expect(service2.encodeData(o))
       .toEqual('beginDate=1%2F1%2F2017&endDate=3%2F1%2F2017');
   }));
 
-  it('should get object from getReportData when no parameters present', async(inject([ReportsService], (service: ReportsService) => {
+  it('should get object from getReportData when no parameters present',
+    () => {
     const o = new SearchOptions();
     service.getReportData('1', o)
-      .toPromise()
-      .then(res => {
+      .subscribe
+      (res => {
         expect(typeof res).toEqual('object', 'Get w/o query doesn\'t return an object');
       });
-  })));
+    let req = httpMock.expectOne('http://localhost:63374/api/reports/1');
+    httpMock.verify();
+  });
 
   it('should get array from getReportData when parameters present',
-    async(inject([ReportsService], (service: ReportsService) => {
+    () => {
     const o = new SearchOptions();
     o.beginDate = '1/1/2016';
     o.endDate = '1/1/2017';
     service.getReportData('1', o)
-      .toPromise()
-      .then(rows => {
+      .subscribe(rows => {
         expect(rows.length).toBe(18, 'expected 18 rows');
       });
-  })));
+  });
 
   // it('should get array from getList',
   //   async(inject([ReportsService], (service: ReportsService) => {

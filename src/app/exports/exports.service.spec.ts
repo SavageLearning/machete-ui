@@ -1,31 +1,46 @@
 import { async, TestBed, inject } from '@angular/core/testing';
-
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { ExportsService } from './exports.service';
-import {HttpModule} from '@angular/http';
 import {ExportsOptionsComponent} from './exports-options.component';
-import { HttpClient } from '@angular/common/http';
-import { HttpHandler } from '@angular/common/http';
+import { HttpTestingController } from '@angular/common/http/testing';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('ExportsService', () => {
+  let service: ExportsService;
+  let httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ExportsService, HttpClient, HttpHandler],
+      providers: [ExportsService],
       imports: [
-        HttpModule
+        HttpClientTestingModule
       ]
     });
+    service = TestBed.get(ExportsService);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
-  it('should ...', inject([ExportsService], (service: ExportsService) => {
-    expect(service).toBeTruthy();
+  it('should ...', inject([ExportsService], (service1: ExportsService) => {
+    expect(service1).toBeTruthy();
   }));
 
-  it('should get array from getList',
-    async(inject([ExportsService], (service: ExportsService) => {
-      service.getColumns('activities')
+  it('should catch error from response',
+      () => {
+        service.getColumns('activities')
+          .subscribe((res: any) => {
+            expect(res.name).toBe('HttpErrorResponse');
+          });
+        let req = httpMock.expectOne('http://localhost:63374/api/exports/activities');
+        req.error(new ErrorEvent('foo'));
+        httpMock.verify();
+    });
+
+  it('should populate the export list',
+    async(inject([ExportsService], (service2: ExportsService) => {
+      service2.getExportsList()
         .toPromise()
         .then(rows => {
-          expect(rows.length).toBe(17, 'expected 17 columns from activities');
+          expect(rows.length).toBe(2, 'expected 2 in exports list');
         });
     }))
   );

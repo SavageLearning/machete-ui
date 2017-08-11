@@ -5,12 +5,23 @@ import {
 } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExportsComponent } from './exports.component';
-import {HttpModule} from '@angular/http';
-import {ExportsService} from './exports.service';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { HttpModule } from '@angular/http';
+import { ExportsService } from './exports.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ExportsOptionsComponent } from './exports-options.component';
-import { HttpClient } from "@angular/common/http";
-import { HttpHandler } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Report } from '../reports/models/report';
+
+class ExportsServiceSpy {
+  getExportsList = jasmine.createSpy('getExportsList')
+    .and.callFake(
+      () => Observable.fromPromise(Promise
+        .resolve(true)
+        .then(() => Object.assign({}, new Array<Report>())))
+    );
+}
 
 describe('ExportsComponent', () => {
   let component: ExportsComponent;
@@ -20,9 +31,9 @@ describe('ExportsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ExportsComponent,
-        ExportsOptionsComponent
+        ExportsOptionsComponent,
       ],
-      providers: [ExportsService, HttpClient, HttpHandler ],
+      providers: [HttpClient, HttpHandler ],
       imports: [
         NoopAnimationsModule,
         DataTableModule,
@@ -36,6 +47,13 @@ describe('ExportsComponent', () => {
         InputSwitchModule
       ]
     })
+    .overrideComponent(ExportsComponent, {
+      set: {
+        providers: [
+          { provide: ExportsService, useClass: ExportsServiceSpy }
+        ]
+      }
+    })
     .compileComponents();
   }));
 
@@ -48,16 +66,4 @@ describe('ExportsComponent', () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should populate the export list',
-    async(inject([ExportsService], (service: ExportsService) => {
-      service.getExportsList()
-        .toPromise()
-        .then(rows => {
-          expect(rows.length).toBe(2, 'expected 2 in exports list');
-        });
-    }))
-  );
-
-
 });
