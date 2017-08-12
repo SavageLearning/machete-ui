@@ -10,8 +10,9 @@ export class WorkAssignmentsService {
   constructor() {
     Log.info('work-assignment.service: ' + JSON.stringify(this.getAll()));
   }
-  
+
   getAll(): WorkAssignment[] {
+    Log.info('work-assignments.service.getAll: called');
     return this.requests;
   }
 

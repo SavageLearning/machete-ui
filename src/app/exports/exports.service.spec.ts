@@ -35,7 +35,7 @@ describe('ExportsService', () => {
         let req = httpMock.expectOne(baseref + '/api/exports/activities');
         req.error(new ErrorEvent('foo'));
         httpMock.verify();
-    });
+      });
 
   it('should populate the export list',
     () => {

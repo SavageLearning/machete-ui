@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { environment } from "../../environments/environment";
-import { HandleError } from "../shared/handle-error";
-import { Employer } from "../shared/models/employer";
-import { AuthService } from "../shared/index";
-import { Log } from "oidc-client";
-import { HttpHeaders } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../environments/environment';
+import { HandleError } from '../shared/handle-error';
+import { Employer } from '../shared/models/employer';
+import { AuthService } from '../shared/index';
+import { Log } from 'oidc-client';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class EmployersService {

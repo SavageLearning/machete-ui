@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { Log } from 'oidc-client';
 import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
-
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -17,7 +17,7 @@ export class AuthService {
   authHeaders: Headers;
 
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     Log.info('auth.serive.ctor: called');
     this.mgr.getUser()
       .then((user) => {
@@ -26,8 +26,7 @@ export class AuthService {
           this.loggedIn = true;
           this.currentUser = user;
           this.userLoadededEvent.emit(user);
-        }
-        else {
+        } else {
           this.loggedIn = false;
         }
       })
@@ -106,7 +105,7 @@ export class AuthService {
     this.mgr.getUser().then(user => {
       return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
         console.log('signed out', resp);
-		setTimeout(5000, () => {
+		      setTimeout(5000, () => {
           console.log('testing to see if fired...');
         });
       }).catch(function (err) {

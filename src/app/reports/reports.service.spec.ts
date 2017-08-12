@@ -51,7 +51,6 @@ describe('ReportsService', () => {
 
   it('should get array from getReportData when parameters present',
     () => {
-      console.log('here?');
     const o = new SearchOptions();
     o.beginDate = '1/1/2016';
     o.endDate = '1/1/2017';

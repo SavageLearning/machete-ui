@@ -5,7 +5,6 @@ import {
 } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExportsComponent } from './exports.component';
-import { HttpModule } from '@angular/http';
 import { ExportsService } from './exports.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ExportsOptionsComponent } from './exports-options.component';
@@ -13,13 +12,12 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Report } from '../reports/models/report';
+import { Export } from './models/export';
 
 class ExportsServiceSpy {
   getExportsList = jasmine.createSpy('getExportsList')
     .and.callFake(
-      () => Observable.fromPromise(Promise
-        .resolve(true)
-        .then(() => Object.assign({}, new Array<Report>())))
+      () => Observable.of(new Array<Export>())
     );
 }
 
@@ -43,7 +41,6 @@ describe('ExportsComponent', () => {
         DialogModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpModule,
         InputSwitchModule
       ]
     })
@@ -55,13 +52,11 @@ describe('ExportsComponent', () => {
       }
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ExportsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
+
 
   it('should create the component', () => {
     expect(component).toBeTruthy();

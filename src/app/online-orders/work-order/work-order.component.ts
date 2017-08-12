@@ -5,9 +5,9 @@ import {WorkOrder} from './models/work-order';
 import {LookupsService} from '../../lookups/lookups.service';
 import {OnlineOrdersService} from '../online-orders.service';
 import {Lookup} from '../../lookups/models/lookup';
-import { Employer } from "../../shared/models/employer";
-import { WorkOrderService } from "./work-order.service";
-import { Log } from "oidc-client";
+import { Employer } from '../../shared/models/employer';
+import { WorkOrderService } from './work-order.service';
+import { Log } from 'oidc-client';
 
 @Component({
   selector: 'app-work-order',
@@ -21,8 +21,8 @@ export class WorkOrderComponent implements OnInit {
   orderForm: FormGroup;
   order: WorkOrder = new WorkOrder();
   errorMessage: string;
-  showErrors: boolean = false;
-  newOrder: boolean = true;
+  showErrors = false;
+  newOrder = true;
   formErrors = {
     'dateTimeofWork': '',
     'contactName':  '',
@@ -83,7 +83,7 @@ export class WorkOrderComponent implements OnInit {
       this.order = this.orderService.get();
       this.buildForm();
     }
-    
+
   }
   mapOrderFrom(employer: Employer): WorkOrder {
     const order = new WorkOrder();
