@@ -22,7 +22,7 @@ import { EmployersService } from '../employers/employers.service';
 })
 export class OnlineOrdersComponent implements OnInit {
   private items: MenuItem[];
-  activeIndex: number = 0;
+  activeIndex = 0;
   constructor() { }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 /**
  * Created by jcii on 6/10/17.
  */
-import { WorkAssignment } from "../../work-assignments/models/work-assignment";
+import { WorkAssignment } from '../../work-assignments/models/work-assignment';
 
 export class WorkOrder {
   dateTimeofWork: Date;

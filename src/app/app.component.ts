@@ -14,10 +14,10 @@ declare var jQuery: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-    layoutCompact: boolean = false;
+    layoutCompact = false;
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
-    darkMenu: boolean = true;
-    profileMode: string = 'inline';
+    darkMenu = true;
+    profileMode = 'inline';
     rotateMenuButton: boolean;
     topbarMenuActive: boolean;
     overlayMenuActive: boolean;
@@ -43,7 +43,7 @@ export class AppComponent implements AfterViewInit {
 
         //hides the horizontal submenus or top menu if outside is clicked
         this.documentClickListener = this.renderer.listenGlobal('body', 'click', (event) => {
-            if(!this.topbarItemClick) {
+            if (!this.topbarItemClick) {
                 this.activeTopbarItem = null;
                 this.topbarMenuActive = false;
             }

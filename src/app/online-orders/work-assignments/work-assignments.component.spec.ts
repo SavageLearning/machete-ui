@@ -5,10 +5,10 @@ import { WorkAssignmentsService } from './work-assignments.service';
 import { WorkAssignment } from './models/work-assignment';
 import { Observable } from 'rxjs/Observable';
 import { LookupsService } from '../../lookups/lookups.service';
-import { ReactiveFormsModule, FormBuilder } from "@angular/forms";
-import { DropdownModule, InputSwitchModule, DataTableModule } from "primeng/primeng";
-import { Lookup } from "../../lookups/models/lookup";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { DropdownModule, InputSwitchModule, DataTableModule } from 'primeng/primeng';
+import { Lookup } from '../../lookups/models/lookup';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class WorkAssignmentsServiceSpy {
   getAll = jasmine.createSpy('getAll')

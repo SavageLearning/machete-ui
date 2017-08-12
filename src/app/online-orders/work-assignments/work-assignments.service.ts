@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {WorkAssignment} from './models/work-assignment';
 import {Observable} from 'rxjs/Observable';
-import { Log } from "oidc-client";
+import { Log } from 'oidc-client';
 
 @Injectable()
 export class WorkAssignmentsService {

@@ -5,7 +5,7 @@ import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
-import { WorkAssignmentsService } from "./work-assignments.service";
+import { WorkAssignmentsService } from './work-assignments.service';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -19,9 +19,9 @@ export class WorkAssignmentsComponent implements OnInit {
   request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
   selectedRequest: WorkAssignment;
   errorMessage: string;
-  newRequest: boolean = true;
+  newRequest = true;
   requestForm: FormGroup;
-  showErrors: boolean = false;
+  showErrors = false;
 
   formErrors = {
     'skillId': '',

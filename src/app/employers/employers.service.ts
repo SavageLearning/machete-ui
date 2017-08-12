@@ -15,7 +15,7 @@ export class EmployersService {
 
   getEmployerBySubject(): Observable<Employer> {
     let uri = environment.dataUrl + '/api/employers';
-    
+
     // TODO handle null sub in employerService.getOrders
     uri = uri + '?sub=' + this.auth.currentUser.profile['sub'];
     return this.http.get(uri)

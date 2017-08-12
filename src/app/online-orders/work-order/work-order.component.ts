@@ -74,8 +74,8 @@ export class WorkOrderComponent implements OnInit {
       this.orderService.loadFromProfile()
         .subscribe(
           data => {
-            Log.info(this.logPrefix + 'ngOnInit: loadFromProfile ' +JSON.stringify(this.order))
-            this.order =this.mapOrderFrom(data);
+            Log.info(this.logPrefix + 'ngOnInit: loadFromProfile ' + JSON.stringify(this.order))
+            this.order = this.mapOrderFrom(data);
             this.buildForm();
           }
         );

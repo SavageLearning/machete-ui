@@ -122,7 +122,7 @@ export class AuthService {
       Log.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
     });
   };
-  
+
 
   private _setAuthHeaders(user: any): void {
     this.authHeaders = new Headers();
