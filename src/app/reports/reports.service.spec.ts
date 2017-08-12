@@ -7,11 +7,13 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Log } from 'oidc-client';
+import { environment } from '../../environments/environment';
 
 describe('ReportsService', () => {
   let service: ReportsService;
   let httpMock: HttpTestingController;
-
+  let baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ReportsService  ],
@@ -49,13 +51,19 @@ describe('ReportsService', () => {
 
   it('should get array from getReportData when parameters present',
     () => {
+      console.log('here?');
     const o = new SearchOptions();
     o.beginDate = '1/1/2016';
     o.endDate = '1/1/2017';
-    service.getReportData('1', o)
+    service.getReportData('foobar', o)
       .subscribe(rows => {
+        console.log('rows.length' + JSON.stringify(rows));
         expect(rows.length).toBe(18, 'expected 18 rows');
       });
+
+    let req = httpMock.expectOne(baseref + '/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
+    httpMock.verify();
+
   });
 
   // it('should get array from getList',

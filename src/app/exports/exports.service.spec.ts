@@ -4,11 +4,13 @@ import { ExportsService } from './exports.service';
 import {ExportsOptionsComponent} from './exports-options.component';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Export } from './models/export';
+import { environment } from '../../environments/environment';
 
 describe('ExportsService', () => {
   let service: ExportsService;
   let httpMock: HttpTestingController;
-
+  let baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ExportsService],
@@ -30,18 +32,24 @@ describe('ExportsService', () => {
           .subscribe((res: any) => {
             expect(res.name).toBe('HttpErrorResponse');
           });
-        let req = httpMock.expectOne('http://localhost:63374/api/exports/activities');
+        let req = httpMock.expectOne(baseref + '/api/exports/activities');
         req.error(new ErrorEvent('foo'));
         httpMock.verify();
     });
 
   it('should populate the export list',
-    async(inject([ExportsService], (service2: ExportsService) => {
-      service2.getExportsList()
-        .toPromise()
-        .then(rows => {
+    () => {
+      service.getExportsList()
+        .subscribe(rows => {
           expect(rows.length).toBe(2, 'expected 2 in exports list');
         });
-    }))
+      let req = httpMock.expectOne(baseref + '/api/exports');
+      expect(req.request.method).toEqual('GET');
+      let testdata = new Array<string>();
+      testdata.push('row1');
+      testdata.push('row2');
+      req.flush({data: testdata});
+      httpMock.verify();
+    }
   );
 });
