@@ -13,9 +13,11 @@ import { Observable } from 'rxjs/Observable';
 class ReportsServiceSpy {
   getReportList = jasmine.createSpy('getReportList')
     .and.callFake(
-      () => Observable.fromPromise(Promise
-        .resolve(true)
-        .then(() => Object.assign({}, new Array<Report>())))
+      () => Observable.of( new Array<Report>())
+    );
+  getReportData = jasmine.createSpy('')
+    .and.callFake(
+      () => Observable.of(new Array<any>())
     );
 }
 
