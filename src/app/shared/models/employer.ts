@@ -1,4 +1,4 @@
-import { WorkOrder } from "./work-order";
+import { WorkOrder } from './work-order';
 
 export class Employer {
   id: number;

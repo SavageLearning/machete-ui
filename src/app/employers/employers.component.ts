@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployersService } from "./employers.service";
-import { Employer } from "../shared/models/employer";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { LookupsService } from "../lookups/lookups.service";
-import { Log } from "oidc-client";
+import { EmployersService } from './employers.service';
+import { Employer } from '../shared/models/employer';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LookupsService } from '../lookups/lookups.service';
+import { Log } from 'oidc-client';
 
 @Component({
   selector: 'app-employers',
@@ -14,10 +14,45 @@ import { Log } from "oidc-client";
 export class EmployersComponent implements OnInit {
   employer: Employer = new Employer();
   employerForm: FormGroup;
-  showErrors: boolean = false;
+  showErrors = false;
+  formErrors = {
+    'address1': '',
+    'address2': '',
+    'blogparticipate?': '',
+    'business': '',
+    'businessname': '',
+    'cellphone': '',
+    'city': '',
+    'email': '',
+    'fax': '',
+    'name': '',
+    'phone': '',
+    'referredBy': '',
+    'referredByOther': '',
+    'state': '',
+    'zipcode': ''
+  };
+
+  validationMessages = {
+    'address1': { 'required': 'Address is required' },
+    'address2': { '': '' },
+    'blogparticipate': { 'required': '' },
+    'business': { 'required': '' },
+    'businessname': { 'required': '' },
+    'cellphone': { 'required': '' },
+    'city': { 'required': 'City is required' },
+    'email': { 'required': 'Email is required' },
+    'fax': { 'required': '' },
+    'name': { 'required': 'Name is required' },
+    'phone': { 'required': '' },
+    'referredBy': { 'required': '' },
+    'referredByOther': { 'required': '' },
+    'state': { 'required': '' },
+    'zipcode': { 'required': 'zipcode is required' }
+  };
 
   constructor(
-    private employersService: EmployersService, 
+    private employersService: EmployersService,
     private lookupsService: LookupsService,
      private fb: FormBuilder
   ) { }
@@ -83,7 +118,7 @@ export class EmployersComponent implements OnInit {
       return;
     }
     Log.info('employers.component.saveEmployer: valid');
-    
+
     this.showErrors = false;
     const formModel = this.employerForm.value;
 
@@ -99,41 +134,5 @@ export class EmployersComponent implements OnInit {
         () => Log.info()
       );
   }
-
-  formErrors = {
-    'address1': '',
-    'address2': '',
-    'blogparticipate?': '',
-    'business': '',
-    'businessname': '',
-    'cellphone': '',
-    'city': '',
-    'email': '',
-    'fax': '',
-    'name': '',
-    'phone': '',
-    'referredBy': '',
-    'referredByOther': '',
-    'state': '',
-    'zipcode': ''
-  };
-
-  validationMessages = {
-    'address1': { 'required': 'Address is required' },
-    'address2': { '': '' },
-    'blogparticipate': { 'required': '' },
-    'business': { 'required': '' },
-    'businessname': { 'required': '' },
-    'cellphone': { 'required': '' },
-    'city': { 'required': 'City is required' },
-    'email': { 'required': 'Email is required' },
-    'fax': { 'required': '' },
-    'name': { 'required': 'Name is required' },
-    'phone': { 'required': '' },
-    'referredBy': { 'required': '' },
-    'referredByOther': { 'required': '' },
-    'state': { 'required': '' },
-    'zipcode': { 'required': 'zipcode is required' }
-  };
 
 }

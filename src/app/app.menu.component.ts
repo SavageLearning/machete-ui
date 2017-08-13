@@ -1,5 +1,5 @@
-import {Component,Input,OnInit,EventEmitter,ViewChild,Inject,forwardRef} from '@angular/core';
-import {trigger,state,style,transition,animate} from '@angular/animations';
+import {Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef} from '@angular/core';
+import {trigger, state, style, transition, animate} from '@angular/animations';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
@@ -8,10 +8,10 @@ import {AppComponent} from './app.component';
 @Component({
     selector: 'app-menu',
     template: `
-        <ul app-submenu [item]="model" 
-            root="true" 
-            class="ultima-menu ultima-main-menu clearfix" 
-            [reset]="reset" 
+        <ul app-submenu [item]="model"
+            root="true"
+            class="ultima-menu ultima-main-menu clearfix"
+            [reset]="reset"
             visible="true"></ul>
     `
 })
@@ -21,7 +21,7 @@ export class AppMenuComponent implements OnInit {
 
     model: any[];
 
-    constructor(@Inject(forwardRef(() => AppComponent)) public app:AppComponent) {}
+    constructor(@Inject(forwardRef(() => AppComponent)) public app: AppComponent) {}
 
     ngOnInit() {
         this.model = [
@@ -69,11 +69,11 @@ export class AppSubMenu {
 
     activeIndex: number;
 
-    constructor(@Inject(forwardRef(() => AppComponent)) public app:AppComponent, public router: Router, public location: Location) {}
+    constructor(@Inject(forwardRef(() => AppComponent)) public app: AppComponent, public router: Router, public location: Location) {}
 
     itemClick(event: Event, item: MenuItem, index: number) {
         //avoid processing disabled items
-        if(item.disabled) {
+        if (item.disabled) {
             event.preventDefault();
             return true;
         }
@@ -82,7 +82,7 @@ export class AppSubMenu {
         this.activeIndex = (this.activeIndex === index) ? null : index;
 
         //execute command
-        if(item.command) {
+        if (item.command) {
             item.command({
                originalEvent: event,
                 item: item
@@ -90,13 +90,13 @@ export class AppSubMenu {
         }
 
         //prevent hash change
-        if(item.items || (!item.url && !item.routerLink)) {
+        if (item.items || (!item.url && !item.routerLink)) {
             event.preventDefault();
         }
 
         //hide menu
-        if(!item.items) {
-            if(this.app.isHorizontal())
+        if (!item.items) {
+            if (this.app.isHorizontal())
                 this.app.resetMenu = true;
             else
                 this.app.resetMenu = false;
@@ -114,10 +114,10 @@ export class AppSubMenu {
         return this._reset;
     }
 
-    set reset(val:boolean) {
+    set reset(val: boolean) {
         this._reset = val;
 
-        if(this._reset && this.app.isHorizontal()) {
+        if (this._reset && this.app.isHorizontal()) {
             this.activeIndex = null;
         }
     }

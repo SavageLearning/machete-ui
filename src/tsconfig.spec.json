@@ -6,7 +6,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
-      "es2016"
+      "es2016",
+      "dom"
     ],
     "outDir": "../out-tsc/spec",
     "module": "commonjs",
@@ -15,6 +16,9 @@
     "types": [
       "jasmine",
       "node"
+    ],
+    "typeRoots": [
+      "../node_modules/@types"
     ]
   },
   "files": [

@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import {WorkAssignment} from './models/work-assignment';
 import {Observable} from 'rxjs/Observable';
-import { Log } from "oidc-client";
+import { Log } from 'oidc-client';
 
 @Injectable()
-export class WorkAssignmentService {
+export class WorkAssignmentsService {
   requests: WorkAssignment[] = new Array<WorkAssignment>();
 
   constructor() {
     Log.info('work-assignment.service: ' + JSON.stringify(this.getAll()));
   }
-  
+
   getAll(): WorkAssignment[] {
+    Log.info('work-assignments.service.getAll: called');
     return this.requests;
   }
 

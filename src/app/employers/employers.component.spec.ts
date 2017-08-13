@@ -1,23 +1,50 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { EmployersComponent } from './employers.component';
+import { EmployersService } from './employers.service';
+import { Observable } from 'rxjs/Observable';
+import { LookupsService } from '../lookups/lookups.service';
+import { Employer } from '../shared/models/employer';
+import { Lookup } from '../lookups/models/lookup';
 
+class EmployersServiceSpy {
+  getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
+    .and.callFake(
+      () => Observable.of(new Employer())
+    );
+}
+class LookupsServiceSpy {
+  getLookups = jasmine.createSpy('getLookups')
+    .and.callFake(
+      () => Observable.of(new Array<Lookup>())
+    );
+}
 describe('EmployersComponent', () => {
   let component: EmployersComponent;
   let fixture: ComponentFixture<EmployersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmployersComponent ]
+      declarations: [ EmployersComponent ],
+      imports: [
+        ReactiveFormsModule
+      ]
     })
-    .compileComponents();
+    .overrideComponent(EmployersComponent, {
+      set: {
+        providers: [
+          { provide: EmployersService, useClass: EmployersServiceSpy },
+          { provide: LookupsService, useClass: LookupsServiceSpy }
+        ]
+      }
+    })
+    .compileComponents()
+    .then(() => {
+      fixture = TestBed.createComponent(EmployersComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
   }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EmployersComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

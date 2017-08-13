@@ -8,6 +8,6 @@ export class WorkAssignment
   skill: string;
   hours: number;
   description: string;
-  requiresHeavyLifting: boolean = false;
+  requiresHeavyLifting = false;
   wage: number;
 }

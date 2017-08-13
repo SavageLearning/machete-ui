@@ -49,6 +49,9 @@ export class ReportsComponent implements OnInit {
   }
 
   updateDescription() {
+    if (this.reportList.length === 0) {
+      return;
+    }
     this.selectedReport = this.reportList.filter(x => x.name === this.selectedReportID)[0];
     // TODO catch exception if not found
     this.description = this.selectedReport.description;

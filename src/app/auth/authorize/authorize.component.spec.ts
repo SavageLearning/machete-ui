@@ -1,6 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthorizeComponent } from './authorize.component';
+import { AuthService } from '../../shared/index';
+
+class AuthServiceSpy {
+  endSigninMainWindow = jasmine.createSpy('endSigninMainWindow')
+    .and.callFake(
+      () => {} // void response
+
+    );
+}
 
 describe('AuthorizeComponent', () => {
   let component: AuthorizeComponent;
@@ -9,6 +18,13 @@ describe('AuthorizeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AuthorizeComponent ]
+    })
+    .overrideComponent(AuthorizeComponent, {
+            set: {
+        providers: [
+          { provide: AuthService, useClass: AuthServiceSpy }
+        ]
+      }
     })
     .compileComponents();
   }));

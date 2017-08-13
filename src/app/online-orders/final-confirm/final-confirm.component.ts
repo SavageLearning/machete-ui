@@ -19,7 +19,6 @@ export class FinalConfirmComponent implements OnInit {
     const savedOrder = this.ordersService.get();
     if (savedOrder) {
       this.order = savedOrder;
-      
     }
   }
 

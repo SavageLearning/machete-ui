@@ -10,7 +10,7 @@ import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { environment } from '../../environments/environment';
 import { Log } from 'oidc-client';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ReportsService {
@@ -31,7 +31,7 @@ export class ReportsService {
               .catch(this.handleError);
   }
 
-  getReportList(): Observable<Report[]> {
+  public getReportList(): Observable<Report[]> {
     let uri = environment.dataUrl + '/api/reports';
     Log.info('reportsService.getReportList: ' + uri);
     return this.http.get(uri)
@@ -39,11 +39,10 @@ export class ReportsService {
       .catch(this.handleError);
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('ERROR', error);
-    return Promise.reject(error.message || error);
+  private handleError(error: any): Observable<any> {
+    console.error('reports.service.handleError:', JSON.stringify(error));
+    return Observable.of(error);
   }
-
   public encodeData(data: any): string {
     return Object.keys(data).map((key) => {
       return [key, data[key]].map(encodeURIComponent).join('=');

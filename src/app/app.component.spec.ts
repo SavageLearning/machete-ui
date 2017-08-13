@@ -1,5 +1,3 @@
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {TestBed, async} from '@angular/core/testing';
 import {AppComponent} from './app.component';
@@ -10,6 +8,8 @@ import {AppFooter} from './app.footer.component';
 import {AppRoutingModule} from './app-routing.module';
 import {PageNotFoundComponent} from './not-found.component';
 import {APP_BASE_HREF} from '@angular/common';
+import { AuthorizeComponent } from './auth/authorize/authorize.component';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,7 +20,8 @@ describe('AppComponent', () => {
         AppTopBar,
         AppFooter,
         InlineProfileComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        AuthorizeComponent
 
       ],
       imports: [

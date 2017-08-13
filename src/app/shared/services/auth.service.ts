@@ -6,7 +6,6 @@ import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
 
 
-
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(environment.oidc_client_settings);
@@ -26,8 +25,7 @@ export class AuthService {
           this.loggedIn = true;
           this.currentUser = user;
           this.userLoadededEvent.emit(user);
-        }
-        else {
+        } else {
           this.loggedIn = false;
         }
       })
@@ -106,7 +104,7 @@ export class AuthService {
     this.mgr.getUser().then(user => {
       return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
         console.log('signed out', resp);
-		setTimeout(5000, () => {
+		      setTimeout(5000, () => {
           console.log('testing to see if fired...');
         });
       }).catch(function (err) {
@@ -123,7 +121,7 @@ export class AuthService {
       Log.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
     });
   };
-  
+
 
   private _setAuthHeaders(user: any): void {
     this.authHeaders = new Headers();

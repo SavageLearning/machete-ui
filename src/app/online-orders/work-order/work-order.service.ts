@@ -3,11 +3,11 @@ import {Observable} from 'rxjs/Observable';
 import {WorkOrder} from './models/work-order';
 import { EmployersService} from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
-import { Log } from "oidc-client";
+import { Log } from 'oidc-client';
 @Injectable()
 export class WorkOrderService {
   order: WorkOrder;
-  orderKey: string = 'machete.workorder';
+  orderKey = 'machete.workorder';
   constructor(private employerService: EmployersService) {
     Log.info('work-order.service: ' + JSON.stringify(this.get()));
   }
@@ -25,7 +25,7 @@ export class WorkOrderService {
 
   get(): WorkOrder {
     Log.info('work-order.service.get: called');
-    var data = sessionStorage.getItem(this.orderKey);
+    let data = sessionStorage.getItem(this.orderKey);
     if (data) {
       Log.info('work-order.service.get: returning stored order');
       let order: WorkOrder = JSON.parse(data);
