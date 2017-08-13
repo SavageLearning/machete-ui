@@ -6,6 +6,7 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EmployersService } from '../../employers/employers.service';
 import { AuthService } from '../../shared/index';
+import { HttpModule } from "@angular/http";
 
 describe('WorkOrderService', () => {
   let service: WorkOrderService;
@@ -15,6 +16,7 @@ describe('WorkOrderService', () => {
     TestBed.configureTestingModule({
       providers: [WorkOrderService, EmployersService, AuthService],
       imports: [
+        HttpModule,
         HttpClientTestingModule
       ]
     });

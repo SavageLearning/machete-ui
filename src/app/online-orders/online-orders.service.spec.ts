@@ -8,6 +8,7 @@ import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
 import { AuthService } from '../shared/index';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
+import { HttpModule } from "@angular/http";
 
 
 describe('OnlineOrdersService', () => {
@@ -24,7 +25,10 @@ describe('OnlineOrdersService', () => {
         AuthService,
         WorkAssignmentsService
       ],
-      imports: [HttpClientTestingModule]
+      imports: [
+        HttpModule,
+        HttpClientTestingModule
+      ]
     }).compileComponents();
     service = TestBed.get(OnlineOrdersService);
     httpMock = TestBed.get(HttpTestingController);

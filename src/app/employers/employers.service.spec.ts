@@ -6,15 +6,17 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../shared/index';
+import { HttpModule } from '@angular/http';
 
 describe('EmployersService', async() => {
   let service: EmployersService;
   let httpMock: HttpTestingController;
   let baseref: string  = environment.dataUrl;
-  beforeEach(() => {
+  beforeEach(async() => {
     TestBed.configureTestingModule({
-      providers: [EmployersService, AuthService],
+      providers: [EmployersService, AuthService, HttpClient],
       imports: [
+        HttpModule,
         HttpClientTestingModule
       ]
     });
