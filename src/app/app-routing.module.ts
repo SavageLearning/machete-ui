@@ -9,7 +9,7 @@ import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 import {DashboardComponent} from './auth/dashboard/dashboard.component';
 import {UnauthorizedComponent} from './auth/unauthorized/unauthorized.component';
 import { Log } from 'oidc-client';
-import { AuthorizeComponent } from "./auth/authorize/authorize.component";
+import { AuthorizeComponent } from './auth/authorize/authorize.component';
 
 const appRoutes: Routes = [
   {
@@ -51,6 +51,7 @@ const appRoutes: Routes = [
     RouterModule
   ],
   providers: [
+
     AuthGuardService,
     SelectivePreloadingStrategy
   ]

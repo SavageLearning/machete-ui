@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {MySelectItem} from '../../reports/reports.component';
-import {WorkAssignment} from './models/work-assignment';
+import { MySelectItem } from '../../reports/reports.component';
+import { WorkAssignment } from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
-import {OnlineOrdersService} from '../online-orders.service';
-import { WorkAssignmentService } from "./work-assignment.service";
+import { OnlineOrdersService } from '../online-orders.service';
+import { WorkAssignmentService } from './work-assignment.service';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
-  styleUrls: ['./work-assignments.component.css']
+  styleUrls: ['./work-assignments.component.css'],
+  providers: [OnlineOrdersService]
 })
 export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service

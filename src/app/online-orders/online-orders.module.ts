@@ -9,6 +9,7 @@ import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
 import { StepsModule, CalendarModule, DropdownModule, DataTableModule, InputSwitchModule, MessagesModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OnlineOrdersService } from './online-orders.service';
 
 @NgModule({
   imports: [
@@ -30,6 +31,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     WorkOrderComponent,
     WorkAssignmentsComponent,
     FinalConfirmComponent
+  ],
+  providers: [
+    OnlineOrdersService
   ]
 })
 export class OnlineOrdersModule { }

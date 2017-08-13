@@ -1,0 +1,10 @@
+{
+  "generator-karma": {
+    "base-path": "..",
+    "frameworks": "jasmine",
+    "browsers": "Chrome",
+    "app-files": "src/**/*.ts",
+    "bower-components-path": "bower_components",
+    "test-files": "test/**/*.ts"
+  }
+}

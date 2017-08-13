@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuItem} from 'primeng/primeng';
+import { MenuItem } from 'primeng/primeng';
 import { LookupsService } from '../lookups/lookups.service';
-import {FormBuilder} from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { SequenceGuardService } from './sequence-guard.service';
 import { WorkAssignmentService } from './work-assignments/work-assignment.service';
 import { WorkOrderService } from './work-order/work-order.service';
@@ -24,6 +24,7 @@ import { OnlineOrdersService } from './online-orders.service';
 export class OnlineOrdersComponent implements OnInit {
   private items: MenuItem[];
   activeIndex = 0;
+  confirmation = false;
 
   constructor(private onlineService: OnlineOrdersService) {
     onlineService.activeStep$.subscribe(
@@ -31,6 +32,16 @@ export class OnlineOrdersComponent implements OnInit {
           this.activeIndex = step;
         }
     );
+
+    onlineService.initialConfirmed$.subscribe(
+      confirmed => {
+        this.confirmation = confirmed;
+      }
+    );
+  }
+
+  hasConfirmation(): boolean {
+    return this.confirmation;
   }
 
   ngOnInit() {
