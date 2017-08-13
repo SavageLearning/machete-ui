@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Rx';
 import { Log } from 'oidc-client';
 import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -17,7 +16,7 @@ export class AuthService {
   authHeaders: Headers;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: Http) {
     Log.info('auth.serive.ctor: called');
     this.mgr.getUser()
       .then((user) => {
