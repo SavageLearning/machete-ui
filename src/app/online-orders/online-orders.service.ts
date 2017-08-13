@@ -27,7 +27,9 @@ export class OnlineOrdersService {
     private http: HttpClient,
     private orderService: WorkOrderService,
     private assignmentService: WorkAssignmentService
-  ) {  }
+  ) {  
+    Log.info('online-orders.service.ctor: called');
+  }
 
   hasInitialConfirmation(): boolean {
     return this.initialConfirm;

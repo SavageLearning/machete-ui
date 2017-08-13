@@ -9,7 +9,7 @@ export class WorkOrderService {
   order: WorkOrder;
   orderKey: string = 'machete.workorder';
   constructor(private employerService: EmployersService) {
-    Log.info('work-order.service: ' + JSON.stringify(this.get()));
+    Log.info('work-order.service.ctor: current workorder: ' + JSON.stringify(this.get()));
   }
 
   loadFromProfile(): Observable<Employer> {
