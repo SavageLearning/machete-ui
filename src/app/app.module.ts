@@ -24,6 +24,7 @@ import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
 import { WorkOrdersModule } from './work-orders/work-orders.module';
 import { EmployersModule } from './employers/employers.module';
+import { OnlineOrdersService } from "./online-orders/online-orders.service";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { EmployersModule } from './employers/employers.module';
   ],
   providers: [
     AuthService,
+    OnlineOrdersService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

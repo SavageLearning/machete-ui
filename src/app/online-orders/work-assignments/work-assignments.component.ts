@@ -9,8 +9,7 @@ import { WorkAssignmentService } from './work-assignment.service';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
-  styleUrls: ['./work-assignments.component.css'],
-  providers: [OnlineOrdersService]
+  styleUrls: ['./work-assignments.component.css']
 })
 export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service

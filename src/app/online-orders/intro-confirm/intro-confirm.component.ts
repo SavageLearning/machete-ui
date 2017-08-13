@@ -6,8 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-intro-confirm',
   templateUrl: './intro-confirm.component.html',
-  styleUrls: ['./intro-confirm.component.css'],
-  providers: [OnlineOrdersService]
+  styleUrls: ['./intro-confirm.component.css']
 })
 export class IntroConfirmComponent implements OnInit {
   //status = false;

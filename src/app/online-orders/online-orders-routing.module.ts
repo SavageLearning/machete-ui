@@ -59,7 +59,7 @@ const onlineOrderRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    [SequenceGuardService, OnlineOrdersComponent, OnlineOrdersService, WorkOrderService, EmployersService, WorkAssignmentService]
+    [SequenceGuardService, OnlineOrdersComponent, WorkOrderService, EmployersService, WorkAssignmentService]
   ]
 })
 export class OnlineOrdersRoutingModule { }
