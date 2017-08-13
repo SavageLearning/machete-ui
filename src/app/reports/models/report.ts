@@ -3,8 +3,7 @@ import {SearchInputs} from './search-inputs';
 /**
  * Created by jcarter on 3/9/17.
  */
-export class Report
-{
+export class Report {
   name: string;
   commonName: string;
   title: string;

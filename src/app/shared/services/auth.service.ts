@@ -6,7 +6,6 @@ import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
 
 
-
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(environment.oidc_client_settings);
@@ -22,12 +21,11 @@ export class AuthService {
     this.mgr.getUser()
       .then((user) => {
         if (user) {
-          Log.info('auth.service.getUser.callback user:' + JSON.stringify(user));
+          Log.debug('auth.service.getUser.callback user:' + JSON.stringify(user));
           this.loggedIn = true;
           this.currentUser = user;
           this.userLoadededEvent.emit(user);
-        }
-        else {
+        } else {
           this.loggedIn = false;
         }
       })
@@ -38,7 +36,7 @@ export class AuthService {
     this.mgr.events.addUserLoaded((user) => {
       this.currentUser = user;
       this.loggedIn = !(user === undefined);
-        Log.info('auth.service.ctor.event: addUserLoaded: ', user);
+        Log.debug('auth.service.ctor.event: addUserLoaded: ', user);
       });
 
     this.mgr.events.addUserUnloaded((e) => {
@@ -94,8 +92,8 @@ export class AuthService {
       Log.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
     });
   }
-  endSigninMainWindow() {
-    this.mgr.signinRedirectCallback().then(function (user) {
+  endSigninMainWindow(url?: string) {
+    this.mgr.signinRedirectCallback(url).then(function (user) {
       console.log('signed in', user);
     }).catch(function (err) {
       Log.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
@@ -106,7 +104,7 @@ export class AuthService {
     this.mgr.getUser().then(user => {
       return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
         console.log('signed out', resp);
-		setTimeout(5000, () => {
+		      setTimeout(5000, () => {
           console.log('testing to see if fired...');
         });
       }).catch(function (err) {
@@ -123,7 +121,7 @@ export class AuthService {
       Log.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
     });
   };
-  
+
 
   private _setAuthHeaders(user: any): void {
     this.authHeaders = new Headers();

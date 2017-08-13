@@ -1,6 +1,19 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach Karma Chrome",
+            "address": "localhost",
+            "port": 9333,
+            "pathMapping": {
+                "/": "${workspaceRoot}/",
+                "/base/": "${workspaceRoot}/"
+            },
+            "outFiles": ["${workspaceRoot}/compiled/**/*.js"]
+        },
         {
             "type": "chrome",
             "request": "launch",

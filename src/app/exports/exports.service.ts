@@ -8,7 +8,7 @@ import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
 import {SearchOptions} from '../reports/models/search-options';
 import {environment} from '../../environments/environment';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ExportsService {
   uriBase = environment.dataUrl + '/api/exports';
@@ -47,9 +47,9 @@ export class ExportsService {
     });
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('ERROR', error);
-    return Promise.reject(error.message || error);
+  private handleError(error: any): Observable<any> {
+    console.error('exports.service.handleError:', JSON.stringify(error));
+    return Observable.of(error);
   }
 
   public encodeData(data: any): string {

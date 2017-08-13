@@ -13,15 +13,16 @@ import { AppFooter}  from './app.footer.component';
 import { InlineProfileComponent}  from './app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
-import { inMemoryBackendServiceFactory, InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
 import { Log } from 'oidc-client';
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { TokenInterceptor } from './shared/services/token.interceptor';
-import { OnlineOrdersModule } from "./online-orders/online-orders.module";
-import { ReportsModule } from "./reports/reports.module";
-import { ExportsModule } from "./exports/exports.module";
+import { OnlineOrdersModule } from './online-orders/online-orders.module';
+import { ReportsModule } from './reports/reports.module';
+import { ExportsModule } from './exports/exports.module';
+import { WorkOrdersModule } from './work-orders/work-orders.module';
+import { EmployersModule } from './employers/employers.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,8 @@ import { ExportsModule } from "./exports/exports.module";
     ReportsModule,
     OnlineOrdersModule,
     ExportsModule,
+    WorkOrdersModule,
+    EmployersModule,
     AppRoutingModule
   ],
   providers: [

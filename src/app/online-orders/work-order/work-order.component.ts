@@ -5,6 +5,9 @@ import {WorkOrder} from './models/work-order';
 import {LookupsService} from '../../lookups/lookups.service';
 import {OnlineOrdersService} from '../online-orders.service';
 import {Lookup} from '../../lookups/models/lookup';
+import { Employer } from '../../shared/models/employer';
+import { WorkOrderService } from './work-order.service';
+import { Log } from 'oidc-client';
 
 @Component({
   selector: 'app-work-order',
@@ -12,13 +15,14 @@ import {Lookup} from '../../lookups/models/lookup';
   styleUrls: ['./work-order.component.css']
 })
 export class WorkOrderComponent implements OnInit {
+  logPrefix = 'work-order.component.';
   transportMethods: Lookup[];
   transportMethodsDropDown: MySelectItem[];
   orderForm: FormGroup;
   order: WorkOrder = new WorkOrder();
   errorMessage: string;
-  showErrors: boolean = false;
-  newOrder: boolean = true;
+  showErrors = false;
+  newOrder = true;
   formErrors = {
     'dateTimeofWork': '',
     'contactName':  '',
@@ -44,40 +48,68 @@ export class WorkOrderComponent implements OnInit {
     'phone': { 'required': 'Phone is required.' },
     'description': { 'required': 'Description is required.' },
     'additionalNotes': { },
-    'transportMethodID': { 'required': 'skill is required.' }
+    'transportMethodID': { 'required': 'A transport method is required.' }
   };
 
   constructor(
     private lookupsService: LookupsService,
-    private ordersService: OnlineOrdersService,
-    private fb: FormBuilder) { }
+    private orderService: WorkOrderService,
+    private fb: FormBuilder) {
+      Log.info(this.logPrefix + 'ctor: called');
+     }
 
   ngOnInit() {
+    this.buildForm();
     this.lookupsService.getLookups('transportmethod')
       .subscribe(
         listData => {
           this.transportMethods = listData;
           this.transportMethodsDropDown = listData.map(l =>
-            new MySelectItem(l.text_EN, String(l.id)));
+            new MySelectItem(l.text_EN, String(l.id))
+          );
         },
         error => this.errorMessage = <any>error,
-        () => console.log('work-assignments.component: ngOnInit onCompleted'));
-    this.buildForm();
+        () => Log.info(this.logPrefix + 'ngOnInit: getLookups onCompleted'));
+    if (this.orderService.get() == null) {
+      this.orderService.loadFromProfile()
+        .subscribe(
+          data => {
+            Log.info(this.logPrefix + 'ngOnInit: loadFromProfile ' + JSON.stringify(this.order))
+            this.order = this.mapOrderFrom(data);
+            this.buildForm();
+          }
+        );
+    } else {
+      this.order = this.orderService.get();
+      this.buildForm();
+    }
+
   }
+  mapOrderFrom(employer: Employer): WorkOrder {
+    const order = new WorkOrder();
+    order.contactName = employer.name;
+    order.worksiteAddress1 = employer.address1;
+    order.worksiteAddress2 = employer.address2;
+    order.city = employer.city;
+    order.state = employer.state;
+    order.zipcode = employer.zipcode;
+    order.phone = employer.phone || employer.cellphone;
+    return order;
+  }
+
   buildForm(): void {
     this.orderForm = this.fb.group({
-      'employerId': '',
-      'dateTimeofWork': ['', Validators.required],
-      'contactName': ['', Validators.required],
-      'worksiteAddress1': ['', Validators.required],
-      'worksiteAddress2': ['', Validators.required],
-      'city': ['', Validators.required],
-      'state': ['', Validators.required],
-      'zipcode': ['', Validators.required],
-      'phone': ['', Validators.required],
-      'description': ['', Validators.required],
+      'dateTimeofWork': [this.order.dateTimeofWork, Validators.required],
+      'contactName': [this.order.contactName, Validators.required],
+      'worksiteAddress1': [this.order.worksiteAddress1, Validators.required],
+      'worksiteAddress2': [this.order.worksiteAddress2],
+      'city': [this.order.city, Validators.required],
+      'state': [this.order.state, Validators.required],
+      'zipcode': [this.order.zipcode, Validators.required],
+      'phone': [this.order.phone, Validators.required],
+      'description': [this.order.description, Validators.required],
       'additionalNotes': '',
-      'selectedTransportMethod': [this.order.transportMethodID, Validators.required]
+      'transportMethodID': [this.order.transportMethodID, Validators.required]
     });
 
     this.orderForm.valueChanges
@@ -103,17 +135,25 @@ export class WorkOrderComponent implements OnInit {
     }
   }
 
-  loadOrder() {
+  load() {
 
   }
 
-  saveOrder() {
+  save() {
     this.onValueChanged();
     if (this.orderForm.status === 'INVALID') {
+      Log.info(this.logPrefix + 'save: INVALID: ' + JSON.stringify(this.formErrors))
       this.showErrors = true;
       return;
     }
     this.showErrors = false;
+
+    const order = this.prepareOrderForSave();
+    this.orderService.save(order);
+    this.newOrder = false;
+  }
+
+  prepareOrderForSave(): WorkOrder {
     const formModel = this.orderForm.value;
 
     const order: WorkOrder = {
@@ -129,13 +169,7 @@ export class WorkOrderComponent implements OnInit {
       additionalNotes: formModel.additionalNotes,
       transportMethodID: formModel.transportMethodID
     };
-
-    if (this.newOrder) {
-      this.ordersService.createOrder(order);
-    } else {
-      this.ordersService.saveOrder(order);
-    }
-    this.newOrder = false;
+    return order;
   }
 
   clearOrder() {

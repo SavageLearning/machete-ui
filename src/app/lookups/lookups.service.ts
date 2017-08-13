@@ -3,8 +3,8 @@ import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { Lookup } from './models/lookup';
 import { HandleError } from '../shared/handle-error';
-import {environment} from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
+import {environment} from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
