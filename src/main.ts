@@ -8,5 +8,5 @@ import 'chart.js/dist/Chart.bundle.min.js';
 if (environment.production) {
   enableProdMode();
 }
-
+console.log('main.ts environment.name:', environment.name);
 platformBrowserDynamic().bootstrapModule(AppModule);

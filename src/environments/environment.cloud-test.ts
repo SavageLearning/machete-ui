@@ -1,4 +1,5 @@
 export const environment = {
+  name: 'cloud-test',
   production: true,
   dataUrl: 'https://api.machetessl.org',
   authUrl: 'https://identity.machetessl.org/id',
