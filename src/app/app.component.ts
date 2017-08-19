@@ -1,4 +1,6 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild} from '@angular/core';
+import { environment } from '../environments/environment';
+console.log('app.component.ts environment.name:', environment.name);
 
 enum MenuOrientation {
     STATIC,

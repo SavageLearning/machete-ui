@@ -8,6 +8,8 @@ import {Lookup} from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
 import { Log } from 'oidc-client';
+import { ScheduleRule } from '../shared/models/schedule-rule';
+import { schedulingValidator, requiredValidator} from '../shared/validators';
 
 @Component({
   selector: 'app-work-order',
@@ -23,6 +25,8 @@ export class WorkOrderComponent implements OnInit {
   errorMessage: string;
   showErrors = false;
   newOrder = true;
+  schedulingRules: ScheduleRule[];
+
   formErrors = {
     'dateTimeofWork': '',
     'contactName':  '',
@@ -37,39 +41,25 @@ export class WorkOrderComponent implements OnInit {
     'transportMethodID': ''
   };
 
-  validationMessages = {
-    'dateTimeofWork': { 'required': 'Date & time is required.' },
-    'contactName': { 'required': 'Contact name is required.' },
-    'worksiteAddress1': { 'required': 'Address is required.' },
-    'worksiteAddress2': {},
-    'city': { 'required': 'City is required.' },
-    'state': { 'required': 'State is required.' },
-    'zipcode': { 'required': 'Zip code is required.' },
-    'phone': { 'required': 'Phone is required.' },
-    'description': { 'required': 'Description is required.' },
-    'additionalNotes': { },
-    'transportMethodID': { 'required': 'A transport method is required.' }
-  };
-
   constructor(
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
+    private onlineService: OnlineOrdersService,
     private fb: FormBuilder) {
       Log.info(this.logPrefix + 'ctor: called');
      }
 
   ngOnInit() {
+    this.initializeScheduling();
     this.buildForm();
-    this.lookupsService.getLookups('transportmethod')
-      .subscribe(
-        listData => {
-          this.transportMethods = listData;
-          this.transportMethodsDropDown = listData.map(l =>
-            new MySelectItem(l.text_EN, String(l.id))
-          );
-        },
-        error => this.errorMessage = <any>error,
-        () => Log.info(this.logPrefix + 'ngOnInit: getLookups onCompleted'));
+    this.initializeTransports();
+    this.initializeProfile();
+  }
+  initializeScheduling() {
+    this.schedulingRules = this.onlineService.scheduleRules;
+  }
+
+  initializeProfile() {
     if (this.orderService.get() == null) {
       this.orderService.loadFromProfile()
         .subscribe(
@@ -83,8 +73,21 @@ export class WorkOrderComponent implements OnInit {
       this.order = this.orderService.get();
       this.buildForm();
     }
-
   }
+
+  initializeTransports() {
+    this.lookupsService.getLookups('transportmethod')
+      .subscribe(
+        listData => {
+          this.transportMethods = listData;
+          this.transportMethodsDropDown = listData.map(l =>
+            new MySelectItem(l.text_EN, String(l.id))
+          );
+        },
+        error => this.errorMessage = <any>error,
+        () => Log.info(this.logPrefix + 'ngOnInit: getLookups onCompleted'));
+  }
+
   mapOrderFrom(employer: Employer): WorkOrder {
     const order = new WorkOrder();
     order.contactName = employer.name;
@@ -99,17 +102,20 @@ export class WorkOrderComponent implements OnInit {
 
   buildForm(): void {
     this.orderForm = this.fb.group({
-      'dateTimeofWork': [this.order.dateTimeofWork, Validators.required],
-      'contactName': [this.order.contactName, Validators.required],
-      'worksiteAddress1': [this.order.worksiteAddress1, Validators.required],
+      'dateTimeofWork': [this.order.dateTimeofWork, [
+        requiredValidator('Date & time is required.'),
+        schedulingValidator(this.schedulingRules)
+      ]],
+      'contactName': [this.order.contactName, requiredValidator('Contact name is required.')],
+      'worksiteAddress1': [this.order.worksiteAddress1, requiredValidator('Address is required.')],
       'worksiteAddress2': [this.order.worksiteAddress2],
-      'city': [this.order.city, Validators.required],
-      'state': [this.order.state, Validators.required],
-      'zipcode': [this.order.zipcode, Validators.required],
-      'phone': [this.order.phone, Validators.required],
-      'description': [this.order.description, Validators.required],
+      'city': [this.order.city, requiredValidator('City is required.')],
+      'state': [this.order.state, requiredValidator('State is required.')],
+      'zipcode': [this.order.zipcode, requiredValidator('Zip code is required.')],
+      'phone': [this.order.phone, requiredValidator('Phone is required.')],
+      'description': [this.order.description, requiredValidator('Description is required.')],
       'additionalNotes': '',
-      'transportMethodID': [this.order.transportMethodID, Validators.required]
+      'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required.')]
     });
 
     this.orderForm.valueChanges
@@ -127,9 +133,9 @@ export class WorkOrderComponent implements OnInit {
       const control = form.get(field);
 
       if (control && !control.valid) {
-        const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+          Log.info('online-orders.work-order.component.onValueChanged.error:' + field + ': ' + control.errors[key]);
+            this.formErrors[field] += control.errors[key] + ' ';
         }
       }
     }

@@ -10,6 +10,8 @@ import { Employer } from '../../shared/models/employer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule, CalendarModule } from 'primeng/primeng';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { OnlineOrdersService } from '../online-orders.service';
+import { ScheduleRule } from '../shared/models/schedule-rule';
 class WorkOrderServiceSpy {
   get = jasmine.createSpy('get')
     .and.callFake(
@@ -24,6 +26,13 @@ class LookupsServiceSpy {
   getLookups = jasmine.createSpy('getLookups')
     .and.callFake(
       () => Observable.of(new Array<Lookup>())
+    );
+}
+
+class OnlineOrdersServiceSpy {
+  scheduleRules = jasmine.createSpy('scheduleRules')
+    .and.callFake(
+      () => new Array<ScheduleRule>()
     );
 }
 
@@ -45,7 +54,8 @@ describe('WorkOrderComponent', () => {
       set: {
         providers: [
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
-          { provide: LookupsService, useClass: LookupsServiceSpy }
+          { provide: LookupsService, useClass: LookupsServiceSpy },
+          { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy }
         ]
       }
     })

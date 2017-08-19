@@ -1,4 +1,5 @@
 export const environment = {
+  name: 'mvc-embedded',
   production: false,
   dataUrl: 'http://api.machetessl.org',
   authUrl: 'https://identity.machetessl.org/id',
