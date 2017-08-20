@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigsComponent } from '../src/app/configs/configs.component';
+import { ConfigsComponent } from './configs.component';
 
 @NgModule({
   imports: [

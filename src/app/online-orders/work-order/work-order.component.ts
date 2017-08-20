@@ -10,6 +10,7 @@ import { WorkOrderService } from './work-order.service';
 import { Log } from 'oidc-client';
 import { ScheduleRule } from '../shared/models/schedule-rule';
 import { schedulingValidator, requiredValidator} from '../shared/validators';
+import { ConfigsService } from "../../configs/configs.service";
 
 @Component({
   selector: 'app-work-order',
@@ -41,13 +42,19 @@ export class WorkOrderComponent implements OnInit {
     'transportMethodID': ''
   };
 
+  display: boolean = false;
+  
+  showDialog() {
+      this.display = true;
+  }
   constructor(
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
+    private configsService: ConfigsService,
     private fb: FormBuilder) {
       Log.info(this.logPrefix + 'ctor: called');
-     }
+    }
 
   ngOnInit() {
     this.initializeScheduling();

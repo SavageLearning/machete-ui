@@ -31,5 +31,6 @@ export class Lookup extends Record {
   minimumCost?: number;
   key: string;
   active: boolean;
+  clientRules: string;
 
 }
