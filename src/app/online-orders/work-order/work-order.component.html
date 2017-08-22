@@ -148,10 +148,18 @@
             </span>
           </div>
         </div>
+        <div class="ui-g-12">
+          <button type="button" (click)="showDialog()" pButton icon="fa-external-link-square" label="Show transport rates"></button>
+        </div>
       </div>
       <div class="ui-g-12">
         <button pButton type="submit" label="Save"></button>
       </div>
     </form>
   </div>
+</div>
+<div>
+  <p-dialog header="Title" [(visible)]="display">
+      Content
+  </p-dialog>    
 </div>
