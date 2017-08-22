@@ -37,4 +37,8 @@ describe('OnlineOrdersService', () => {
   it('should ...', inject([OnlineOrdersService], (service1: OnlineOrdersService) => {
     expect(service1).toBeTruthy();
   }));
+
+  it('should load 7 schedule rules', () => {
+      expect(service.scheduleRules.length).toBe(7);
+  });
 });

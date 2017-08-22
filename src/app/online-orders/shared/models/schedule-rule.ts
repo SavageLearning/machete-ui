@@ -4,4 +4,8 @@ export class ScheduleRule {
     leadHours: number;
     minStartMin: number;
     maxEndMin: number;
+
+    public constructor(init?: Partial<ScheduleRule>) {
+        Object.assign(this, init);
+    }
 }

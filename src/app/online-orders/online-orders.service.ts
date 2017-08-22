@@ -10,6 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Log } from 'oidc-client';
 import { ScheduleRule } from './shared/models/schedule-rule';
+import { loadScheduleRules } from "./shared/rules/load-schedule-rules";
 
 @Injectable()
 export class OnlineOrdersService {
@@ -20,14 +21,8 @@ export class OnlineOrdersService {
     private orderService: WorkOrderService,
     private assignmentService: WorkAssignmentsService
   ) {
-    // hardcoded schedule rules -- will come from API eventually
-    this.scheduleRules.push({id: 0, leadHours: 48, minStartMin: 420, maxEndMin: 1020} as ScheduleRule); // sunday
-    this.scheduleRules.push({id: 1, leadHours: 48, minStartMin: 480, maxEndMin: 1020} as ScheduleRule);
-    this.scheduleRules.push({id: 2, leadHours: 48, minStartMin: 480, maxEndMin: 1020} as ScheduleRule);
-    this.scheduleRules.push({id: 3, leadHours: 48, minStartMin: 480, maxEndMin: 1020} as ScheduleRule);
-    this.scheduleRules.push({id: 4, leadHours: 48, minStartMin: 480, maxEndMin: 1020} as ScheduleRule);
-    this.scheduleRules.push({id: 5, leadHours: 48, minStartMin: 480, maxEndMin: 1020} as ScheduleRule);
-    this.scheduleRules.push({id: 6, leadHours: 48, minStartMin: 480, maxEndMin: 1020} as ScheduleRule);
+    // this loads static data from a file. will replace later.
+    this.scheduleRules = loadScheduleRules();
   }
 
   validate() {}
