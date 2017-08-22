@@ -13,7 +13,6 @@ import { environment } from '../../environments/environment';
 describe('ReportsService', () => {
   let service: ReportsService;
   let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ReportsService  ],
@@ -45,7 +44,7 @@ describe('ReportsService', () => {
       (res => {
         expect(typeof res).toEqual('object', 'Get w/o query doesn\'t return an object');
       });
-    let req = httpMock.expectOne('http://localhost:63374/api/reports/1');
+    let req = httpMock.expectOne('/api/reports/1');
     httpMock.verify();
   });
 
@@ -60,7 +59,7 @@ describe('ReportsService', () => {
         expect(rows.length).toBe(18, 'expected 18 rows');
       });
 
-    let req = httpMock.expectOne(baseref + '/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
+    let req = httpMock.expectOne('/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
     httpMock.verify();
 
   });
