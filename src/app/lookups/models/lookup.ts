@@ -2,7 +2,7 @@
  * Created by jcii on 6/2/17.
  */
 
-export class Record {
+export class Record<T> {
   idString: string;
   id: number;
   datecreated: Date;
@@ -10,8 +10,12 @@ export class Record {
   createdby: string;
   updatedby: string;
   idPrefix: string;
+  public constructor(init?: Partial<T>) {
+    Object.assign(this, init);
+  }
 }
-export class Lookup extends Record {
+export class Lookup extends Record<Lookup> {
+  idString = 'Lookup';
   category: string;
   text_EN: string;
   text_ES: string;

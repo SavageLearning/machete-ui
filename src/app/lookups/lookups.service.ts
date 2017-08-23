@@ -7,16 +7,47 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
+  lookups = new Array<Lookup>();
+  lookupsAge = 0;
   constructor(private http: HttpClient) {
   }
-  getLookups(category?: string): Observable<Lookup[]> {
-    let uri = this.uriBase;
-    if (category) {
-      uri = uri + '?category=' + category;
+
+  isStale(): boolean {
+    if (this.lookupsAge > Date.now() - 1800) {
+        return false;
     }
-    console.log('lookupsService.getLookups: ' + uri);
-    return this.http.get(uri)
-      .map(res => res['data'] as Lookup[])
+    return true;
+  }
+
+  isNotStale(): boolean {
+    return !this.isStale();
+  }
+
+  getAllLookups(): Observable<Lookup[]> {
+    if (this.isNotStale()) {
+      return Observable.of(this.lookups);
+    }
+    
+    console.log('lookupsService.getLookups: ' + this.uriBase);
+    return this.http.get(this.uriBase)
+      .map(res => { 
+        this.lookups = res['data'] as Lookup[];
+        this.lookupsAge = Date.now();
+        return res['data'] as Lookup[];
+      })
+      .catch(HandleError.error);
+  }
+
+  getLookups(category: string): Observable<Lookup[]> {
+    return this.getAllLookups()
+      .map(res => res.filter(l => l.category == category))
+      .catch(HandleError.error);
+  }
+
+  getLookup(id: number): Observable<Lookup> {
+    return this.getAllLookups()
+      .mergeMap(a => a.filter(ll => ll.id == id))
+      .first()
       .catch(HandleError.error);
   }
 }
