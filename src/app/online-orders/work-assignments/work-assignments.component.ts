@@ -6,6 +6,9 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
+import { Log } from "oidc-client";
+import { WorkOrderService } from "../work-order/work-order.service";
+import { TransportRule } from "../shared";
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -22,7 +25,7 @@ export class WorkAssignmentsComponent implements OnInit {
   newRequest = true;
   requestForm: FormGroup;
   showErrors = false;
-
+  transportRules: TransportRule[];
   formErrors = {
     'skillId': '',
     'skill': '',
@@ -43,11 +46,18 @@ export class WorkAssignmentsComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
+    private orderService: WorkOrderService,
     private waService: WorkAssignmentsService,
+    private onlineService: OnlineOrdersService,
     private fb: FormBuilder) {
   }
 
   ngOnInit() {
+    this.onlineService.getTransportRules()
+      .subscribe(
+        data => {
+          this.transportRules = data;
+        });
     this.lookupsService.getLookups('skill')
       .subscribe(
         listData => {
@@ -96,8 +106,9 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   selectSkill(skillId: number) {
+    Log.info('work-assignment.component.selectSkill.skillId:' + String(skillId));
     const skill = this.skills.filter(f => f.id === Number(skillId)).shift();
-    if (skill === null) {
+    if (skill === null || skill === undefined) {
       throw new Error('Can\'t find selected skill in component\'s list');
     }
     this.selectedSkill = skill;

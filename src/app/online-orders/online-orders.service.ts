@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { WorkOrderService } from './work-order/work-order.service';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkOrder } from './work-order/models/work-order';
 import { WorkAssignment } from './work-assignments/models/work-assignment';
 import { environment } from '../../environments/environment';
-import { HttpHeaders } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Log } from 'oidc-client';
-import { ScheduleRule } from './shared/models/schedule-rule';
-import { loadScheduleRules } from "./shared/rules/load-schedule-rules";
+import { ScheduleRule, TransportRule, loadScheduleRules, loadTransportRules } from './shared';
 
 @Injectable()
 export class OnlineOrdersService {
   order: WorkOrder;
   scheduleRules = new Array<ScheduleRule>();
+  transportRules = new Array<TransportRule>();
+
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
@@ -23,6 +23,7 @@ export class OnlineOrdersService {
   ) {
     // this loads static data from a file. will replace later.
     this.scheduleRules = loadScheduleRules();
+    this.transportRules = loadTransportRules();
   }
 
   validate() {}
@@ -48,5 +49,9 @@ export class OnlineOrdersService {
 
   getScheduleRules(): Observable<ScheduleRule[]> {
     return Observable.of(this.scheduleRules);
+  }
+
+  getTransportRules(): Observable<TransportRule[]> {
+    return Observable.of(this.transportRules);
   }
 }

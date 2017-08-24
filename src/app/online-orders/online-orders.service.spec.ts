@@ -41,4 +41,8 @@ describe('OnlineOrdersService', () => {
   it('should load 7 schedule rules', () => {
       expect(service.scheduleRules.length).toBe(7);
   });
+
+  it('should load 4 transport rules', () => {
+      expect(service.transportRules.length).toBe(4);
+  });
 });

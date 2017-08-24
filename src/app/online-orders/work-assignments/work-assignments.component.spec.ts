@@ -9,6 +9,9 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { DropdownModule, InputSwitchModule, DataTableModule } from 'primeng/primeng';
 import { Lookup } from '../../lookups/models/lookup';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { WorkOrderService } from "../work-order/work-order.service";
+import { OnlineOrdersService } from "../online-orders.service";
+import { loadTransportRules } from "../shared";
 
 class WorkAssignmentsServiceSpy {
   getAll = jasmine.createSpy('getAll')
@@ -20,6 +23,17 @@ class LookupsServiceSpy {
   getLookups = jasmine.createSpy('getLookups')
     .and.callFake(
       () => Observable.of(new Array<Lookup>())
+    );
+}
+
+class WorkOrderServiceSpy {
+
+}
+
+class OnlineOrdersServiceSpy {
+  getTransportRules = jasmine.createSpy('getTransportRules')
+    .and.callFake(
+      () => Observable.of(loadTransportRules())
     );
 }
 
@@ -43,6 +57,8 @@ describe('WorkAssignmentsComponent', () => {
         providers: [
           { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy },
           { provide: LookupsService, useClass: LookupsServiceSpy },
+          { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
+          { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy}
 
         ]
       }
@@ -56,8 +72,8 @@ describe('WorkAssignmentsComponent', () => {
 
   }));
 
-
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.transportRules).toBeTruthy();
   });
 });
