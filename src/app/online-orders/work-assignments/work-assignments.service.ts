@@ -6,6 +6,7 @@ import { Log } from 'oidc-client';
 @Injectable()
 export class WorkAssignmentsService {
   requests: WorkAssignment[] = new Array<WorkAssignment>();
+  storageKey = 'machete.workassignments';
 
   constructor() {
     Log.info('work-assignment.service: ' + JSON.stringify(this.getAll()));
@@ -13,20 +14,28 @@ export class WorkAssignmentsService {
 
   getAll(): WorkAssignment[] {
     Log.info('work-assignments.service.getAll: called');
-    return this.requests;
+    let data = sessionStorage.getItem(this.storageKey);
+    if (data) {
+      let requests: WorkAssignment[] = JSON.parse(data);
+      return requests;
+    } else {
+      return this.requests;
+    }
   }
 
   create(request: WorkAssignment) {
     this.requests.push(request);
+    sessionStorage.setItem(this.storageKey, JSON.stringify(this.requests));
   }
 
   save(request: WorkAssignment) {
     const index = this.findSelectedRequestIndex(request);
     this.requests[index] = request;
+    sessionStorage.setItem(this.storageKey, JSON.stringify(this.requests));
   }
 
   getNextRequestId() {
-    const sorted: WorkAssignment[] =  this.requests.sort(this.sort);
+    const sorted: WorkAssignment[] =  this.requests.sort(WorkAssignment.sort);
     if (sorted.length === 0) {
       return 1;
     } else {
@@ -34,11 +43,7 @@ export class WorkAssignmentsService {
     }
   }
 
-  private sort(a: WorkAssignment, b: WorkAssignment) {
-    if (a.id < b.id) { return -1; }
-    if (a.id > b.id) { return 1; }
-    return 0;
-  }
+
   delete(request: WorkAssignment) {
     const index: number = this.requests.indexOf(request);
     if (index > -1) {

@@ -10,6 +10,7 @@ export class CostRule {
 export class TransportRule {
     id: number;
     key: string;
+    lookupKey: string;
     transportType: TransportType;
     zoneLabel: string;
     zipcodes: number[]; // not supporting #####-#### zips yet

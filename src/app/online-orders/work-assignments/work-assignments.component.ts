@@ -16,6 +16,7 @@ import { TransportRule } from "../shared";
 })
 export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service
+  transports: Lookup[];
   skillsDropDown: MySelectItem[];
   selectedSkill: Lookup = new Lookup();
   requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
@@ -66,7 +67,14 @@ export class WorkAssignmentsComponent implements OnInit {
             new MySelectItem(l.text_EN, String(l.id)));
         },
         error => this.errorMessage = <any>error,
-        () => console.log('work-assignments.component: ngOnInit onCompleted'));
+        () => console.log('work-assignments.component: ngOnInit:skills onCompleted'));
+    this.lookupsService.getLookups('transportmethod')
+    .subscribe(
+      listData => {
+        this.transports = listData;
+      },
+      error => this.errorMessage = <any>error,
+      () => console.log('work-assignments.component: ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
     this.buildForm();
   }
@@ -134,6 +142,29 @@ export class WorkAssignmentsComponent implements OnInit {
     this.newRequest = true;
   }
 
+  calculateTransportCost(id: number): number {
+    const order = this.orderService.get();
+    const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
+    const rule = this.transportRules.filter(f => f.lookupKey == lookup.key)
+                  .find(f => f.zipcodes.includes(Number(order.zipcode)));
+
+    return rule.costRules.find(r => id > r.minWorker && id <= r.maxWorker).cost;
+  }
+
+  refreshRequests() {
+    for (let r of this.waService.getAll()) {
+      r.transportCost = this.calculateTransportCost(r.id);
+    }
+  }
+
+  compactRequestIds() {
+    let i = 0;
+    for (let r of this.waService.getAll().sort(WorkAssignment.sort)) {
+      i++;
+      r.id = i;
+    }
+  }
+
   saveRequest() {
     this.onValueChanged();
     if (this.requestForm.status === 'INVALID') {
@@ -143,7 +174,6 @@ export class WorkAssignmentsComponent implements OnInit {
     this.showErrors = false;
     const formModel = this.requestForm.value;
 
-
     const saveRequest: WorkAssignment = {
       id: formModel.id || this.waService.getNextRequestId(),
       skillId: formModel.skillId,
@@ -151,7 +181,9 @@ export class WorkAssignmentsComponent implements OnInit {
       hours: formModel.hours,
       description: formModel.description,
       requiresHeavyLifting: formModel.requiresHeavyLifting,
-      wage: formModel.wage
+      wage: formModel.wage,
+      transportCost: this.calculateTransportCost(
+        formModel.id || this.waService.getNextRequestId())
     };
 
     if (this.newRequest) {

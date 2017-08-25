@@ -76,4 +76,12 @@ describe('WorkAssignmentsComponent', () => {
     expect(component).toBeTruthy();
     expect(component.transportRules).toBeTruthy();
   });
+
+  it('should sort request IDs', () => {
+    let testdata = new Array<WorkAssignment>();
+    testdata.push(new WorkAssignment({id: 1}));
+    testdata.push(new WorkAssignment({id: 3}));
+    testdata.push(new WorkAssignment({id: 4}));
+    
+  });
 });

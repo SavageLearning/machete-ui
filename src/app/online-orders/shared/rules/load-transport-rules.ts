@@ -5,6 +5,7 @@ export function loadTransportRules(): Array<TransportRule> {
         new TransportRule({
             id: 1,
             key: 'bus_inside_zone',
+            lookupKey: 'transport_bus',
             transportType: TransportType.transport_bus,
             zoneLabel: 'inside',
             zipcodes: [98101, 98102, 98103, 98104, 98105, 98106,
@@ -19,6 +20,7 @@ export function loadTransportRules(): Array<TransportRule> {
         new TransportRule({
             id: 2,
             key: 'bus_outside_zone',
+            lookupKey: 'transport_bus',
             transportType: TransportType.transport_bus,
             zoneLabel: 'outside',
             zipcodes: [98005, 98006, 98007, 98008, 98033, 98039,
@@ -32,6 +34,7 @@ export function loadTransportRules(): Array<TransportRule> {
         new TransportRule({
             id: 3,
             key: 'van_inside_zone',
+            lookupKey: 'transport_van',
             transportType: TransportType.transport_van,
             zoneLabel: 'inside',
             zipcodes: [98101, 98102, 98103, 98104, 98105, 98106,
@@ -48,6 +51,7 @@ export function loadTransportRules(): Array<TransportRule> {
         new TransportRule({
             id: 4,
             key: 'van_outside_zone',
+            lookupKey: 'transport_van',
             transportType: TransportType.transport_van,
             zoneLabel: 'outside',
             zipcodes: [98005, 98006, 98007, 98008, 98033, 98039,
