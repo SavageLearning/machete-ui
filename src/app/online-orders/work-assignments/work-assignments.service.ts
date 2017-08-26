@@ -76,7 +76,7 @@ export class WorkAssignmentsService {
   }
 
   delete(request: WorkAssignment) {
-    let index = this.requests.findIndex(r => r.id === request.id);
+    let index = this.findSelectedRequestIndex(request);
     if (index < 0) {
       throw new Error('Can\'t find request (WorkAssignment) by id; failed to delete request.');
     }
@@ -90,6 +90,18 @@ export class WorkAssignmentsService {
     return this.requests.findIndex(a => a.id === request.id);
   }
 
-
+  compactRequests() {
+    let requests = this.requests.sort(WorkAssignment.sort);
+    let newRequests = new Array<WorkAssignment>();
+    let i = 0;
+    for (let r of this.requests) {
+      i++;
+      r.id = i;
+      newRequests.push(r);
+    }
+    this.requests = newRequests;
+    sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
+    
+  }
 
 }

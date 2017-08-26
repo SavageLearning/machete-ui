@@ -52,4 +52,15 @@ describe('WorkAssignmentsService', () => {
     expect(result.find(f => f.id ===3)).toBeFalsy('expected to NOT find record id=3');
   });
 
+  it('should compact and order ids', () => {
+    service.save(new WorkAssignment({id: 1}));
+    service.save(new WorkAssignment({id: 3}));
+    service.save(new WorkAssignment({id: 4}));
+    service.compactRequests();
+    let result = service.getAll();
+    expect(result.find(f => f.id ===1)).toBeTruthy('expected to find record id=1');
+    expect(result.find(f => f.id ===2)).toBeTruthy('expected to find record id=2');
+    expect(result.find(f => f.id ===3)).toBeTruthy('expected to find record id=3');
+  });
+
 });
