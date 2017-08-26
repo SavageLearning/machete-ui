@@ -49,16 +49,17 @@ export class WorkAssignmentsComponent implements OnInit {
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
     private waService: WorkAssignmentsService,
-    private onlineService: OnlineOrdersService,
     private fb: FormBuilder) {
   }
 
   ngOnInit() {
-    this.onlineService.getTransportRules()
+    // waService.transportRules could fail under race conditions
+    this.waService.getTransportRules()
       .subscribe(
-        data => {
-          this.transportRules = data;
-        });
+        data => this.transportRules = data,
+        error => Log.error('work-assignments.component.ngOnInit.getTransportRules.error' + error),
+        () => console.log('work-assignments.component: ngOnInit:getTransportRules onCompleted'));
+        
     this.lookupsService.getLookups('skill')
       .subscribe(
         listData => {
@@ -186,12 +187,7 @@ export class WorkAssignmentsComponent implements OnInit {
         formModel.id || this.waService.getNextRequestId())
     };
 
-    if (this.newRequest) {
-      this.waService.create(saveRequest);
-    } else {
-      this.waService.save(saveRequest);
-    }
-
+    this.waService.save(saveRequest);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.buildForm();

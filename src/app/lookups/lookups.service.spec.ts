@@ -18,15 +18,14 @@ describe('LookupsService', () => {
       ]
     });
     service = TestBed.get(LookupsService);
-    httpMock = TestBed.get(HttpTestingController)
+    httpMock = TestBed.get(HttpTestingController);
   });
 
   it('should ...', inject([LookupsService], (service1: LookupsService) => {
     expect(service1).toBeTruthy();
   }));
 
-  it('getLookups should return 1 injected Lookup record',
-    () => {
+  it('getLookups should return 1 injected Lookup record', () => {
       service.getLookups('foo')
         .subscribe(rows => {
           expect(rows.length).toBe(1, 'expected 1 lookups');

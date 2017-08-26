@@ -18,6 +18,10 @@ class WorkAssignmentsServiceSpy {
     .and.callFake(
       () => new Array<WorkAssignment>()
     );
+  getTransportRules = jasmine.createSpy('getTransportRules')
+    .and.callFake(
+      () => Observable.of(loadTransportRules())
+    );
 }
 class LookupsServiceSpy {
   getLookups = jasmine.createSpy('getLookups')
@@ -28,13 +32,6 @@ class LookupsServiceSpy {
 
 class WorkOrderServiceSpy {
 
-}
-
-class OnlineOrdersServiceSpy {
-  getTransportRules = jasmine.createSpy('getTransportRules')
-    .and.callFake(
-      () => Observable.of(loadTransportRules())
-    );
 }
 
 describe('WorkAssignmentsComponent', () => {
@@ -58,8 +55,6 @@ describe('WorkAssignmentsComponent', () => {
           { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy },
           { provide: LookupsService, useClass: LookupsServiceSpy },
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
-          { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy}
-
         ]
       }
     })
@@ -74,14 +69,11 @@ describe('WorkAssignmentsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should load transportRules', () => {
     expect(component.transportRules).toBeTruthy();
   });
 
-  it('should sort request IDs', () => {
-    let testdata = new Array<WorkAssignment>();
-    testdata.push(new WorkAssignment({id: 1}));
-    testdata.push(new WorkAssignment({id: 3}));
-    testdata.push(new WorkAssignment({id: 4}));
-    
-  });
+
 });

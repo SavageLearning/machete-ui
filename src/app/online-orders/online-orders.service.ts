@@ -12,14 +12,11 @@ import { ScheduleRule, TransportRule, loadScheduleRules, loadTransportRules } fr
 
 @Injectable()
 export class OnlineOrdersService {
-  order: WorkOrder;
   scheduleRules = new Array<ScheduleRule>();
   transportRules = new Array<TransportRule>();
 
   constructor(
     private http: HttpClient,
-    private orderService: WorkOrderService,
-    private assignmentService: WorkAssignmentsService
   ) {
     // this loads static data from a file. will replace later.
     this.scheduleRules = loadScheduleRules();
@@ -28,12 +25,10 @@ export class OnlineOrdersService {
 
   validate() {}
 
-  postToApi() {
+  postToApi(order: WorkOrder) {
     let url = environment.dataUrl + '/api/onlineorders';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    this.order = this.orderService.get();
-    this.order.workAssignments = this.assignmentService.getAll();
-    this.http.post(url, JSON.stringify(this.order), {
+    this.http.post(url, JSON.stringify(order), {
       headers: postHeaders
       }).subscribe(
       (data) => {},

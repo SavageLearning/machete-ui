@@ -7,7 +7,6 @@ import { Report } from './models/report';
 import { SearchOptions } from './models/search-options';
 import {Observable} from 'rxjs/Observable';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { environment } from '../../environments/environment';
 import { Log } from 'oidc-client';
 import { HttpClient } from '@angular/common/http';

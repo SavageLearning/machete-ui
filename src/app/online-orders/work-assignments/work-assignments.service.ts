@@ -2,19 +2,43 @@ import { Injectable } from '@angular/core';
 import {WorkAssignment} from './models/work-assignment';
 import {Observable} from 'rxjs/Observable';
 import { Log } from 'oidc-client';
+import { OnlineOrdersService } from "../online-orders.service";
+import { TransportRule } from "../shared/index";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class WorkAssignmentsService {
   requests: WorkAssignment[] = new Array<WorkAssignment>();
-  storageKey = 'machete.workassignments';
+  static storageKey = 'machete.workassignments';
+  transportRules: TransportRule[];
+  transportRules$: BehaviorSubject<TransportRule[]>;
 
-  constructor() {
-    Log.info('work-assignment.service: ' + JSON.stringify(this.getAll()));
+  constructor(
+    private onlineService: OnlineOrdersService
+  ) {
+    Log.info('work-assignment.service: ctor called');
+    this.initializeTransports();
+  }
+
+  initializeTransports() {
+    if (!this.transportRules$) {
+      this.transportRules$ = new BehaviorSubject(new Array<TransportRule>());
+      this.onlineService.getTransportRules()
+      .subscribe(
+        data => {
+          this.transportRules = data;
+          this.transportRules$.next(data);
+        });
+    }
+  }
+
+  subscribeToTransports(): Observable<TransportRule[]> {
+    return this.transportRules$.asObservable();
   }
 
   getAll(): WorkAssignment[] {
     Log.info('work-assignments.service.getAll: called');
-    let data = sessionStorage.getItem(this.storageKey);
+    let data = sessionStorage.getItem(WorkAssignmentsService.storageKey);
     if (data) {
       let requests: WorkAssignment[] = JSON.parse(data);
       return requests;
@@ -23,15 +47,23 @@ export class WorkAssignmentsService {
     }
   }
 
-  create(request: WorkAssignment) {
-    this.requests.push(request);
-    sessionStorage.setItem(this.storageKey, JSON.stringify(this.requests));
+  getTransportRules(): Observable<TransportRule[]> {
+    if (this.transportRules) {
+      // TODO: cache timeout
+      return Observable.of(this.transportRules); 
+    } else {
+      return this.transportRules$.asObservable();
+    }
   }
 
   save(request: WorkAssignment) {
     const index = this.findSelectedRequestIndex(request);
-    this.requests[index] = request;
-    sessionStorage.setItem(this.storageKey, JSON.stringify(this.requests));
+    if (index === -1) {
+      this.requests.push(request); // create
+    } else {
+      this.requests[index] = request; // replace
+    }
+    sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
   }
 
   getNextRequestId() {
@@ -43,12 +75,13 @@ export class WorkAssignmentsService {
     }
   }
 
-
   delete(request: WorkAssignment) {
-    const index: number = this.requests.indexOf(request);
-    if (index > -1) {
-      this.requests.splice(index, 1);
+    let index = this.requests.findIndex(r => r.id === request.id);
+    if (index < 0) {
+      throw new Error('Can\'t find request (WorkAssignment) by id; failed to delete request.');
     }
+    this.requests.splice(index, 1);
+    sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
   }
 
   clear() {}
@@ -56,5 +89,7 @@ export class WorkAssignmentsService {
   findSelectedRequestIndex(request: WorkAssignment): number {
     return this.requests.findIndex(a => a.id === request.id);
   }
+
+
 
 }
