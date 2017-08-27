@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorkOrder } from './models/work-order';
 import { LookupsService } from '../../lookups/lookups.service';
 import { OnlineOrdersService } from '../online-orders.service';
-import { Lookup} from '../../lookups/models/lookup';
+import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
 import { Log } from 'oidc-client';
@@ -82,7 +82,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   initializeTransports() {
-    this.lookupsService.getLookups('transportmethod')
+    this.lookupsService.getLookups(LCategory.TRANSPORT)
       .subscribe(
         listData => {
           this.transportMethods = listData;
@@ -169,6 +169,7 @@ export class WorkOrderComponent implements OnInit {
     const formModel = this.orderForm.value;
 
     const order: WorkOrder = {
+      id: 0,
       dateTimeofWork: formModel.dateTimeofWork,
       contactName: formModel.contactName,
       worksiteAddress1: formModel.worksiteAddress1,

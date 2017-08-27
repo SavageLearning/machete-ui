@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import { Lookup } from './models/lookup';
+import { Lookup, LCategory } from './models/lookup';
 import { HandleError } from '../shared/handle-error';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -38,7 +38,7 @@ export class LookupsService {
       .catch(HandleError.error);
   }
 
-  getLookups(category: string): Observable<Lookup[]> {
+  getLookups(category: LCategory): Observable<Lookup[]> {
     return this.getAllLookups()
       .map(res => res.filter(l => l.category == category))
       .catch(HandleError.error);

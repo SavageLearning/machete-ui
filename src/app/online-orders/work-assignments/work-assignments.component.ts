@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MySelectItem} from '../../reports/reports.component';
 import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
-import { Lookup } from '../../lookups/models/lookup';
+import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
 import { Log } from "oidc-client";
@@ -60,7 +60,7 @@ export class WorkAssignmentsComponent implements OnInit {
         error => Log.error('work-assignments.component.ngOnInit.getTransportRules.error' + error),
         () => console.log('work-assignments.component: ngOnInit:getTransportRules onCompleted'));
         
-    this.lookupsService.getLookups('skill')
+    this.lookupsService.getLookups(LCategory.SKILL)
       .subscribe(
         listData => {
           this.skills = listData;
@@ -69,7 +69,7 @@ export class WorkAssignmentsComponent implements OnInit {
         },
         error => this.errorMessage = <any>error,
         () => console.log('work-assignments.component: ngOnInit:skills onCompleted'));
-    this.lookupsService.getLookups('transportmethod')
+    this.lookupsService.getLookups(LCategory.TRANSPORT)
     .subscribe(
       listData => {
         this.transports = listData;
@@ -143,28 +143,6 @@ export class WorkAssignmentsComponent implements OnInit {
     this.newRequest = true;
   }
 
-  calculateTransportCost(id: number): number {
-    const order = this.orderService.get();
-    const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
-    const rule = this.transportRules.filter(f => f.lookupKey == lookup.key)
-                  .find(f => f.zipcodes.includes(Number(order.zipcode)));
-
-    return rule.costRules.find(r => id > r.minWorker && id <= r.maxWorker).cost;
-  }
-
-  refreshRequests() {
-    for (let r of this.waService.getAll()) {
-      r.transportCost = this.calculateTransportCost(r.id);
-    }
-  }
-
-  compactRequestIds() {
-    let i = 0;
-    for (let r of this.waService.getAll().sort(WorkAssignment.sort)) {
-      i++;
-      r.id = i;
-    }
-  }
 
   saveRequest() {
     this.onValueChanged();
@@ -176,15 +154,14 @@ export class WorkAssignmentsComponent implements OnInit {
     const formModel = this.requestForm.value;
 
     const saveRequest: WorkAssignment = {
-      id: formModel.id || this.waService.getNextRequestId(),
+      id: formModel.id || 0,
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,
       description: formModel.description,
       requiresHeavyLifting: formModel.requiresHeavyLifting,
       wage: formModel.wage,
-      transportCost: this.calculateTransportCost(
-        formModel.id || this.waService.getNextRequestId())
+      transportCost: 0
     };
 
     this.waService.save(saveRequest);

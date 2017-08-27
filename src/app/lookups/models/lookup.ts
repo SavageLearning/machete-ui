@@ -38,3 +38,8 @@ export class Lookup extends Record<Lookup> {
   clientRules: string;
 
 }
+
+export enum LCategory {
+  SKILL = 'skill',
+  TRANSPORT = 'transportmethod'
+}

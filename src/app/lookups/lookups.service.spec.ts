@@ -4,7 +4,7 @@ import { LookupsService } from './lookups.service';
 import { environment } from '../../environments/environment';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Lookup } from "./models/lookup";
+import { Lookup, LCategory } from "./models/lookup";
 
 describe('LookupsService', () => {
   let service: LookupsService;
@@ -26,15 +26,15 @@ describe('LookupsService', () => {
   }));
 
   it('getLookups should return 1 injected Lookup record', () => {
-      service.getLookups('foo')
+      service.getLookups(LCategory.SKILL)
         .subscribe(rows => {
           expect(rows.length).toBe(1, 'expected 1 lookups');
           expect(rows[0].idString).toBe('Lookup', 'expected typeof Lookup');
         });
       let req = httpMock.expectOne('/api/lookups');
       let testdata = new Array<Lookup>();
-      testdata.push(new Lookup({category: 'foo'}));
-      testdata.push(new Lookup({category: 'bar'}));
+      testdata.push(new Lookup({category: LCategory.SKILL}));
+      testdata.push(new Lookup({category: LCategory.TRANSPORT}));
       req.flush({data: testdata});
     }
   );
