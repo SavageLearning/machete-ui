@@ -59,7 +59,8 @@ export function loadTransportRules(): Array<TransportRule> {
                 98028, 98155, 98166, 98146, 98168, 98057, 98056,
                 98059, 98037, 98020, 98026, 98043, 98021, 98011],
             costRules: [
-                new CostRule({ minWorker: 0, maxWorker: 10, cost: 25 }),
+                new CostRule({ minWorker: 0, maxWorker: 1, cost: 25 }),
+                new CostRule({ minWorker: 1, maxWorker: 10, cost: 0 }),
             ]                
         }),
     ];
