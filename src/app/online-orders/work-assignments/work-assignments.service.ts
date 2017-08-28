@@ -29,7 +29,9 @@ export class WorkAssignmentsService {
   initializeTransports() {
     this.lookupsService.getLookups(LCategory.TRANSPORT)
       .subscribe(
-        data => this.transports = data
+        data => this.transports = data,
+        error => Log.info('wa.service.initializeTranports.error: ' + JSON.stringify(error)),
+        () => Log.info('wa.service.initializeTransport.OnComplete')
       );
     if (!this.transportRules$) {
       this.transportRules$ = new BehaviorSubject(new Array<TransportRule>());
@@ -68,7 +70,7 @@ export class WorkAssignmentsService {
 
   save(request: WorkAssignment) {
     if (request.id === 0) {
-      request.id === this.getNextRequestId();
+      request.id = this.getNextRequestId();
     }
 
     const index = this.findSelectedRequestIndex(request);
@@ -77,7 +79,6 @@ export class WorkAssignmentsService {
     } else {
       this.requests[index] = request; // replace
     }
-    //sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
     this.compactRequests();
   }
 
@@ -97,7 +98,6 @@ export class WorkAssignmentsService {
     }
     this.requests.splice(index, 1);
     this.compactRequests();
-    //sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
   }
 
   clear() {}
@@ -107,27 +107,33 @@ export class WorkAssignmentsService {
   }
 
   compactRequests() {
-    let requests = this.requests.sort(WorkAssignment.sort);
-    let newRequests = new Array<WorkAssignment>();
-    let i = 0;
+    //let requests = this.requests.sort(WorkAssignment.sort);
+    //let newRequests = new Array<WorkAssignment>();
+    //let i = 0;
     let rule = this.getTransportRule();
-    for (let r of this.requests) {
-      i++;
-      r.id = i;
-      r.transportCost = this.calculateTransportCost(r.id, rule);
-      newRequests.push(r);
+    for (var i in this.requests) {
+      let newid = Number(i);
+      this.requests[newid].id = newid + 1;
+      this.requests[newid].transportCost = this.calculateTransportCost(newid + 1, rule);
     }
-    this.requests = newRequests;
     sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
     
   }
 
   getTransportRule(): TransportRule {
     const order = this.orderService.get();
+    if (order === null || order === undefined) {
+      throw new Error('OrderService returned an undefined order');
+    }
+    if (order.transportMethodID <= 0) {
+      throw new Error('Order missing valid transportMethodID');
+    }
     const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
+    if (lookup === null || lookup === undefined) {
+      throw new Error('LookupService didn\'t return a valid lookup for transportMethodID: '+ order.transportMethodID);
+    }
     const rules= this.transportRules.filter(f => f.lookupKey == lookup.key);
-    const num = Number(order.zipcode);
-    const result = rules.find(f => f.zipcodes.includes(num));
+    const result = rules.find(f => f.zipcodes.includes(order.zipcode));
     return result;
   }
   calculateTransportCost(id: number, rule: TransportRule): number {

@@ -13,7 +13,7 @@ export class TransportRule {
     lookupKey: string;
     transportType: TransportType;
     zoneLabel: string;
-    zipcodes: number[]; // not supporting #####-#### zips yet
+    zipcodes: string[];
     costRules: CostRule[];
 
     public constructor(init?: Partial<TransportRule>) {

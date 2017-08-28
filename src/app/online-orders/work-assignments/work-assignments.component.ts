@@ -87,7 +87,7 @@ export class WorkAssignmentsComponent implements OnInit {
       'skill': [''],
       'hours': ['', Validators.required],
       'description': [''],
-      'requiresHeavyLifting': [false, Validators.required],
+      'requiresHeavyLifting': [false, ],
       'wage': ['', Validators.required]
     });
 
