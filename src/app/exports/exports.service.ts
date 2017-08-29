@@ -9,6 +9,7 @@ import {ExportColumn} from './models/export-column';
 import {SearchOptions} from '../reports/models/search-options';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Log } from "oidc-client";
 @Injectable()
 export class ExportsService {
   uriBase = environment.dataUrl + '/api/exports';
@@ -16,7 +17,7 @@ export class ExportsService {
   }
   getExportsList(): Observable<Export[]> {
 
-    console.log('exportsService.getExportList: ' + this.uriBase);
+    Log.info('exportsService.getExportList: ' + this.uriBase);
     return this.http.get(this.uriBase)
       .map(res => res['data'] as string[])
       .catch(this.handleError);
@@ -25,7 +26,7 @@ export class ExportsService {
   getColumns(tableName: string): Observable<ExportColumn[]> {
 
     let uri = this.uriBase + '/' + tableName.toLowerCase();
-    console.log('exportsService.getColumns ' + uri);
+    Log.info('exportsService.getColumns ' + uri);
     return this.http.get(uri)
       .map(res => res['data'] as ExportColumn[])
       .catch(this.handleError);
@@ -38,7 +39,7 @@ export class ExportsService {
       responseType: ResponseContentType.Blob
     });
     let params = this.encodeData(o);
-    console.log('exportsService.getExport: ' + JSON.stringify(params));
+    Log.info('exportsService.getExport: ' + JSON.stringify(params));
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;
     return this.http.get(uri)

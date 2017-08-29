@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {MySelectItem} from '../../reports/reports.component';
+import { MySelectItem } from '../../reports/reports.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {WorkOrder} from './models/work-order';
-import {LookupsService} from '../../lookups/lookups.service';
-import {OnlineOrdersService} from '../online-orders.service';
-import {Lookup} from '../../lookups/models/lookup';
+import { WorkOrder } from './models/work-order';
+import { LookupsService } from '../../lookups/lookups.service';
+import { OnlineOrdersService } from '../online-orders.service';
+import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
 import { Log } from 'oidc-client';
-import { ScheduleRule } from '../shared/models/schedule-rule';
-import { schedulingValidator, requiredValidator} from '../shared/validators';
+import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
+import { ConfigsService } from "../../configs/configs.service";
 
 @Component({
   selector: 'app-work-order',
@@ -41,13 +41,19 @@ export class WorkOrderComponent implements OnInit {
     'transportMethodID': ''
   };
 
+  display: boolean = false;
+  
+  showDialog() {
+      this.display = true;
+  }
   constructor(
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
+    private configsService: ConfigsService,
     private fb: FormBuilder) {
       Log.info(this.logPrefix + 'ctor: called');
-     }
+    }
 
   ngOnInit() {
     this.initializeScheduling();
@@ -76,7 +82,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   initializeTransports() {
-    this.lookupsService.getLookups('transportmethod')
+    this.lookupsService.getLookups(LCategory.TRANSPORT)
       .subscribe(
         listData => {
           this.transportMethods = listData;
@@ -163,6 +169,7 @@ export class WorkOrderComponent implements OnInit {
     const formModel = this.orderForm.value;
 
     const order: WorkOrder = {
+      id: 0,
       dateTimeofWork: formModel.dateTimeofWork,
       contactName: formModel.contactName,
       worksiteAddress1: formModel.worksiteAddress1,

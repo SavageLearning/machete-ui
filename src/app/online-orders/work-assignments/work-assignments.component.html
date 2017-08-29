@@ -85,7 +85,9 @@
     </form>
 
     <p-dataTable [value]="requestList" [(selection)]="selectedRequest" (onRowSelect)="onRowSelect($event)" [responsive]="true">
+      <p-column field="id" header="#"></p-column>
       <p-column field="skill" header="Skill needed"></p-column>
+      <p-column field="transportCost" header="Transport cost"></p-column>
       <p-column field="hours" header="hours requested"></p-column>
       <p-column field="description" header="notes"></p-column>
       <p-column field="requiresHeavyLifting" header="Heavy lifting?"></p-column>

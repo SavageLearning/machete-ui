@@ -7,7 +7,9 @@ import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkAssignmentsComponent } from './work-assignments/work-assignments.component';
 import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
-import { StepsModule, CalendarModule, DropdownModule, DataTableModule, InputSwitchModule, MessagesModule } from 'primeng/primeng';
+import { StepsModule, CalendarModule, DropdownModule, 
+          DataTableModule, InputSwitchModule, MessagesModule,
+          DialogModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -21,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DataTableModule,
     InputSwitchModule,
     MessagesModule,
+    DialogModule,
     OnlineOrdersRoutingModule
   ],
   declarations: [

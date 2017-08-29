@@ -7,7 +7,7 @@ import { Log } from 'oidc-client';
 @Injectable()
 export class WorkOrderService {
   order: WorkOrder;
-  orderKey = 'machete.workorder';
+  storageKey = 'machete.workorder';
   constructor(private employerService: EmployersService) {
     Log.info('work-order.service: ' + JSON.stringify(this.get()));
   }
@@ -19,13 +19,13 @@ export class WorkOrderService {
 
   save(order: WorkOrder) {
     Log.info('work-order.service.save: called');
-    sessionStorage.setItem(this.orderKey, JSON.stringify(order));
+    sessionStorage.setItem(this.storageKey, JSON.stringify(order));
     this.order = order;
   }
 
   get(): WorkOrder {
     Log.info('work-order.service.get: called');
-    let data = sessionStorage.getItem(this.orderKey);
+    let data = sessionStorage.getItem(this.storageKey);
     if (data) {
       Log.info('work-order.service.get: returning stored order');
       let order: WorkOrder = JSON.parse(data);
@@ -38,6 +38,6 @@ export class WorkOrderService {
 
   clear() {
     this.order = null;
-    sessionStorage.removeItem(this.orderKey);
+    sessionStorage.removeItem(this.storageKey);
   }
 }

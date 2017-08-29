@@ -8,10 +8,11 @@ import { Lookup } from '../../lookups/models/lookup';
 import { WorkOrder } from './models/work-order';
 import { Employer } from '../../shared/models/employer';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DropdownModule, CalendarModule } from 'primeng/primeng';
+import { DropdownModule, CalendarModule, DialogModule } from 'primeng/primeng';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OnlineOrdersService } from '../online-orders.service';
 import { ScheduleRule } from '../shared/models/schedule-rule';
+import { ConfigsService } from "../../configs/configs.service";
 class WorkOrderServiceSpy {
   get = jasmine.createSpy('get')
     .and.callFake(
@@ -36,6 +37,10 @@ class OnlineOrdersServiceSpy {
     );
 }
 
+class ConfigsServiceSpy {
+  
+}
+
 describe('WorkOrderComponent', () => {
   let component: WorkOrderComponent;
   let fixture: ComponentFixture<WorkOrderComponent>;
@@ -47,7 +52,8 @@ describe('WorkOrderComponent', () => {
         NoopAnimationsModule,
         ReactiveFormsModule,
         CalendarModule,
-        DropdownModule
+        DropdownModule,
+        DialogModule
       ]
     })
     .overrideComponent(WorkOrderComponent, {
@@ -55,7 +61,8 @@ describe('WorkOrderComponent', () => {
         providers: [
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
           { provide: LookupsService, useClass: LookupsServiceSpy },
-          { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy }
+          { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
+          { provide: ConfigsService, useClass: ConfigsServiceSpy }
         ]
       }
     })
