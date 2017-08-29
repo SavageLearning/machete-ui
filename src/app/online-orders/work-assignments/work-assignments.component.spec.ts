@@ -22,6 +22,7 @@ class WorkAssignmentsServiceSpy {
     .and.callFake(
       () => Observable.of(loadTransportRules())
     );
+  compactRequests = jasmine.createSpy('compactRequests');
 }
 class LookupsServiceSpy {
   getLookups = jasmine.createSpy('getLookups')
