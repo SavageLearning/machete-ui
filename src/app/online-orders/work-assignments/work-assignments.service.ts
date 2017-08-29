@@ -132,8 +132,16 @@ export class WorkAssignmentsService {
     if (lookup === null || lookup === undefined) {
       throw new Error('LookupService didn\'t return a valid lookup for transportMethodID: '+ order.transportMethodID);
     }
+
     const rules= this.transportRules.filter(f => f.lookupKey == lookup.key);
+    if (rules === null || rules === undefined) {
+      throw new Error('No TransportRules match lookup key: '+ lookup.key);
+    }
+
     const result = rules.find(f => f.zipcodes.includes(order.zipcode));
+    if (result === null || result == undefined) {
+      throw new Error('Zipcode does not match any rule');
+    }
     return result;
   }
   calculateTransportCost(id: number, rule: TransportRule): number {

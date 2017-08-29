@@ -44,7 +44,7 @@ describe('WorkAssignmentsService', () => {
     transportRules.push(new TransportRule({
       lookupKey: 'transport_van', 
       costRules: costRules,
-      zipcodes:[12345]}));
+      zipcodes:["12345"]}));
     spyOn(OnlineOrdersService.prototype, 'getTransportRules')
       .and.returnValue(Observable.of(transportRules));
 

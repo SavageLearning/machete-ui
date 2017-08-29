@@ -76,6 +76,7 @@ export class WorkAssignmentsComponent implements OnInit {
       },
       error => this.errorMessage = <any>error,
       () => console.log('work-assignments.component: ngOnInit:transports onCompleted'));
+    this.waService.compactRequests();
     this.requestList = this.waService.getAll();
     this.buildForm();
   }
@@ -87,7 +88,7 @@ export class WorkAssignmentsComponent implements OnInit {
       'skill': [''],
       'hours': ['', Validators.required],
       'description': [''],
-      'requiresHeavyLifting': [false, ],
+      'requiresHeavyLifting': [false, Validators.required ],
       'wage': ['', Validators.required]
     });
 
