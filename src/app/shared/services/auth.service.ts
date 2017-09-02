@@ -15,13 +15,14 @@ export class AuthService {
   redirectUrl: string;
   authHeaders: Headers;
 
-
+  // TODO:
+  // need async way to call for auth password, then send intercept on its way
   constructor(private http: Http) {
-    Log.info('auth.serive.ctor: called');
+    Log.info('auth.service.ctor: called');
     this.mgr.getUser()
       .then((user) => {
         if (user) {
-          Log.debug('auth.service.getUser.callback user:' + JSON.stringify(user));
+          Log.debug('auth.service.ctor.getUser.callback user:' + JSON.stringify(user));
           this.loggedIn = true;
           this.currentUser = user;
           this.userLoadededEvent.emit(user);
@@ -64,6 +65,11 @@ export class AuthService {
     }).catch(function (e) {
       Log.error('auth.service.clearStateState error', e.message);
     });
+  }
+
+
+  getUser$(): Observable<User> {
+    return Observable.fromPromise(this.mgr.getUser());
   }
 
   getUser() {
@@ -121,30 +127,6 @@ export class AuthService {
       Log.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
     });
   };
-
-
-  private _setAuthHeaders(user: any): void {
-    this.authHeaders = new Headers();
-    this.authHeaders.append('Authorization', user.token_type + ' ' + user.access_token);
-    if (this.authHeaders.get('Content-Type')) {
-
-    } else {
-      this.authHeaders.append('Content-Type', 'application/json');
-    }
-  }
-  private _setRequestOptions(options?: RequestOptions) {
-    if (this.loggedIn) {
-      this._setAuthHeaders(this.currentUser);
-    }
-    if (options) {
-      options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
-    } else {
-      options = new RequestOptions({ headers: this.authHeaders });
-    }
-
-    return options;
-  }
-
 }
 
 
