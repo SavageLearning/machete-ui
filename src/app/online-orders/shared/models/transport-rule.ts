@@ -1,24 +1,18 @@
-export class CostRule {
+import { Record } from './record'; 
+
+export class CostRule extends Record<CostRule> {
     minWorker: number;
     maxWorker: number;
     cost: number;
-    public constructor(init?: Partial<CostRule>) {
-        Object.assign(this, init);
-    }
 }
 
-export class TransportRule {
-    id: number;
+export class TransportRule extends Record<TransportRule> {
     key: string;
     lookupKey: string;
     transportType: TransportType;
     zoneLabel: string;
     zipcodes: string[];
     costRules: CostRule[];
-
-    public constructor(init?: Partial<TransportRule>) {
-        Object.assign(this, init);
-    }
 }
 
 export enum TransportType {
