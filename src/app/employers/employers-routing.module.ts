@@ -7,6 +7,7 @@ const employerRoutes: Routes = [
   {
     path: 'employers',
     component: EmployersComponent,
+    canLoad: [AuthGuardService],
     canActivate: [AuthGuardService]
   }
 ]

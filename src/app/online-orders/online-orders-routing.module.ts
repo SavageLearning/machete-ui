@@ -14,6 +14,7 @@ const onlineOrderRoutes: Routes = [
     path: 'online-orders',
     component: OnlineOrdersComponent,
     canLoad: [AuthGuardService],
+    canActivate: [AuthGuardService],
     children: [
       {
         path: 'introduction',
