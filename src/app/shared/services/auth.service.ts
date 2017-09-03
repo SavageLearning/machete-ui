@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { Log } from 'oidc-client';
 import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -17,38 +18,46 @@ export class AuthService {
 
   // TODO:
   // need async way to call for auth password, then send intercept on its way
-  constructor(private http: Http) {
-    Log.info('auth.service.ctor: called');
-    this.mgr.getUser()
-      .then((user) => {
-        if (user) {
-          Log.debug('auth.service.ctor.getUser.callback user:' + JSON.stringify(user));
-          this.loggedIn = true;
-          this.currentUser = user;
-          this.userLoadededEvent.emit(user);
-        } else {
-          this.loggedIn = false;
-        }
-      })
-      .catch((err) => {
-        this.loggedIn = false;
-      });
+  constructor(private http: Http, private router: Router) {
+    // Log.info('auth.service.ctor: called');
+    // this.mgr.getUser()
+    //   .then((user) => {
+    //     if (user) {
+    //       Log.debug('auth.service.ctor.getUser.callback user:' + JSON.stringify(user));
+    //       this.loggedIn = true;
+    //       this.currentUser = user;
+    //       this.userLoadededEvent.emit(user);
+    //     } else {
+    //       this.loggedIn = false;
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     this.loggedIn = false;
+    //   });
 
-    this.mgr.events.addUserLoaded((user) => {
-      this.currentUser = user;
-      this.loggedIn = !(user === undefined);
-        Log.debug('auth.service.ctor.event: addUserLoaded: ', user);
-      });
+    // this.mgr.events.addUserLoaded((user) => {
+    //   this.currentUser = user;
+    //   this.loggedIn = !(user === undefined);
+    //     Log.debug('auth.service.ctor.event: addUserLoaded: ', user);
+    //   });
 
-    this.mgr.events.addUserUnloaded((e) => {
-      if (!environment.production) {
-        Log.info('auth.service.ctor.event: addUserUnloaded');
-      }
-      this.loggedIn = false;
-    });
+    // this.mgr.events.addUserUnloaded((e) => {
+    //   if (!environment.production) {
+    //     Log.info('auth.service.ctor.event: addUserUnloaded');
+    //   }
+    //   this.loggedIn = false;
+    // });
 
   }
 
+  setRedirectUrl(url: string) {
+    this.redirectUrl = url;
+    Log.info(`auth.service.setRedirectUrl.url: ${this.redirectUrl}`);
+  }
+
+  getRedirectUrl(): string {
+    return this.redirectUrl;
+  }
   isLoggedInObs(): Observable<boolean> {
     return Observable.fromPromise(this.mgr.getUser()).map<User, boolean>((user) => {
       if (user) {
@@ -92,18 +101,23 @@ export class AuthService {
   }
 
   startSigninMainWindow() {
-    this.mgr.signinRedirect({ data: 'some data' }).then(function () {
-      console.log('signinRedirect done');
+    this.mgr.signinRedirect({ data: this.redirectUrl }).then(function () {
+      Log.info('signinRedirect done');
     }).catch(function (err) {
       Log.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
     });
   }
-  endSigninMainWindow(url?: string) {
-    this.mgr.signinRedirectCallback(url).then(function (user) {
-      console.log('signed in', user);
-    }).catch(function (err) {
-      Log.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
-    });
+
+  endSigninMainWindow(url?: string): Observable<User> {
+    return Observable.fromPromise(this.mgr.signinRedirectCallback(url));
+    // .then(function (user) {
+    //   Log.info('auth.service.endSigninMainWindow.user: ', user.profile.sub);
+    //   if (user.state) {
+    //     this.router.navigate(['dashboard']);
+    //   }
+    // }).catch(function (err) {
+    //   Log.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
+    // });
   }
 
   startSignoutMainWindow() {

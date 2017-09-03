@@ -8,13 +8,21 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../shared/index';
 import { HttpModule } from '@angular/http';
 
+class AuthServiceSpy {
+  
+}
+
 describe('EmployersService', async() => {
   let service: EmployersService;
   let httpMock: HttpTestingController;
   let baseref: string  = environment.dataUrl;
+
   beforeEach(async() => {
     TestBed.configureTestingModule({
-      providers: [EmployersService, AuthService, HttpClient],
+      providers: [
+        EmployersService,
+        { provide: AuthService, useClass: AuthServiceSpy },
+        HttpClient],
       imports: [
         HttpModule,
         HttpClientTestingModule

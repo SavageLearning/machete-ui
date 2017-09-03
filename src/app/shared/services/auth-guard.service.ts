@@ -18,7 +18,7 @@ export class AuthGuardService implements CanActivate {
             Log.info('auth-guard.service.canActivate isLoggedInObs:' + loggedin);
             if (!loggedin) {
                 Log.info('auth-guard.service.canActivate NOT loggedIn: url:' + state.url)
-                this.authService.redirectUrl = state.url;
+                this.authService.setRedirectUrl(state.url);
                 this.router.navigate(['unauthorized']);
             }
             });
