@@ -6,6 +6,7 @@ describe('loadMenuRules', () => {
 
   });
   it('should load', () => {
-    expect(loadMenuRules(['Hirer']).length).toBe(1);
+    // brittle; coded to date in load-men-rules
+    expect(loadMenuRules(['Hirer']).length).toBe(3);
   });
 });

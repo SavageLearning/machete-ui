@@ -1,7 +1,8 @@
 
 import { MenuRule, LRole } from "./menu-rule";
+import { Log } from "oidc-client";
 
-export function loadMenuRules(roles: string[]): Array<MenuRule> {
+export function loadMenuRules(authList: string[]): Array<MenuRule> {
   let rules = [
     new MenuRule({
       id: 1, 
@@ -69,6 +70,10 @@ export function loadMenuRules(roles: string[]): Array<MenuRule> {
         LRole.USER
       ]}),
   ];
-  //rules.filter(f => f.authorizedRoles.includes(roles[0]))
-  return rules;
+  // lambda-fu
+  return rules.filter(rule => {
+    return rule.authorizedRoles.findIndex(role => {
+      return authList.findIndex(auth => auth == role) > -1
+    }) > -1
+  });
 }

@@ -7,6 +7,7 @@ import { By }           from '@angular/platform-browser';
 import { DebugElement } from "@angular/core";
 import { RouterTestingModule } from '@angular/router/testing';
 import { loadMenuRules } from "./load-menu-rules";
+import { AuthService } from "../shared/index";
 // class EmployersServiceSpy {
 //   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
 //     .and.callFake(
@@ -15,6 +16,12 @@ import { loadMenuRules } from "./load-menu-rules";
 // }
 class AppComponentSpy {
 
+}
+class AuthServiceSpy {
+  getUserRoles$ =jasmine.createSpy('getUserRoles$')
+  .and.callFake(
+    () => Observable.of(new Array<string>())
+  );
 }
 describe('AppMenuComponent', () => {
   let component: AppMenuComponent;
@@ -31,7 +38,8 @@ describe('AppMenuComponent', () => {
     .overrideComponent(AppMenuComponent, {
       set: {
         providers: [
-          {provide: AppComponent, useClass: AppComponentSpy}
+          {provide: AppComponent, useClass: AppComponentSpy},
+          { provide: AuthService, useClass: AuthServiceSpy }
         ]
       }
     })

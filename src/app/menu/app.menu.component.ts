@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from '../app.component';
 import { loadMenuRules } from "./load-menu-rules";
+import { AuthService } from "../shared/index";
 
 @Component({
     selector: 'app-menu',
@@ -22,9 +23,15 @@ export class AppMenuComponent implements OnInit {
 
     model: any[];
 
-    constructor(@Inject(forwardRef(() => AppComponent)) public app: AppComponent) {}
+    constructor(
+        @Inject(forwardRef(() => AppComponent)) public app: AppComponent,
+        private auth: AuthService) {}
 
     ngOnInit() {
+        this.auth.getUserRoles$()
+            .subscribe(
+                roles => this.model = loadMenuRules(roles)
+            );
         this.model = loadMenuRules(['Hirer']);
     }
 

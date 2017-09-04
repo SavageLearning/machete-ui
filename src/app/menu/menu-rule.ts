@@ -4,7 +4,7 @@ export class MenuRule {
   icon: string;
   routerLink?: string[];
   url?: string[];
-  authorizedRoles: string[];
+  authorizedRoles = new Array<string>();
 
   public constructor(init?: Partial<MenuRule>) {
     Object.assign(this, init);
