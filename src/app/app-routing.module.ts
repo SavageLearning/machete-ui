@@ -14,7 +14,7 @@ import { AuthorizeComponent } from './auth/authorize/authorize.component';
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/employers',
     pathMatch: 'full',
     canActivate: [AuthGuardService]
   },
