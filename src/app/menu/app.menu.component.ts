@@ -3,7 +3,8 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
-import {AppComponent} from './app.component';
+import {AppComponent} from '../app.component';
+import { loadMenuRules } from "./load-menu-rules";
 
 @Component({
     selector: 'app-menu',
@@ -24,19 +25,7 @@ export class AppMenuComponent implements OnInit {
     constructor(@Inject(forwardRef(() => AppComponent)) public app: AppComponent) {}
 
     ngOnInit() {
-        this.model = [
-            {label: 'Place an order', icon: 'business', routerLink: ['/online-orders/introduction']},
-            {label: 'Employers', icon: 'business', routerLink: ['/employers']},
-            {label: 'Work Orders', icon: 'work', routerLink: ['/work-orders']},
-            {label: 'Dispatch', icon: 'today', url: ['/workassignment']},
-            {label: 'People', icon: 'people', url: ['/person']},
-            {label: 'Activities', icon: 'local_activity', url: ['/Activity']},
-            {label: 'Sign-ins', icon: 'track_changes', url: ['/workersignin']},
-            {label: 'Emails', icon: 'email', url: ['/email']},
-            {label: 'Reports', icon: 'subtitles', routerLink: ['/reports']},
-            {label: 'Exports', icon: 'file_download', routerLink: ['/exports']},
-            {label: 'Dashboard', icon: 'file_download', routerLink: ['/dashboard']}
-        ];
+        this.model = loadMenuRules(['Hirer']);
     }
 
 }

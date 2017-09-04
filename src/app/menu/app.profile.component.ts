@@ -2,7 +2,7 @@ import {Component, Input, OnInit, EventEmitter, ViewChild, trigger, state, trans
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
-import {AppComponent} from './app.component';
+import {AppComponent} from '../app.component';
 
 @Component({
     selector: 'inline-profile',

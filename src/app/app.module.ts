@@ -7,10 +7,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { HttpModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { AppComponent } from './app.component';
-import { AppMenuComponent, AppSubMenu }  from './app.menu.component';
+import { AppMenuComponent, AppSubMenu }  from './menu/app.menu.component';
 import { AppTopBar}  from './app.topbar.component';
 import { AppFooter}  from './app.footer.component';
-import { InlineProfileComponent}  from './app.profile.component';
+import { InlineProfileComponent}  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';

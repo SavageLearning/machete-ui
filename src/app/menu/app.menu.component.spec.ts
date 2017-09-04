@@ -2,11 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { AppMenuComponent, AppSubMenu } from "./app.menu.component";
-import { AppComponent } from "./app.component";
+import { AppComponent } from "../app.component";
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from "@angular/core";
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { loadMenuRules } from "./load-menu-rules";
 // class EmployersServiceSpy {
 //   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
 //     .and.callFake(
