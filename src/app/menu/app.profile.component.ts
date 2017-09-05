@@ -3,6 +3,8 @@ import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from '../app.component';
+import { AuthService } from "../shared/index";
+import { User } from "oidc-client";
 
 @Component({
     selector: 'inline-profile',
@@ -20,9 +22,19 @@ import {AppComponent} from '../app.component';
         ])
     ]
 })
-export class InlineProfileComponent {
+export class InlineProfileComponent implements OnInit {
+    user: string;
+    constructor(private auth: AuthService) {
 
+    }
     active: boolean;
+
+    ngOnInit() {
+        this.auth.getUsername$()
+            .subscribe(
+                (name: string) => this.user = name
+            );
+    }
 
     onClick(event) {
         this.active = !this.active;

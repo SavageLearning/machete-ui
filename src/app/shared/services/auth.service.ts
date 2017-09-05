@@ -86,7 +86,14 @@ export class AuthService {
       .mergeMap((user: User)=> { 
         return Observable.of(user.profile.role as string[]); 
       }); 
-  } 
+  }
+
+  getUsername$(): Observable<string> {
+    return this.getUser$()
+      .mergeMap((user: User) => {
+        return Observable.of(user.profile.preferred_username as string);
+      });
+  }
  
   getUser() {
     this.mgr.getUser().then((user) => {
