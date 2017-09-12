@@ -19,12 +19,15 @@ export class TokenInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // todo: call observable, then map to to httpevent
+    let url = this.route.url;
     return this.auth.getUser$()
       .mergeMap((user: User) => {
         Log.info('token.interceptor.currentUser: ');
-        if (user === null || user === undefined) {
-          this.auth.redirectUrl = this.route.url;
+        // TODO: need redirect for expired user
+        if (user === null || 
+            user === undefined ||
+            user.expired) {
+          this.auth.redirectUrl = url;
           this.route.navigate(['/unauthorized']);
         } else {
           request = request.clone({

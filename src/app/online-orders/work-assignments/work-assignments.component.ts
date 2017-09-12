@@ -57,6 +57,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.waService.getTransportRules()
       .subscribe(
         data => this.transportRules = data,
+        // When this leads to a REST call, compactRequests will depend on it
         error => Log.error('work-assignments.component.ngOnInit.getTransportRules.error' + error),
         () => console.log('work-assignments.component: ngOnInit:getTransportRules onCompleted'));
         
@@ -73,10 +74,11 @@ export class WorkAssignmentsComponent implements OnInit {
     .subscribe(
       listData => {
         this.transports = listData;
+        this.waService.compactRequests();
+    
       },
       error => this.errorMessage = <any>error,
       () => console.log('work-assignments.component: ngOnInit:transports onCompleted'));
-    this.waService.compactRequests();
     this.requestList = this.waService.getAll();
     this.buildForm();
   }
