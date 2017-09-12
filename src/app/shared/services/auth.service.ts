@@ -84,14 +84,23 @@ export class AuthService {
   getUserRoles$(): Observable<string[]> { 
     return this.getUser$() 
       .mergeMap((user: User)=> { 
-        return Observable.of(user.profile.role as string[]); 
+        if (user === null || user === undefined) {
+          return Observable.of(null);
+        } else {
+          return Observable.of(user.profile.role as string[]); 
+        }
       }); 
   }
 
   getUsername$(): Observable<string> {
     return this.getUser$()
       .mergeMap((user: User) => {
-        return Observable.of(user.profile.preferred_username as string);
+        // TODO: if user is null, disable menu
+        if (user === null || user === undefined) {
+          return Observable.of(null);
+        } else {
+          return Observable.of(user.profile.preferred_username as string);
+        }
       });
   }
  

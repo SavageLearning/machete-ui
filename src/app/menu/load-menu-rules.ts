@@ -71,6 +71,9 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       ]}),
   ];
   // lambda-fu
+  if (authList === null || authList === undefined) {
+    return new Array<MenuRule>();
+  }
   return rules.filter(rule => {
     return rule.authorizedRoles.findIndex(role => {
       return authList.findIndex(auth => auth == role) > -1

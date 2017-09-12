@@ -6,17 +6,19 @@ import { AuthGuardService } from './shared/services/auth-guard.service';
 import { PageNotFoundComponent }    from './not-found.component';
 
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
-import {DashboardComponent} from './auth/dashboard/dashboard.component';
-import {UnauthorizedComponent} from './auth/unauthorized/unauthorized.component';
+import { UnauthorizedComponent, WelcomeComponent, 
+  AuthorizeComponent, DashboardComponent} from './auth/';
 import { Log } from 'oidc-client';
-import { AuthorizeComponent } from './auth/authorize/authorize.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/employers',
-    pathMatch: 'full',
-    canActivate: [AuthGuardService]
+    redirectTo: '/welcome',
+    pathMatch: 'full'
+  },
+  {
+    path: 'welcome',
+    component: WelcomeComponent,
   },
   {
     path: 'dashboard',
@@ -40,7 +42,8 @@ const appRoutes: Routes = [
   declarations: [
     //AppComponent,
     UnauthorizedComponent,
-    DashboardComponent
+    DashboardComponent,
+    WelcomeComponent
   ],
   imports: [
     CommonModule,
