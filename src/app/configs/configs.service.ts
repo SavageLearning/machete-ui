@@ -2,29 +2,54 @@ import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
-import { Config } from '../shared/models/config';
+import { Config, CCategory } from '../shared/models/config';
 import { HandleError } from "../shared/handle-error";
 
 @Injectable()
 export class ConfigsService {
-  uriBase = environment.dataUrl + '/api/lookups';
+  uriBase = environment.dataUrl + '/api/configs';
+  configs = new Array<Config>();
+  configsAge = 0;
   constructor(private http: HttpClient) {
   }
-  getConfigs(category?: string): Observable<Config[]> {
-    let uri = this.uriBase;
-    if (category) {
-      uri = uri + '?category=' + category;
+
+  isStale(): boolean {
+    if (this.configsAge > Date.now() - 36000) {
+        return false;
     }
-    return this.http.get(uri)
-      .map(res => res['data'] as Config[])
+    return true;
+  }
+
+  isNotStale(): boolean {
+    return !this.isStale();
+  }
+
+  getAllConfigs(): Observable<Config[]> {
+    if (this.isNotStale()) {
+      return Observable.of(this.configs);
+    }
+    
+    console.log('configsService.getAllConfigs: ' + this.uriBase);
+    return this.http.get(this.uriBase)
+      .map(res => { 
+        this.configs = res['data'] as Config[];
+        this.configsAge = Date.now();
+        return res['data'] as Config[];
+      })
+      .catch(HandleError.error);
+  }
+
+  getConfigs(category: CCategory): Observable<Config[]> {
+
+    return this.getAllConfigs()
+      .map(res => res.filter(l => l.category == category))
       .catch(HandleError.error);
   }
 
   getConfig(key: string): Observable<Config> {
-    let uri = this.uriBase;
-    uri = uri + '?key=' + key;
-    return this.http.get(uri)
-    .map(res => res['data'] as Config)
+    return this.getAllConfigs()
+    .mergeMap(a => a.filter(ll => ll.key == key))
+    .first()
     .catch(HandleError.error);
   }
 }

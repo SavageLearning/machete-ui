@@ -6,3 +6,11 @@ export class Config {
     category: string;
     publicConfig: boolean;
 }
+
+export enum CCategory {
+    DAILYLIST = 'DailyList',
+    EMAIL = 'Emails',
+    GENERAL = 'General',
+    ONLINEORDERS = 'OnlineOrders',
+    PAYPAL = 'PayPal'
+}

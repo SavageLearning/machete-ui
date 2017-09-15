@@ -35,7 +35,7 @@ const appRoutes: Routes = [
     component: AuthorizeComponent
   },
   //{ path: '**', component: PageNotFoundComponent }
-  { path: '**', redirectTo: '/dashboard' }
+  { path: '**', redirectTo: '/welcome' }
 ];
 
 @NgModule({
