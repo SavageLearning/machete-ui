@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigsService } from "../../configs/configs.service";
 import { Log } from "oidc-client";
+import { AuthService } from "../../shared/index";
 
 @Component({
   selector: 'app-welcome',
@@ -9,7 +10,7 @@ import { Log } from "oidc-client";
 })
 export class WelcomeComponent implements OnInit {
   welcome: string;
-  constructor(private cfgService: ConfigsService) { }
+  constructor(private cfgService: ConfigsService, private authService: AuthService) { }
 
   ngOnInit() {
     this.cfgService.getConfig('WorkCenterDescription_EN')
@@ -17,6 +18,14 @@ export class WelcomeComponent implements OnInit {
         data => this.welcome = data.value,
         error => Log.error('welcome.component.OnInit:' + error)
       );
+  }
+
+  login() {
+    this.authService.startSigninMainWindow();
+  }
+
+  register() {
+    
   }
 
 }
