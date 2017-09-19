@@ -12,7 +12,7 @@ class ConfigsServiceSpy {
       () => {
         let configs = new Array<Config>();
         configs.push(new Config({key: 'WorkCenterDescription_EN', value:'foo'}));
-        return Observable.of(configs) ;
+        return Observable.of(configs);
       }
     );
 }

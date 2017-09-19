@@ -9,6 +9,7 @@ import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 import { UnauthorizedComponent, WelcomeComponent, 
   AuthorizeComponent, DashboardComponent} from './auth/';
 import { Log } from 'oidc-client';
+import { RegisterComponent } from "./auth/register/register.component";
 
 const appRoutes: Routes = [
   {
@@ -19,6 +20,10 @@ const appRoutes: Routes = [
   {
     path: 'welcome',
     component: WelcomeComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'dashboard',
@@ -43,7 +48,8 @@ const appRoutes: Routes = [
     //AppComponent,
     UnauthorizedComponent,
     DashboardComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
