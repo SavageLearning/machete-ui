@@ -10,6 +10,7 @@ export class LookupsService {
   lookups = new Array<Lookup>();
   lookupsAge = 0;
   constructor(private http: HttpClient) {
+    console.log('.ctor');
   }
 
   isStale(): boolean {
@@ -25,6 +26,7 @@ export class LookupsService {
 
   getAllLookups(): Observable<Lookup[]> {
     if (this.isNotStale()) {
+      console.log('getLookups cached');
       return Observable.of(this.lookups);
     }
     
