@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
-import { Log } from 'oidc-client';
+
 
 @Component({
   selector: 'app-authorize',
@@ -18,13 +18,13 @@ export class AuthorizeComponent implements OnInit {
         // not sure why i have to copy to local variable. 
         // https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript
         let rtr = this.router;
-        Log.info('authorize.component.endSigninMainWindow.user: ', user.profile.sub);
+        console.log('endSigninMainWindow.user: ', user.profile.sub);
           if (user.state) {
             rtr.navigate([user.state]);
           }
         },
         err => {
-          Log.error('authorize.component.endSigninMainWindow returned: ' + JSON.stringify(err));
+          console.error('endSigninMainWindow returned: ' + JSON.stringify(err));
         });
   }
   

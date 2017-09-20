@@ -29,7 +29,7 @@ export class ConfigsService {
       return Observable.of(this.configs);
     }
     
-    console.log('configsService.getAllConfigs: ' + this.uriBase);
+    console.log('getAllConfigs: ' + this.uriBase);
     return this.http.get(this.uriBase)
       .map(res => { 
         this.configs = res['data'] as Config[];

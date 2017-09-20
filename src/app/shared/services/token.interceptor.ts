@@ -22,8 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
     let url = this.route.url;
     return this.auth.getUser$()
       .mergeMap((user: User) => {
-        Log.info('token.interceptor.currentUser: ');
-        // TODO: need redirect for expired user
+        //console.log('currentUser: ', user);
         if (user === null || user === undefined) {
           this.auth.redirectUrl = url;
           this.route.navigate(['/welcome']);

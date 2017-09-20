@@ -17,7 +17,7 @@ export class WelcomeComponent implements OnInit {
     this.cfgService.getConfig('WorkCenterDescription_EN')
       .subscribe(
         data => this.welcome = data.value,
-        error => Log.error('welcome.component.OnInit:' + error)
+        error => console.error('welcome.component.OnInit:' + error)
       );
   }
 

@@ -27,10 +27,10 @@ export class EmployersService {
   save(employer: Employer): Observable<Object> {
     let uri = environment.dataUrl + '/api/employers';
     uri = uri + '/' + employer.id;
-    Log.info('employers.service.save: called');
+    console.log('http.put:', uri, employer);
     return this.http.put(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
-      });
-      //.catch(HandleError.error);
+      })
+      .catch(HandleError.error);
   }
 }

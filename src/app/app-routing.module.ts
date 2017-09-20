@@ -8,7 +8,7 @@ import { PageNotFoundComponent }    from './not-found.component';
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
 import { UnauthorizedComponent, WelcomeComponent, 
   AuthorizeComponent, DashboardComponent} from './auth/';
-import { Log } from 'oidc-client';
+
 import { RegisterComponent } from "./auth/register/register.component";
 
 const appRoutes: Routes = [
@@ -68,6 +68,6 @@ const appRoutes: Routes = [
 })
 export class AppRoutingModule {
   constructor() {
-    Log.info('app-routing.module.ctor called');
+    console.log('.ctor');
   }
 }

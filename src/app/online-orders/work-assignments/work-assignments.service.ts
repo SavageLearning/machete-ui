@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {WorkAssignment} from './models/work-assignment';
 import {Observable} from 'rxjs/Observable';
-import { Log } from 'oidc-client';
+
 import { OnlineOrdersService } from "../online-orders.service";
 import { TransportRule, CostRule } from "../shared/index";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -22,7 +22,7 @@ export class WorkAssignmentsService {
     private orderService: WorkOrderService,
     private lookupsService: LookupsService,
   ) {
-    Log.info('work-assignment.service: ctor called');
+    console.log('.ctor');
     this.initializeTransports();
   }
 
@@ -30,8 +30,8 @@ export class WorkAssignmentsService {
     this.lookupsService.getLookups(LCategory.TRANSPORT)
       .subscribe(
         data => this.transports = data,
-        error => Log.info('wa.service.initializeTranports.error: ' + JSON.stringify(error)),
-        () => Log.info('wa.service.initializeTransport.OnComplete')
+        error => console.error('initializeTranports.error: ' + JSON.stringify(error)),
+        () => console.log('initializeTransport.OnComplete')
       );
     if (!this.transportRules$) {
       this.transportRules$ = new BehaviorSubject(new Array<TransportRule>());
@@ -49,7 +49,7 @@ export class WorkAssignmentsService {
   }
 
   getAll(): WorkAssignment[] {
-    Log.info('work-assignments.service.getAll: called');
+    console.log('getAll: called');
     let data = sessionStorage.getItem(WorkAssignmentsService.storageKey);
     if (data) {
       let requests: WorkAssignment[] = JSON.parse(data);

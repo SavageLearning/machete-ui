@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Log } from 'oidc-client';
+
 import { environment } from '../../environments/environment';
 
 describe('ReportsService', () => {
@@ -55,7 +55,6 @@ describe('ReportsService', () => {
     o.endDate = '1/1/2017';
     service.getReportData('foobar', o)
       .subscribe(rows => {
-        console.log('rows.length' + JSON.stringify(rows));
         expect(rows.length).toBe(18, 'expected 18 rows');
       });
 

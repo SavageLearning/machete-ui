@@ -15,7 +15,7 @@ import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
-import { Log } from 'oidc-client';
+
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { TokenInterceptor } from './shared/services/token.interceptor';
 import { OnlineOrdersModule } from './online-orders/online-orders.module';
@@ -62,12 +62,8 @@ import { EmployersModule } from './employers/employers.module';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    if (!environment.production) {
-      Log.level = Log.INFO;
-      Log.logger = console;
-    }
-    Log.info('app.module.ctor()');
-    //console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+
+    console.log('.ctor');
   }
 
 }

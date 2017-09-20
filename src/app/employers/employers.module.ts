@@ -19,6 +19,6 @@ import {InputTextModule, ButtonModule} from 'primeng/primeng';
 export class EmployersModule {
   // Diagnostic only: inspect router configuration
   constructor() {
-    console.log('employers');
+    console.log('.ctor');
   }
 }

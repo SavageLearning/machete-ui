@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { Log } from 'oidc-client';
+
 import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class AuthService {
   // TODO:
   // need async way to call for auth password, then send intercept on its way
   constructor(private http: Http, private router: Router) {
-    // Log.info('auth.service.ctor: called');
+    // console.log('auth.service.ctor: called');
     // this.mgr.getUser()
     //   .then((user) => {
     //     if (user) {
@@ -43,7 +43,7 @@ export class AuthService {
 
     // this.mgr.events.addUserUnloaded((e) => {
     //   if (!environment.production) {
-    //     Log.info('auth.service.ctor.event: addUserUnloaded');
+    //     console.log('auth.service.ctor.event: addUserUnloaded');
     //   }
     //   this.loggedIn = false;
     // });
@@ -52,7 +52,7 @@ export class AuthService {
 
   setRedirectUrl(url: string) {
     this.redirectUrl = url;
-    Log.info(`auth.service.setRedirectUrl.url: ${this.redirectUrl}`);
+    console.log(`auth.service.setRedirectUrl.url: ${this.redirectUrl}`);
   }
 
   getRedirectUrl(): string {
@@ -70,9 +70,9 @@ export class AuthService {
 
   clearState() {
     this.mgr.clearStaleState().then(function () {
-      Log.info('auth.service.clearStateState success');
+      console.log('auth.service.clearStateState success');
     }).catch(function (e) {
-      Log.error('auth.service.clearStateState error', e.message);
+      console.error('auth.service.clearStateState error', e.message);
     });
   }
 
@@ -107,39 +107,39 @@ export class AuthService {
   getUser() {
     this.mgr.getUser().then((user) => {
       this.currentUser = user;
-      Log.info('auth.service.getUser returned: ' + JSON.stringify(user));
+      //console.log('auth.service.getUser returned: ' + JSON.stringify(user));
       this.userLoadededEvent.emit(user);
     }).catch(function (err) {
-      Log.error('auth.service.getUser returned: ' + JSON.stringify(err));
+      console.error('auth.service.getUser returned: ' + JSON.stringify(err));
     });
   }
 
   removeUser() {
     this.mgr.removeUser().then(() => {
       this.userLoadededEvent.emit(null);
-      Log.info('auth.service.removeUser: user removed');
+      console.log('auth.service.removeUser: user removed');
     }).catch(function (err) {
-      Log.error('auth.service.removeUser returned: ' + JSON.stringify(err));
+      console.error('auth.service.removeUser returned: ' + JSON.stringify(err));
     });
   }
 
   startSigninMainWindow() {
     this.mgr.signinRedirect({ data: this.redirectUrl }).then(function () {
-      Log.info('signinRedirect done');
+      console.log('signinRedirect done');
     }).catch(function (err) {
-      Log.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
+      console.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
     });
   }
 
   endSigninMainWindow(url?: string): Observable<User> {
     return Observable.fromPromise(this.mgr.signinRedirectCallback(url));
     // .then(function (user) {
-    //   Log.info('auth.service.endSigninMainWindow.user: ', user.profile.sub);
+    //   console.log('auth.service.endSigninMainWindow.user: ', user.profile.sub);
     //   if (user.state) {
     //     this.router.navigate(['dashboard']);
     //   }
     // }).catch(function (err) {
-    //   Log.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
+    //   console.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
     // });
   }
 
@@ -151,7 +151,7 @@ export class AuthService {
           console.log('testing to see if fired...');
         });
       }).catch(function (err) {
-        Log.error('auth.service.startSignoutMainWindow returned: ' + JSON.stringify(err));
+        console.error('auth.service.startSignoutMainWindow returned: ' + JSON.stringify(err));
 
       });
     });
@@ -161,7 +161,7 @@ export class AuthService {
     this.mgr.signoutRedirectCallback().then(function (resp) {
       console.log('signed out', resp);
     }).catch(function (err) {
-      Log.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
+      console.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
     });
   };
 }

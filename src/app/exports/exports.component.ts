@@ -38,7 +38,7 @@ export class ExportsComponent implements OnInit {
           new MySelectItem(r.name, r.name));
       },
       error => this.errorMessage = <any>error,
-      () => console.log('exports.component: ngOnInit onCompleted'));
+      () => console.log('ngOnInit onCompleted'));
   }
 
   getColumns() {
@@ -56,7 +56,7 @@ export class ExportsComponent implements OnInit {
           this.form = new FormGroup(group);
         },
         error => this.errorMessage = <any>error,
-        () => console.log('exportsService.getColumns completed')
+        () => console.log('getColumns completed')
       );
   }
 
@@ -77,7 +77,7 @@ export class ExportsComponent implements OnInit {
         error => {
           this.errorMessage = <any>error;
         },
-      () => console.log('exportsService.getColumns completed'));
+      () => console.log('onSubmit.getExport completed'));
   }
 
   downloadFile(data: any, fileName: string, ttype: string) {

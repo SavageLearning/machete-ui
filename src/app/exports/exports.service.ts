@@ -17,7 +17,7 @@ export class ExportsService {
   }
   getExportsList(): Observable<Export[]> {
 
-    Log.info('exportsService.getExportList: ' + this.uriBase);
+    console.log('getExportList: ', this.uriBase);
     return this.http.get(this.uriBase)
       .map(res => res['data'] as string[])
       .catch(this.handleError);
@@ -26,7 +26,7 @@ export class ExportsService {
   getColumns(tableName: string): Observable<ExportColumn[]> {
 
     let uri = this.uriBase + '/' + tableName.toLowerCase();
-    Log.info('exportsService.getColumns ' + uri);
+    console.log('getColumns ', uri);
     return this.http.get(uri)
       .map(res => res['data'] as ExportColumn[])
       .catch(this.handleError);
@@ -39,7 +39,7 @@ export class ExportsService {
       responseType: ResponseContentType.Blob
     });
     let params = this.encodeData(o);
-    Log.info('exportsService.getExport: ' + JSON.stringify(params));
+    console.log('getExport: ', params);
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;
     return this.http.get(uri)

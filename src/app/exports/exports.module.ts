@@ -32,6 +32,6 @@ import { ExportsOptionsComponent } from './exports-options.component';
 })
 export class ExportsModule {
   constructor() {
-    console.log('ExportsModule-ctor');
+    console.log('.ctor');
   }
 }

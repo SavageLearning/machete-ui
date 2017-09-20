@@ -8,7 +8,6 @@ import { SearchOptions } from './models/search-options';
 import {Observable} from 'rxjs/Observable';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import { environment } from '../../environments/environment';
-import { Log } from 'oidc-client';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
@@ -24,7 +23,7 @@ export class ReportsService {
     if (reportName && params) {
       uri = uri + '?' + params;
     }
-    Log.info('reportsService.getReportData: ' + uri);
+    console.log('getReportData: ' + uri);
     return this.http.get(uri)
               .map(res => res['data'] as any)
               .catch(this.handleError);
@@ -32,14 +31,14 @@ export class ReportsService {
 
   public getReportList(): Observable<Report[]> {
     let uri = environment.dataUrl + '/api/reports';
-    Log.info('reportsService.getReportList: ' + uri);
+    console.log('getReportList: ', uri);
     return this.http.get(uri)
       .map(o => o['data'] as Report[])
       .catch(this.handleError);
   }
 
   private handleError(error: any): Observable<any> {
-    console.error('reports.service.handleError:', JSON.stringify(error));
+    console.error('handleError:', error);
     return Observable.of(error);
   }
   public encodeData(data: any): string {

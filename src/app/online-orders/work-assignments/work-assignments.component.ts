@@ -58,8 +58,8 @@ export class WorkAssignmentsComponent implements OnInit {
       .subscribe(
         data => this.transportRules = data,
         // When this leads to a REST call, compactRequests will depend on it
-        error => Log.error('work-assignments.component.ngOnInit.getTransportRules.error' + error),
-        () => console.log('work-assignments.component: ngOnInit:getTransportRules onCompleted'));
+        error => console.error('ngOnInit.getTransportRules.error' + error),
+        () => console.log('ngOnInit:getTransportRules onCompleted'));
         
     this.lookupsService.getLookups(LCategory.SKILL)
       .subscribe(
@@ -69,7 +69,7 @@ export class WorkAssignmentsComponent implements OnInit {
             new MySelectItem(l.text_EN, String(l.id)));
         },
         error => this.errorMessage = <any>error,
-        () => console.log('work-assignments.component: ngOnInit:skills onCompleted'));
+        () => console.log('ngOnInit:skills onCompleted'));
     this.lookupsService.getLookups(LCategory.TRANSPORT)
     .subscribe(
       listData => {
@@ -78,7 +78,7 @@ export class WorkAssignmentsComponent implements OnInit {
     
       },
       error => this.errorMessage = <any>error,
-      () => console.log('work-assignments.component: ngOnInit:transports onCompleted'));
+      () => console.log('ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
     this.buildForm();
   }
@@ -118,7 +118,7 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   selectSkill(skillId: number) {
-    Log.info('work-assignment.component.selectSkill.skillId:' + String(skillId));
+    console.log('selectSkill.skillId:' + String(skillId));
     const skill = this.skills.filter(f => f.id === Number(skillId)).shift();
     if (skill === null || skill === undefined) {
       throw new Error('Can\'t find selected skill in component\'s list');

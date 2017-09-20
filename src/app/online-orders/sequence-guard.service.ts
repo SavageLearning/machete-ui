@@ -5,7 +5,7 @@ import { Log } from "oidc-client";
 @Injectable()
 export class SequenceGuard implements CanActivate {
   canActivate() {
-    Log.info('AuthGuard#canActivate called');
+    //console.log('canActivate');
     return true;
   }
 }

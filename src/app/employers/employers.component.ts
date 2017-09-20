@@ -3,7 +3,7 @@ import { EmployersService } from './employers.service';
 import { Employer } from '../shared/models/employer';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LookupsService } from '../lookups/lookups.service';
-import { Log } from 'oidc-client';
+
 
 @Component({
   selector: 'app-employers',
@@ -111,13 +111,13 @@ export class EmployersComponent implements OnInit {
   }
 
   saveEmployer() {
-    Log.info('employers.component.saveEmployer: called');
+    console.log('saveEmployer: called');
     this.onValueChanged();
     if (this.employerForm.status === 'INVALID') {
       this.showErrors = true;
       return;
     }
-    Log.info('employers.component.saveEmployer: valid');
+    console.log('saveEmployer: valid');
 
     this.showErrors = false;
     const formModel = this.employerForm.value;
@@ -129,9 +129,8 @@ export class EmployersComponent implements OnInit {
         //   this.buildForm();
         // },
         error => {
-          Log.info(JSON.stringify(error));
-        },
-        () => Log.info()
+          console.error(error);
+        }
       );
   }
 
