@@ -61,7 +61,7 @@ export class EmployersComponent implements OnInit {
     this.employersService.getEmployerBySubject()
       .subscribe(
         data => {
-          this.employer = data;
+          this.employer = data || new Employer();
           this.buildForm();
         });
     this.buildForm();

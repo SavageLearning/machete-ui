@@ -16,7 +16,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
     }),
     new MenuRule({
       id: 2, 
-      label: 'Employers', 
+      label: 'My profile', 
       icon: 'business', 
       routerLink: ['/employers'],
       authorizedRoles: [
@@ -26,7 +26,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
     }),
     new MenuRule({
       id: 3, 
-      label: 'Work Orders', 
+      label: 'My work orders', 
       icon: 'work', 
       routerLink: ['/work-orders'],
       authorizedRoles: [
