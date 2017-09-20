@@ -28,7 +28,7 @@ export class LookupsService {
       return Observable.of(this.lookups);
     }
     
-    console.log('getLookups: ' + this.uriBase);
+    console.log('getLookups: ', this.uriBase);
     return this.http.get(this.uriBase)
       .map(res => { 
         this.lookups = res['data'] as Lookup[];

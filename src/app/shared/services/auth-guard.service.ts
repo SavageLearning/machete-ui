@@ -12,12 +12,11 @@ export class AuthGuardService implements CanActivate {
       console.log('.ctor');
     }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        console.log('canActivate on', state.url);
+        console.log(state);
         let isLoggedIn = this.authService.isLoggedInObs();
         isLoggedIn.subscribe((loggedin) => {
-            console.log('canActivate isLoggedInObs:',loggedin);
             if (!loggedin) {
-                console.log('canActivate NOT loggedIn: url:',state.url)
+                console.log('canActivate NOT loggedIn: url:',state)
                 this.authService.setRedirectUrl(state.url);
                 this.router.navigate(['unauthorized']);
             }

@@ -11,7 +11,9 @@ import { Router } from "@angular/router";
 })
 export class WelcomeComponent implements OnInit {
   welcome: string;
-  constructor(private cfgService: ConfigsService, private authService: AuthService, private router: Router) { }
+  constructor(private cfgService: ConfigsService, 
+    private authService: AuthService, 
+    private router: Router) { }
 
   ngOnInit() {
     this.cfgService.getConfig('WorkCenterDescription_EN')

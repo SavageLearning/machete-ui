@@ -19,35 +19,6 @@ export class AuthService {
   // TODO:
   // need async way to call for auth password, then send intercept on its way
   constructor(private http: Http, private router: Router) {
-    // console.log('auth.service.ctor: called');
-    // this.mgr.getUser()
-    //   .then((user) => {
-    //     if (user) {
-    //       Log.debug('auth.service.ctor.getUser.callback user:' + JSON.stringify(user));
-    //       this.loggedIn = true;
-    //       this.currentUser = user;
-    //       this.userLoadededEvent.emit(user);
-    //     } else {
-    //       this.loggedIn = false;
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     this.loggedIn = false;
-    //   });
-
-    // this.mgr.events.addUserLoaded((user) => {
-    //   this.currentUser = user;
-    //   this.loggedIn = !(user === undefined);
-    //     Log.debug('auth.service.ctor.event: addUserLoaded: ', user);
-    //   });
-
-    // this.mgr.events.addUserUnloaded((e) => {
-    //   if (!environment.production) {
-    //     console.log('auth.service.ctor.event: addUserUnloaded');
-    //   }
-    //   this.loggedIn = false;
-    // });
-
   }
 
   setRedirectUrl(url: string) {

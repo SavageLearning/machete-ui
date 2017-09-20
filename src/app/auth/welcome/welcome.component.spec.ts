@@ -5,6 +5,7 @@ import { ConfigsService } from "../../configs/configs.service";
 import { Observable } from "rxjs/Observable";
 import { Config } from "../../shared/models/config";
 import { AuthService } from "../../shared/index";
+import { Router } from "@angular/router";
 
 class ConfigsServiceSpy {
   getConfig = jasmine.createSpy('getConfig')
@@ -21,6 +22,10 @@ class AuthServiceSpy {
   startSigninMainWindow = jasmine.createSpy('startSigninMainWindow');
 }
 
+class RouterSpy {
+  
+}
+
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
   let fixture: ComponentFixture<WelcomeComponent>;
@@ -33,7 +38,8 @@ describe('WelcomeComponent', () => {
       set: {
         providers: [
           { provide: ConfigsService, useClass: ConfigsServiceSpy },
-          { provide: AuthService, useClass: AuthServiceSpy }
+          { provide: AuthService, useClass: AuthServiceSpy },
+          { provide: Router, useClass: RouterSpy }
         ]
       }
     })
