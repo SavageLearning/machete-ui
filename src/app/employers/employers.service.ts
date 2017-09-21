@@ -19,7 +19,12 @@ export class EmployersService {
         let uri = environment.dataUrl + '/api/employers';
         uri = uri + '?sub=' + user.profile['sub'];
         return this.http.get(uri)
-        .map(o => o['data'] as Employer)
+        .map(o => {
+          if (o['data'] == null) {
+            return new Employer();
+          }
+          return o['data'] as Employer;
+        })
         .catch(HandleError.error);    
       });
   }

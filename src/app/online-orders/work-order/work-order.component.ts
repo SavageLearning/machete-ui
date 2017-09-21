@@ -69,7 +69,7 @@ export class WorkOrderComponent implements OnInit {
       this.orderService.loadFromProfile()
         .subscribe(
           data => {
-            console.log('ngOnInit: loadFromProfile ',this.order)
+            console.log('ngOnInit: loadFromProfile ', data)
             this.order = this.mapOrderFrom(data);
             this.buildForm();
           }

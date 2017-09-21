@@ -28,9 +28,15 @@ export class AppMenuComponent implements OnInit {
         private auth: AuthService) {}
 
     ngOnInit() {
+        console.log('ngOnInit');
         this.auth.getUserRoles$()
             .subscribe(
-                roles => this.model = loadMenuRules(roles)
+                roles => {
+                    if (typeof roles === "string") {
+                        roles = [roles];
+                    }
+                    this.model = loadMenuRules(roles)
+                }
             );
         this.model = loadMenuRules(['Hirer']);
     }

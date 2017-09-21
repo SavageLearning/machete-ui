@@ -56,7 +56,7 @@ export class AuthService {
     return this.getUser$() 
       .mergeMap((user: User)=> { 
         if (user === null || user === undefined) {
-          return Observable.of(null);
+          return Observable.of(new Array<string>());
         } else {
           return Observable.of(user.profile.role as string[]); 
         }
