@@ -6,6 +6,8 @@ import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from '../app.component';
 import { loadMenuRules } from "./load-menu-rules";
 import { AuthService } from "../shared/index";
+import { User } from "oidc-client";
+import { MenuRule } from "./menu-rule";
 
 @Component({
     selector: 'app-menu',
@@ -29,18 +31,22 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         console.log('ngOnInit');
-        this.auth.getUserRoles$()
+        this.auth.getUserEmitter()
             .subscribe(
-                roles => {
+                (user: User) => {
+                    if (user == null) {
+                        return new Array<MenuRule>();
+                    }
+                    let roles = user.profile['role'];
                     if (typeof roles === "string") {
                         roles = [roles];
                     }
                     this.model = loadMenuRules(roles)
+                    console.log(this.model);
                 }
             );
-        this.model = loadMenuRules(['Hirer']);
+        this.auth.getUser();
     }
-
 }
 
 @Component({

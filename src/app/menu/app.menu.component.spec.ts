@@ -4,10 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { AppMenuComponent, AppSubMenu } from "./app.menu.component";
 import { AppComponent } from "../app.component";
 import { By }           from '@angular/platform-browser';
-import { DebugElement } from "@angular/core";
+import { DebugElement, EventEmitter } from "@angular/core";
 import { RouterTestingModule } from '@angular/router/testing';
 import { loadMenuRules } from "./load-menu-rules";
 import { AuthService } from "../shared/index";
+import { User } from "oidc-client";
 // class EmployersServiceSpy {
 //   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
 //     .and.callFake(
@@ -22,6 +23,9 @@ class AuthServiceSpy {
   .and.callFake(
     () => Observable.of(new Array<string>())
   );
+  getUserEmitter = jasmine.createSpy('getUserEmitter')
+  .and.callFake(() => new EventEmitter<User>());
+  getUser = jasmine.createSpy('getUser');
 }
 describe('AppMenuComponent', () => {
   let component: AppMenuComponent;

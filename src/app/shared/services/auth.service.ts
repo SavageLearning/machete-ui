@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(environment.oidc_client_settings);
-  userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
+  userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
   currentUser: User;
   loggedIn = false;
   redirectUrl: string;
@@ -19,6 +19,9 @@ export class AuthService {
   // TODO:
   // need async way to call for auth password, then send intercept on its way
   constructor(private http: Http, private router: Router) {
+  }
+  getUserEmitter(): EventEmitter<User> {
+    return this.userLoadedEvent;
   }
 
   setRedirectUrl(url: string) {
@@ -55,6 +58,7 @@ export class AuthService {
   getUserRoles$(): Observable<string[]> { 
     return this.getUser$() 
       .mergeMap((user: User)=> { 
+        console.log(user);
         if (user === null || user === undefined) {
           return Observable.of(new Array<string>());
         } else {
@@ -79,15 +83,15 @@ export class AuthService {
     this.mgr.getUser().then((user) => {
       this.currentUser = user;
       //console.log('auth.service.getUser returned: ' + JSON.stringify(user));
-      this.userLoadededEvent.emit(user);
+      this.getUserEmitter().emit(user);
     }).catch(function (err) {
-      console.error('auth.service.getUser returned: ' + JSON.stringify(err));
+      console.error('getUser: ',err);
     });
   }
 
   removeUser() {
     this.mgr.removeUser().then(() => {
-      this.userLoadededEvent.emit(null);
+      this.getUserEmitter().emit(null);
       console.log('auth.service.removeUser: user removed');
     }).catch(function (err) {
       console.error('auth.service.removeUser returned: ' + JSON.stringify(err));

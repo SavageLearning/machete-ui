@@ -18,13 +18,14 @@ export class AuthorizeComponent implements OnInit {
         // not sure why i have to copy to local variable. 
         // https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript
         let rtr = this.router;
-        console.log('endSigninMainWindow.user: ', user.profile.sub);
+        console.log('endSigninMainWindow.user: ', user);
+        this.auth.getUserEmitter().emit(user);
           if (user.state) {
             rtr.navigate([user.state]);
           }
         },
         err => {
-          console.error('endSigninMainWindow returned: ' + JSON.stringify(err));
+          console.error('endSigninMainWindow returned: ',err);
         });
   }
   

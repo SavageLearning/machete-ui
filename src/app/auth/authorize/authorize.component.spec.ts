@@ -5,6 +5,7 @@ import { AuthService } from '../../shared/index';
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { UserManager, User } from 'oidc-client';
+import { EventEmitter } from "@angular/core";
 class AuthServiceSpy {
   endSigninMainWindow = jasmine.createSpy('endSigninMainWindow')
     .and.callFake(() => { 
@@ -25,7 +26,8 @@ class AuthServiceSpy {
         scopes: new Array<string>()
       } as User;
       return Observable.of(user)}); // void response
-
+  getUserEmitter = jasmine.createSpy('getUserEmitter')
+    .and.callFake(() => new EventEmitter<User>());
 }
 class RouterSpy {
   navigate = jasmine.createSpy('navigate')
@@ -35,7 +37,7 @@ class RouterSpy {
 describe('AuthorizeComponent', () => {
   let component: AuthorizeComponent;
   let fixture: ComponentFixture<AuthorizeComponent>;
-
+  let spy: any;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AuthorizeComponent ]
