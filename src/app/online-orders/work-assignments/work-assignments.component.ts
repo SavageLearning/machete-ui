@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {MySelectItem} from '../../reports/reports.component';
 import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
@@ -9,6 +8,7 @@ import { WorkAssignmentsService } from './work-assignments.service';
 import { Log } from "oidc-client";
 import { WorkOrderService } from "../work-order/work-order.service";
 import { TransportRule } from "../shared";
+import { MySelectItem } from "../../shared/models/my-select-item";
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',

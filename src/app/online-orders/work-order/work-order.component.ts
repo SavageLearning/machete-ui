@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MySelectItem } from '../../reports/reports.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorkOrder } from './models/work-order';
 import { LookupsService } from '../../lookups/lookups.service';
@@ -7,9 +6,9 @@ import { OnlineOrdersService } from '../online-orders.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
-
 import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
 import { ConfigsService } from "../../configs/configs.service";
+import { MySelectItem } from "../../shared/models/my-select-item";
 
 @Component({
   selector: 'app-work-order',

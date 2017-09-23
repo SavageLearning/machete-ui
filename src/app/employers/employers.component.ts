@@ -3,6 +3,7 @@ import { EmployersService } from './employers.service';
 import { Employer } from '../shared/models/employer';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LookupsService } from '../lookups/lookups.service';
+import { MySelectItem } from "../shared/models/my-select-item";
 
 
 @Component({
