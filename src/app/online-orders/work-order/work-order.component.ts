@@ -84,9 +84,10 @@ export class WorkOrderComponent implements OnInit {
       .subscribe(
         listData => {
           this.transportMethods = listData;
-          this.transportMethodsDropDown = listData.map(l =>
-            new MySelectItem(l.text_EN, String(l.id))
-          );
+          let items = [new MySelectItem('Select transportion', null)];
+          let transports = listData.map(l =>
+            new MySelectItem(l.text_EN, String(l.id)));
+          this.transportMethodsDropDown = items.concat(transports);;
         },
         error => this.errorMessage = <any>error,
         () => console.log('ngOnInit: getLookups onCompleted'));
