@@ -30,9 +30,19 @@ export class InlineProfileComponent implements OnInit {
     active: boolean;
 
     ngOnInit() {
-        this.auth.getUsername$()
+        this.auth.getUserEmitter()
             .subscribe(
-                (name: string) => this.user = name
+                (user: User) => {
+                    if (user === null || user === undefined) {
+                        this.user = '<logged out>';
+                        return;
+                    }
+                    if (user.profile == null || user.profile.preferred_username == null) {
+                        this.user = 'profile missing';
+                    } else {
+                        this.user = user.profile.preferred_username;
+                    }
+                }
             );
     }
 
