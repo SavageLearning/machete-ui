@@ -11,15 +11,18 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class EmployersService {
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService) {
+    console.log('.ctor');
+   }
 
   getEmployerBySubject(): Observable<Employer> {
     return this.auth.getUser$()
       .mergeMap((user: User) => {
-        let uri = environment.dataUrl + '/api/employers';
-        uri = uri + '?sub=' + user.profile['sub'];
+        let uri = environment.dataUrl + '/api/employer/profile';
+        //uri = uri + '?sub=' + user.profile['sub'];
         return this.http.get(uri)
         .map(o => {
+          console.log(uri, o);
           if (o['data'] == null) {
             return new Employer();
           }
@@ -30,9 +33,16 @@ export class EmployersService {
   }
 
   save(employer: Employer): Observable<Object> {
-    let uri = environment.dataUrl + '/api/employers';
-    uri = uri + '/' + employer.id;
-    console.log('http.put:', uri, employer);
+    let uri = environment.dataUrl + '/api/employer/profile';
+    let method: Function;
+    //uri = uri + '/' + employer.id;
+    console.log('save:', uri, employer);
+    if (employer.id === null)
+    return this.http.post(uri, JSON.stringify(employer), {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      })
+      .catch(HandleError.error);
+    else 
     return this.http.put(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       })
