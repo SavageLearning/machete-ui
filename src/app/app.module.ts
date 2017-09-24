@@ -7,15 +7,15 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { HttpModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { AppComponent } from './app.component';
-import { AppMenuComponent, AppSubMenu }  from './app.menu.component';
+import { AppMenuComponent, AppSubMenu }  from './menu/app.menu.component';
 import { AppTopBar}  from './app.topbar.component';
 import { AppFooter}  from './app.footer.component';
-import { InlineProfileComponent}  from './app.profile.component';
+import { InlineProfileComponent}  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
-import { Log } from 'oidc-client';
+
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { TokenInterceptor } from './shared/services/token.interceptor';
 import { OnlineOrdersModule } from './online-orders/online-orders.module';
@@ -23,6 +23,7 @@ import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
 import { WorkOrdersModule } from './work-orders/work-orders.module';
 import { EmployersModule } from './employers/employers.module';
+import { Log } from "oidc-client";
 
 @NgModule({
   declarations: [
@@ -62,12 +63,11 @@ import { EmployersModule } from './employers/employers.module';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    if (!environment.production) {
-      Log.level = Log.INFO;
-      Log.logger = console;
-    }
-    Log.info('app.module.ctor()');
-    //console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+    if (!environment.production) { 
+      Log.level = Log.INFO; 
+      Log.logger = console; 
+    } 
+    console.log('.ctor');
   }
 
 }

@@ -7,13 +7,12 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Log } from 'oidc-client';
+
 import { environment } from '../../environments/environment';
 
 describe('ReportsService', () => {
   let service: ReportsService;
   let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ReportsService  ],
@@ -45,7 +44,7 @@ describe('ReportsService', () => {
       (res => {
         expect(typeof res).toEqual('object', 'Get w/o query doesn\'t return an object');
       });
-    let req = httpMock.expectOne('http://localhost:63374/api/reports/1');
+    let req = httpMock.expectOne('/api/reports/1');
     httpMock.verify();
   });
 
@@ -56,11 +55,10 @@ describe('ReportsService', () => {
     o.endDate = '1/1/2017';
     service.getReportData('foobar', o)
       .subscribe(rows => {
-        console.log('rows.length' + JSON.stringify(rows));
         expect(rows.length).toBe(18, 'expected 18 rows');
       });
 
-    let req = httpMock.expectOne(baseref + '/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
+    let req = httpMock.expectOne('/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
     httpMock.verify();
 
   });

@@ -3,32 +3,32 @@ import {Observable} from 'rxjs/Observable';
 import {WorkOrder} from './models/work-order';
 import { EmployersService} from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
-import { Log } from 'oidc-client';
+
 @Injectable()
 export class WorkOrderService {
   order: WorkOrder;
-  orderKey = 'machete.workorder';
+  storageKey = 'machete.workorder';
   constructor(private employerService: EmployersService) {
-    Log.info('work-order.service: ' + JSON.stringify(this.get()));
+    console.log('.ctor');
   }
 
   loadFromProfile(): Observable<Employer> {
-    Log.info('work-order.service.loadFromProfile: called');
+    console.log('loadFromProfile: called');
     return this.employerService.getEmployerBySubject();
   }
 
   save(order: WorkOrder) {
-    Log.info('work-order.service.save: called');
-    sessionStorage.setItem(this.orderKey, JSON.stringify(order));
+    console.log('save', order);
+    sessionStorage.setItem(this.storageKey, JSON.stringify(order));
     this.order = order;
   }
 
   get(): WorkOrder {
-    Log.info('work-order.service.get: called');
-    let data = sessionStorage.getItem(this.orderKey);
+    console.log('get called');
+    let data = sessionStorage.getItem(this.storageKey);
     if (data) {
-      Log.info('work-order.service.get: returning stored order');
       let order: WorkOrder = JSON.parse(data);
+      //console.log('get: returning stored order', order);
       order.dateTimeofWork = new Date(order.dateTimeofWork);
       return order;
     } else {
@@ -38,6 +38,6 @@ export class WorkOrderService {
 
   clear() {
     this.order = null;
-    sessionStorage.removeItem(this.orderKey);
+    sessionStorage.removeItem(this.storageKey);
   }
 }

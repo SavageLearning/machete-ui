@@ -5,12 +5,11 @@ import {ExportsOptionsComponent} from './exports-options.component';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Export } from './models/export';
-import { environment } from '../../environments/environment';
 
 describe('ExportsService', () => {
   let service: ExportsService;
   let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ExportsService],
@@ -32,7 +31,7 @@ describe('ExportsService', () => {
           .subscribe((res: any) => {
             expect(res.name).toBe('HttpErrorResponse');
           });
-        let req = httpMock.expectOne(baseref + '/api/exports/activities');
+        let req = httpMock.expectOne('/api/exports/activities');
         req.error(new ErrorEvent('foo'));
         httpMock.verify();
       });
@@ -43,7 +42,7 @@ describe('ExportsService', () => {
         .subscribe(rows => {
           expect(rows.length).toBe(2, 'expected 2 in exports list');
         });
-      let req = httpMock.expectOne(baseref + '/api/exports');
+      let req = httpMock.expectOne('/api/exports');
       expect(req.request.method).toEqual('GET');
       let testdata = new Array<string>();
       testdata.push('row1');

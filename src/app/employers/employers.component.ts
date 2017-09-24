@@ -3,7 +3,8 @@ import { EmployersService } from './employers.service';
 import { Employer } from '../shared/models/employer';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LookupsService } from '../lookups/lookups.service';
-import { Log } from 'oidc-client';
+import { MySelectItem } from "../shared/models/my-select-item";
+
 
 @Component({
   selector: 'app-employers',
@@ -15,6 +16,8 @@ export class EmployersComponent implements OnInit {
   employer: Employer = new Employer();
   employerForm: FormGroup;
   showErrors = false;
+  yesNoDropDown = [new MySelectItem('no', 'false'), 
+    new MySelectItem('yes', 'true')];
   formErrors = {
     'address1': '',
     'address2': '',
@@ -35,19 +38,19 @@ export class EmployersComponent implements OnInit {
 
   validationMessages = {
     'address1': { 'required': 'Address is required' },
-    'address2': { '': '' },
-    'blogparticipate': { 'required': '' },
-    'business': { 'required': '' },
-    'businessname': { 'required': '' },
-    'cellphone': { 'required': '' },
+    'address2': { },
+    'blogparticipate': { },
+    'business': { },
+    'businessname': { },
+    'cellphone': { },
     'city': { 'required': 'City is required' },
     'email': { 'required': 'Email is required' },
     'fax': { 'required': '' },
     'name': { 'required': 'Name is required' },
-    'phone': { 'required': '' },
-    'referredBy': { 'required': '' },
-    'referredByOther': { 'required': '' },
-    'state': { 'required': '' },
+    'phone': { 'required': 'Phonr is required' },
+    'referredBy': { },
+    'referredByOther': { },
+    'state': { 'required': 'State is required' },
     'zipcode': { 'required': 'zipcode is required' }
   };
 
@@ -61,7 +64,7 @@ export class EmployersComponent implements OnInit {
     this.employersService.getEmployerBySubject()
       .subscribe(
         data => {
-          this.employer = data;
+          this.employer = data || new Employer();
           this.buildForm();
         });
     this.buildForm();
@@ -75,7 +78,7 @@ export class EmployersComponent implements OnInit {
     'blogparticipate': [this.employer.blogparticipate],
     'business': [this.employer.business],
     'businessname': [this.employer.businessname],
-    'cellphone': [this.employer.cellphone, Validators.required],
+    'cellphone': [this.employer.cellphone],
     'city': [this.employer.city, Validators.required],
     'email': [this.employer.email, Validators.required],
     'fax': [this.employer.fax],
@@ -111,13 +114,13 @@ export class EmployersComponent implements OnInit {
   }
 
   saveEmployer() {
-    Log.info('employers.component.saveEmployer: called');
+    console.log('saveEmployer: called');
     this.onValueChanged();
     if (this.employerForm.status === 'INVALID') {
       this.showErrors = true;
       return;
     }
-    Log.info('employers.component.saveEmployer: valid');
+    console.log('saveEmployer: valid');
 
     this.showErrors = false;
     const formModel = this.employerForm.value;
@@ -129,9 +132,8 @@ export class EmployersComponent implements OnInit {
         //   this.buildForm();
         // },
         error => {
-          Log.info(JSON.stringify(error));
-        },
-        () => Log.info()
+          console.error(error);
+        }
       );
   }
 

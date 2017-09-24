@@ -7,6 +7,7 @@ import {Report} from './models/report';
 import {Observable} from 'rxjs/Observable';
 import {SearchInputs} from './models/search-inputs';
 import {Column} from './models/column';
+import { MySelectItem } from "../shared/models/my-select-item";
 
 @Component({
   selector: 'app-reports',
@@ -92,8 +93,4 @@ export class ReportsComponent implements OnInit {
     dt.exportFilename = this.name + '_' + this.o.beginDate.toString() + '_to_' + this.o.endDate.toString();
     dt.exportCSV();
   }
-}
-
-export class MySelectItem implements SelectItem {
-  constructor(public label: string, public value: string) {}
 }

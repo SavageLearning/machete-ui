@@ -7,7 +7,8 @@ const reportsRoutes: Routes = [
   {
     path: 'reports',
     component: ReportsComponent,
-    canLoad: [AuthGuardService]
+    canLoad: [AuthGuardService],
+    canActivate: [AuthGuardService],
   }
 ];
 @NgModule({

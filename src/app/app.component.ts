@@ -1,4 +1,8 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild} from '@angular/core';
+import { environment } from '../environments/environment';
+import { ConfigsService } from "./configs/configs.service";
+import { LookupsService } from "./lookups/lookups.service";
+console.log('environment.name:', environment.name);
 
 enum MenuOrientation {
     STATIC,
@@ -11,7 +15,8 @@ declare var jQuery: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [ LookupsService, ConfigsService ]
 })
 export class AppComponent implements AfterViewInit {
     layoutCompact = false;

@@ -7,7 +7,8 @@ const exportsRoutes: Routes = [
   {
     path: 'exports',
     component: ExportsComponent,
-    canLoad: [AuthGuardService]
+    canLoad: [AuthGuardService],
+    canActivate: [AuthGuardService],
   }
 ];
 @NgModule({

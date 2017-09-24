@@ -6,20 +6,29 @@ import { AuthGuardService } from './shared/services/auth-guard.service';
 import { PageNotFoundComponent }    from './not-found.component';
 
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
-import {DashboardComponent} from './auth/dashboard/dashboard.component';
-import {UnauthorizedComponent} from './auth/unauthorized/unauthorized.component';
-import { Log } from 'oidc-client';
-import { AuthorizeComponent } from './auth/authorize/authorize.component';
+import { UnauthorizedComponent, WelcomeComponent, 
+  AuthorizeComponent, DashboardComponent} from './auth/';
+
+import { RegisterComponent } from "./auth/register/register.component";
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/welcome',
     pathMatch: 'full'
   },
   {
+    path: 'welcome',
+    component: WelcomeComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'unauthorized',
@@ -31,14 +40,16 @@ const appRoutes: Routes = [
     component: AuthorizeComponent
   },
   //{ path: '**', component: PageNotFoundComponent }
-  { path: '**', redirectTo: '/dashboard' }
+  { path: '**', redirectTo: '/welcome' }
 ];
 
 @NgModule({
   declarations: [
     //AppComponent,
     UnauthorizedComponent,
-    DashboardComponent
+    DashboardComponent,
+    WelcomeComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +68,6 @@ const appRoutes: Routes = [
 })
 export class AppRoutingModule {
   constructor() {
-    Log.info('app-routing.module.ctor called');
+    console.log('.ctor');
   }
 }

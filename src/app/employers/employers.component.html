@@ -115,17 +115,14 @@
       </div>
       <!-- -------------------------vertical divide---------------------------- -->
       <div class="ui-g-12  ui-md-6">
-        
-        <div class="ui-g-12">
+        <div class="ui-g-12"> 
           <div class="ui-g-12 ui-md-4  ui-g-nopad">
             <label for="business">Is a business?</label>
           </div>
           <div class="ui-g-12  ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-                <input class="ui-inputtext ng-dirty ng-invalid" 
-                      formControlName="business" 
-                      id="business"
-                      type="text" pInputText/>
+              <p-dropdown id="business" [options]="yesNoDropDown" formControlName="business"
+                [autoWidth]="false"></p-dropdown>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
                 {{formErrors.business}}
               </div>
@@ -161,7 +158,7 @@
                       id="address2"
                       type="text" pInputText/>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
-                {{formErrors.address1}}
+                {{formErrors.address2}}
               </div>
             </span>
           </div>
@@ -178,7 +175,7 @@
                       id="city"
                       type="text" pInputText/>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
-                {{formErrors.state}}
+                {{formErrors.city}}
               </div>
             </span>
           </div>
@@ -213,7 +210,7 @@
                       id="zipcode"
                       type="text" pInputText/>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
-                {{formErrors.state}}
+                {{formErrors.zipcode}}
               </div>
             </span>
           </div>

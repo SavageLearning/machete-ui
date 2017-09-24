@@ -6,7 +6,11 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EmployersService } from '../../employers/employers.service';
 import { AuthService } from '../../shared/index';
-import { HttpModule } from "@angular/http";
+import { HttpModule } from '@angular/http';
+
+class AuthServiceSpy {
+
+}
 
 describe('WorkOrderService', () => {
   let service: WorkOrderService;
@@ -14,7 +18,11 @@ describe('WorkOrderService', () => {
   let baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [WorkOrderService, EmployersService, AuthService],
+      providers: [
+        WorkOrderService,
+        EmployersService,
+        {provide: AuthService, useClass: AuthServiceSpy }
+        ],
       imports: [
         HttpModule,
         HttpClientTestingModule

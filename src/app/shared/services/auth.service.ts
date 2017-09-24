@@ -1,53 +1,37 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { Log } from 'oidc-client';
+
 import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class AuthService {
   mgr: UserManager = new UserManager(environment.oidc_client_settings);
-  userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
+  userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
   currentUser: User;
   loggedIn = false;
   redirectUrl: string;
   authHeaders: Headers;
 
-
-  constructor(private http: Http) {
-    Log.info('auth.serive.ctor: called');
-    this.mgr.getUser()
-      .then((user) => {
-        if (user) {
-          Log.debug('auth.service.getUser.callback user:' + JSON.stringify(user));
-          this.loggedIn = true;
-          this.currentUser = user;
-          this.userLoadededEvent.emit(user);
-        } else {
-          this.loggedIn = false;
-        }
-      })
-      .catch((err) => {
-        this.loggedIn = false;
-      });
-
-    this.mgr.events.addUserLoaded((user) => {
-      this.currentUser = user;
-      this.loggedIn = !(user === undefined);
-        Log.debug('auth.service.ctor.event: addUserLoaded: ', user);
-      });
-
-    this.mgr.events.addUserUnloaded((e) => {
-      if (!environment.production) {
-        Log.info('auth.service.ctor.event: addUserUnloaded');
-      }
-      this.loggedIn = false;
-    });
-
+  // TODO:
+  // need async way to call for auth password, then send intercept on its way
+  constructor(private http: Http, private router: Router) {
+  }
+  getUserEmitter(): EventEmitter<User> {
+    return this.userLoadedEvent;
   }
 
+  setRedirectUrl(url: string) {
+    this.redirectUrl = url;
+    console.log(`auth.service.setRedirectUrl.url: ${this.redirectUrl}`);
+  }
+
+  getRedirectUrl(): string {
+    return this.redirectUrl;
+  }
   isLoggedInObs(): Observable<boolean> {
     return Observable.fromPromise(this.mgr.getUser()).map<User, boolean>((user) => {
       if (user) {
@@ -60,44 +44,78 @@ export class AuthService {
 
   clearState() {
     this.mgr.clearStaleState().then(function () {
-      Log.info('auth.service.clearStateState success');
+      console.log('auth.service.clearStateState success');
     }).catch(function (e) {
-      Log.error('auth.service.clearStateState error', e.message);
+      console.error('auth.service.clearStateState error', e.message);
     });
   }
 
+
+  getUser$(): Observable<User> {
+    return Observable.fromPromise(this.mgr.getUser());
+  }
+  
+  getUserRoles$(): Observable<string[]> { 
+    return this.getUser$() 
+      .mergeMap((user: User)=> { 
+        console.log(user);
+        if (user === null || user === undefined) {
+          return Observable.of(new Array<string>());
+        } else {
+          return Observable.of(user.profile.role as string[]); 
+        }
+      }); 
+  }
+
+  getUsername$(): Observable<string> {
+    return this.getUser$()
+      .mergeMap((user: User) => {
+        // TODO: if user is null, disable menu
+        if (user === null || user === undefined) {
+          return Observable.of(null);
+        } else {
+          return Observable.of(user.profile.preferred_username as string);
+        }
+      });
+  }
+ 
   getUser() {
     this.mgr.getUser().then((user) => {
       this.currentUser = user;
-      Log.info('auth.service.getUser returned: ' + JSON.stringify(user));
-      this.userLoadededEvent.emit(user);
+      //console.log('auth.service.getUser returned: ' + JSON.stringify(user));
+      this.getUserEmitter().emit(user);
     }).catch(function (err) {
-      Log.error('auth.service.getUser returned: ' + JSON.stringify(err));
+      console.error('getUser: ',err);
     });
   }
 
   removeUser() {
     this.mgr.removeUser().then(() => {
-      this.userLoadededEvent.emit(null);
-      Log.info('auth.service.removeUser: user removed');
+      this.getUserEmitter().emit(null);
+      console.log('auth.service.removeUser: user removed');
     }).catch(function (err) {
-      Log.error('auth.service.removeUser returned: ' + JSON.stringify(err));
+      console.error('auth.service.removeUser returned: ' + JSON.stringify(err));
     });
   }
 
   startSigninMainWindow() {
-    this.mgr.signinRedirect({ data: 'some data' }).then(function () {
+    this.mgr.signinRedirect({ data: this.redirectUrl }).then(function () {
       console.log('signinRedirect done');
     }).catch(function (err) {
-      Log.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
+      console.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
     });
   }
-  endSigninMainWindow(url?: string) {
-    this.mgr.signinRedirectCallback(url).then(function (user) {
-      console.log('signed in', user);
-    }).catch(function (err) {
-      Log.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
-    });
+
+  endSigninMainWindow(url?: string): Observable<User> {
+    return Observable.fromPromise(this.mgr.signinRedirectCallback(url));
+    // .then(function (user) {
+    //   console.log('auth.service.endSigninMainWindow.user: ', user.profile.sub);
+    //   if (user.state) {
+    //     this.router.navigate(['dashboard']);
+    //   }
+    // }).catch(function (err) {
+    //   console.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
+    // });
   }
 
   startSignoutMainWindow() {
@@ -108,7 +126,7 @@ export class AuthService {
           console.log('testing to see if fired...');
         });
       }).catch(function (err) {
-        Log.error('auth.service.startSignoutMainWindow returned: ' + JSON.stringify(err));
+        console.error('auth.service.startSignoutMainWindow returned: ' + JSON.stringify(err));
 
       });
     });
@@ -118,33 +136,9 @@ export class AuthService {
     this.mgr.signoutRedirectCallback().then(function (resp) {
       console.log('signed out', resp);
     }).catch(function (err) {
-      Log.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
+      console.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
     });
   };
-
-
-  private _setAuthHeaders(user: any): void {
-    this.authHeaders = new Headers();
-    this.authHeaders.append('Authorization', user.token_type + ' ' + user.access_token);
-    if (this.authHeaders.get('Content-Type')) {
-
-    } else {
-      this.authHeaders.append('Content-Type', 'application/json');
-    }
-  }
-  private _setRequestOptions(options?: RequestOptions) {
-    if (this.loggedIn) {
-      this._setAuthHeaders(this.currentUser);
-    }
-    if (options) {
-      options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
-    } else {
-      options = new RequestOptions({ headers: this.authHeaders });
-    }
-
-    return options;
-  }
-
 }
 
 

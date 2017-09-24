@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {MySelectItem} from '../../reports/reports.component';
 import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
-import { Lookup } from '../../lookups/models/lookup';
+import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
+import { Log } from "oidc-client";
+import { WorkOrderService } from "../work-order/work-order.service";
+import { TransportRule } from "../shared";
+import { MySelectItem } from "../../shared/models/my-select-item";
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -13,6 +16,7 @@ import { WorkAssignmentsService } from './work-assignments.service';
 })
 export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service
+  transports: Lookup[];
   skillsDropDown: MySelectItem[];
   selectedSkill: Lookup = new Lookup();
   requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
@@ -22,7 +26,7 @@ export class WorkAssignmentsComponent implements OnInit {
   newRequest = true;
   requestForm: FormGroup;
   showErrors = false;
-
+  transportRules: TransportRule[];
   formErrors = {
     'skillId': '',
     'skill': '',
@@ -43,12 +47,21 @@ export class WorkAssignmentsComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
+    private orderService: WorkOrderService,
     private waService: WorkAssignmentsService,
     private fb: FormBuilder) {
   }
 
   ngOnInit() {
-    this.lookupsService.getLookups('skill')
+    // waService.transportRules could fail under race conditions
+    this.waService.getTransportRules()
+      .subscribe(
+        data => this.transportRules = data,
+        // When this leads to a REST call, compactRequests will depend on it
+        error => console.error('ngOnInit.getTransportRules.error' + error),
+        () => console.log('ngOnInit:getTransportRules onCompleted'));
+        
+    this.lookupsService.getLookups(LCategory.SKILL)
       .subscribe(
         listData => {
           this.skills = listData;
@@ -56,7 +69,16 @@ export class WorkAssignmentsComponent implements OnInit {
             new MySelectItem(l.text_EN, String(l.id)));
         },
         error => this.errorMessage = <any>error,
-        () => console.log('work-assignments.component: ngOnInit onCompleted'));
+        () => console.log('ngOnInit:skills onCompleted'));
+    this.lookupsService.getLookups(LCategory.TRANSPORT)
+    .subscribe(
+      listData => {
+        this.transports = listData;
+        this.waService.compactRequests();
+    
+      },
+      error => this.errorMessage = <any>error,
+      () => console.log('ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
     this.buildForm();
   }
@@ -68,7 +90,7 @@ export class WorkAssignmentsComponent implements OnInit {
       'skill': [''],
       'hours': ['', Validators.required],
       'description': [''],
-      'requiresHeavyLifting': [false, Validators.required],
+      'requiresHeavyLifting': [false, Validators.required ],
       'wage': ['', Validators.required]
     });
 
@@ -96,8 +118,9 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   selectSkill(skillId: number) {
+    console.log('selectSkill.skillId:' + String(skillId));
     const skill = this.skills.filter(f => f.id === Number(skillId)).shift();
-    if (skill === null) {
+    if (skill === null || skill === undefined) {
       throw new Error('Can\'t find selected skill in component\'s list');
     }
     this.selectedSkill = skill;
@@ -123,6 +146,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.newRequest = true;
   }
 
+
   saveRequest() {
     this.onValueChanged();
     if (this.requestForm.status === 'INVALID') {
@@ -132,23 +156,18 @@ export class WorkAssignmentsComponent implements OnInit {
     this.showErrors = false;
     const formModel = this.requestForm.value;
 
-
     const saveRequest: WorkAssignment = {
-      id: formModel.id || this.waService.getNextRequestId(),
+      id: formModel.id || 0,
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,
       description: formModel.description,
       requiresHeavyLifting: formModel.requiresHeavyLifting,
-      wage: formModel.wage
+      wage: formModel.wage,
+      transportCost: 0
     };
 
-    if (this.newRequest) {
-      this.waService.create(saveRequest);
-    } else {
-      this.waService.save(saveRequest);
-    }
-
+    this.waService.save(saveRequest);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.buildForm();
