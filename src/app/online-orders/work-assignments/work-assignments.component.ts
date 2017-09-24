@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {MySelectItem} from '../../reports/reports.component';
 import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
@@ -9,6 +8,7 @@ import { WorkAssignmentsService } from './work-assignments.service';
 import { Log } from "oidc-client";
 import { WorkOrderService } from "../work-order/work-order.service";
 import { TransportRule } from "../shared";
+import { MySelectItem } from "../../shared/models/my-select-item";
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -57,8 +57,9 @@ export class WorkAssignmentsComponent implements OnInit {
     this.waService.getTransportRules()
       .subscribe(
         data => this.transportRules = data,
-        error => Log.error('work-assignments.component.ngOnInit.getTransportRules.error' + error),
-        () => console.log('work-assignments.component: ngOnInit:getTransportRules onCompleted'));
+        // When this leads to a REST call, compactRequests will depend on it
+        error => console.error('ngOnInit.getTransportRules.error' + error),
+        () => console.log('ngOnInit:getTransportRules onCompleted'));
         
     this.lookupsService.getLookups(LCategory.SKILL)
       .subscribe(
@@ -68,15 +69,16 @@ export class WorkAssignmentsComponent implements OnInit {
             new MySelectItem(l.text_EN, String(l.id)));
         },
         error => this.errorMessage = <any>error,
-        () => console.log('work-assignments.component: ngOnInit:skills onCompleted'));
+        () => console.log('ngOnInit:skills onCompleted'));
     this.lookupsService.getLookups(LCategory.TRANSPORT)
     .subscribe(
       listData => {
         this.transports = listData;
+        this.waService.compactRequests();
+    
       },
       error => this.errorMessage = <any>error,
-      () => console.log('work-assignments.component: ngOnInit:transports onCompleted'));
-    this.waService.compactRequests();
+      () => console.log('ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
     this.buildForm();
   }
@@ -116,7 +118,7 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   selectSkill(skillId: number) {
-    Log.info('work-assignment.component.selectSkill.skillId:' + String(skillId));
+    console.log('selectSkill.skillId:' + String(skillId));
     const skill = this.skills.filter(f => f.id === Number(skillId)).shift();
     if (skill === null || skill === undefined) {
       throw new Error('Can\'t find selected skill in component\'s list');

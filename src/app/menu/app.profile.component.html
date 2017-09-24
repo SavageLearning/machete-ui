@@ -1,7 +1,7 @@
 <div class="profile" [ngClass]="{'profile-expanded':active}">
     <div class="profile-image"></div>
     <a href="#" (click)="onClick($event)">
-        <span class="profile-name">Jimmy Carter</span>
+        <span class="profile-name">{{this.user}}</span>
         <i class="material-icons">keyboard_arrow_down</i>
     </a>
 </div>

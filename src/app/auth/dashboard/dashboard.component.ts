@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadedUserSub = this.authService.userLoadededEvent
+    this.loadedUserSub = this.authService.getUserEmitter()
       .subscribe(user => {
         this._user = user;
       });

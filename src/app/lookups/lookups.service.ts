@@ -4,12 +4,16 @@ import { Lookup, LCategory } from './models/lookup';
 import { HandleError } from '../shared/handle-error';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from "rxjs";
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
   lookups = new Array<Lookup>();
+  lookups$: BehaviorSubject<Lookup[]>;
   lookupsAge = 0;
   constructor(private http: HttpClient) {
+    console.log('.ctor');
+    this.lookups$ = new BehaviorSubject(new Array<Lookup>());
   }
 
   isStale(): boolean {
@@ -25,10 +29,11 @@ export class LookupsService {
 
   getAllLookups(): Observable<Lookup[]> {
     if (this.isNotStale()) {
+      console.log('getLookups cached');
       return Observable.of(this.lookups);
     }
     
-    console.log('lookupsService.getLookups: ' + this.uriBase);
+    console.log('getLookups: ', this.uriBase);
     return this.http.get(this.uriBase)
       .map(res => { 
         this.lookups = res['data'] as Lookup[];

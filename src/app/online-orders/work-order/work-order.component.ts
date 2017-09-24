@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MySelectItem } from '../../reports/reports.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorkOrder } from './models/work-order';
 import { LookupsService } from '../../lookups/lookups.service';
@@ -7,9 +6,9 @@ import { OnlineOrdersService } from '../online-orders.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
-import { Log } from 'oidc-client';
 import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
 import { ConfigsService } from "../../configs/configs.service";
+import { MySelectItem } from "../../shared/models/my-select-item";
 
 @Component({
   selector: 'app-work-order',
@@ -17,7 +16,6 @@ import { ConfigsService } from "../../configs/configs.service";
   styleUrls: ['./work-order.component.css']
 })
 export class WorkOrderComponent implements OnInit {
-  logPrefix = 'work-order.component.';
   transportMethods: Lookup[];
   transportMethodsDropDown: MySelectItem[];
   orderForm: FormGroup;
@@ -52,7 +50,7 @@ export class WorkOrderComponent implements OnInit {
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
     private fb: FormBuilder) {
-      Log.info(this.logPrefix + 'ctor: called');
+      console.log('.ctor');
     }
 
   ngOnInit() {
@@ -70,7 +68,7 @@ export class WorkOrderComponent implements OnInit {
       this.orderService.loadFromProfile()
         .subscribe(
           data => {
-            Log.info(this.logPrefix + 'ngOnInit: loadFromProfile ' + JSON.stringify(this.order))
+            console.log('ngOnInit: loadFromProfile ', data)
             this.order = this.mapOrderFrom(data);
             this.buildForm();
           }
@@ -86,12 +84,13 @@ export class WorkOrderComponent implements OnInit {
       .subscribe(
         listData => {
           this.transportMethods = listData;
-          this.transportMethodsDropDown = listData.map(l =>
-            new MySelectItem(l.text_EN, String(l.id))
-          );
+          let items = [new MySelectItem('Select transportion', null)];
+          let transports = listData.map(l =>
+            new MySelectItem(l.text_EN, String(l.id)));
+          this.transportMethodsDropDown = items.concat(transports);;
         },
         error => this.errorMessage = <any>error,
-        () => Log.info(this.logPrefix + 'ngOnInit: getLookups onCompleted'));
+        () => console.log('ngOnInit: getLookups onCompleted'));
   }
 
   mapOrderFrom(employer: Employer): WorkOrder {
@@ -140,7 +139,7 @@ export class WorkOrderComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          Log.info('online-orders.work-order.component.onValueChanged.error:' + field + ': ' + control.errors[key]);
+          //console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
             this.formErrors[field] += control.errors[key] + ' ';
         }
       }
@@ -154,7 +153,7 @@ export class WorkOrderComponent implements OnInit {
   save() {
     this.onValueChanged();
     if (this.orderForm.status === 'INVALID') {
-      Log.info(this.logPrefix + 'save: INVALID: ' + JSON.stringify(this.formErrors))
+      console.log('save: INVALID: ' + this.formErrors)
       this.showErrors = true;
       return;
     }

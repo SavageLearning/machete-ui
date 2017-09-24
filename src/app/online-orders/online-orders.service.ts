@@ -7,7 +7,7 @@ import { WorkOrder } from './work-order/models/work-order';
 import { WorkAssignment } from './work-assignments/models/work-assignment';
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Log } from 'oidc-client';
+
 import { ScheduleRule, TransportRule, loadScheduleRules, loadTransportRules } from './shared';
 
 @Injectable()
@@ -34,9 +34,9 @@ export class OnlineOrdersService {
       (data) => {},
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
-          console.log('Client-side error occured.');
+          console.error('Client-side error occured.');
         } else {
-          Log.error('online-orders.service.POST: ' + err.message);
+          console.error('online-orders.service.POST: ' + err.message);
         }
       }
     );

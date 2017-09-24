@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {ExportsService} from './exports.service';
-import {MySelectItem} from '../reports/reports.component';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
 import {Response} from '@angular/http';
 import { saveAs } from 'file-saver';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import * as contentDisposition from 'content-disposition';
+import { MySelectItem } from "../shared/models/my-select-item";
 @Component({
   selector: 'app-exports',
   templateUrl: './exports.component.html',
@@ -38,7 +38,7 @@ export class ExportsComponent implements OnInit {
           new MySelectItem(r.name, r.name));
       },
       error => this.errorMessage = <any>error,
-      () => console.log('exports.component: ngOnInit onCompleted'));
+      () => console.log('ngOnInit onCompleted'));
   }
 
   getColumns() {
@@ -56,7 +56,7 @@ export class ExportsComponent implements OnInit {
           this.form = new FormGroup(group);
         },
         error => this.errorMessage = <any>error,
-        () => console.log('exportsService.getColumns completed')
+        () => console.log('getColumns completed')
       );
   }
 
@@ -77,7 +77,7 @@ export class ExportsComponent implements OnInit {
         error => {
           this.errorMessage = <any>error;
         },
-      () => console.log('exportsService.getColumns completed'));
+      () => console.log('onSubmit.getExport completed'));
   }
 
   downloadFile(data: any, fileName: string, ttype: string) {

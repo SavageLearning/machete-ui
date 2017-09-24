@@ -7,7 +7,8 @@ const woRoutes: Routes = [
   {
     path: 'work-orders',
     component: WorkOrdersComponent,
-    canLoad: [AuthGuardService]
+    canLoad: [AuthGuardService],
+    canActivate: [AuthGuardService],
   }
 ];
 @NgModule({

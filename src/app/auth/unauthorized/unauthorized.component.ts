@@ -20,7 +20,4 @@ export class UnauthorizedComponent implements OnInit {
     this.service.startSigninMainWindow();
   }
 
-  goback() {
-    // this.location.back();
-  }
 }

@@ -7,37 +7,41 @@ import {WorkOrderComponent} from './work-order/work-order.component';
 import {WorkAssignmentsComponent} from './work-assignments/work-assignments.component';
 import {FinalConfirmComponent} from './final-confirm/final-confirm.component';
 import { AuthGuardService } from '../shared/services/auth-guard.service';
+import { SequenceGuard } from "./sequence-guard.service";
 
 const onlineOrderRoutes: Routes = [
   {
     path: 'online-orders',
     component: OnlineOrdersComponent,
     canLoad: [AuthGuardService],
+    canActivate: [AuthGuardService],
     children: [
       {
         path: 'introduction',
         component: IntroductionComponent,
-        canLoad: [AuthGuardService]
+        canActivate: [SequenceGuard]
       },
       {
         path: 'intro-confirm',
         component: IntroConfirmComponent,
-        canLoad: [AuthGuardService]
+        canActivate: [SequenceGuard]
       },
       {
         path: 'work-order',
         component: WorkOrderComponent,
-        canLoad: [AuthGuardService]
+        canActivate: [SequenceGuard]
+        
       },
       {
         path: 'work-assignments',
         component: WorkAssignmentsComponent,
-        canLoad: [AuthGuardService]
+        canActivate: [SequenceGuard]
+        
       },
       {
         path: 'final-confirm',
         component: FinalConfirmComponent,
-        canLoad: [AuthGuardService]
+        canActivate: [SequenceGuard]
       }
     ]
   },

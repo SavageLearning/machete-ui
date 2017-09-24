@@ -1,11 +1,11 @@
 export const environment = {
   name: 'mvc-embedded',
   production: false,
-  dataUrl: 'http://api.machetessl.org',
-  authUrl: 'https://identity.machetessl.org/id',
+  dataUrl: 'http://localhost:63374',
+  authUrl: 'https://localhost:44379/id',
   baseRef: '/V2',
   oidc_client_settings: {
-    authority: 'https://identity.machetessl.org/id',
+    authority: 'https://localhost:44379/id',
     client_id: 'machete-ui-local-embedded',
     redirect_uri: 'http://localhost:4213/V2/authorize',
     post_logout_redirect_uri: 'http://localhost:4213/V2',

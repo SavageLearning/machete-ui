@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployersComponent } from './employers.component';
 import { EmployersRoutingModule } from './employers-routing.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {InputTextModule, ButtonModule} from 'primeng/primeng';
+import { InputTextModule, ButtonModule, DropdownModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -12,6 +12,7 @@ import {InputTextModule, ButtonModule} from 'primeng/primeng';
     ReactiveFormsModule,
     InputTextModule,
     ButtonModule,
+    DropdownModule,
     EmployersRoutingModule
   ],
   declarations: [EmployersComponent]
@@ -19,6 +20,6 @@ import {InputTextModule, ButtonModule} from 'primeng/primeng';
 export class EmployersModule {
   // Diagnostic only: inspect router configuration
   constructor() {
-    console.log('employers');
+    console.log('.ctor');
   }
 }

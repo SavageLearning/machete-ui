@@ -5,31 +5,47 @@ import { environment } from '../../environments/environment';
 import { HandleError } from '../shared/handle-error';
 import { Employer } from '../shared/models/employer';
 import { AuthService } from '../shared/index';
-import { Log } from 'oidc-client';
+import { Log, User } from 'oidc-client';
 import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class EmployersService {
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService) {
+    console.log('.ctor');
+   }
 
   getEmployerBySubject(): Observable<Employer> {
-    let uri = environment.dataUrl + '/api/employers';
-
-    // TODO handle null sub in employerService.getOrders
-    uri = uri + '?sub=' + this.auth.currentUser.profile['sub'];
-    return this.http.get(uri)
-      .map(o => o['data'] as Employer)
-      .catch(HandleError.error);
+    return this.auth.getUser$()
+      .mergeMap((user: User) => {
+        let uri = environment.dataUrl + '/api/employer/profile';
+        //uri = uri + '?sub=' + user.profile['sub'];
+        return this.http.get(uri)
+        .map(o => {
+          console.log(uri, o);
+          if (o['data'] == null) {
+            return new Employer();
+          }
+          return o['data'] as Employer;
+        })
+        .catch(HandleError.error);    
+      });
   }
 
   save(employer: Employer): Observable<Object> {
-    let uri = environment.dataUrl + '/api/employers';
-    uri = uri + '/' + employer.id;
-    Log.info('employers.service.save: called');
+    let uri = environment.dataUrl + '/api/employer/profile';
+    let method: Function;
+    //uri = uri + '/' + employer.id;
+    console.log('save:', uri, employer);
+    if (employer.id === null)
+    return this.http.post(uri, JSON.stringify(employer), {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      })
+      .catch(HandleError.error);
+    else 
     return this.http.put(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
-      });
-      //.catch(HandleError.error);
+      })
+      .catch(HandleError.error);
   }
 }

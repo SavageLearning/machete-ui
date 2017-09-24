@@ -20,19 +20,19 @@ export class Lookup extends Record<Lookup> {
   text_EN: string;
   text_ES: string;
   selected: boolean;
-  subcategory: string;
-  level: number;
-  wage: number;
-  minHour: number;
-  fixedJob?: boolean;
-  sortorder: number;
+  subcategory: string;          // deprecated, moving to skill-rule
+  level: number;                // deprecated, moving to skill-rule
+  wage: number;                 // deprecated, moving to skill-rule
+  minHour: number;              // deprecated, moving to skill-rule
+  fixedJob?: boolean;           // deprecated, moving to skill-rule
+  sortorder: number;          
   typeOfWorkID: number;
-  speciality: boolean;
-  ltrCode: string;
+  speciality: boolean;          // deprecated, moving to skill-rule
+  ltrCode: string;              // deprecated, moving to skill-rule
   emailTemplate: string;
-  skillDescriptionEn: string;
-  skillDescriptionEs: string;
-  minimumCost?: number;
+  skillDescriptionEn: string;   // deprecated, moving to skill-rule
+  skillDescriptionEs: string;   // deprecated, moving to skill-rule
+  minimumCost?: number;         // never used?
   key: string;
   active: boolean;
   clientRules: string;
