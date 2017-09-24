@@ -62,6 +62,7 @@ const appRoutes: Routes = [
     RouterModule
   ],
   providers: [
+
     AuthGuardService,
     SelectivePreloadingStrategy
   ]

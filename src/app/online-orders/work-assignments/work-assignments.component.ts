@@ -5,7 +5,6 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
-import { Log } from "oidc-client";
 import { WorkOrderService } from "../work-order/work-order.service";
 import { TransportRule } from "../shared";
 import { MySelectItem } from "../../shared/models/my-select-item";
@@ -127,7 +126,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['skill'].setValue(skill.text_EN);
     this.requestForm.controls['wage'].setValue(skill.wage);
   }
-
+  // loads an existing item into the form fields
   editRequest(request: WorkAssignment) {
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);

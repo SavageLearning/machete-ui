@@ -12,7 +12,6 @@ import { EmployersService } from '../employers/employers.service';
   styleUrls: ['./online-orders.component.css'],
   providers: [
     EmployersService,
-    OnlineOrdersService,
     WorkOrderService,
     WorkAssignmentsService,
     FormBuilder
@@ -21,7 +20,25 @@ import { EmployersService } from '../employers/employers.service';
 export class OnlineOrdersComponent implements OnInit {
   private items: MenuItem[];
   activeIndex = 0;
-  constructor() { }
+  confirmation = false;
+
+  constructor(private onlineService: OnlineOrdersService) {
+    onlineService.activeStep$.subscribe(
+        step => {
+          this.activeIndex = step;
+        }
+    );
+
+    onlineService.initialConfirmed$.subscribe(
+      confirmed => {
+        this.confirmation = confirmed;
+      }
+    );
+  }
+
+  hasConfirmation(): boolean {
+    return this.confirmation;
+  }
 
   ngOnInit() {
     this.items = [

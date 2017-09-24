@@ -11,7 +11,7 @@ import { StepsModule, CalendarModule, DropdownModule,
           DataTableModule, InputSwitchModule, MessagesModule,
           DialogModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SequenceGuard } from "./sequence-guard.service";
+import { OnlineOrdersService } from './online-orders.service';
 
 @NgModule({
   imports: [
@@ -36,7 +36,7 @@ import { SequenceGuard } from "./sequence-guard.service";
     FinalConfirmComponent
   ],
   providers: [
-    SequenceGuard
+    OnlineOrdersService
   ]
 })
 export class OnlineOrdersModule { }

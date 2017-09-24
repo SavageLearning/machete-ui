@@ -1,11 +1,31 @@
-import { Injectable }     from '@angular/core';
-import { CanActivate }    from '@angular/router';
-import { Log } from "oidc-client";
+import { Confirmation } from 'primeng/primeng';
+import { OnlineOrdersComponent } from './online-orders.component';
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { Log } from 'oidc-client';
+import { Observable } from 'rxjs/Observable';
+import { OnlineOrdersService } from './online-orders.service';
 
 @Injectable()
-export class SequenceGuard implements CanActivate {
-  canActivate() {
-    //console.log('canActivate');
-    return true;
-  }
+export class SequenceGuardService implements CanActivate {
+    isConfirmed = false;
+
+    constructor(private onlineService: OnlineOrdersService, private router: Router) {
+      Log.info('sequence-guard.service.ctor called');
+      onlineService.initialConfirmed$.subscribe(
+        confirm => {
+          this.isConfirmed = confirm;
+        }
+      );
+    }
+
+    // how do i know what step (1-5) I am being called from?
+    canActivate(): boolean {
+        let foo = this.router.url;
+        //let confirmed = this.onlineService.hasFinalConfirmation();
+        console.log('called from ', foo);
+        console.log('Can I activate? Service says...', this.isConfirmed);
+        return this.isConfirmed;
+    }
 }

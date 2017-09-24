@@ -1,13 +1,18 @@
+import { WorkAssignment } from './work-assignments/models/work-assignment';
+import { OnlineOrdersService } from './online-orders.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {OnlineOrdersComponent} from './online-orders.component';
-import {IntroductionComponent} from './introduction/introduction.component';
-import {IntroConfirmComponent} from './intro-confirm/intro-confirm.component';
-import {WorkOrderComponent} from './work-order/work-order.component';
-import {WorkAssignmentsComponent} from './work-assignments/work-assignments.component';
-import {FinalConfirmComponent} from './final-confirm/final-confirm.component';
+import { OnlineOrdersComponent } from './online-orders.component';
+import { IntroductionComponent } from './introduction/introduction.component';
+import { IntroConfirmComponent } from './intro-confirm/intro-confirm.component';
+import { WorkOrderComponent } from './work-order/work-order.component';
+import { WorkAssignmentsComponent } from './work-assignments/work-assignments.component';
+import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
 import { AuthGuardService } from '../shared/services/auth-guard.service';
-import { SequenceGuard } from "./sequence-guard.service";
+import { SequenceGuardService } from './sequence-guard.service';
+import { WorkOrderService } from './work-order/work-order.service';
+import { EmployersService } from '../employers/employers.service';
+import { WorkAssignmentService } from './work-assignments/work-assignment.service';
 
 const onlineOrderRoutes: Routes = [
   {
@@ -19,29 +24,30 @@ const onlineOrderRoutes: Routes = [
       {
         path: 'introduction',
         component: IntroductionComponent,
-        canActivate: [SequenceGuard]
+        canLoad: [AuthGuardService]
       },
       {
         path: 'intro-confirm',
         component: IntroConfirmComponent,
-        canActivate: [SequenceGuard]
+        canLoad: [AuthGuardService]
       },
       {
         path: 'work-order',
         component: WorkOrderComponent,
-        canActivate: [SequenceGuard]
-        
+        canLoad: [AuthGuardService],
+        canActivate: [SequenceGuardService]
       },
       {
         path: 'work-assignments',
         component: WorkAssignmentsComponent,
-        canActivate: [SequenceGuard]
-        
+        canLoad: [AuthGuardService],
+        canActivate: [SequenceGuardService]
       },
       {
         path: 'final-confirm',
         component: FinalConfirmComponent,
-        canActivate: [SequenceGuard]
+        canLoad: [AuthGuardService],
+        canActivate: [SequenceGuardService]
       }
     ]
   },
@@ -54,6 +60,7 @@ const onlineOrderRoutes: Routes = [
     RouterModule
   ],
   providers: [
+    [SequenceGuardService, OnlineOrdersComponent, WorkOrderService, EmployersService, WorkAssignmentService]
   ]
 })
 export class OnlineOrdersRoutingModule { }

@@ -13,3 +13,5 @@
     safety equipment necessary for the job you wish to have done.
   </li>
 </ol>
+<label for="confirmCheckbox">Check the box if you agree to these terms </label>
+<input type="checkbox" name="confirmBox" [(ngModel)]="confirmStatus" (change)="checkConfirm($event)">
