@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { LookupsService } from '../lookups/lookups.service';
 import { Employer } from '../shared/models/employer';
 import { Lookup } from '../lookups/models/lookup';
+import { DropdownModule } from "primeng/primeng";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 class EmployersServiceSpy {
   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
@@ -27,7 +29,9 @@ describe('EmployersComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EmployersComponent ],
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DropdownModule,
+        NoopAnimationsModule
       ]
     })
     .overrideComponent(EmployersComponent, {

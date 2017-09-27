@@ -12,9 +12,10 @@ export class SequenceGuardService implements CanActivate {
     isConfirmed = false;
 
     constructor(private onlineService: OnlineOrdersService, private router: Router) {
-      Log.info('sequence-guard.service.ctor called');
+      console.log('.ctor');
       onlineService.initialConfirmed$.subscribe(
         confirm => {
+          console.log('.ctor->initialConfirmed:', confirm)
           this.isConfirmed = confirm;
         }
       );

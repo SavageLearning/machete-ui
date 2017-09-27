@@ -12,7 +12,7 @@ import { AuthGuardService } from '../shared/services/auth-guard.service';
 import { SequenceGuardService } from './sequence-guard.service';
 import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
-import { WorkAssignmentService } from './work-assignments/work-assignment.service';
+import { WorkAssignmentsService } from "./work-assignments/work-assignments.service";
 
 const onlineOrderRoutes: Routes = [
   {
@@ -60,7 +60,13 @@ const onlineOrderRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    [SequenceGuardService, OnlineOrdersComponent, WorkOrderService, EmployersService, WorkAssignmentService]
+    [
+      SequenceGuardService, 
+      OnlineOrdersComponent, 
+      WorkOrderService, 
+      EmployersService, 
+      WorkAssignmentsService
+    ]
   ]
 })
 export class OnlineOrdersRoutingModule { }

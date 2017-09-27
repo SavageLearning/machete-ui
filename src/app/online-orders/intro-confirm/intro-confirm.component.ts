@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/primeng';
 import { OnlineOrdersService } from '../online-orders.service';
 import { Router } from '@angular/router';
@@ -9,24 +9,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./intro-confirm.component.css']
 })
 export class IntroConfirmComponent implements OnInit {
-  //status = false;
-  @Input() confirmStatus;
+  status = false;
+  //@Input() confirmStatus;
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) { 
-    onlineService.initialConfirmed$.subscribe(
+
+  }
+
+  ngOnInit() {
+    this.onlineService.initialConfirmed$.subscribe(
       confirmed => {
         console.log('Confirm value from service: ', confirmed);
       }
     );
   }
 
-  ngOnInit() {
-
-  }
-
   checkConfirm() {
-    this.onlineService.setInitialConfirm(this.confirmStatus);
-    console.log('New confirm status: ', this.confirmStatus);
+    this.onlineService.setInitialConfirm(this.status);
+    console.log('New confirm status: ', this.status);
   }
 
   nextStep() {
