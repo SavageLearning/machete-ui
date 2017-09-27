@@ -9,9 +9,9 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { DropdownModule, InputSwitchModule, DataTableModule } from 'primeng/primeng';
 import { Lookup } from '../../lookups/models/lookup';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { WorkOrderService } from "../work-order/work-order.service";
-import { OnlineOrdersService } from "../online-orders.service";
-import { loadTransportRules } from "../shared";
+import { WorkOrderService } from '../work-order/work-order.service';
+import { OnlineOrdersService } from '../online-orders.service';
+import { loadTransportRules } from '../shared';
 
 class WorkAssignmentsServiceSpy {
   getAll = jasmine.createSpy('getAll')

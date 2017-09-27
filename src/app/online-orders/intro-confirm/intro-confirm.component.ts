@@ -12,7 +12,7 @@ export class IntroConfirmComponent implements OnInit {
   status = false;
   //@Input() confirmStatus;
 
-  constructor(private onlineService: OnlineOrdersService, private router: Router) { 
+  constructor(private onlineService: OnlineOrdersService, private router: Router) {
 
   }
 

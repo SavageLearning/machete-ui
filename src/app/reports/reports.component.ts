@@ -7,7 +7,7 @@ import {Report} from './models/report';
 import {Observable} from 'rxjs/Observable';
 import {SearchInputs} from './models/search-inputs';
 import {Column} from './models/column';
-import { MySelectItem } from "../shared/models/my-select-item";
+import { MySelectItem } from '../shared/models/my-select-item';
 
 @Component({
   selector: 'app-reports',

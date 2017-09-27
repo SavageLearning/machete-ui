@@ -3,7 +3,6 @@ import { OnlineOrdersComponent } from './online-orders.component';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { Log } from 'oidc-client';
 import { Observable } from 'rxjs/Observable';
 import { OnlineOrdersService } from './online-orders.service';
 

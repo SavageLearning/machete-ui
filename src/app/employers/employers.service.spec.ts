@@ -9,7 +9,7 @@ import { AuthService } from '../shared/index';
 import { HttpModule } from '@angular/http';
 
 class AuthServiceSpy {
-  
+
 }
 
 describe('EmployersService', async() => {

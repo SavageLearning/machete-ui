@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IntroConfirmComponent } from './intro-confirm.component';
-import { OnlineOrdersService } from "../online-orders.service";
-import { ScheduleRule } from "../shared/index";
+import { OnlineOrdersService } from '../online-orders.service';
+import { ScheduleRule } from '../shared/index';
 
 class OnlineOrdersServiceSpy {
   scheduleRules = jasmine.createSpy('scheduleRules')

@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { loadMenuRules } from "./load-menu-rules";
+import { loadMenuRules } from './load-menu-rules';
 
 describe('loadMenuRules', () => {
   beforeEach(() => {

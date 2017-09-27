@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import {WorkAssignment} from './models/work-assignment';
 import {Observable} from 'rxjs/Observable';
 
-import { OnlineOrdersService } from "../online-orders.service";
-import { TransportRule, CostRule } from "../shared/index";
+import { OnlineOrdersService } from '../online-orders.service';
+import { TransportRule, CostRule } from '../shared/index';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import { WorkOrderService } from "../work-order/work-order.service";
-import { Lookup, LCategory } from "../../lookups/models/lookup";
-import { LookupsService } from "../../lookups/lookups.service";
+import { WorkOrderService } from '../work-order/work-order.service';
+import { Lookup, LCategory } from '../../lookups/models/lookup';
+import { LookupsService } from '../../lookups/lookups.service';
 
 @Injectable()
 export class WorkAssignmentsService {
@@ -62,7 +62,7 @@ export class WorkAssignmentsService {
   getTransportRules(): Observable<TransportRule[]> {
     if (this.transportRules) {
       // TODO: cache timeout
-      return Observable.of(this.transportRules); 
+      return Observable.of(this.transportRules);
     } else {
       return this.transportRules$.asObservable();
     }
@@ -111,13 +111,13 @@ export class WorkAssignmentsService {
     //let newRequests = new Array<WorkAssignment>();
     //let i = 0;
     let rule = this.getTransportRule();
-    for (var i in this.requests) {
+    for (let i in this.requests) {
       let newid = Number(i);
       this.requests[newid].id = newid + 1;
       this.requests[newid].transportCost = this.calculateTransportCost(newid + 1, rule);
     }
     sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
-    
+
   }
 
   getTransportRule(): TransportRule {
@@ -130,12 +130,12 @@ export class WorkAssignmentsService {
     }
     const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
     if (lookup === null || lookup === undefined) {
-      throw new Error('LookupService didn\'t return a valid lookup for transportMethodID: '+ order.transportMethodID);
+      throw new Error('LookupService didn\'t return a valid lookup for transportMethodID: ' + order.transportMethodID);
     }
 
-    const rules= this.transportRules.filter(f => f.lookupKey == lookup.key);
+    const rules = this.transportRules.filter(f => f.lookupKey == lookup.key);
     if (rules === null || rules === undefined) {
-      throw new Error('No TransportRules match lookup key: '+ lookup.key);
+      throw new Error('No TransportRules match lookup key: ' + lookup.key);
     }
 
     const result = rules.find(f => f.zipcodes.includes(order.zipcode));
@@ -145,7 +145,7 @@ export class WorkAssignmentsService {
     return result;
   }
   calculateTransportCost(id: number, rule: TransportRule): number {
-    // can have a cost rule for a van, with an id greater that min/max worker, 
+    // can have a cost rule for a van, with an id greater that min/max worker,
     // that then leads to no rule.
     // TODO: Handle too many ids exception
     let result = rule.costRules.find(r => id > r.minWorker && id <= r.maxWorker);

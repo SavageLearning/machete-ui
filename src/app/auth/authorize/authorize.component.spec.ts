@@ -2,13 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthorizeComponent } from './authorize.component';
 import { AuthService } from '../../shared/index';
-import { Router } from "@angular/router";
-import { Observable } from "rxjs/Observable";
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import { UserManager, User } from 'oidc-client';
-import { EventEmitter } from "@angular/core";
+import { EventEmitter } from '@angular/core';
 class AuthServiceSpy {
   endSigninMainWindow = jasmine.createSpy('endSigninMainWindow')
-    .and.callFake(() => { 
+    .and.callFake(() => {
       // TODO: Implement a better stub of the User interface
       // https://stackoverflow.com/questions/37027776/how-to-stub-a-typescript-interface-type-definition
       let user = {

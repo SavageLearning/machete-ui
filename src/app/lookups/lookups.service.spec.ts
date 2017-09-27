@@ -4,7 +4,7 @@ import { LookupsService } from './lookups.service';
 import { environment } from '../../environments/environment';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Lookup, LCategory } from "./models/lookup";
+import { Lookup, LCategory } from './models/lookup';
 
 describe('LookupsService', () => {
   let service: LookupsService;

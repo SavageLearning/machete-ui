@@ -4,7 +4,7 @@ import { Lookup, LCategory } from './models/lookup';
 import { HandleError } from '../shared/handle-error';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
@@ -32,10 +32,10 @@ export class LookupsService {
       console.log('getLookups cached');
       return Observable.of(this.lookups);
     }
-    
+
     console.log('getLookups: ', this.uriBase);
     return this.http.get(this.uriBase)
-      .map(res => { 
+      .map(res => {
         this.lookups = res['data'] as Lookup[];
         this.lookupsAge = Date.now();
         return res['data'] as Lookup[];

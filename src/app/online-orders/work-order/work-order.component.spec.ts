@@ -12,7 +12,7 @@ import { DropdownModule, CalendarModule, DialogModule } from 'primeng/primeng';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OnlineOrdersService } from '../online-orders.service';
 import { ScheduleRule } from '../shared/models/schedule-rule';
-import { ConfigsService } from "../../configs/configs.service";
+import { ConfigsService } from '../../configs/configs.service';
 class WorkOrderServiceSpy {
   get = jasmine.createSpy('get')
     .and.callFake(
@@ -38,7 +38,7 @@ class OnlineOrdersServiceSpy {
 }
 
 class ConfigsServiceSpy {
-  
+
 }
 
 describe('WorkOrderComponent', () => {

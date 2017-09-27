@@ -27,7 +27,7 @@ export class OnlineOrdersService {
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
-  ) {  
+  ) {
     // this loads static data from a file. will replace later.
     this.scheduleRules = loadScheduleRules();
     this.transportRules = loadTransportRules();

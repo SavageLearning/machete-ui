@@ -3,8 +3,8 @@ import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from '../app.component';
-import { AuthService } from "../shared/index";
-import { User } from "oidc-client";
+import { AuthService } from '../shared/index';
+import { User } from 'oidc-client';
 
 @Component({
     selector: 'inline-profile',

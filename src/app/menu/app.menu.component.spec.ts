@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { AppMenuComponent, AppSubMenu } from "./app.menu.component";
-import { AppComponent } from "../app.component";
+import { AppMenuComponent, AppSubMenu } from './app.menu.component';
+import { AppComponent } from '../app.component';
 import { By }           from '@angular/platform-browser';
-import { DebugElement, EventEmitter } from "@angular/core";
+import { DebugElement, EventEmitter } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { loadMenuRules } from "./load-menu-rules";
-import { AuthService } from "../shared/index";
-import { User } from "oidc-client";
+import { loadMenuRules } from './load-menu-rules';
+import { AuthService } from '../shared/index';
+import { User } from 'oidc-client';
 // class EmployersServiceSpy {
 //   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
 //     .and.callFake(
@@ -19,7 +19,7 @@ class AppComponentSpy {
 
 }
 class AuthServiceSpy {
-  getUserRoles$ =jasmine.createSpy('getUserRoles$')
+  getUserRoles$ = jasmine.createSpy('getUserRoles$')
   .and.callFake(
     () => Observable.of(new Array<string>())
   );

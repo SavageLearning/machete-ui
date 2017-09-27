@@ -5,9 +5,9 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
-import { WorkOrderService } from "../work-order/work-order.service";
-import { TransportRule } from "../shared";
-import { MySelectItem } from "../../shared/models/my-select-item";
+import { WorkOrderService } from '../work-order/work-order.service';
+import { TransportRule } from '../shared';
+import { MySelectItem } from '../../shared/models/my-select-item';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -59,7 +59,7 @@ export class WorkAssignmentsComponent implements OnInit {
         // When this leads to a REST call, compactRequests will depend on it
         error => console.error('ngOnInit.getTransportRules.error' + error),
         () => console.log('ngOnInit:getTransportRules onCompleted'));
-        
+
     this.lookupsService.getLookups(LCategory.SKILL)
       .subscribe(
         listData => {
@@ -74,7 +74,7 @@ export class WorkAssignmentsComponent implements OnInit {
       listData => {
         this.transports = listData;
         this.waService.compactRequests();
-    
+
       },
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit:transports onCompleted'));

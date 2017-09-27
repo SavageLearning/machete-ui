@@ -7,8 +7,8 @@ import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
 import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
-import { ConfigsService } from "../../configs/configs.service";
-import { MySelectItem } from "../../shared/models/my-select-item";
+import { ConfigsService } from '../../configs/configs.service';
+import { MySelectItem } from '../../shared/models/my-select-item';
 
 @Component({
   selector: 'app-work-order',
@@ -39,8 +39,8 @@ export class WorkOrderComponent implements OnInit {
     'transportMethodID': ''
   };
 
-  display: boolean = false;
-  
+  display = false;
+
   showDialog() {
       this.display = true;
   }
@@ -87,7 +87,7 @@ export class WorkOrderComponent implements OnInit {
           let items = [new MySelectItem('Select transportion', null)];
           let transports = listData.map(l =>
             new MySelectItem(l.text_EN, String(l.id)));
-          this.transportMethodsDropDown = items.concat(transports);;
+          this.transportMethodsDropDown = items.concat(transports); ;
         },
         error => this.errorMessage = <any>error,
         () => console.log('ngOnInit: getLookups onCompleted'));
