@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { ScheduleRule, TransportRule, loadScheduleRules, loadTransportRules } from './shared';
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class OnlineOrdersService {
@@ -19,7 +20,7 @@ export class OnlineOrdersService {
   activeStep$ = this.activeStepSource.asObservable();
 
   private initialConfirm = false;
-  private initialConfirmSource = new Subject<boolean>();
+  private initialConfirmSource = new BehaviorSubject<boolean>(false);
   initialConfirmed$ = this.initialConfirmSource.asObservable();
 
   private finalConfirm = false;
@@ -46,6 +47,7 @@ export class OnlineOrdersService {
   }
 
   setInitialConfirm(choice: boolean) {
+    console.log('setInitialConfirm:', choice);
     this.initialConfirm = choice;
     this.initialConfirmSource.next(choice);
   }
