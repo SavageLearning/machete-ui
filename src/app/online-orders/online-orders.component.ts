@@ -25,14 +25,12 @@ export class OnlineOrdersComponent implements OnInit {
   constructor(private onlineService: OnlineOrdersService) {
     onlineService.activeStep$.subscribe(
         step => {
-          console.log('activeStep$ #', step)
           this.activeIndex = step;
         }
     );
 
     onlineService.initialConfirmed$.subscribe(
       confirmed => {
-        console.log('initialConfirmed$:', confirmed)
         this.confirmation = confirmed;
       }
     );

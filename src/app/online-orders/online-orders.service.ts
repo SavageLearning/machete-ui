@@ -16,7 +16,8 @@ export class OnlineOrdersService {
   scheduleRules = new Array<ScheduleRule>();
   transportRules = new Array<TransportRule>();
 
-  private activeStepSource = new Subject<number>();
+  private activeStepSource = new BehaviorSubject<number>(1);
+  activeStep: number;
   activeStep$ = this.activeStepSource.asObservable();
 
   private initialConfirm = false;
@@ -43,6 +44,8 @@ export class OnlineOrdersService {
   }
 
   setActiveStep(step: number) {
+    console.log('setActiveStep', step);
+    this.activeStep = step;
     this.activeStepSource.next(step);
   }
 

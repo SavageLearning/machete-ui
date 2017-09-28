@@ -23,9 +23,6 @@ export class SequenceGuardService implements CanActivate {
     // how do i know what step (1-5) I am being called from?
     canActivate(): boolean {
         let foo = this.router.url;
-        //let confirmed = this.onlineService.hasFinalConfirmation();
-        console.log('called from ', foo);
-        console.log('Can I activate? Service says...', this.isConfirmed);
         return this.isConfirmed;
     }
 }

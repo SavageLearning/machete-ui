@@ -10,27 +10,24 @@ import { Router } from '@angular/router';
 })
 export class IntroConfirmComponent implements OnInit {
   status = false;
-  //@Input() confirmStatus;
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
-
   }
 
   ngOnInit() {
     this.onlineService.initialConfirmed$.subscribe(
       confirmed => {
-        console.log('Confirm value from service: ', confirmed);
+        this.status = confirmed;
       }
     );
   }
 
   checkConfirm() {
     this.onlineService.setInitialConfirm(this.status);
-    console.log('New confirm status: ', this.status);
   }
 
   nextStep() {
-    this.onlineService.setActiveStep(2); // step 1 == confirm
+    this.onlineService.setActiveStep(2);
     this.router.navigate(['/online-orders/work-order']);
   }
 
