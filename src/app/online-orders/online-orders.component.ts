@@ -5,6 +5,7 @@ import {FormBuilder} from '@angular/forms';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
+import { Router, NavigationEnd } from "@angular/router";
 
 @Component({
   selector: 'app-online-orders',
@@ -22,23 +23,38 @@ export class OnlineOrdersComponent implements OnInit {
   activeIndex = 0;
   confirmation = false;
 
-  constructor(private onlineService: OnlineOrdersService) {
-    onlineService.activeStep$.subscribe(
-        step => {
-          this.activeIndex = step;
+  constructor(
+    private onlineService: OnlineOrdersService, 
+    private router: Router) {
+      router.events.subscribe(event => {
+        // NavigationEnd event occurs after route succeeds
+        if(event instanceof NavigationEnd) {
+          //this.activeIndex = this.onlineService.getActiveStep();
+          switch(event.urlAfterRedirects) {
+            case '/online-orders/introduction': { this.activeIndex = 0; break; }
+            case '/online-orders/intro-confirm': { this.activeIndex = 1; break; }
+            case '/online-orders/work-order': { this.activeIndex = 2; break; }
+            case '/online-orders/work-assignments': { this.activeIndex = 3; break; }
+            case '/online-orders/final-confirm': { this.activeIndex = 4; break; }
+          }
         }
-    );
+      });
+      onlineService.activeStep$.subscribe(
+          step => {
+            this.activeIndex = step;
+          }
+      );
 
-    onlineService.initialConfirmed$.subscribe(
-      confirmed => {
-        this.confirmation = confirmed;
-      }
-    );
+      onlineService.initialConfirmed$.subscribe(
+        confirmed => {
+          this.confirmation = confirmed;
+        }
+      );
   }
 
-  hasConfirmation(): boolean {
-    return this.confirmation;
-  }
+  // hasConfirmation(): boolean {
+  //   return this.confirmation;
+  // }
 
   ngOnInit() {
     this.items = [
