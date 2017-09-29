@@ -27,7 +27,6 @@ export class IntroConfirmComponent implements OnInit {
   }
 
   nextStep() {
-    this.onlineService.setActiveStep(2);
     this.router.navigate(['/online-orders/work-order']);
   }
 

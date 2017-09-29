@@ -50,7 +50,7 @@ export class WorkOrderComponent implements OnInit {
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
     private fb: FormBuilder) {
-      console.log('.ctor');
+      console.log('.ctor');      
     }
 
   ngOnInit() {
@@ -154,6 +154,7 @@ export class WorkOrderComponent implements OnInit {
     this.onValueChanged();
     if (this.orderForm.status === 'INVALID') {
       console.log('save: INVALID: ' + this.formErrors)
+      this.onlineService.setWorkorderConfirm(false);    
       this.showErrors = true;
       return;
     }
@@ -161,6 +162,7 @@ export class WorkOrderComponent implements OnInit {
 
     const order = this.prepareOrderForSave();
     this.orderService.save(order);
+    this.onlineService.setWorkorderConfirm(true);
     this.newOrder = false;
   }
 

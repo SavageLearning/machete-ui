@@ -16,15 +16,17 @@ export class OnlineOrdersService {
   scheduleRules = new Array<ScheduleRule>();
   transportRules = new Array<TransportRule>();
 
-  private activeStepSource = new BehaviorSubject<number>(1);
-  private activeStep = 0;
-  activeStep$ = this.activeStepSource.asObservable();
-
   private initialConfirm = false;
   private initialConfirmSource = new BehaviorSubject<boolean>(false);
   initialConfirmed$ = this.initialConfirmSource.asObservable();
 
-  private finalConfirm = false;
+  private workOrderConfirm = false;
+  private workOrderConfirmSource = new BehaviorSubject<boolean>(false);
+  workOrderConfirmed$ = this.workOrderConfirmSource.asObservable();
+  
+  private workAssignmentsConfirm = false;
+  private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
+  workAssignmentsConfirmed$ = this.workAssignmentsConfirmSource.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -35,28 +37,22 @@ export class OnlineOrdersService {
     this.transportRules = loadTransportRules();
   }
 
-
-  getActiveStep(): number {
-    return this.activeStep;
-  }
-  hasInitialConfirmation(): boolean {
-    return this.initialConfirm;
-  }
-
-  hasFinalConfirmation(): boolean {
-    return this.finalConfirm;
-  }
-
-  setActiveStep(step: number) {
-    console.log('setActiveStep:', step);
-    this.activeStep = step;
-    this.activeStepSource.next(step);
-  }
-
   setInitialConfirm(choice: boolean) {
     console.log('setInitialConfirm:', choice);
     this.initialConfirm = choice;
     this.initialConfirmSource.next(choice);
+  }
+
+  setWorkorderConfirm(choice: boolean) {
+    console.log('setWorkOrderConfirm:', choice);
+    this.workOrderConfirm = choice;
+    this.workOrderConfirmSource.next(choice);
+  }
+
+  setWorkAssignmentsConfirm(choice: boolean) {
+    console.log('setWorkAssignmentsConfirm:', choice);
+    this.workAssignmentsConfirm = choice;
+    this.workAssignmentsConfirmSource.next(choice);
   }
 
   postToApi(order: WorkOrder) {

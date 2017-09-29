@@ -29,7 +29,6 @@ export class OnlineOrdersComponent implements OnInit {
       router.events.subscribe(event => {
         // NavigationEnd event occurs after route succeeds
         if(event instanceof NavigationEnd) {
-          //this.activeIndex = this.onlineService.getActiveStep();
           switch(event.urlAfterRedirects) {
             case '/online-orders/introduction': { this.activeIndex = 0; break; }
             case '/online-orders/intro-confirm': { this.activeIndex = 1; break; }
@@ -39,22 +38,7 @@ export class OnlineOrdersComponent implements OnInit {
           }
         }
       });
-      onlineService.activeStep$.subscribe(
-          step => {
-            this.activeIndex = step;
-          }
-      );
-
-      onlineService.initialConfirmed$.subscribe(
-        confirmed => {
-          this.confirmation = confirmed;
-        }
-      );
   }
-
-  // hasConfirmation(): boolean {
-  //   return this.confirmation;
-  // }
 
   ngOnInit() {
     this.items = [

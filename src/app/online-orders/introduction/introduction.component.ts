@@ -15,7 +15,6 @@ export class IntroductionComponent implements OnInit {
   }
 
   onClick() {
-    this.onlineService.setActiveStep(1); // step 1 == confirm
     this.router.navigate(['/online-orders/intro-confirm']);
   }
 
