@@ -34,7 +34,7 @@ export class AuthService {
   }
   isLoggedInObs(): Observable<boolean> {
     return Observable.fromPromise(this.mgr.getUser()).map<User, boolean>((user) => {
-      if (user) {
+      if (user && !user.expired) {
         return true;
       } else {
         return false;
