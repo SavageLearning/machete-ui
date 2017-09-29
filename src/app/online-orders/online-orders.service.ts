@@ -27,31 +27,54 @@ export class OnlineOrdersService {
   private workAssignmentsConfirm = false;
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
   workAssignmentsConfirmed$ = this.workAssignmentsConfirmSource.asObservable();
+  storageKey = 'machete.online-orders-service';
+  initialConfirmKey = this.storageKey + '.initialconfirm';
+  workOrderConfirmKey = this.storageKey + '.workorderconfirm';
+  workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
 
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
   ) {
+    console.log('.ctor');
     // this loads static data from a file. will replace later.
+    this.loadConfirmState();
     this.scheduleRules = loadScheduleRules();
     this.transportRules = loadTransportRules();
+
+  }
+
+  loadConfirmState() {
+    this.initialConfirm = (sessionStorage.getItem(this.initialConfirmKey) == 'true');
+    this.workOrderConfirm = (sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
+    this.workAssignmentsConfirm = (sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
+
+    // notify the subscribers
+    this.initialConfirmSource.next(this.initialConfirm);
+    this.workOrderConfirmSource.next(this.workOrderConfirm);
+    this.workAssignmentsConfirmSource.next(this.workAssignmentsConfirm);
   }
 
   setInitialConfirm(choice: boolean) {
     console.log('setInitialConfirm:', choice);
     this.initialConfirm = choice;
+    sessionStorage.setItem(this.initialConfirmKey, JSON.stringify(choice));
     this.initialConfirmSource.next(choice);
   }
 
   setWorkorderConfirm(choice: boolean) {
     console.log('setWorkOrderConfirm:', choice);
     this.workOrderConfirm = choice;
+    sessionStorage.setItem(this.storageKey + '.workorderconfirm',
+      JSON.stringify(choice));
     this.workOrderConfirmSource.next(choice);
   }
 
   setWorkAssignmentsConfirm(choice: boolean) {
     console.log('setWorkAssignmentsConfirm:', choice);
     this.workAssignmentsConfirm = choice;
+    sessionStorage.setItem(this.storageKey+'.workassignmentsconfirm',
+      JSON.stringify(choice));
     this.workAssignmentsConfirmSource.next(choice);
   }
 
