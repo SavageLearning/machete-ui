@@ -17,7 +17,7 @@ export class LookupsService {
   }
 
   isStale(): boolean {
-    if (this.lookupsAge > Date.now() - 1800) {
+    if (this.lookupsAge > Date.now() - 1800 * 1000) {
         return false;
     }
     return true;
@@ -29,7 +29,6 @@ export class LookupsService {
 
   getAllLookups(): Observable<Lookup[]> {
     if (this.isNotStale()) {
-      console.log('getLookups cached');
       return Observable.of(this.lookups);
     }
 
