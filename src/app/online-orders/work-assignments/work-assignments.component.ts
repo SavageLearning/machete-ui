@@ -49,11 +49,13 @@ export class WorkAssignmentsComponent implements OnInit {
     private orderService: WorkOrderService,
     private waService: WorkAssignmentsService,
     private fb: FormBuilder) {
+      console.log('.ctor');
   }
 
   ngOnInit() {
+    console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
-    this.waService.getTransportRules()
+    this.waService.transportRules$
       .subscribe(
         data => this.transportRules = data,
         // When this leads to a REST call, compactRequests will depend on it
@@ -184,5 +186,9 @@ export class WorkAssignmentsComponent implements OnInit {
       request[prop] = c[prop];
     }
     return request;
+  }
+
+  finalize() {
+    
   }
 }

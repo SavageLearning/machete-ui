@@ -64,19 +64,13 @@ export class WorkOrderComponent implements OnInit {
   }
 
   initializeProfile() {
-    if (this.orderService.get() == null) {
-      this.orderService.loadFromProfile()
-        .subscribe(
-          data => {
-            console.log('ngOnInit: loadFromProfile ', data)
-            this.order = this.mapOrderFrom(data);
-            this.buildForm();
-          }
-        );
-    } else {
-      this.order = this.orderService.get();
-      this.buildForm();
-    }
+    this.orderService.order$
+      .subscribe(
+        data => {
+          this.order = data;
+          this.buildForm();
+        }
+      );
   }
 
   initializeTransports() {
@@ -93,17 +87,7 @@ export class WorkOrderComponent implements OnInit {
         () => console.log('ngOnInit: getLookups onCompleted'));
   }
 
-  mapOrderFrom(employer: Employer): WorkOrder {
-    const order = new WorkOrder();
-    order.contactName = employer.name;
-    order.worksiteAddress1 = employer.address1;
-    order.worksiteAddress2 = employer.address2;
-    order.city = employer.city;
-    order.state = employer.state;
-    order.zipcode = employer.zipcode;
-    order.phone = employer.phone || employer.cellphone;
-    return order;
-  }
+
 
   buildForm(): void {
     this.orderForm = this.fb.group({

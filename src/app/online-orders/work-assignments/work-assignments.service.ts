@@ -8,14 +8,27 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { LookupsService } from '../../lookups/lookups.service';
+import { WorkOrder } from "../work-order/models/work-order";
 
 @Injectable()
 export class WorkAssignmentsService {
   requests: WorkAssignment[] = new Array<WorkAssignment>();
-  static storageKey = 'machete.workassignments';
-  transports: Lookup[];
-  transportRules: TransportRule[];
-  transportRules$: BehaviorSubject<TransportRule[]>;
+  storageKey = 'machete.workassignments';
+
+  private transports: Lookup[];
+  private transportsSource = 
+    new BehaviorSubject<Lookup[]>(new Array<Lookup>()); 
+  transports$ = this.transportsSource.asObservable(); 
+  
+  private transportRules: TransportRule[];
+  private transportRulesSource = 
+    new BehaviorSubject<TransportRule[]>(new Array<TransportRule>());
+  transportRules$ = this.transportRulesSource.asObservable();
+
+  private workOrder: WorkOrder;
+  private workOrderSource =
+    new BehaviorSubject<WorkOrder>(new WorkOrder());
+  workOrder$ = this.workOrderSource.asObservable();
 
   constructor(
     private onlineService: OnlineOrdersService,
@@ -23,48 +36,53 @@ export class WorkAssignmentsService {
     private lookupsService: LookupsService,
   ) {
     console.log('.ctor');
-    this.initializeTransports();
-  }
 
-  initializeTransports() {
     this.lookupsService.getLookups(LCategory.TRANSPORT)
       .subscribe(
-        data => this.transports = data,
+        data => {
+          this.transports = data;
+          this.transportsSource.next(data);
+        },
         error => console.error('initializeTranports.error: ' + JSON.stringify(error)),
         () => console.log('initializeTransport.OnComplete')
       );
-    if (!this.transportRules$) {
-      this.transportRules$ = new BehaviorSubject(new Array<TransportRule>());
-      this.onlineService.getTransportRules()
+      
+    this.onlineService.getTransportRules()
       .subscribe(
         data => {
           this.transportRules = data;
-          this.transportRules$.next(data);
+          this.transportRulesSource.next(data);
         });
-    }
-  }
 
-  subscribeToTransports(): Observable<TransportRule[]> {
-    return this.transportRules$.asObservable();
+    this.orderService.order$
+      .subscribe(
+        data => {
+          this.workOrder = data;
+          this.workOrderSource.next(data);
+        }
+      );
+    
+    const combined = Observable.combineLatest(
+      this.transportRules$,
+      this.transports$,
+      this.workOrder$
+    );
+
+    const subscribed = combined.subscribe(
+      values => {
+        const [rules, transports, order] = values;
+        console.log(values);
+      });
   }
 
   getAll(): WorkAssignment[] {
     console.log('getAll: called');
-    let data = sessionStorage.getItem(WorkAssignmentsService.storageKey);
+    let data = sessionStorage.getItem(this.storageKey);
     if (data) {
       let requests: WorkAssignment[] = JSON.parse(data);
       return requests;
     } else {
       return this.requests;
-    }
-  }
-
-  getTransportRules(): Observable<TransportRule[]> {
-    if (this.transportRules) {
-      // TODO: cache timeout
-      return Observable.of(this.transportRules);
-    } else {
-      return this.transportRules$.asObservable();
     }
   }
 
@@ -107,27 +125,27 @@ export class WorkAssignmentsService {
   }
 
   compactRequests() {
-    //let requests = this.requests.sort(WorkAssignment.sort);
-    //let newRequests = new Array<WorkAssignment>();
-    //let i = 0;
     let rule = this.getTransportRule();
     for (let i in this.requests) {
       let newid = Number(i);
       this.requests[newid].id = newid + 1;
-      this.requests[newid].transportCost = this.calculateTransportCost(newid + 1, rule);
+      this.requests[newid].transportCost = 
+        this.calculateTransportCost(newid + 1, rule);
     }
-    sessionStorage.setItem(WorkAssignmentsService.storageKey, JSON.stringify(this.requests));
+    sessionStorage.setItem(this.storageKey, 
+      JSON.stringify(this.requests));
 
   }
 
   getTransportRule(): TransportRule {
-    const order = this.orderService.get();
+    const order = this.workOrder;
     if (order === null || order === undefined) {
       throw new Error('OrderService returned an undefined order');
     }
     if (order.transportMethodID <= 0) {
       throw new Error('Order missing valid transportMethodID');
     }
+
     const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
     if (lookup === null || lookup === undefined) {
       throw new Error('LookupService didn\'t return a valid lookup for transportMethodID: ' + order.transportMethodID);
