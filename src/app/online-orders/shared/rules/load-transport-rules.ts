@@ -63,5 +63,23 @@ export function loadTransportRules(): Array<TransportRule> {
                 new CostRule({id: 7, minWorker: 1, maxWorker: 10, cost: 0 }),
             ]
         }),
+        new TransportRule({
+            id: 5,
+            key: 'pickup',
+            lookupKey: 'transport_pickup',
+            transportType: TransportType.transport_pickup,
+            zoneLabel: 'all',
+            zipcodes: ['98101', '98102', '98103', '98104', '98105', '98106',
+            '98107', '98109', '98112', '98115', '98116', '98117', '98118',
+            '98119', '98121', '98122', '98125', '98126', '98133', '98134',
+            '98136', '98144', '98154', '98164', '98174', '98177', '98195',
+            '98199', '98005', '98006', '98007', '98008', '98033', '98039',
+                '98052', '98040', '98004', '98074', '98075', '98029', '98027',
+                '98028', '98155', '98166', '98146', '98168', '98057', '98056',
+                '98059', '98037', '98020', '98026', '98043', '98021', '98011'],
+            costRules: [
+                new CostRule({id: 8, minWorker: 0, maxWorker: 100, cost: 0 }),
+            ]
+        }),
     ];
 }
