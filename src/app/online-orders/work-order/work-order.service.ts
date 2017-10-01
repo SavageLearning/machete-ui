@@ -19,7 +19,7 @@ export class WorkOrderService {
       let order: WorkOrder = JSON.parse(data);
       order.dateTimeofWork = new Date(order.dateTimeofWork);
       this.order = order;
-      this.orderSource.next(order);
+      this.orderSource.next(this.order);
     } else {
       this.employerService.getEmployerBySubject()
         .subscribe(data => {

@@ -36,7 +36,12 @@ export class WorkAssignmentsService {
     private lookupsService: LookupsService,
   ) {
     console.log('.ctor');
-
+    let data = sessionStorage.getItem(this.storageKey);
+    if (data) {
+      console.log('sessionStorage:', data);
+      let requests: WorkAssignment[] = JSON.parse(data);
+      this.requests = requests;
+    }
     this.lookupsService.getLookups(LCategory.TRANSPORT)
       .subscribe(
         data => {
@@ -71,19 +76,12 @@ export class WorkAssignmentsService {
     const subscribed = combined.subscribe(
       values => {
         const [rules, transports, order] = values;
-        console.log(values);
+        console.log('combined subscription::', values);
       });
   }
 
   getAll(): WorkAssignment[] {
-    console.log('getAll: called');
-    let data = sessionStorage.getItem(this.storageKey);
-    if (data) {
-      let requests: WorkAssignment[] = JSON.parse(data);
-      return requests;
-    } else {
       return this.requests;
-    }
   }
 
   save(request: WorkAssignment) {
@@ -98,6 +96,9 @@ export class WorkAssignmentsService {
       this.requests[index] = request; // replace
     }
     this.compactRequests();
+    console.log('saving:', this.requests);
+    sessionStorage.setItem(this.storageKey, 
+      JSON.stringify(this.requests));
   }
 
   getNextRequestId() {
@@ -116,6 +117,9 @@ export class WorkAssignmentsService {
     }
     this.requests.splice(index, 1);
     this.compactRequests();
+    console.log('saving after delete:', this.requests);
+    sessionStorage.setItem(this.storageKey, 
+      JSON.stringify(this.requests));
   }
 
   clear() {}
@@ -132,9 +136,6 @@ export class WorkAssignmentsService {
       this.requests[newid].transportCost = 
         this.calculateTransportCost(newid + 1, rule);
     }
-    sessionStorage.setItem(this.storageKey, 
-      JSON.stringify(this.requests));
-
   }
 
   getTransportRule(): TransportRule {
