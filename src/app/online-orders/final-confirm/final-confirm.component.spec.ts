@@ -4,19 +4,8 @@ import { FinalConfirmComponent } from './final-confirm.component';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { WorkOrder } from '../work-order/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
+import { WorkOrderServiceSpy, OnlineOrdersServiceSpy } from '../../shared/testing';
 
-class WorkOrderServiceSpy {
-  get = jasmine.createSpy('get')
-    .and.callFake(
-      () => new WorkOrder()
-    );
-}
-class OnlineOrdersServiceSpy {
-  get = jasmine.createSpy('get')
-    .and.callFake(
-      () => {}
-    );
-}
 describe('FinalConfirmComponent', () => {
   let component: FinalConfirmComponent;
   let fixture: ComponentFixture<FinalConfirmComponent>;

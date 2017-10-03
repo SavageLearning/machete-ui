@@ -26,6 +26,8 @@ describe('LookupsService', () => {
   }));
 
   it('getLookups should return 1 injected Lookup record', () => {
+
+    
       service.getLookups(LCategory.SKILL)
         .subscribe(rows => {
           expect(rows.length).toBe(1, 'expected 1 lookups');

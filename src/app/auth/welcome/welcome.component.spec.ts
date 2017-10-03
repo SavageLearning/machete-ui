@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WelcomeComponent } from './welcome.component';
 import { ConfigsService } from '../../configs/configs.service';
 import { Observable } from 'rxjs/Observable';
 import { Config } from '../../shared/models/config';
 import { AuthService } from '../../shared/index';
 import { Router } from '@angular/router';
+import { AuthServiceSpy, RouterSpy } from '../../shared/testing';
 
 class ConfigsServiceSpy {
   getConfig = jasmine.createSpy('getConfig')
@@ -16,14 +16,6 @@ class ConfigsServiceSpy {
         return Observable.of(configs);
       }
     );
-}
-
-class AuthServiceSpy {
-  startSigninMainWindow = jasmine.createSpy('startSigninMainWindow');
-}
-
-class RouterSpy {
-
 }
 
 describe('WelcomeComponent', () => {

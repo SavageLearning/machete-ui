@@ -29,6 +29,19 @@ export class WorkOrderService {
     }
   }
 
+  get(): WorkOrder { 
+    console.log('get called'); 
+    let data = sessionStorage.getItem(this.storageKey); 
+    if (data) { 
+      let order: WorkOrder = JSON.parse(data); 
+      //console.log('get: returning stored order', order); 
+      order.dateTimeofWork = new Date(order.dateTimeofWork); 
+      return order; 
+    } else { 
+      return this.order; 
+    } 
+  } 
+
   mapOrderFrom(employer: Employer): WorkOrder {
     const order = new WorkOrder();
     order.contactName = employer.name;

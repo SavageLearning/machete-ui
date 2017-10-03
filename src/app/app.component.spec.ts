@@ -10,10 +10,8 @@ import {PageNotFoundComponent} from './not-found.component';
 import {APP_BASE_HREF} from '@angular/common';
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { AuthService } from './shared/index';
+import { AuthServiceSpy } from './shared/testing';
 
-class AuthServiceSpy {
-
-}
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({

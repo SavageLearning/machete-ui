@@ -21,8 +21,7 @@ export class LookupsService {
 
     if (data) {
       console.log('.ctor using sessionStorage');
-      let lookups: Lookup[] = JSON.parse(data);
-      this.lookups = lookups;
+      this.lookups = JSON.parse(data);
       this.lookupsSource.next(this.lookups);
     } else {
       this.getAllLookups();
@@ -51,12 +50,17 @@ export class LookupsService {
         this.lookups = res['data'] as Lookup[];
         this.lookupsAge = Date.now();
         this.lookupsSource.next(this.lookups);
-        sessionStorage.setItem(this.storageKey, 
-          JSON.stringify(this.lookups));
-        sessionStorage.setItem(this.storageKey + '.age', 
-          JSON.stringify(this.lookupsAge));
-        return res['data'] as Lookup[];
+        this.storeLookups();
+
+        //return res['data'] as Lookup[];
       });
+  }
+
+  storeLookups() {
+    sessionStorage.setItem(this.storageKey, 
+      JSON.stringify(this.lookups));
+    sessionStorage.setItem(this.storageKey + '.age', 
+      JSON.stringify(this.lookupsAge));
   }
 
   getLookups(category: LCategory): Observable<Lookup[]> {

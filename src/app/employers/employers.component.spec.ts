@@ -8,19 +8,8 @@ import { Employer } from '../shared/models/employer';
 import { Lookup } from '../lookups/models/lookup';
 import { DropdownModule } from 'primeng/primeng';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { EmployersServiceSpy, LookupsServiceSpy } from '../shared/testing';
 
-class EmployersServiceSpy {
-  getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
-    .and.callFake(
-      () => Observable.of(new Employer())
-    );
-}
-class LookupsServiceSpy {
-  getLookups = jasmine.createSpy('getLookups')
-    .and.callFake(
-      () => Observable.of(new Array<Lookup>())
-    );
-}
 describe('EmployersComponent', () => {
   let component: EmployersComponent;
   let fixture: ComponentFixture<EmployersComponent>;
