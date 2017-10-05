@@ -18,17 +18,26 @@ export class WorkAssignmentsService {
   private transports: Lookup[];
   private transportsSource = 
     new BehaviorSubject<Lookup[]>(new Array<Lookup>()); 
-  transports$ = this.transportsSource.asObservable(); 
   
+  getTransportsStream(): Observable<Lookup[]> {
+    return this.transportsSource.asObservable();
+  }
+
   private transportRules: TransportRule[];
   private transportRulesSource = 
     new BehaviorSubject<TransportRule[]>(new Array<TransportRule>());
-  transportRules$ = this.transportRulesSource.asObservable();
+
+  getTransportRulesStream(): Observable<TransportRule[]> {
+    return this.transportRulesSource.asObservable();
+  }
 
   private workOrder: WorkOrder;
   private workOrderSource =
     new BehaviorSubject<WorkOrder>(new WorkOrder());
-  workOrder$ = this.workOrderSource.asObservable();
+
+  getWorkOrderStream(): Observable<WorkOrder> {
+    return this.workOrderSource.asObservable();
+  }
 
   constructor(
     private onlineService: OnlineOrdersService,
@@ -59,7 +68,7 @@ export class WorkAssignmentsService {
           this.transportRulesSource.next(data);
         });
 
-    this.orderService.order$
+    this.orderService.getStream()
       .subscribe(
         data => {
           this.workOrder = data;
@@ -68,9 +77,9 @@ export class WorkAssignmentsService {
       );
     
     const combined = Observable.combineLatest(
-      this.transportRules$,
-      this.transports$,
-      this.workOrder$
+      this.getTransportRulesStream(),
+      this.getTransportsStream(),
+      this.getWorkOrderStream()
     );
 
     const subscribed = combined.subscribe(

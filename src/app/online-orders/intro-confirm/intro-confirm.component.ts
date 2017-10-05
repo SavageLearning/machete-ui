@@ -15,7 +15,8 @@ export class IntroConfirmComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.onlineService.initialConfirmed$.subscribe(
+    this.onlineService.getInitialConfirmedStream()
+    .subscribe(
       confirmed => {
         this.status = confirmed;
       }

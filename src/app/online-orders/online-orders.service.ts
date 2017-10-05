@@ -18,15 +18,11 @@ export class OnlineOrdersService {
 
   private initialConfirm = false;
   private initialConfirmSource = new BehaviorSubject<boolean>(false);
-  initialConfirmed$ = this.initialConfirmSource.asObservable();
-
   private workOrderConfirm = false;
-  private workOrderConfirmSource = new BehaviorSubject<boolean>(false);
-  workOrderConfirmed$ = this.workOrderConfirmSource.asObservable();
-  
+  private workOrderConfirmSource = new BehaviorSubject<boolean>(false);  
   private workAssignmentsConfirm = false;
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
-  workAssignmentsConfirmed$ = this.workAssignmentsConfirmSource.asObservable();
+
   storageKey = 'machete.online-orders-service';
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
@@ -42,6 +38,18 @@ export class OnlineOrdersService {
     this.scheduleRules = loadScheduleRules();
     this.transportRules = loadTransportRules();
 
+  }
+
+  getInitialConfirmedStream(): Observable<boolean> {
+    return this.initialConfirmSource.asObservable();
+  }
+
+  getWorkOrderConfirmedStream(): Observable<boolean> {
+    return this.workOrderConfirmSource.asObservable();
+  }
+
+  getWorkAssignmentConfirmedStream(): Observable<boolean> {
+    return this.workAssignmentsConfirmSource.asObservable();
   }
 
   loadConfirmState() {

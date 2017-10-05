@@ -64,7 +64,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   initializeProfile() {
-    this.orderService.order$
+    this.orderService.getStream()
       .subscribe(
         data => {
           this.order = data;

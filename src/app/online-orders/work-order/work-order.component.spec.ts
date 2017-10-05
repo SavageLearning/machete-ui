@@ -13,33 +13,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OnlineOrdersService } from '../online-orders.service';
 import { ScheduleRule } from '../shared/models/schedule-rule';
 import { ConfigsService } from '../../configs/configs.service';
-class WorkOrderServiceSpy {
-  get = jasmine.createSpy('get')
-    .and.callFake(
-      () => Observable.of(new WorkOrder())
-    );
-  loadFromProfile = jasmine.createSpy('loadFromProfile')
-    .and.callFake(
-      () => Observable.of(new Employer())
-    );
-}
-class LookupsServiceSpy {
-  getLookups = jasmine.createSpy('getLookups')
-    .and.callFake(
-      () => Observable.of(new Array<Lookup>())
-    );
-}
-
-class OnlineOrdersServiceSpy {
-  scheduleRules = jasmine.createSpy('scheduleRules')
-    .and.callFake(
-      () => new Array<ScheduleRule>()
-    );
-}
-
-class ConfigsServiceSpy {
-
-}
+import { WorkOrderServiceSpy, LookupsServiceSpy, ConfigsServiceSpy, OnlineOrdersServiceSpy } from '../../shared/testing';
 
 describe('WorkOrderComponent', () => {
   let component: WorkOrderComponent;

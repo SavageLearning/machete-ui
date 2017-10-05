@@ -4,6 +4,8 @@ import { Lookup } from "../../lookups/models/lookup";
 import { User } from "oidc-client";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../online-orders/work-order/models/work-order";
+import { ScheduleRule, loadTransportRules, TransportRule } from "../../online-orders/shared/index";
+import { WorkAssignment } from "../../online-orders/work-assignments/models/work-assignment";
 
 export class EmployersServiceSpy {
   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
@@ -52,7 +54,37 @@ export class AuthServiceSpy {
 }
 
 export class RouterSpy {
+  events = jasmine.createSpy('events')
+    .and.callFake(
+      () => Observable.of(new Object())
+    );
+}
+
+export class WorkAssignmentsServiceSpy {
+  getAll = jasmine.createSpy('getAll')
+    .and.callFake(
+      () => new Array<WorkAssignment>()
+    );
+  getTransportRules = jasmine.createSpy('getTransportRules')
+    .and.callFake(
+      () => Observable.of(loadTransportRules())
+    );
+  compactRequests = jasmine.createSpy('compactRequests');
+
+  getTransportRulesStream = jasmine.createSpy('getTransportRulesStream')
+    .and.callFake(
+      () => Observable.of(new Array<TransportRule>())
+    );
   
+  getTransportsStream = jasmine.createSpy('getTransportsStream')
+    .and.callFake(
+      () => Observable.of(new Array<Lookup>())
+    );
+
+    getWorkOrderStream = jasmine.createSpy('getWorkOrderStream')
+    .and.callFake(
+      () => Observable.of(new WorkOrder())
+    );
 }
 
 export class WorkOrderServiceSpy {
@@ -60,9 +92,13 @@ export class WorkOrderServiceSpy {
     .and.callFake(
       () => new WorkOrder()
     );
-  order = jasmine.createSpy('order$')
+  getStream = jasmine.createSpy('getStream')
     .and.callFake(
-      () => {}
+      () => Observable.of(new WorkOrder())
+    );
+    loadFromProfile = jasmine.createSpy('loadFromProfile')
+    .and.callFake(
+      () => Observable.of(new Employer())
     );
 }
 export class OnlineOrdersServiceSpy {
@@ -70,4 +106,16 @@ export class OnlineOrdersServiceSpy {
     .and.callFake(
       () => {}
     );
+    scheduleRules = jasmine.createSpy('scheduleRules')
+    .and.callFake(
+      () => new Array<ScheduleRule>()
+    );
+    getTransportRules = jasmine.createSpy('getTransportRules')
+    .and.callFake(
+      () => Observable.of(loadTransportRules())
+    );
+}
+
+export class ConfigsServiceSpy {
+  
 }

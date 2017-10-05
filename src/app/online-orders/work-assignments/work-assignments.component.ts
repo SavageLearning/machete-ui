@@ -55,7 +55,7 @@ export class WorkAssignmentsComponent implements OnInit {
   ngOnInit() {
     console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
-    this.waService.transportRules$
+    this.waService.getTransportRulesStream()
       .subscribe(
         data => this.transportRules = data,
         // When this leads to a REST call, compactRequests will depend on it
@@ -146,7 +146,6 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.reset();
     this.newRequest = true;
   }
-
 
   saveRequest() {
     this.onValueChanged();

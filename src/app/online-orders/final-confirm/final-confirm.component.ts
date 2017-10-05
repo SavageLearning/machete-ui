@@ -16,7 +16,7 @@ export class FinalConfirmComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.ordersService.order$
+    this.ordersService.getStream()
       .subscribe(data => {
         this.order=  data;
       });

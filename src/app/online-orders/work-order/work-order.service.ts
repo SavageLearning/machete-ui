@@ -9,7 +9,7 @@ import { BehaviorSubject, ReplaySubject } from "rxjs";
 export class WorkOrderService {
   order: WorkOrder;
   orderSource = new ReplaySubject<WorkOrder>(1);
-  order$ = this.orderSource.asObservable();
+  //order$ = this.orderSource.asObservable();
 
   storageKey = 'machete.workorder';
   constructor(private employerService: EmployersService) {
@@ -27,6 +27,10 @@ export class WorkOrderService {
           this.orderSource.next(this.order);
         });
     }
+  }
+
+  getStream(): Observable<WorkOrder> {
+    return this.orderSource.asObservable();
   }
 
   get(): WorkOrder { 

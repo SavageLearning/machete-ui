@@ -9,12 +9,13 @@ export class WorkAssignmentsGuard implements CanActivate {
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
     console.log('.ctor');
-    onlineService.workOrderConfirmed$.subscribe(
-      confirm => {
-        console.log('.ctor->workAssignmentsConfirmed:', confirm)
-        this.isConfirmed = confirm;
-      }
-    );
+    onlineService.getWorkOrderConfirmedStream()
+      .subscribe(
+        confirm => {
+          console.log('.ctor->workAssignmentsConfirmed:', confirm)
+          this.isConfirmed = confirm;
+        }
+      );
   }
 
   canActivate(): boolean {
