@@ -9,6 +9,7 @@ import { WorkOrderService } from '../work-order/work-order.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../work-order/models/work-order";
+import { Subject } from "rxjs";
 
 @Injectable()
 export class WorkAssignmentsService {
@@ -30,7 +31,7 @@ export class WorkAssignmentsService {
   getTransportRulesStream(): Observable<TransportRule[]> {
     return this.transportRulesSource.asObservable();
   }
-
+  private combinedSource: Observable<[TransportRule[], Lookup[], WorkOrder]>;
   private workOrder: WorkOrder;
   private workOrderSource =
     new BehaviorSubject<WorkOrder>(new WorkOrder());
@@ -76,13 +77,13 @@ export class WorkAssignmentsService {
         }
       );
     
-    const combined = Observable.combineLatest(
-      this.getTransportRulesStream(),
-      this.getTransportsStream(),
-      this.getWorkOrderStream()
+      this.combinedSource = Observable.combineLatest(
+        this.getTransportRulesStream(),
+        this.getTransportsStream(),
+        this.getWorkOrderStream()
     );
 
-    const subscribed = combined.subscribe(
+    const subscribed = this.combinedSource.subscribe(
       values => {
         const [rules, transports, order] = values;
         console.log('combined subscription::', values);
@@ -94,6 +95,18 @@ export class WorkAssignmentsService {
   }
 
   save(request: WorkAssignment) {
+    Observable.zip(
+      this.getTransportRulesStream(),
+      this.getTransportsStream(),
+      this.getWorkOrderStream(),
+      () => {}
+    )
+    .subscribe(() => {
+      this._save(request);
+    });
+  }
+   
+  _save(request: WorkAssignment) {
     if (request.id === 0) {
       request.id = this.getNextRequestId();
     }

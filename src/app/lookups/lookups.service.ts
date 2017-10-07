@@ -19,7 +19,7 @@ export class LookupsService {
     let data = sessionStorage.getItem(this.storageKey);
     this.lookupsAge = Number(sessionStorage.getItem(this.storageKey + '.age'));
 
-    if (data) {
+    if (data && this.isNotStale) {
       console.log('.ctor using sessionStorage');
       this.lookups = JSON.parse(data);
       this.lookupsSource.next(this.lookups);
@@ -39,10 +39,11 @@ export class LookupsService {
     return !this.isStale();
   }
 
-  getAllLookups(): Observable<Lookup[]> {
-    if (this.lookups != null && this.lookups.length > 0 && this.isNotStale()) {
-      return Observable.of(this.lookups);
-    }
+  getAllLookups() {
+    // if (this.lookups != null && this.lookups.length > 0 && this.isNotStale()) {
+    //   console.log('cache hit');
+    //   return Observable.of(this.lookups);
+    // }
     // TODO: set timer for refresh
     console.log('getLookups: ', this.uriBase);
     this.http.get(this.uriBase)
@@ -52,7 +53,7 @@ export class LookupsService {
         this.lookupsSource.next(this.lookups);
         this.storeLookups();
 
-        //return res['data'] as Lookup[];
+        return Observable.of(res['data'] as Lookup[]);
       });
   }
 

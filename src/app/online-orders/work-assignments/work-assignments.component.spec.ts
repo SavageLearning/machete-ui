@@ -14,8 +14,6 @@ import { OnlineOrdersService } from '../online-orders.service';
 import { loadTransportRules } from '../shared';
 import { WorkOrderServiceSpy, WorkAssignmentsServiceSpy, LookupsServiceSpy } from "../../shared/testing";
 
-
-
 describe('WorkAssignmentsComponent', () => {
   let component: WorkAssignmentsComponent;
   let fixture: ComponentFixture<WorkAssignmentsComponent>;

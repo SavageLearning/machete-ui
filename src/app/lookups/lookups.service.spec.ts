@@ -17,8 +17,11 @@ describe('LookupsService', () => {
         HttpClientTestingModule
       ]
     });
+    sessionStorage.removeItem('machete.lookups');
+    sessionStorage.removeItem('machete.lookups.age');
     service = TestBed.get(LookupsService);
     httpMock = TestBed.get(HttpTestingController);
+
   });
 
   it('should ...', inject([LookupsService], (service1: LookupsService) => {
@@ -26,8 +29,6 @@ describe('LookupsService', () => {
   }));
 
   it('getLookups should return 1 injected Lookup record', () => {
-
-    
       service.getLookups(LCategory.SKILL)
         .subscribe(rows => {
           expect(rows.length).toBe(1, 'expected 1 lookups');
@@ -56,18 +57,4 @@ describe('LookupsService', () => {
     req.flush({data: testdata});
   }
 );
-
-  it('getAllLookups should return an injected Lookup record',
-    () => {
-      service.getAllLookups()
-        .subscribe(rows => {
-          expect(rows.length).toBe(1, 'expected 1 lookups');
-          expect(rows[0].idString).toBe('Lookup', 'expected typeof Lookup');
-        });
-      let req = httpMock.expectOne('/api/lookups');
-      let testdata = new Array<Lookup>();
-      testdata.push(new Lookup());
-      req.flush({data: testdata});
-    }
-  );
 });

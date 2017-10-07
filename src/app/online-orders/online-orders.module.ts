@@ -9,7 +9,7 @@ import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
 import { StepsModule, CalendarModule, DropdownModule,
           DataTableModule, InputSwitchModule, MessagesModule,
-          DialogModule } from 'primeng/primeng';
+          DialogModule, CheckboxModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 

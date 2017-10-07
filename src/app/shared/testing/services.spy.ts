@@ -6,6 +6,9 @@ import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../online-orders/work-order/models/work-order";
 import { ScheduleRule, loadTransportRules, TransportRule } from "../../online-orders/shared/index";
 import { WorkAssignment } from "../../online-orders/work-assignments/models/work-assignment";
+import { Subject } from "rxjs/Subject";
+import { Router, NavigationEnd, UrlTree } from "@angular/router";
+import { BehaviorSubject } from "rxjs";
 
 export class EmployersServiceSpy {
   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
@@ -54,9 +57,20 @@ export class AuthServiceSpy {
 }
 
 export class RouterSpy {
-  events = jasmine.createSpy('events')
+  public ne = new NavigationEnd(0, 
+    'http://localhost:4200/login', 
+    'http://localhost:4200/login');
+  public events = new Observable(observer => {
+    observer.next(this.ne);
+    observer.complete();
+  });
+  createUrlTree = jasmine.createSpy('createUrlTree')
     .and.callFake(
-      () => Observable.of(new Object())
+      () => new UrlTree()
+    );
+  serializeUrl = jasmine.createSpy('serializeUrl')
+    .and.callFake(
+      () => ""
     );
 }
 
@@ -106,14 +120,19 @@ export class OnlineOrdersServiceSpy {
     .and.callFake(
       () => {}
     );
-    scheduleRules = jasmine.createSpy('scheduleRules')
+  scheduleRules = jasmine.createSpy('scheduleRules')
     .and.callFake(
       () => new Array<ScheduleRule>()
     );
-    getTransportRules = jasmine.createSpy('getTransportRules')
+  getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
       () => Observable.of(loadTransportRules())
     );
+
+  getInitialConfirmedStream = jasmine.createSpy('getInitialConfirmedStream')
+      .and.callFake(
+        () => Observable.of(true)
+      );
 }
 
 export class ConfigsServiceSpy {
