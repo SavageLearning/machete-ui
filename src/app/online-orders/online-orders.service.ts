@@ -63,6 +63,9 @@ export class OnlineOrdersService {
     this.workAssignmentsConfirmSource.next(this.workAssignmentsConfirm);
   }
 
+  getInitialConfirmValue(): boolean {
+    return this.initialConfirm;
+  }
   setInitialConfirm(choice: boolean) {
     console.log('setInitialConfirm:', choice);
     this.initialConfirm = choice;

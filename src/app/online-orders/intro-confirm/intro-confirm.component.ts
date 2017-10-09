@@ -12,6 +12,7 @@ export class IntroConfirmComponent implements OnInit {
   status = false;
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
+    console.log('.ctor');
   }
 
   ngOnInit() {
@@ -23,7 +24,7 @@ export class IntroConfirmComponent implements OnInit {
     );
   }
 
-  checkConfirm() {
+  checkConfirm(event: any) {
     this.onlineService.setInitialConfirm(this.status);
   }
 

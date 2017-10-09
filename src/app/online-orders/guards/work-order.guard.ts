@@ -9,7 +9,7 @@ export class WorkOrderGuard implements CanActivate {
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
     console.log('.ctor');
-    onlineService.initialConfirmed$.subscribe(
+    onlineService.getInitialConfirmedStream().subscribe(
       confirm => {
         console.log('.ctor->initialConfirmed:', confirm)
         this.isConfirmed = confirm;

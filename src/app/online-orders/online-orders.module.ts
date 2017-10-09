@@ -25,6 +25,7 @@ import { OnlineOrdersService } from './online-orders.service';
     InputSwitchModule,
     MessagesModule,
     DialogModule,
+    CheckboxModule,
     OnlineOrdersRoutingModule
   ],
   declarations: [

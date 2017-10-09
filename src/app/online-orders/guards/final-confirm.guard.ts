@@ -9,7 +9,7 @@ export class FinalConfirmGuard implements CanActivate {
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
     console.log('.ctor');
-    onlineService.workAssignmentsConfirmed$.subscribe(
+    onlineService.getWorkAssignmentConfirmedStream().subscribe(
       confirm => {
         console.log('.ctor->finalConfirmed:', confirm)
         this.isConfirmed = confirm;
