@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {WorkAssignment} from './models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
@@ -48,6 +49,8 @@ export class WorkAssignmentsComponent implements OnInit {
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
     private waService: WorkAssignmentsService,
+    private onlineService: OnlineOrdersService,
+    private router: Router,
     private fb: FormBuilder) {
       console.log('.ctor');
   }
@@ -151,6 +154,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.onValueChanged();
     if (this.requestForm.status === 'INVALID') {
       this.showErrors = true;
+      this.onlineService.setWorkAssignmentsConfirm(false);
       return;
     }
     this.showErrors = false;
@@ -168,6 +172,7 @@ export class WorkAssignmentsComponent implements OnInit {
     };
 
     this.waService.save(saveRequest);
+    this.onlineService.setWorkAssignmentsConfirm(true);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.buildForm();
@@ -188,6 +193,7 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   finalize() {
+    this.router.navigate(['/online-orders/intro-confirm']);
     
   }
 }
