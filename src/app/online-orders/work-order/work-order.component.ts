@@ -7,8 +7,8 @@ import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
 import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
-import { ConfigsService } from "../../configs/configs.service";
-import { MySelectItem } from "../../shared/models/my-select-item";
+import { ConfigsService } from '../../configs/configs.service';
+import { MySelectItem } from '../../shared/models/my-select-item';
 
 @Component({
   selector: 'app-work-order',
@@ -39,8 +39,8 @@ export class WorkOrderComponent implements OnInit {
     'transportMethodID': ''
   };
 
-  display: boolean = false;
-  
+  display = false;
+
   showDialog() {
       this.display = true;
   }
@@ -50,7 +50,7 @@ export class WorkOrderComponent implements OnInit {
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
     private fb: FormBuilder) {
-      console.log('.ctor');
+      console.log('.ctor');      
     }
 
   ngOnInit() {
@@ -64,19 +64,13 @@ export class WorkOrderComponent implements OnInit {
   }
 
   initializeProfile() {
-    if (this.orderService.get() == null) {
-      this.orderService.loadFromProfile()
-        .subscribe(
-          data => {
-            console.log('ngOnInit: loadFromProfile ', data)
-            this.order = this.mapOrderFrom(data);
-            this.buildForm();
-          }
-        );
-    } else {
-      this.order = this.orderService.get();
-      this.buildForm();
-    }
+    this.orderService.getStream()
+      .subscribe(
+        data => {
+          this.order = data;
+          this.buildForm();
+        }
+      );
   }
 
   initializeTransports() {
@@ -87,23 +81,13 @@ export class WorkOrderComponent implements OnInit {
           let items = [new MySelectItem('Select transportion', null)];
           let transports = listData.map(l =>
             new MySelectItem(l.text_EN, String(l.id)));
-          this.transportMethodsDropDown = items.concat(transports);;
+          this.transportMethodsDropDown = items.concat(transports); ;
         },
         error => this.errorMessage = <any>error,
         () => console.log('ngOnInit: getLookups onCompleted'));
   }
 
-  mapOrderFrom(employer: Employer): WorkOrder {
-    const order = new WorkOrder();
-    order.contactName = employer.name;
-    order.worksiteAddress1 = employer.address1;
-    order.worksiteAddress2 = employer.address2;
-    order.city = employer.city;
-    order.state = employer.state;
-    order.zipcode = employer.zipcode;
-    order.phone = employer.phone || employer.cellphone;
-    return order;
-  }
+
 
   buildForm(): void {
     this.orderForm = this.fb.group({
@@ -154,6 +138,7 @@ export class WorkOrderComponent implements OnInit {
     this.onValueChanged();
     if (this.orderForm.status === 'INVALID') {
       console.log('save: INVALID: ' + this.formErrors)
+      this.onlineService.setWorkorderConfirm(false);    
       this.showErrors = true;
       return;
     }
@@ -161,6 +146,7 @@ export class WorkOrderComponent implements OnInit {
 
     const order = this.prepareOrderForSave();
     this.orderService.save(order);
+    this.onlineService.setWorkorderConfirm(true);
     this.newOrder = false;
   }
 

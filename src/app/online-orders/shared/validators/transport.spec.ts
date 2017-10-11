@@ -1,5 +1,5 @@
 import { transportValidator } from './transport';
-import { AbstractControl, ValidatorFn, FormControl } from "@angular/forms";
+import { AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { loadTransportRules } from '../rules/load-transport-rules';
 

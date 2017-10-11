@@ -5,10 +5,9 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
-import { Log } from "oidc-client";
-import { WorkOrderService } from "../work-order/work-order.service";
-import { TransportRule } from "../shared";
-import { MySelectItem } from "../../shared/models/my-select-item";
+import { WorkOrderService } from '../work-order/work-order.service';
+import { TransportRule } from '../shared';
+import { MySelectItem } from '../../shared/models/my-select-item';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -50,17 +49,19 @@ export class WorkAssignmentsComponent implements OnInit {
     private orderService: WorkOrderService,
     private waService: WorkAssignmentsService,
     private fb: FormBuilder) {
+      console.log('.ctor');
   }
 
   ngOnInit() {
+    console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
-    this.waService.getTransportRules()
+    this.waService.getTransportRulesStream()
       .subscribe(
         data => this.transportRules = data,
         // When this leads to a REST call, compactRequests will depend on it
         error => console.error('ngOnInit.getTransportRules.error' + error),
         () => console.log('ngOnInit:getTransportRules onCompleted'));
-        
+
     this.lookupsService.getLookups(LCategory.SKILL)
       .subscribe(
         listData => {
@@ -75,7 +76,7 @@ export class WorkAssignmentsComponent implements OnInit {
       listData => {
         this.transports = listData;
         this.waService.compactRequests();
-    
+
       },
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit:transports onCompleted'));
@@ -127,7 +128,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['skill'].setValue(skill.text_EN);
     this.requestForm.controls['wage'].setValue(skill.wage);
   }
-
+  // loads an existing item into the form fields
   editRequest(request: WorkAssignment) {
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
@@ -145,7 +146,6 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.reset();
     this.newRequest = true;
   }
-
 
   saveRequest() {
     this.onValueChanged();
@@ -185,5 +185,9 @@ export class WorkAssignmentsComponent implements OnInit {
       request[prop] = c[prop];
     }
     return request;
+  }
+
+  finalize() {
+    
   }
 }

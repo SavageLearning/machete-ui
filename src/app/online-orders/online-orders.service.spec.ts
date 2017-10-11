@@ -8,8 +8,8 @@ import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
 import { AuthService } from '../shared/index';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
-import { HttpModule } from "@angular/http";
-
+import { HttpModule } from '@angular/http';
+import { WorkOrderServiceSpy, EmployersServiceSpy, AuthServiceSpy, WorkAssignmentsServiceSpy } from "../shared/testing";
 
 describe('OnlineOrdersService', () => {
   let service: OnlineOrdersService;
@@ -20,10 +20,10 @@ describe('OnlineOrdersService', () => {
     TestBed.configureTestingModule({
       providers: [
         OnlineOrdersService,
-        WorkOrderService,
-        EmployersService,
-        AuthService,
-        WorkAssignmentsService
+        { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
+        { provide: EmployersService, useClass: EmployersServiceSpy },
+        { provide: AuthService, useClass: AuthServiceSpy },
+        { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy }
       ],
       imports: [
         HttpModule,
@@ -42,7 +42,7 @@ describe('OnlineOrdersService', () => {
       expect(service.scheduleRules.length).toBe(7);
   });
   // this works because the data is hardcoded (for now)
-  it('should load 4 transport rules', () => {
-      expect(service.transportRules.length).toBe(4);
+  it('should load 5 transport rules', () => {
+      expect(service.transportRules.length).toBe(5);
   });
 });

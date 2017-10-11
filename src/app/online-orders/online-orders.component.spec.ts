@@ -2,6 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OnlineOrdersComponent } from './online-orders.component';
 import { StepsModule } from 'primeng/primeng';
+import { OnlineOrdersService } from "./online-orders.service";
+import { OnlineOrdersServiceSpy, RouterSpy } from "../shared/testing";
+import { Router } from "@angular/router";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { Observable } from "rxjs/Observable";
 
 describe('OnlineOrdersComponent', () => {
   let component: OnlineOrdersComponent;
@@ -12,8 +17,18 @@ describe('OnlineOrdersComponent', () => {
       declarations: [ OnlineOrdersComponent ],
       imports: [
         StepsModule,
+        FormsModule,
+        ReactiveFormsModule,
         RouterTestingModule
       ]
+    })
+    .overrideComponent(OnlineOrdersComponent, {
+      set: {
+        providers: [
+          { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
+          { provide: Router, useClass: RouterSpy } 
+        ]
+      }
     })
     .compileComponents();
   }));

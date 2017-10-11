@@ -6,10 +6,10 @@ import { AuthGuardService } from './shared/services/auth-guard.service';
 import { PageNotFoundComponent }    from './not-found.component';
 
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
-import { UnauthorizedComponent, WelcomeComponent, 
+import { UnauthorizedComponent, WelcomeComponent,
   AuthorizeComponent, DashboardComponent} from './auth/';
 
-import { RegisterComponent } from "./auth/register/register.component";
+import { RegisterComponent } from './auth/register/register.component';
 
 const appRoutes: Routes = [
   {
@@ -62,6 +62,7 @@ const appRoutes: Routes = [
     RouterModule
   ],
   providers: [
+
     AuthGuardService,
     SelectivePreloadingStrategy
   ]

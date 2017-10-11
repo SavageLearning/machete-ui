@@ -9,7 +9,7 @@ import {ExportColumn} from './models/export-column';
 import {SearchOptions} from '../reports/models/search-options';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Log } from "oidc-client";
+import { Log } from 'oidc-client';
 @Injectable()
 export class ExportsService {
   uriBase = environment.dataUrl + '/api/exports';

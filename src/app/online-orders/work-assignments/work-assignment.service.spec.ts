@@ -14,8 +14,9 @@ import { Lookup } from '../../lookups/models/lookup';
 import { Observable } from 'rxjs/Observable';
 import { WorkOrder } from '../work-order/models/work-order';
 import { TransportRule, CostRule } from '../shared/index';
-
-class AuthServiceSpy {}
+import { AuthServiceSpy, EmployersServiceSpy, 
+  WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy
+} from '../../shared/testing';
 
 describe('WorkAssignmentsService', () => {
   let service: WorkAssignmentsService;
@@ -26,19 +27,24 @@ describe('WorkAssignmentsService', () => {
     TestBed.configureTestingModule({
       providers: [
         WorkAssignmentsService,
-        OnlineOrdersService,
         WorkOrderService,
-        EmployersService,
-        {provide: AuthService, useClass: AuthServiceSpy },
-        LookupsService
+        LookupsService,
+        OnlineOrdersService,
+        //{ provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
+        //{ provide: WorkOrderService, useClass: WorkOrderServiceSpy},
+        { provide: EmployersService, useClass: EmployersServiceSpy },
+        { provide: AuthService, useClass: AuthServiceSpy },
+        //{ provide: LookupsService, useClass: LookupsServiceSpy },
+        
       ],
       imports: [
         HttpModule,
         HttpClientTestingModule
       ]
     });
-    spyOn(WorkOrderService.prototype, 'get')
-      .and.returnValue(new WorkOrder({transportMethodID: 32, zipcode: '12345'}));
+    spyOn(WorkOrderService.prototype, 'getStream')
+      .and.returnValue(Observable.of(
+        new WorkOrder({transportMethodID: 32, zipcode: '12345'})));
 
     let transportRules = new Array<TransportRule>();
     let costRules = new Array<CostRule>();
@@ -46,7 +52,8 @@ describe('WorkAssignmentsService', () => {
     transportRules.push(new TransportRule({
       lookupKey: 'transport_van',
       costRules: costRules,
-      zipcodes:['12345']}));
+      zipcodes: ['12345']}));
+
     spyOn(OnlineOrdersService.prototype, 'getTransportRules')
       .and.returnValue(Observable.of(transportRules));
 
@@ -67,7 +74,7 @@ describe('WorkAssignmentsService', () => {
   it('should save a record to sessions storage', () => {
     let wa = new WorkAssignment({id: 123});
     service.save(wa);
-    let data = sessionStorage.getItem(WorkAssignmentsService.storageKey);
+    let data = sessionStorage.getItem(service.storageKey);
     let result = JSON.parse(data);
     expect(result[0].id).toBe(1, 'expected record just created to be id=1 in storage');
   });

@@ -4,10 +4,10 @@ import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/primeng';
 import {AppComponent} from '../app.component';
-import { loadMenuRules } from "./load-menu-rules";
-import { AuthService } from "../shared/index";
-import { User } from "oidc-client";
-import { MenuRule } from "./menu-rule";
+import { loadMenuRules } from './load-menu-rules';
+import { AuthService } from '../shared/index';
+import { User } from 'oidc-client';
+import { MenuRule } from './menu-rule';
 
 @Component({
     selector: 'app-menu',
@@ -38,7 +38,7 @@ export class AppMenuComponent implements OnInit {
                         return new Array<MenuRule>();
                     }
                     let roles = user.profile['role'];
-                    if (typeof roles === "string") {
+                    if (typeof roles === 'string') {
                         roles = [roles];
                     }
                     this.model = loadMenuRules(roles)

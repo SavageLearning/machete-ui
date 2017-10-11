@@ -7,10 +7,7 @@ import { environment } from '../../environments/environment';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../shared/index';
 import { HttpModule } from '@angular/http';
-
-class AuthServiceSpy {
-  
-}
+import { AuthServiceSpy } from '../shared/testing';
 
 describe('EmployersService', async() => {
   let service: EmployersService;

@@ -1,7 +1,7 @@
 import { NgModule }       from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {EmployersComponent} from './employers.component';
-import { AuthGuardService } from "../shared/index";
+import { AuthGuardService } from '../shared/index';
 
 const employerRoutes: Routes = [
   {

@@ -34,7 +34,7 @@ export class AuthService {
   }
   isLoggedInObs(): Observable<boolean> {
     return Observable.fromPromise(this.mgr.getUser()).map<User, boolean>((user) => {
-      if (user) {
+      if (user && !user.expired) {
         return true;
       } else {
         return false;
@@ -54,17 +54,17 @@ export class AuthService {
   getUser$(): Observable<User> {
     return Observable.fromPromise(this.mgr.getUser());
   }
-  
-  getUserRoles$(): Observable<string[]> { 
-    return this.getUser$() 
-      .mergeMap((user: User)=> { 
+
+  getUserRoles$(): Observable<string[]> {
+    return this.getUser$()
+      .mergeMap((user: User) => {
         console.log(user);
         if (user === null || user === undefined) {
           return Observable.of(new Array<string>());
         } else {
-          return Observable.of(user.profile.role as string[]); 
+          return Observable.of(user.profile.role as string[]);
         }
-      }); 
+      });
   }
 
   getUsername$(): Observable<string> {
@@ -78,14 +78,14 @@ export class AuthService {
         }
       });
   }
- 
+
   getUser() {
     this.mgr.getUser().then((user) => {
       this.currentUser = user;
       //console.log('auth.service.getUser returned: ' + JSON.stringify(user));
       this.getUserEmitter().emit(user);
     }).catch(function (err) {
-      console.error('getUser: ',err);
+      console.error('getUser: ', err);
     });
   }
 

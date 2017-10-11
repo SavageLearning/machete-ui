@@ -7,8 +7,8 @@ import {
 } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
-import { Log, User } from "oidc-client";
-import { Router } from "@angular/router";
+import { Log, User } from 'oidc-client';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -27,22 +27,22 @@ export class TokenInterceptor implements HttpInterceptor {
           this.auth.redirectUrl = url;
           this.route.navigate(['/welcome']);
           return next.handle(request);
-        
+
         }
         if (user.expired) {
           this.auth.redirectUrl = url;
           // TODO: should go to login start, or silently renew?
           this.route.navigate(['/unauthorized']);
           return next.handle(request);
-        
-        } 
+
+        }
         request = request.clone({
           setHeaders: {
             Authorization: `Bearer ${user.access_token}`
           }
         });
         return next.handle(request);
-      
+
       });
   }
 }

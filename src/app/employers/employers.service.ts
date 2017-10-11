@@ -28,7 +28,7 @@ export class EmployersService {
           }
           return o['data'] as Employer;
         })
-        .catch(HandleError.error);    
+        .catch(HandleError.error);
       });
   }
 
@@ -42,7 +42,7 @@ export class EmployersService {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       })
       .catch(HandleError.error);
-    else 
+    else
     return this.http.put(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       })
