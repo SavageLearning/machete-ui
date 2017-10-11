@@ -1,13 +1,13 @@
 
-import { MenuRule, LRole } from "./menu-rule";
-import { Log } from "oidc-client";
+import { MenuRule, LRole } from './menu-rule';
+import { Log } from 'oidc-client';
 
 export function loadMenuRules(authList: string[]): Array<MenuRule> {
   const rules = [
     new MenuRule({
-      id: 1, 
-      label: 'Place an order', 
-      icon: 'business', 
+      id: 1,
+      label: 'Place an order',
+      icon: 'business',
       routerLink: ['/online-orders/introduction'],
       authorizedRoles: [
         LRole.ADMIN,
@@ -15,9 +15,9 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       ]
     }),
     new MenuRule({
-      id: 2, 
-      label: 'My profile', 
-      icon: 'business', 
+      id: 2,
+      label: 'My profile',
+      icon: 'business',
       routerLink: ['/employers'],
       authorizedRoles: [
         LRole.ADMIN,
@@ -25,9 +25,9 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       ]
     }),
     new MenuRule({
-      id: 3, 
-      label: 'My work orders', 
-      icon: 'work', 
+      id: 3,
+      label: 'My work orders',
+      icon: 'work',
       routerLink: ['/work-orders'],
       authorizedRoles: [
         LRole.ADMIN,
@@ -40,9 +40,9 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
     new MenuRule({id: 7, label: 'Sign-ins', icon: 'track_changes', url: ['/workersignin']}),
     new MenuRule({id: 8, label: 'Emails', icon: 'email', url: ['/email']}),
     new MenuRule({
-      id: 9, 
-      label: 'Reports', 
-      icon: 'subtitles', 
+      id: 9,
+      label: 'Reports',
+      icon: 'subtitles',
       routerLink: ['/reports'],
       authorizedRoles: [
         LRole.ADMIN,
@@ -50,9 +50,9 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       ]
     }),
     new MenuRule({
-      id: 10, 
-      label: 'Exports', 
-      icon: 'file_download', 
+      id: 10,
+      label: 'Exports',
+      icon: 'file_download',
       routerLink: ['/exports'],
       authorizedRoles: [
         LRole.ADMIN,
@@ -60,9 +60,9 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       ]
     }),
     new MenuRule({
-      id: 11, 
-      label: 'Dashboard', 
-      icon: 'file_download', 
+      id: 11,
+      label: 'Dashboard',
+      icon: 'file_download',
       routerLink: ['/dashboard'],
       authorizedRoles: [
         LRole.ADMIN,

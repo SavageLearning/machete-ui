@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { Config, CCategory } from '../shared/models/config';
-import { HandleError } from "../shared/handle-error";
+import { HandleError } from '../shared/handle-error';
 
 @Injectable()
 export class ConfigsService {
@@ -28,10 +28,10 @@ export class ConfigsService {
     if (this.isNotStale()) {
       return Observable.of(this.configs);
     }
-    
+
     console.log('getAllConfigs: ' + this.uriBase);
     return this.http.get(this.uriBase)
-      .map(res => { 
+      .map(res => {
         this.configs = res['data'] as Config[];
         this.configsAge = Date.now();
         return res['data'] as Config[];

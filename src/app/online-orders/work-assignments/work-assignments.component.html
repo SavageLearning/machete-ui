@@ -83,7 +83,7 @@
         <button pButton type="submit" label="Save"></button>
       </div>
     </form>
-
+  <div>
     <p-dataTable [value]="requestList" [(selection)]="selectedRequest" (onRowSelect)="onRowSelect($event)" [responsive]="true">
       <p-column field="id" header="#"></p-column>
       <p-column field="skill" header="Skill needed"></p-column>
@@ -103,5 +103,9 @@
         </ng-template>
       </p-column>
     </p-dataTable>
+    <div class="ui-g-12">
+        <button pButton type="button" label="Finalize"></button>
+    </div>
+  </div>
   </div>
 </div>

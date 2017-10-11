@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { OnlineOrdersService } from '../online-orders.service';
 
 @Component({
   selector: 'app-introduction',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IntroductionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private onlineService: OnlineOrdersService) {}
 
   ngOnInit() {
+  }
+
+  onClick() {
+    this.router.navigate(['/online-orders/intro-confirm']);
   }
 
 }

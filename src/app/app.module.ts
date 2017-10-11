@@ -23,7 +23,7 @@ import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
 import { WorkOrdersModule } from './work-orders/work-orders.module';
 import { EmployersModule } from './employers/employers.module';
-import { Log } from "oidc-client";
+import { Log } from 'oidc-client';
 
 @NgModule({
   declarations: [
@@ -63,10 +63,10 @@ import { Log } from "oidc-client";
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    if (!environment.production) { 
-      Log.level = Log.INFO; 
-      Log.logger = console; 
-    } 
+    if (!environment.production) {
+      Log.level = Log.INFO;
+      Log.logger = console;
+    }
     console.log('.ctor');
   }
 

@@ -6,7 +6,7 @@ import {Response} from '@angular/http';
 import { saveAs } from 'file-saver';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import * as contentDisposition from 'content-disposition';
-import { MySelectItem } from "../shared/models/my-select-item";
+import { MySelectItem } from '../shared/models/my-select-item';
 @Component({
   selector: 'app-exports',
   templateUrl: './exports.component.html',

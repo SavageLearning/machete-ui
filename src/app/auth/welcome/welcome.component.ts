@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigsService } from "../../configs/configs.service";
-import { Log } from "oidc-client";
-import { AuthService } from "../../shared/index";
-import { Router } from "@angular/router";
+import { ConfigsService } from '../../configs/configs.service';
+import { Log } from 'oidc-client';
+import { AuthService } from '../../shared/index';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -11,8 +11,8 @@ import { Router } from "@angular/router";
 })
 export class WelcomeComponent implements OnInit {
   welcome: string;
-  constructor(private cfgService: ConfigsService, 
-    private authService: AuthService, 
+  constructor(private cfgService: ConfigsService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit() {

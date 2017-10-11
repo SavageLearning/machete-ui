@@ -1,5 +1,4 @@
 import { async, TestBed, inject } from '@angular/core/testing';
-
 import { WorkOrderService } from './work-order.service';
 import { environment } from '../../../environments/environment';
 import { HttpTestingController } from '@angular/common/http/testing';
@@ -7,10 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EmployersService } from '../../employers/employers.service';
 import { AuthService } from '../../shared/index';
 import { HttpModule } from '@angular/http';
-
-class AuthServiceSpy {
-
-}
+import { AuthServiceSpy, EmployersServiceSpy } from '../../shared/testing';
 
 describe('WorkOrderService', () => {
   let service: WorkOrderService;
@@ -20,7 +16,7 @@ describe('WorkOrderService', () => {
     TestBed.configureTestingModule({
       providers: [
         WorkOrderService,
-        EmployersService,
+        { provide: EmployersService, useClass: EmployersServiceSpy },
         {provide: AuthService, useClass: AuthServiceSpy }
         ],
       imports: [

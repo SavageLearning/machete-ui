@@ -7,11 +7,11 @@ import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkAssignmentsComponent } from './work-assignments/work-assignments.component';
 import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
-import { StepsModule, CalendarModule, DropdownModule, 
+import { StepsModule, CalendarModule, DropdownModule,
           DataTableModule, InputSwitchModule, MessagesModule,
-          DialogModule } from 'primeng/primeng';
+          DialogModule, CheckboxModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SequenceGuard } from "./sequence-guard.service";
+import { OnlineOrdersService } from './online-orders.service';
 
 @NgModule({
   imports: [
@@ -25,6 +25,7 @@ import { SequenceGuard } from "./sequence-guard.service";
     InputSwitchModule,
     MessagesModule,
     DialogModule,
+    CheckboxModule,
     OnlineOrdersRoutingModule
   ],
   declarations: [
@@ -36,7 +37,7 @@ import { SequenceGuard } from "./sequence-guard.service";
     FinalConfirmComponent
   ],
   providers: [
-    SequenceGuard
+    OnlineOrdersService
   ]
 })
 export class OnlineOrdersModule { }
