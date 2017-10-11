@@ -1,33 +1,98 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { WorkOrder } from './work-order/models/work-order';
 import { HttpClient } from '@angular/common/http';
 import { WorkOrderService } from './work-order/work-order.service';
-import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
-import { WorkOrder } from './work-order/models/work-order';
 import { WorkAssignment } from './work-assignments/models/work-assignment';
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { ScheduleRule, TransportRule, loadScheduleRules, loadTransportRules } from './shared';
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class OnlineOrdersService {
   scheduleRules = new Array<ScheduleRule>();
   transportRules = new Array<TransportRule>();
 
+  private initialConfirm = false;
+  private initialConfirmSource = new BehaviorSubject<boolean>(false);
+  private workOrderConfirm = false;
+  private workOrderConfirmSource = new BehaviorSubject<boolean>(false);  
+  private workAssignmentsConfirm = false;
+  private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
+
+  storageKey = 'machete.online-orders-service';
+  initialConfirmKey = this.storageKey + '.initialconfirm';
+  workOrderConfirmKey = this.storageKey + '.workorderconfirm';
+  workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
+
   constructor(
     private http: HttpClient,
+    private orderService: WorkOrderService,
   ) {
+    console.log('.ctor');
     // this loads static data from a file. will replace later.
+    this.loadConfirmState();
     this.scheduleRules = loadScheduleRules();
     this.transportRules = loadTransportRules();
+
   }
 
-  validate() {}
+  getInitialConfirmedStream(): Observable<boolean> {
+    return this.initialConfirmSource.asObservable();
+  }
+
+  getWorkOrderConfirmedStream(): Observable<boolean> {
+    return this.workOrderConfirmSource.asObservable();
+  }
+
+  getWorkAssignmentConfirmedStream(): Observable<boolean> {
+    return this.workAssignmentsConfirmSource.asObservable();
+  }
+
+  loadConfirmState() {
+    this.initialConfirm = (sessionStorage.getItem(this.initialConfirmKey) == 'true');
+    this.workOrderConfirm = (sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
+    this.workAssignmentsConfirm = (sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
+
+    // notify the subscribers
+    this.initialConfirmSource.next(this.initialConfirm);
+    this.workOrderConfirmSource.next(this.workOrderConfirm);
+    this.workAssignmentsConfirmSource.next(this.workAssignmentsConfirm);
+  }
+
+  getInitialConfirmValue(): boolean {
+    return this.initialConfirm;
+  }
+  setInitialConfirm(choice: boolean) {
+    console.log('setInitialConfirm:', choice);
+    this.initialConfirm = choice;
+    sessionStorage.setItem(this.initialConfirmKey, JSON.stringify(choice));
+    this.initialConfirmSource.next(choice);
+  }
+
+  setWorkorderConfirm(choice: boolean) {
+    console.log('setWorkOrderConfirm:', choice);
+    this.workOrderConfirm = choice;
+    sessionStorage.setItem(this.storageKey + '.workorderconfirm',
+      JSON.stringify(choice));
+    this.workOrderConfirmSource.next(choice);
+  }
+
+  setWorkAssignmentsConfirm(choice: boolean) {
+    console.log('setWorkAssignmentsConfirm:', choice);
+    this.workAssignmentsConfirm = choice;
+    sessionStorage.setItem(this.storageKey+'.workassignmentsconfirm',
+      JSON.stringify(choice));
+    this.workAssignmentsConfirmSource.next(choice);
+  }
 
   postToApi(order: WorkOrder) {
     let url = environment.dataUrl + '/api/onlineorders';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+
     this.http.post(url, JSON.stringify(order), {
       headers: postHeaders
       }).subscribe(

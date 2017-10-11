@@ -16,10 +16,10 @@ export class FinalConfirmComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const savedOrder = this.ordersService.get();
-    if (savedOrder) {
-      this.order = savedOrder;
-    }
+    this.ordersService.getStream()
+      .subscribe(data => {
+        this.order=  data;
+      });
   }
 
   submit() {

@@ -5,6 +5,7 @@ import {FormBuilder} from '@angular/forms';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
+import { Router, NavigationEnd } from "@angular/router";
 
 @Component({
   selector: 'app-online-orders',
@@ -12,7 +13,6 @@ import { EmployersService } from '../employers/employers.service';
   styleUrls: ['./online-orders.component.css'],
   providers: [
     EmployersService,
-    OnlineOrdersService,
     WorkOrderService,
     WorkAssignmentsService,
     FormBuilder
@@ -21,7 +21,24 @@ import { EmployersService } from '../employers/employers.service';
 export class OnlineOrdersComponent implements OnInit {
   private items: MenuItem[];
   activeIndex = 0;
-  constructor() { }
+  confirmation = false;
+
+  constructor(
+    private onlineService: OnlineOrdersService, 
+    private router: Router) {
+      router.events.subscribe(event => {
+        // NavigationEnd event occurs after route succeeds
+        if(event instanceof NavigationEnd) {
+          switch(event.urlAfterRedirects) {
+            case '/online-orders/introduction': { this.activeIndex = 0; break; }
+            case '/online-orders/intro-confirm': { this.activeIndex = 1; break; }
+            case '/online-orders/work-order': { this.activeIndex = 2; break; }
+            case '/online-orders/work-assignments': { this.activeIndex = 3; break; }
+            case '/online-orders/final-confirm': { this.activeIndex = 4; break; }
+          }
+        }
+      });
+  }
 
   ngOnInit() {
     this.items = [

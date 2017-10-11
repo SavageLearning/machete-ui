@@ -1,7 +1,7 @@
 import {Component, AfterViewInit, ElementRef, Renderer, ViewChild} from '@angular/core';
 import { environment } from '../environments/environment';
-import { ConfigsService } from "./configs/configs.service";
-import { LookupsService } from "./lookups/lookups.service";
+import { ConfigsService } from './configs/configs.service';
+import { LookupsService } from './lookups/lookups.service';
 console.log('environment.name:', environment.name);
 
 enum MenuOrientation {

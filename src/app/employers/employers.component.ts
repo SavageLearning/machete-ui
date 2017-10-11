@@ -3,7 +3,7 @@ import { EmployersService } from './employers.service';
 import { Employer } from '../shared/models/employer';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LookupsService } from '../lookups/lookups.service';
-import { MySelectItem } from "../shared/models/my-select-item";
+import { MySelectItem } from '../shared/models/my-select-item';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class EmployersComponent implements OnInit {
   employer: Employer = new Employer();
   employerForm: FormGroup;
   showErrors = false;
-  yesNoDropDown = [new MySelectItem('no', 'false'), 
+  yesNoDropDown = [new MySelectItem('no', 'false'),
     new MySelectItem('yes', 'true')];
   formErrors = {
     'address1': '',

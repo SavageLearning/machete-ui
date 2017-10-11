@@ -1,4 +1,4 @@
-import { ScheduleRule } from "../models/schedule-rule";
+import { ScheduleRule } from '../models/schedule-rule';
 
 export function loadScheduleRules(): Array<ScheduleRule> {
     return  [

@@ -1,4 +1,4 @@
-import { Record } from './record'; 
+import { Record } from './record';
 
 export class CostRule extends Record<CostRule> {
     minWorker: number;

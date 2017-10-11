@@ -15,7 +15,7 @@ export class AuthorizeComponent implements OnInit {
   ngOnInit() {
     this.auth.endSigninMainWindow()
       .subscribe(user => {
-        // not sure why i have to copy to local variable. 
+        // not sure why i have to copy to local variable.
         // https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript
         let rtr = this.router;
         console.log('endSigninMainWindow.user: ', user);
@@ -25,9 +25,9 @@ export class AuthorizeComponent implements OnInit {
           }
         },
         err => {
-          console.error('endSigninMainWindow returned: ',err);
+          console.error('endSigninMainWindow returned: ', err);
         });
   }
-  
+
 
 }
