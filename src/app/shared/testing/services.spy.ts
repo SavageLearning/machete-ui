@@ -22,7 +22,7 @@ export class EmployersServiceSpy {
 export class LookupsServiceSpy {
   getLookups = jasmine.createSpy('getLookups')
     .and.callFake(
-      () => Observable.of(new Array<Lookup>())
+      () => Observable.of([new Lookup({id: 32, text_EN: 'a text label'})])
     );
 }
 
@@ -109,10 +109,13 @@ export class WorkOrderServiceSpy {
       () => new WorkOrder()
     );
   getStream = jasmine.createSpy('getStream')
-    .and.callFake(
-      () => Observable.of(new WorkOrder())
+    .and.callFake(() => Observable.of( new WorkOrder({
+      id: 1,
+      transportMethodID: 32
+      }))
     );
-    loadFromProfile = jasmine.createSpy('loadFromProfile')
+
+  loadFromProfile = jasmine.createSpy('loadFromProfile')
     .and.callFake(
       () => Observable.of(new Employer())
     );
