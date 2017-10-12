@@ -24,7 +24,7 @@ export class IntroConfirmComponent implements OnInit {
     );
   }
 
-  checkConfirm(event: any) {
+  checkConfirm(event: Event) {
     this.onlineService.setInitialConfirm(this.status);
   }
 

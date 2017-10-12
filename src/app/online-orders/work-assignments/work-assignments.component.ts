@@ -193,7 +193,7 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   finalize() {
-    this.router.navigate(['/online-orders/intro-confirm']);
+    this.router.navigate(['/online-orders/final-confirm']);
     
   }
 }

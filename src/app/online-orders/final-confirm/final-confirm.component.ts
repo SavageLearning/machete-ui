@@ -12,7 +12,7 @@ export class FinalConfirmComponent implements OnInit {
   order: WorkOrder = new WorkOrder();
   constructor(
     private ordersService: WorkOrderService,
-    //private onlineService: OnlineOrdersService
+    private onlineService: OnlineOrdersService
   ) { }
 
   ngOnInit() {
@@ -23,7 +23,7 @@ export class FinalConfirmComponent implements OnInit {
   }
 
   submit() {
-    //this.onlineService.postToApi();
+    this.onlineService.postToApi(this.order);
   }
 
 }
