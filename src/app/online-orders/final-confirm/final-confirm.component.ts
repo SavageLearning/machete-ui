@@ -35,6 +35,10 @@ export class FinalConfirmComponent implements OnInit {
       this.order = o;
       this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
       this.workerCount = wa.length;
+      this.transportCost = 
+        wa.map(wa => wa.transportCost)
+        .reduce((a, b) => a + b);
+      this.order.workAssignments = wa;
     },
     error => console.error('error', error)
   );
