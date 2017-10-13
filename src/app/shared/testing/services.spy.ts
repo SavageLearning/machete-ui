@@ -101,6 +101,8 @@ export class WorkAssignmentsServiceSpy {
     .and.callFake(
       () => Observable.of(new WorkOrder())
     );
+  getStream = jasmine.createSpy('getStream')
+    .and.callFake(() => Observable.of([new WorkAssignment()]))
 }
 
 export class WorkOrderServiceSpy {

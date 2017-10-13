@@ -4,6 +4,8 @@ import { WorkOrder } from '../work-order/models/work-order';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { LookupsService } from "../../lookups/lookups.service";
 import { LCategory } from "../../lookups/models/lookup";
+import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'app-final-confirm',
@@ -13,20 +15,29 @@ import { LCategory } from "../../lookups/models/lookup";
 export class FinalConfirmComponent implements OnInit {
   order: WorkOrder = new WorkOrder();
   transportLabel: string;
+  workerCount: number;
+  transportCost: number;
+
   constructor(
     private ordersService: WorkOrderService,
     private onlineService: OnlineOrdersService,
-    private lookups: LookupsService
+    private lookups: LookupsService,
+    private assignmentService: WorkAssignmentsService
   ) { }
 
   ngOnInit() {    
-    this.lookups.getLookups(LCategory.TRANSPORT)
-      .withLatestFrom(this.ordersService.getStream())
-      .subscribe(([l, o]) => {
-        console.log('final-confirm.component', l, o);
-        this.order = o;
-        this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
-      });
+    Observable.combineLatest(
+      this.lookups.getLookups(LCategory.TRANSPORT),
+      this.ordersService.getStream(),
+      this.assignmentService.getStream()
+    ).subscribe(([l, o, wa]) => {
+      console.log('ngOnInit', l, o, wa);
+      this.order = o;
+      this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
+      this.workerCount = wa.length;
+    },
+    error => console.error('error', error)
+  );
 
   }
 
