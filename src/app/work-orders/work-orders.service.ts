@@ -10,7 +10,7 @@ export class WorkOrdersService {
   constructor(private http: HttpClient) { }
 
   getOrders(): Observable<WorkOrder[]> {
-    let uri = environment.dataUrl + '/api/workorders';
+    let uri = environment.dataUrl + '/api/onlineorders';
 
     return this.http.get(uri)
       .map(o => o['data'] as WorkOrder[])

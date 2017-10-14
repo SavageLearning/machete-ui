@@ -42,6 +42,7 @@ describe('WorkAssignmentsService', () => {
         HttpClientTestingModule
       ]
     });
+    sessionStorage.removeItem('machete.workassignments');
     spyOn(WorkOrderService.prototype, 'getStream')
       .and.returnValue(Observable.of(
         new WorkOrder({transportMethodID: 32, zipcode: '12345'})));

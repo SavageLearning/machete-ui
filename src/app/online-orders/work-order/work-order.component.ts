@@ -103,7 +103,7 @@ export class WorkOrderComponent implements OnInit {
       'zipcode': [this.order.zipcode, requiredValidator('Zip code is required.')],
       'phone': [this.order.phone, requiredValidator('Phone is required.')],
       'description': [this.order.description, requiredValidator('Description is required.')],
-      'additionalNotes': '',
+      'additionalNotes': [this.order.additionalNotes],
       'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required.')]
     });
 
@@ -123,7 +123,7 @@ export class WorkOrderComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          //console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+          console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
             this.formErrors[field] += control.errors[key] + ' ';
         }
       }
@@ -137,7 +137,7 @@ export class WorkOrderComponent implements OnInit {
   save() {
     this.onValueChanged();
     if (this.orderForm.status === 'INVALID') {
-      console.log('save: INVALID: ' + this.formErrors)
+      console.log('save: INVALID', this.formErrors)
       this.onlineService.setWorkorderConfirm(false);    
       this.showErrors = true;
       return;

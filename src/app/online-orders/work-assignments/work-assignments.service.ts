@@ -90,6 +90,10 @@ export class WorkAssignmentsService {
       });
   }
 
+  getStream(): Observable<WorkAssignment[]> {
+    return Observable.of(this.requests);
+  }
+  
   getAll(): WorkAssignment[] {
       return this.requests;
   }
