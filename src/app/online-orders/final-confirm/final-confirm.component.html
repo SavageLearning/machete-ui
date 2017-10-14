@@ -103,18 +103,34 @@
         <label for="transportCost">transport fees</label>
       </div>
       <div class="ui-g-12 ui-md-8 ui-g-nopad">
-        {{transportCost}}
+        {{transportCost | currency:'USD':true}}
       </div>
-    </div>    
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-12 ui-md-4 ui-g-nopad">
+        <label for="laborCost">labor cost</label>
+      </div>
+      <div class="ui-g-12 ui-md-8 ui-g-nopad">
+        {{laborCost | currency:'USD':true}}
+      </div>
+    </div>      
   </div>
   <div>
       <p-dataTable [value]="order.workAssignments" 
         [responsive]="true">
           <p-column field="skill" header="Skill needed"></p-column>
-          <p-column field="transportCost" header="Transport cost"></p-column>
-          <p-column field="hours" header="hours requested"></p-column>
           <p-column field="requiresHeavyLifting" header="Heavy lifting?"></p-column>
-          <p-column field="wage" header="Hourly wage"></p-column>
+          <p-column field="transportCost" header="Transport cost">
+            <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+              <span>{{wa[col.field]| currency:'USD':true}}</span>
+          </ng-template>
+          </p-column>
+          <p-column field="hours" header="hours requested"></p-column>
+          <p-column field="wage" header="Hourly wage">
+            <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+              <span>{{wa[col.field]| currency:'USD':true}}</span>
+          </ng-template>
+          </p-column>
         </p-dataTable>
   </div>
   <div class="ui-g-12">

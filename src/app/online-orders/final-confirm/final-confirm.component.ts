@@ -17,6 +17,7 @@ export class FinalConfirmComponent implements OnInit {
   transportLabel: string;
   workerCount: number;
   transportCost: number;
+  laborCost: number;
 
   constructor(
     private ordersService: WorkOrderService,
@@ -39,6 +40,9 @@ export class FinalConfirmComponent implements OnInit {
         wa.map(wa => wa.transportCost)
         .reduce((a, b) => a + b);
       this.order.workAssignments = wa;
+      this.laborCost = 
+        wa.map(wa => wa.wage * wa.hours)
+        .reduce((a, b) => a + b);
     },
     error => console.error('error', error)
   );
