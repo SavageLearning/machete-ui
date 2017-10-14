@@ -122,6 +122,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['skill'].setValue(skill.text_EN);
     this.requestForm.controls['wage'].setValue(skill.wage);
   }
+
   // loads an existing item into the form fields
   editRequest(request: WorkAssignment) {
     this.requestForm.controls['id'].setValue(request.id);
@@ -139,6 +140,9 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.newRequest = true;
+    if (this.requestList == null || this.requestList.length == 0) {
+      this.onlineService.setWorkAssignmentsConfirm(false);
+    }
   }
 
   saveRequest() {
@@ -166,6 +170,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.onlineService.setWorkAssignmentsConfirm(true);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
+    this.selectedSkill = new Lookup();
     this.buildForm();
     this.newRequest = true;
   }
