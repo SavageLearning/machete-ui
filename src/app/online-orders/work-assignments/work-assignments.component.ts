@@ -7,7 +7,7 @@ import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { TransportRule } from '../shared';
+import { TransportRule, requiredValidator } from '../shared';
 import { MySelectItem } from '../../shared/models/my-select-item';
 @Component({
   selector: 'app-work-assignments',
@@ -34,15 +34,6 @@ export class WorkAssignmentsComponent implements OnInit {
     'description': '',
     'requiresHeavyLifting': '',
     'wage': ''
-  };
-
-  validationMessages = {
-    'skillId': {'required': 'Please select the type of work to be performed.' },
-    'skill': { 'required': 'skill is required.' },
-    'hours': {'required': 'Please enter the number of hours needed.' },
-    'description': {'required': 'description is required.' },
-    'requiresHeavyLifting': {'required': 'requiresHeavyLifting is required.' },
-    'wage': {'required': 'wage is required.' }
   };
 
   constructor(
@@ -90,12 +81,12 @@ export class WorkAssignmentsComponent implements OnInit {
   buildForm(): void {
     this.requestForm = this.fb.group({
       'id': '',
-      'skillId': ['', Validators.required],
+      'skillId': ['', requiredValidator('Please select the type of work to be performed.')],
       'skill': [''],
-      'hours': ['', Validators.required],
+      'hours': ['', requiredValidator('Please enter the number of hours for the job')],
       'description': [''],
-      'requiresHeavyLifting': [false, Validators.required ],
-      'wage': ['', Validators.required]
+      'requiresHeavyLifting': [false ],
+      'wage': ['']
     });
 
     this.requestForm.valueChanges
@@ -113,9 +104,9 @@ export class WorkAssignmentsComponent implements OnInit {
       const control = form.get(field);
 
       if (control && !control.valid) {
-        const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+          console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+            this.formErrors[field] += control.errors[key] + ' ';
         }
       }
     }
