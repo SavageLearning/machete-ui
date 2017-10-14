@@ -6,6 +6,8 @@ import { WorkOrder } from '../work-order/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, WorkAssignmentsServiceSpy } from '../../shared/testing';
 import { LookupsService } from "../../lookups/lookups.service";
+import { DataTableModule } from 'primeng/primeng';
+
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 
 describe('FinalConfirmComponent', () => {
@@ -14,7 +16,8 @@ describe('FinalConfirmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FinalConfirmComponent ]
+      declarations: [ FinalConfirmComponent ],
+      imports: [DataTableModule]
     })
     .overrideComponent(FinalConfirmComponent, {
       set: {

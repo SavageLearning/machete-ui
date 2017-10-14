@@ -87,11 +87,19 @@
     <p-dataTable [value]="requestList" [(selection)]="selectedRequest" (onRowSelect)="onRowSelect($event)" [responsive]="true">
       <p-column field="id" header="#"></p-column>
       <p-column field="skill" header="Skill needed"></p-column>
-      <p-column field="transportCost" header="Transport cost"></p-column>
+      <p-column field="transportCost" header="Transport cost">
+        <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>{{wa[col.field]| currency:'USD':true}}</span>
+        </ng-template>
+      </p-column>
       <p-column field="hours" header="hours requested"></p-column>
       <p-column field="description" header="notes"></p-column>
       <p-column field="requiresHeavyLifting" header="Heavy lifting?"></p-column>
-      <p-column field="wage" header="Hourly wage"></p-column>
+      <p-column field="wage" header="Hourly wage">
+        <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>{{wa[col.field]| currency:'USD':true}}</span>
+        </ng-template>
+      </p-column>
 
       <p-column styleClass="col-button">
         <ng-template pTemplate="header">
