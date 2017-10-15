@@ -9,6 +9,8 @@ import { WorkAssignmentsService } from './work-assignments.service';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { TransportRule, requiredValidator } from '../shared';
 import { MySelectItem } from '../../shared/models/my-select-item';
+import { hoursValidator } from '../shared/validators/hours';
+import { loadSkillRules } from '../shared/rules/load-skill-rules';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -83,9 +85,9 @@ export class WorkAssignmentsComponent implements OnInit {
       'id': '',
       'skillId': ['', requiredValidator('Please select the type of work to be performed.')],
       'skill': [''],
-      'hours': ['', requiredValidator('Please enter the number of hours for the job')],
+      'hours': ['', hoursValidator(loadSkillRules(), this.skills, 'skillId', 'hours')],
       'description': [''],
-      'requiresHeavyLifting': [false ],
+      'requiresHeavyLifting': [false],
       'wage': ['']
     });
 
@@ -149,7 +151,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.onValueChanged();
     if (this.requestForm.status === 'INVALID') {
       this.showErrors = true;
-      this.onlineService.setWorkAssignmentsConfirm(false);
+      //this.onlineService.setWorkAssignmentsConfirm(false);
       return;
     }
     this.showErrors = false;

@@ -6,6 +6,7 @@ export class SkillRule extends Record<SkillRule> {
   level: number;
   wage: number;
   minHour: number;
+  maxHour: number;
   minimumCost?: number;         // never used?
   fixedJob?: boolean;
   speciality: boolean;
