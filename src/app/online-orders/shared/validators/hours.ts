@@ -1,4 +1,4 @@
-import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators, FormGroup } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators, FormGroup, FormControl } from '@angular/forms';
 import { SkillRule } from "../models/skill-rule";
 import { Lookup } from '../../../lookups/models/lookup';
 
@@ -7,32 +7,28 @@ export function hoursValidator(
   lookups: Lookup[],
   skillIdKey: string,
   hoursKey: string): ValidatorFn {
-  return (group: FormGroup): {[key: string]: any} => {
+  return (control: FormControl): {[key: string]: any} => {
+    if (!control.parent) {
+      return null;
+    }
+    let skillIdControl = control.parent.get(skillIdKey);
+    let hoursControl = control;
 
-    let skillIdControl = group.controls[skillIdKey];
-    let hoursControl = group.controls[hoursKey];
-
-    if (hoursControl.value == null) {
+    if (!hoursControl.value) {
       return null;
     }
 
-    if (typeof hoursControl.value != 'number') {
-      return {'hours': 'Value entered must be a number'}
+    if (!skillIdControl.value) {
+      return null
     }
+    let hours: number = Number(hoursControl.value);
+    let skill: number = Number(skillIdControl.value);
 
-    if (Number.isInteger(hoursControl.value)) {
+    if (!Number.isInteger(hours)) {
       return {'hours': 'Value must be a whole number.'}
     }
 
-    if (skillIdControl.value == null) {
-      return {'hours': 'Please select a skill from the above dropdown.'}      
-    }
-
-    if (typeof skillIdControl.value != 'number') {
-      throw new Error('SkillId control value is not a number');
-    }
-
-    let lookup = lookups.find(l => l.id == skillIdControl.value);
+    let lookup = lookups.find(l => l.id == skill);
     if (lookup == null) {
       throw new Error('skillId control didn\'t match a lookup record.');
     }
