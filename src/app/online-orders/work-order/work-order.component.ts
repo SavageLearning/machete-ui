@@ -9,6 +9,7 @@ import { WorkOrderService } from './work-order.service';
 import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
 import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem } from '../../shared/models/my-select-item';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-work-order',
@@ -49,6 +50,7 @@ export class WorkOrderComponent implements OnInit {
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
+    private router: Router,
     private fb: FormBuilder) {
       console.log('.ctor');      
     }
@@ -148,6 +150,7 @@ export class WorkOrderComponent implements OnInit {
     this.orderService.save(order);
     this.onlineService.setWorkorderConfirm(true);
     this.newOrder = false;
+    this.router.navigate(['/online-orders/work-assignments']);
   }
 
   prepareOrderForSave(): WorkOrder {

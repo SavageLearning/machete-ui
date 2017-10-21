@@ -21,6 +21,7 @@ export function hoursValidator(
     if (!skillIdControl.value) {
       return null
     }
+    // https://gist.github.com/slavafomin/17ded0e723a7d3216fb3d8bf845c2f30
     let hours: number = Number(hoursControl.value);
     let skill: number = Number(skillIdControl.value);
 
