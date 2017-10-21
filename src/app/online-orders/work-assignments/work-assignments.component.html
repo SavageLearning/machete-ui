@@ -111,9 +111,9 @@
         </ng-template>
       </p-column>
     </p-dataTable>
-    <div class="ui-g-12">
-        <button pButton type="button"  (click)="finalize()" label="Finalize"></button>
-    </div>
+      <div class="ui-g">
+        <button pButton type="button"  (click)="finalize()" [disabled]="!hasRequests" label="Finalize"></button>
+      </div>
   </div>
   </div>
 </div>

@@ -28,6 +28,7 @@ export class WorkAssignmentsComponent implements OnInit {
   newRequest = true;
   requestForm: FormGroup;
   showErrors = false;
+  hasRequests= false;
   transportRules: TransportRule[];
   formErrors = {
     'skillId': '',
@@ -77,6 +78,7 @@ export class WorkAssignmentsComponent implements OnInit {
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
+    this.setHasRequests();
     this.buildForm();
   }
 
@@ -96,7 +98,13 @@ export class WorkAssignmentsComponent implements OnInit {
 
     this.onValueChanged();
   }
-
+  setHasRequests() {
+    if (this.requestList.length > 0) {
+      this.hasRequests = true;
+    } else {
+      this.hasRequests =  false;
+    }
+  }
   onValueChanged(data?: any) {
     const form = this.requestForm;
 
@@ -145,6 +153,7 @@ export class WorkAssignmentsComponent implements OnInit {
     if (this.requestList == null || this.requestList.length == 0) {
       this.onlineService.setWorkAssignmentsConfirm(false);
     }
+    this.setHasRequests();
   }
 
   saveRequest() {
@@ -175,6 +184,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.selectedSkill = new Lookup();
     this.buildForm();
     this.newRequest = true;
+    this.setHasRequests();
   }
 
   onRowSelect(event) {
