@@ -24,7 +24,7 @@
         {{order.worksiteAddress1}}
       </div>
     </div>
-    <div class="ui-g-12">
+    <div class="ui-g-12" *ngIf="order.worksiteAddress2">
       <div class="ui-g-12 ui-md-4  ui-g-nopad">
         <label for="worksiteAddress2">Address (2)</label>
       </div>
@@ -74,7 +74,7 @@
         {{order.description}}
       </div>
     </div>
-    <div class="ui-g-12">
+    <div class="ui-g-12" *ngIf="order.additionalNotes">
       <div class="ui-g-12 ui-md-4 ui-g-nopad">
         <label for="additionalNotes">Additional notes to dispatcher</label>
       </div>

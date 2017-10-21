@@ -25,7 +25,9 @@ export class WorkOrderComponent implements OnInit {
   showErrors = false;
   newOrder = true;
   schedulingRules: ScheduleRule[];
-
+  displayTransportCosts = false;
+  displayUserGuide = true;
+  storageKey = 'machete.work-order.component';
   formErrors = {
     'dateTimeofWork': '',
     'contactName':  '',
@@ -40,11 +42,17 @@ export class WorkOrderComponent implements OnInit {
     'transportMethodID': ''
   };
 
-  display = false;
+
 
   showDialog() {
-      this.display = true;
+      this.displayTransportCosts = true;
   }
+
+  ackUserGuide() {
+    this.displayUserGuide = false;
+    sessionStorage.setItem(this.storageKey + '.UG', 'false');
+  }
+
   constructor(
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
@@ -52,7 +60,14 @@ export class WorkOrderComponent implements OnInit {
     private configsService: ConfigsService,
     private router: Router,
     private fb: FormBuilder) {
-      console.log('.ctor');      
+      console.log('.ctor'); 
+      let result = sessionStorage.getItem(this.storageKey + '.UG');
+      if (result === 'false')
+      {
+        this.displayUserGuide = false;
+      } else {
+        this.displayUserGuide = true;
+      }
     }
 
   ngOnInit() {
