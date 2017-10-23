@@ -11,6 +11,7 @@ import { WorkAssignment } from "../../online-orders/work-assignments/models/work
 import { Subject } from "rxjs/Subject";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
+import { loadConfirms } from "../../online-orders/shared/rules/load-confirms";
 
 export class EmployersServiceSpy {
   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
@@ -138,7 +139,7 @@ export class OnlineOrdersServiceSpy {
 
   getInitialConfirmedStream = jasmine.createSpy('getInitialConfirmedStream')
       .and.callFake(
-        () => Observable.of(true)
+        () => Observable.of(loadConfirms())
       );
 }
 

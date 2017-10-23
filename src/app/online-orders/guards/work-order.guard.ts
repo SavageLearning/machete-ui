@@ -12,7 +12,7 @@ export class WorkOrderGuard implements CanActivate {
     onlineService.getInitialConfirmedStream().subscribe(
       confirm => {
         console.log('.ctor->initialConfirmed:', confirm)
-        this.isConfirmed = confirm;
+        this.isConfirmed = confirm.map(a => a.confirmed).reduce((a,b) => a && b);
       }
     );
   }
