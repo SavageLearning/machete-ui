@@ -29,7 +29,7 @@ export class OnlineOrdersService {
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
-
+  submitResult: WorkOrder;
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
@@ -106,7 +106,7 @@ export class OnlineOrdersService {
     this.http.post(url, JSON.stringify(order), {
       headers: postHeaders
       }).subscribe(
-      (data) => {},
+      (data) => {this.submitResult = data as WorkOrder; console.log(this.submitResult)},
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.error('Client-side error occured.');
