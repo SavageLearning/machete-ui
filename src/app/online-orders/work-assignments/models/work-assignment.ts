@@ -9,7 +9,7 @@ export class WorkAssignment extends Record<WorkAssignment>
   hours: number;
   description: string;
   requiresHeavyLifting = false;
-  wage: number;
+  hourlyWage: number;
   transportCost: number;
 
   static sort(a: WorkAssignment, b: WorkAssignment) {

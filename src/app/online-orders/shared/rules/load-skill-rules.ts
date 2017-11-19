@@ -8,7 +8,7 @@ export function loadSkillRules(): Array<SkillRule> {
       minHour: 5,
       maxHour: 8,
       speciality: false,
-      key: 'default',
+      key: 'skill_general_labor',
       descriptionEn: 'General Labor',
       active: true
     }),

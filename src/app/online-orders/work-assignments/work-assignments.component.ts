@@ -36,7 +36,7 @@ export class WorkAssignmentsComponent implements OnInit {
     'hours': '',
     'description': '',
     'requiresHeavyLifting': '',
-    'wage': ''
+    'hourlyWage': ''
   };
 
   constructor(
@@ -90,7 +90,7 @@ export class WorkAssignmentsComponent implements OnInit {
       'hours': ['', hoursValidator(loadSkillRules(), this.skills, 'skillId', 'hours')],
       'description': [''],
       'requiresHeavyLifting': [false],
-      'wage': ['']
+      'hourlyWage': ['']
     });
 
     this.requestForm.valueChanges
@@ -130,7 +130,7 @@ export class WorkAssignmentsComponent implements OnInit {
     }
     this.selectedSkill = skill;
     this.requestForm.controls['skill'].setValue(skill.text_EN);
-    this.requestForm.controls['wage'].setValue(skill.wage);
+    this.requestForm.controls['hourlyWage'].setValue(skill.wage);
   }
 
   // loads an existing item into the form fields
@@ -141,7 +141,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['hours'].setValue(request.hours);
     this.requestForm.controls['description'].setValue(request.description);
     this.requestForm.controls['requiresHeavyLifting'].setValue(request.requiresHeavyLifting);
-    this.requestForm.controls['wage'].setValue(request.wage);
+    this.requestForm.controls['hourlyWage'].setValue(request.hourlyWage);
     this.newRequest = false;
   }
 
@@ -173,7 +173,7 @@ export class WorkAssignmentsComponent implements OnInit {
       hours: formModel.hours,
       description: formModel.description,
       requiresHeavyLifting: formModel.requiresHeavyLifting,
-      wage: formModel.wage,
+      hourlyWage: formModel.hourlyWage,
       transportCost: 0
     };
 

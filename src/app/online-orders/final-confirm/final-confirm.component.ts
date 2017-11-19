@@ -41,7 +41,7 @@ export class FinalConfirmComponent implements OnInit {
             .reduce((a, b) => a + b);
         this.workerCount = wa.length;
         this.laborCost = 
-          wa.map(wa => wa.wage * wa.hours)
+          wa.map(wa => wa.hourlyWage * wa.hours)
             .reduce((a, b) => a + b);      
       } else {
         this.workerCount = 0;
