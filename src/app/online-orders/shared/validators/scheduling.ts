@@ -9,7 +9,7 @@ export function schedulingValidator(rules: ScheduleRule[]): ValidatorFn {
     }
     const date = control.value as Date;
     const diffdate = date.valueOf() - Date.now();
-    const rule = rules.find(s => s.id === date.getDay());
+    const rule = rules.find(s => s.day === date.getDay());
 
     if (diffdate < 0) {
         return {'scheduling': 'Date cannot be in the past.'}
