@@ -9,6 +9,7 @@ import { WorkOrderService } from './work-order.service';
 import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
 import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem } from '../../shared/models/my-select-item';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-work-order',
@@ -24,7 +25,9 @@ export class WorkOrderComponent implements OnInit {
   showErrors = false;
   newOrder = true;
   schedulingRules: ScheduleRule[];
-
+  displayTransportCosts = false;
+  displayUserGuide = true;
+  storageKey = 'machete.work-order.component';
   formErrors = {
     'dateTimeofWork': '',
     'contactName':  '',
@@ -39,18 +42,32 @@ export class WorkOrderComponent implements OnInit {
     'transportMethodID': ''
   };
 
-  display = false;
+
 
   showDialog() {
-      this.display = true;
+      this.displayTransportCosts = true;
   }
+
+  ackUserGuide() {
+    this.displayUserGuide = false;
+    sessionStorage.setItem(this.storageKey + '.UG', 'false');
+  }
+
   constructor(
     private lookupsService: LookupsService,
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
+    private router: Router,
     private fb: FormBuilder) {
-      console.log('.ctor');      
+      console.log('.ctor'); 
+      let result = sessionStorage.getItem(this.storageKey + '.UG');
+      if (result === 'false')
+      {
+        this.displayUserGuide = false;
+      } else {
+        this.displayUserGuide = true;
+      }
     }
 
   ngOnInit() {
@@ -148,6 +165,7 @@ export class WorkOrderComponent implements OnInit {
     this.orderService.save(order);
     this.onlineService.setWorkorderConfirm(true);
     this.newOrder = false;
+    this.router.navigate(['/online-orders/work-assignments']);
   }
 
   prepareOrderForSave(): WorkOrder {

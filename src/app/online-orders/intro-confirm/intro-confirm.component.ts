@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/primeng';
 import { OnlineOrdersService } from '../online-orders.service';
 import { Router } from '@angular/router';
+import { Confirm } from "../shared/models/confirm";
 
 @Component({
   selector: 'app-intro-confirm',
@@ -9,7 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./intro-confirm.component.css']
 })
 export class IntroConfirmComponent implements OnInit {
-  status = false;
+  confirmChoices = new Array<Confirm>();
+  confirmStatus = false;
+  // TODO: Refactor as a service that polls from API
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
     console.log('.ctor');
@@ -19,16 +22,27 @@ export class IntroConfirmComponent implements OnInit {
     this.onlineService.getInitialConfirmedStream()
     .subscribe(
       confirmed => {
-        this.status = confirmed;
+        this.confirmChoices = confirmed;
+        this.confirmStatus = this.confirmChoices
+                                .map(a => a.confirmed)
+                                .reduce((a,b) => a && b );
+        console.log('ngOnInit:getInitialConfirmedStream', confirmed, this.confirmStatus)
       }
     );
   }
 
   checkConfirm(event: Event) {
-    this.onlineService.setInitialConfirm(this.status);
+    let result =  this.confirmChoices
+                            .map(a => a.confirmed)
+                            .reduce((a,b) => a && b );
+    this.confirmStatus = result;
+    this.onlineService.setInitialConfirm(this.confirmChoices);                            
+    console.log('checkConfirm', this.confirmChoices, result);
   }
 
   nextStep() {
+
+    
     this.router.navigate(['/online-orders/work-order']);
   }
 

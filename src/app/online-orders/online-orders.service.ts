@@ -10,14 +10,16 @@ import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { ScheduleRule, TransportRule, loadScheduleRules, loadTransportRules } from './shared';
 import { BehaviorSubject } from "rxjs";
+import { Confirm } from "./shared/models/confirm";
+import { loadConfirms } from "./shared/rules/load-confirms";
 
 @Injectable()
 export class OnlineOrdersService {
   scheduleRules = new Array<ScheduleRule>();
   transportRules = new Array<TransportRule>();
 
-  private initialConfirm = false;
-  private initialConfirmSource = new BehaviorSubject<boolean>(false);
+  private initialConfirm: Confirm[];
+  private initialConfirmSource: BehaviorSubject<Confirm[]>; 
   private workOrderConfirm = false;
   private workOrderConfirmSource = new BehaviorSubject<boolean>(false);  
   private workAssignmentsConfirm = false;
@@ -27,20 +29,20 @@ export class OnlineOrdersService {
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
-
+  submitResult: WorkOrder;
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
   ) {
     console.log('.ctor');
     // this loads static data from a file. will replace later.
+    
     this.loadConfirmState();
     this.scheduleRules = loadScheduleRules();
     this.transportRules = loadTransportRules();
-
   }
 
-  getInitialConfirmedStream(): Observable<boolean> {
+  getInitialConfirmedStream(): Observable<Confirm[]> {
     return this.initialConfirmSource.asObservable();
   }
 
@@ -53,20 +55,28 @@ export class OnlineOrdersService {
   }
 
   loadConfirmState() {
-    this.initialConfirm = (sessionStorage.getItem(this.initialConfirmKey) == 'true');
+    let loaded =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
+    if (loaded != null && loaded.length > 0) {
+      this.initialConfirm = loaded;
+      this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loaded);
+    } else {
+      this.initialConfirm = loadConfirms();
+      this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadConfirms());
+
+    }
     this.workOrderConfirm = (sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
     this.workAssignmentsConfirm = (sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
 
     // notify the subscribers
-    this.initialConfirmSource.next(this.initialConfirm);
+    //this.initialConfirmSource.next(this.initialConfirm);
     this.workOrderConfirmSource.next(this.workOrderConfirm);
     this.workAssignmentsConfirmSource.next(this.workAssignmentsConfirm);
   }
 
-  getInitialConfirmValue(): boolean {
+  getInitialConfirmValue(): Confirm[] {
     return this.initialConfirm;
   }
-  setInitialConfirm(choice: boolean) {
+  setInitialConfirm(choice: Confirm[]) {
     console.log('setInitialConfirm:', choice);
     this.initialConfirm = choice;
     sessionStorage.setItem(this.initialConfirmKey, JSON.stringify(choice));
@@ -96,7 +106,7 @@ export class OnlineOrdersService {
     this.http.post(url, JSON.stringify(order), {
       headers: postHeaders
       }).subscribe(
-      (data) => {},
+      (data) => {this.submitResult = data as WorkOrder; console.log(this.submitResult)},
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.error('Client-side error occured.');

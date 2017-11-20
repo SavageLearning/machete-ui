@@ -2,16 +2,14 @@ import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } from '@angular/forms';
 import { ScheduleRule } from '../models/schedule-rule';
 
-/** A hero's name can't match the given regular expression */
 export function schedulingValidator(rules: ScheduleRule[]): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
-    //const forbidden = nameRe.test(control.value);
     if (control.value == null) {
         return null;
     }
     const date = control.value as Date;
     const diffdate = date.valueOf() - Date.now();
-    const rule = rules.find(s => s.id === date.getDay());
+    const rule = rules.find(s => s.day === date.getDay());
 
     if (diffdate < 0) {
         return {'scheduling': 'Date cannot be in the past.'}

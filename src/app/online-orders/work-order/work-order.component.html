@@ -164,7 +164,17 @@
   </div>
 </div>
 <div>
-  <p-dialog header="Title" [(visible)]="display">
+  <p-dialog header="Title" [(visible)]="displayTransportCosts">
       Content
-  </p-dialog>    
+  </p-dialog>
+  <p-dialog header="User's guide" [(visible)]="displayUserGuide" modal="modal" width="300" [responsive]="true">
+    Enter the basic information about the work, like the location
+    of the worksite and the method of transport for the workers. 
+    <p>
+    You may pick up the workers, or Casa Latina offers a transport program 
+    (fees apply), or you can pay for workers to use public transport.    
+    <p-footer>
+        <button type="button" pButton icon="fa-check" (click)="ackUserGuide()" label="Ok"></button>
+    </p-footer>
+  </p-dialog>
 </div>

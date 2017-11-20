@@ -35,14 +35,23 @@ export class FinalConfirmComponent implements OnInit {
       console.log('ngOnInit', l, o, wa);
       this.order = o;
       this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
-      this.workerCount = wa.length;
-      this.transportCost = 
-        wa.map(wa => wa.transportCost)
-        .reduce((a, b) => a + b);
+      if (wa != null && wa.length > 0) {
+        this.transportCost = 
+          wa.map(wa => wa.transportCost)
+            .reduce((a, b) => a + b);
+        this.workerCount = wa.length;
+        this.laborCost = 
+          wa.map(wa => wa.hourlyWage * wa.hours)
+            .reduce((a, b) => a + b);      
+      } else {
+        this.workerCount = 0;
+        this.transportCost = 0;
+        this.laborCost = 0;
+      }
+
       this.order.workAssignments = wa;
-      this.laborCost = 
-        wa.map(wa => wa.wage * wa.hours)
-        .reduce((a, b) => a + b);
+
+
     },
     error => console.error('error', error)
   );

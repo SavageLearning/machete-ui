@@ -7,8 +7,10 @@ import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { TransportRule } from '../shared';
+import { TransportRule, requiredValidator } from '../shared';
 import { MySelectItem } from '../../shared/models/my-select-item';
+import { hoursValidator } from '../shared/validators/hours';
+import { loadSkillRules } from '../shared/rules/load-skill-rules';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -26,6 +28,7 @@ export class WorkAssignmentsComponent implements OnInit {
   newRequest = true;
   requestForm: FormGroup;
   showErrors = false;
+  hasRequests= false;
   transportRules: TransportRule[];
   formErrors = {
     'skillId': '',
@@ -33,16 +36,7 @@ export class WorkAssignmentsComponent implements OnInit {
     'hours': '',
     'description': '',
     'requiresHeavyLifting': '',
-    'wage': ''
-  };
-
-  validationMessages = {
-    'skillId': {'required': 'Please select the type of work to be performed.' },
-    'skill': { 'required': 'skill is required.' },
-    'hours': {'required': 'Please enter the number of hours needed.' },
-    'description': {'required': 'description is required.' },
-    'requiresHeavyLifting': {'required': 'requiresHeavyLifting is required.' },
-    'wage': {'required': 'wage is required.' }
+    'hourlyWage': ''
   };
 
   constructor(
@@ -84,18 +78,19 @@ export class WorkAssignmentsComponent implements OnInit {
       error => this.errorMessage = <any>error,
       () => console.log('ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
+    this.setHasRequests();
     this.buildForm();
   }
 
   buildForm(): void {
     this.requestForm = this.fb.group({
       'id': '',
-      'skillId': ['', Validators.required],
+      'skillId': ['', requiredValidator('Please select the type of work to be performed.')],
       'skill': [''],
-      'hours': ['', Validators.required],
+      'hours': ['', hoursValidator(loadSkillRules(), this.skills, 'skillId', 'hours')],
       'description': [''],
-      'requiresHeavyLifting': [false, Validators.required ],
-      'wage': ['', Validators.required]
+      'requiresHeavyLifting': [false],
+      'hourlyWage': ['']
     });
 
     this.requestForm.valueChanges
@@ -103,7 +98,13 @@ export class WorkAssignmentsComponent implements OnInit {
 
     this.onValueChanged();
   }
-
+  setHasRequests() {
+    if (this.requestList.length > 0) {
+      this.hasRequests = true;
+    } else {
+      this.hasRequests =  false;
+    }
+  }
   onValueChanged(data?: any) {
     const form = this.requestForm;
 
@@ -113,9 +114,9 @@ export class WorkAssignmentsComponent implements OnInit {
       const control = form.get(field);
 
       if (control && !control.valid) {
-        const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+          console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+            this.formErrors[field] += control.errors[key] + ' ';
         }
       }
     }
@@ -129,8 +130,9 @@ export class WorkAssignmentsComponent implements OnInit {
     }
     this.selectedSkill = skill;
     this.requestForm.controls['skill'].setValue(skill.text_EN);
-    this.requestForm.controls['wage'].setValue(skill.wage);
+    this.requestForm.controls['hourlyWage'].setValue(skill.wage);
   }
+
   // loads an existing item into the form fields
   editRequest(request: WorkAssignment) {
     this.requestForm.controls['id'].setValue(request.id);
@@ -139,7 +141,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['hours'].setValue(request.hours);
     this.requestForm.controls['description'].setValue(request.description);
     this.requestForm.controls['requiresHeavyLifting'].setValue(request.requiresHeavyLifting);
-    this.requestForm.controls['wage'].setValue(request.wage);
+    this.requestForm.controls['hourlyWage'].setValue(request.hourlyWage);
     this.newRequest = false;
   }
 
@@ -148,13 +150,17 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.newRequest = true;
+    if (this.requestList == null || this.requestList.length == 0) {
+      this.onlineService.setWorkAssignmentsConfirm(false);
+    }
+    this.setHasRequests();
   }
 
   saveRequest() {
     this.onValueChanged();
     if (this.requestForm.status === 'INVALID') {
       this.showErrors = true;
-      this.onlineService.setWorkAssignmentsConfirm(false);
+      //this.onlineService.setWorkAssignmentsConfirm(false);
       return;
     }
     this.showErrors = false;
@@ -167,7 +173,7 @@ export class WorkAssignmentsComponent implements OnInit {
       hours: formModel.hours,
       description: formModel.description,
       requiresHeavyLifting: formModel.requiresHeavyLifting,
-      wage: formModel.wage,
+      hourlyWage: formModel.hourlyWage,
       transportCost: 0
     };
 
@@ -175,8 +181,10 @@ export class WorkAssignmentsComponent implements OnInit {
     this.onlineService.setWorkAssignmentsConfirm(true);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
+    this.selectedSkill = new Lookup();
     this.buildForm();
     this.newRequest = true;
+    this.setHasRequests();
   }
 
   onRowSelect(event) {

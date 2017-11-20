@@ -13,7 +13,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OnlineOrdersService } from '../online-orders.service';
 import { ScheduleRule } from '../shared/models/schedule-rule';
 import { ConfigsService } from '../../configs/configs.service';
-import { WorkOrderServiceSpy, LookupsServiceSpy, ConfigsServiceSpy, OnlineOrdersServiceSpy } from '../../shared/testing';
+import { WorkOrderServiceSpy, LookupsServiceSpy, ConfigsServiceSpy, OnlineOrdersServiceSpy, RouterSpy } from '../../shared/testing';
+import { Router } from "@angular/router";
 
 describe('WorkOrderComponent', () => {
   let component: WorkOrderComponent;
@@ -36,7 +37,8 @@ describe('WorkOrderComponent', () => {
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
           { provide: LookupsService, useClass: LookupsServiceSpy },
           { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
-          { provide: ConfigsService, useClass: ConfigsServiceSpy }
+          { provide: ConfigsService, useClass: ConfigsServiceSpy },
+          { provide: Router, useClass: RouterSpy}
         ]
       }
     })

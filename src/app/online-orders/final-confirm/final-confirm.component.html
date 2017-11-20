@@ -24,7 +24,7 @@
         {{order.worksiteAddress1}}
       </div>
     </div>
-    <div class="ui-g-12">
+    <div class="ui-g-12" *ngIf="order.worksiteAddress2">
       <div class="ui-g-12 ui-md-4  ui-g-nopad">
         <label for="worksiteAddress2">Address (2)</label>
       </div>
@@ -74,7 +74,7 @@
         {{order.description}}
       </div>
     </div>
-    <div class="ui-g-12">
+    <div class="ui-g-12" *ngIf="order.additionalNotes">
       <div class="ui-g-12 ui-md-4 ui-g-nopad">
         <label for="additionalNotes">Additional notes to dispatcher</label>
       </div>
@@ -132,6 +132,12 @@
           </ng-template>
           </p-column>
         </p-dataTable>
+  </div>
+  <div *ngIf="transportCost > 0">
+  You have chosen a transport method that has fees associated with it. You will need to
+  pay the fees before the workers will be dispatched. You can pay using our PayPal form, 
+  or call 206.956.0779 x3 to make arrangements. When you finalize this order below, you 
+  will be taken to the PayPal transaction page. 
   </div>
   <div class="ui-g-12">
     <button pButton type="button" (click)="submit()" label="Finalize and submit"></button>
