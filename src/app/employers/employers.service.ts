@@ -37,6 +37,7 @@ export class EmployersService {
     let method: Function;
     //uri = uri + '/' + employer.id;
     console.log('save:', uri, employer);
+    // create or update 
     if (employer.id === null)
     return this.http.post(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),

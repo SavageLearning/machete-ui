@@ -99,14 +99,19 @@ export class OnlineOrdersService {
     this.workAssignmentsConfirmSource.next(choice);
   }
 
-  postToApi(order: WorkOrder) {
+  createOrder(order: WorkOrder): Observable<WorkOrder> {
     let url = environment.dataUrl + '/api/onlineorders';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
-    this.http.post(url, JSON.stringify(order), {
+    return this.http.post<WorkOrder>(url, JSON.stringify(order), {
       headers: postHeaders
-      }).subscribe(
-      (data) => {this.submitResult = data as WorkOrder; console.log(this.submitResult)},
+      }).map(
+      (data) => {
+        this.submitResult = data as WorkOrder;
+        // Make decisions from the record returned from the API,
+        // not what's in the UI app
+        return data;
+      },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.error('Client-side error occured.');

@@ -6,6 +6,8 @@ import { LookupsService } from "../../lookups/lookups.service";
 import { LCategory } from "../../lookups/models/lookup";
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 import { Observable } from "rxjs/Observable";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-final-confirm',
@@ -23,7 +25,8 @@ export class FinalConfirmComponent implements OnInit {
     private ordersService: WorkOrderService,
     private onlineService: OnlineOrdersService,
     private lookups: LookupsService,
-    private assignmentService: WorkAssignmentsService
+    private assignmentService: WorkAssignmentsService,
+    private router: Router
   ) { }
 
   ngOnInit() {    
@@ -36,10 +39,12 @@ export class FinalConfirmComponent implements OnInit {
       this.order = o;
       this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
       if (wa != null && wa.length > 0) {
+        // sums up the transport  costs
         this.transportCost = 
           wa.map(wa => wa.transportCost)
             .reduce((a, b) => a + b);
         this.workerCount = wa.length;
+        // sums up the labor costs
         this.laborCost = 
           wa.map(wa => wa.hourlyWage * wa.hours)
             .reduce((a, b) => a + b);      
@@ -59,7 +64,15 @@ export class FinalConfirmComponent implements OnInit {
   }
 
   submit() {
-    this.onlineService.postToApi(this.order);
+    this.onlineService.createOrder(this.order)
+      .subscribe(
+        (data) => {
+          console.log('Returned from POST', data); 
+        },
+        (err: HttpErrorResponse) => {
+          console.error('POST error', err);
+        }
+      );
   }
 
 }
