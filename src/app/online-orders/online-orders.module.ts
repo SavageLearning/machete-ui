@@ -12,7 +12,7 @@ import { StepsModule, CalendarModule, DropdownModule,
           DialogModule, CheckboxModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
-import { SchedulingService } from './scheduling.service';
+import { ScheduleRulesService } from './schedule-rules.service';
 
 @NgModule({
   imports: [
@@ -39,7 +39,7 @@ import { SchedulingService } from './scheduling.service';
   ],
   providers: [
     OnlineOrdersService,
-    SchedulingService
+    ScheduleRulesService
   ]
 })
 export class OnlineOrdersModule { }

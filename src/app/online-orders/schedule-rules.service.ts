@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 import { HandleError } from '../shared/handle-error';
 
 @Injectable()
-export class SchedulingService {
+export class ScheduleRulesService {
   uriBase = environment.dataUrl + '/api/schedulerules';
   rules = new Array<ScheduleRule>();
   rulesAge = 0;

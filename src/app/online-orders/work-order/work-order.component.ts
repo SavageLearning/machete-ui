@@ -11,7 +11,7 @@ import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { Router } from "@angular/router";
 import { Observable } from 'rxjs/Observable';
-import { SchedulingService } from '../scheduling.service';
+import { ScheduleRulesService } from '../schedule-rules.service';
 
 @Component({
   selector: 'app-work-order',
@@ -60,7 +60,7 @@ export class WorkOrderComponent implements OnInit {
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
-    private schedulingRulesService: SchedulingService,
+    private schedulingRulesService: ScheduleRulesService,
     private router: Router,
     private fb: FormBuilder) {
       console.log('.ctor'); 
