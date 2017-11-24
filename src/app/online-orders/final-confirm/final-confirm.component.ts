@@ -58,8 +58,7 @@ export class FinalConfirmComponent implements OnInit {
 
 
     },
-    error => console.error('error', error)
-  );
+    error => console.error('error', error));
 
   }
 
