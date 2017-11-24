@@ -4,11 +4,12 @@ import { FinalConfirmComponent } from './final-confirm.component';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { WorkOrder } from '../work-order/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
-import { WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, WorkAssignmentsServiceSpy } from '../../shared/testing';
+import { WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, WorkAssignmentsServiceSpy, RouterSpy } from '../../shared/testing';
 import { LookupsService } from "../../lookups/lookups.service";
 import { DataTableModule } from 'primeng/primeng';
 
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
+import { Router } from '@angular/router';
 
 describe('FinalConfirmComponent', () => {
   let component: FinalConfirmComponent;
@@ -25,7 +26,9 @@ describe('FinalConfirmComponent', () => {
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
           { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
           { provide: LookupsService, useClass: LookupsServiceSpy},
-          { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy}
+          { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy},
+          { provide: Router, useClass: RouterSpy }
+          
         ]
       }
     })
