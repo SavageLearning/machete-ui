@@ -13,6 +13,7 @@ import { StepsModule, CalendarModule, DropdownModule,
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
+import { TransportRulesService } from './transport-rules.service';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { ScheduleRulesService } from './schedule-rules.service';
   ],
   providers: [
     OnlineOrdersService,
-    ScheduleRulesService
+    ScheduleRulesService,
+    TransportRulesService
   ]
 })
 export class OnlineOrdersModule { }

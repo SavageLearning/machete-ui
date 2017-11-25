@@ -8,15 +8,13 @@ import { WorkAssignment } from './work-assignments/models/work-assignment';
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import { ScheduleRule, TransportRule, loadTransportRules } from './shared';
+import { ScheduleRule, TransportRule } from './shared';
 import { BehaviorSubject } from "rxjs";
 import { Confirm } from "./shared/models/confirm";
 import { loadConfirms } from "./shared/rules/load-confirms";
 
 @Injectable()
 export class OnlineOrdersService {
-  transportRules = new Array<TransportRule>();
-
   private initialConfirm: Confirm[];
   private initialConfirmSource: BehaviorSubject<Confirm[]>; 
   private workOrderConfirm = false;
@@ -37,7 +35,6 @@ export class OnlineOrdersService {
     // this loads static data from a file. will replace later.
     
     this.loadConfirmState();
-    this.transportRules = loadTransportRules();
   }
 
   getInitialConfirmedStream(): Observable<Confirm[]> {
@@ -118,9 +115,5 @@ export class OnlineOrdersService {
         }
       }
     );
-  }
-
-  getTransportRules(): Observable<TransportRule[]> {
-    return Observable.of(this.transportRules);
   }
 }

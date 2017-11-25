@@ -6,7 +6,7 @@ import { Lookup } from "../../lookups/models/lookup";
 import { User } from "oidc-client";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../online-orders/work-order/models/work-order";
-import { ScheduleRule, loadTransportRules, TransportRule } from "../../online-orders/shared/index";
+import { ScheduleRule, TransportRule } from "../../online-orders/shared/index";
 import { WorkAssignment } from "../../online-orders/work-assignments/models/work-assignment";
 import { Subject } from "rxjs/Subject";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
@@ -84,7 +84,7 @@ export class WorkAssignmentsServiceSpy {
     );
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
-      () => Observable.of(loadTransportRules())
+      () => Observable.of(new Array<TransportRule>())
     );
   compactRequests = jasmine.createSpy('compactRequests');
 
@@ -130,7 +130,7 @@ export class OnlineOrdersServiceSpy {
     );
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
-      () => Observable.of(loadTransportRules())
+      () => Observable.of(new Array<TransportRule>())
     );
 
   getInitialConfirmedStream = jasmine.createSpy('getInitialConfirmedStream')

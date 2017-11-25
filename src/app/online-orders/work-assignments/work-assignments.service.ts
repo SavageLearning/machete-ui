@@ -10,6 +10,7 @@ import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../work-order/models/work-order";
 import { Subject } from "rxjs";
+import { TransportRulesService } from '../transport-rules.service';
 
 @Injectable()
 export class WorkAssignmentsService {
@@ -44,6 +45,7 @@ export class WorkAssignmentsService {
     private onlineService: OnlineOrdersService,
     private orderService: WorkOrderService,
     private lookupsService: LookupsService,
+    private transportRulesService: TransportRulesService
   ) {
     console.log('.ctor');
     let data = sessionStorage.getItem(this.storageKey);
@@ -62,7 +64,7 @@ export class WorkAssignmentsService {
         () => console.log('initializeTransport.OnComplete')
       );
       
-    this.onlineService.getTransportRules()
+    this.transportRulesService.getTransportRules()
       .subscribe(
         data => {
           this.transportRules = data;
@@ -189,6 +191,7 @@ export class WorkAssignmentsService {
     }
     return result;
   }
+  
   calculateTransportCost(id: number, rule: TransportRule): number {
     // can have a cost rule for a van, with an id greater that min/max worker,
     // that then leads to no rule.
