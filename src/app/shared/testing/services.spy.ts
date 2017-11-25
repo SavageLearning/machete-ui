@@ -128,10 +128,6 @@ export class OnlineOrdersServiceSpy {
     .and.callFake(
       () => {}
     );
-  scheduleRules = jasmine.createSpy('scheduleRules')
-    .and.callFake(
-      () => new Array<ScheduleRule>()
-    );
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
       () => Observable.of(loadTransportRules())
@@ -145,4 +141,11 @@ export class OnlineOrdersServiceSpy {
 
 export class ConfigsServiceSpy {
   
+}
+
+export class ScheduleRulesServiceSpy {
+  getScheduleRules = jasmine.createSpy('')
+    .and.callFake(
+      () => Observable.of(new Array<ScheduleRule>())
+    );
 }

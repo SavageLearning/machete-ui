@@ -38,10 +38,6 @@ describe('OnlineOrdersService', () => {
     expect(service1).toBeTruthy();
   }));
   // this works because the data is hardcoded (for now)
-  it('should load 7 schedule rules', () => {
-      expect(service.scheduleRules.length).toBe(7);
-  });
-  // this works because the data is hardcoded (for now)
   it('should load 5 transport rules', () => {
       expect(service.transportRules.length).toBe(5);
   });
