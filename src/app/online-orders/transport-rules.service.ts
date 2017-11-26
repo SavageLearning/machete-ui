@@ -11,10 +11,11 @@ export class TransportRulesService {
   rules = new Array<TransportRule>();
   rulesAge = 0;
   constructor(private http: HttpClient) {
+    console.log('.ctor');
   }
 
   isStale(): boolean {
-    if (this.rulesAge > Date.now() - 36000) {
+    if (this.rulesAge > Date.now() - 3600 * 1000) {
         return false;
     }
     return true;
@@ -26,11 +27,14 @@ export class TransportRulesService {
 
   getTransportRules(): Observable<TransportRule[]> {
     if (this.isNotStale()) {
+      console.log('returning cache', this.rulesAge);
       return Observable.of(this.rules);
     }
 
     return this.http.get(this.uriBase)
       .map(res => {
+        console.log('returning from API', this.rulesAge);
+        
         this.rules = res['data'] as TransportRule[];
         this.rulesAge = Date.now();
         return res['data'] as TransportRule[];

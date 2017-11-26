@@ -11,10 +11,11 @@ export class ScheduleRulesService {
   rules = new Array<ScheduleRule>();
   rulesAge = 0;
   constructor(private http: HttpClient) {
+    console.log('.ctor');
   }
 
   isStale(): boolean {
-    if (this.rulesAge > Date.now() - 36000) {
+    if (this.rulesAge > Date.now() - 3600 * 1000) {
         return false;
     }
     return true;
