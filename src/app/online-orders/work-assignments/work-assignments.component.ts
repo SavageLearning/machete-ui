@@ -11,6 +11,7 @@ import { TransportRule, requiredValidator } from '../shared';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { hoursValidator } from '../shared/validators/hours';
 import { loadSkillRules } from '../shared/rules/load-skill-rules';
+import { TransportRulesService } from '../transport-rules.service';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -41,9 +42,9 @@ export class WorkAssignmentsComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
-    private orderService: WorkOrderService,
     private waService: WorkAssignmentsService,
     private onlineService: OnlineOrdersService,
+    private transportRulesService: TransportRulesService,
     private router: Router,
     private fb: FormBuilder) {
       console.log('.ctor');
@@ -52,7 +53,7 @@ export class WorkAssignmentsComponent implements OnInit {
   ngOnInit() {
     console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
-    this.waService.getTransportRulesStream()
+    this.transportRulesService.getTransportRules()
       .subscribe(
         data => this.transportRules = data,
         // When this leads to a REST call, compactRequests will depend on it
@@ -69,14 +70,10 @@ export class WorkAssignmentsComponent implements OnInit {
         error => this.errorMessage = <any>error,
         () => console.log('ngOnInit:skills onCompleted'));
     this.lookupsService.getLookups(LCategory.TRANSPORT)
-    .subscribe(
-      listData => {
-        this.transports = listData;
-        this.waService.compactRequests();
-
-      },
-      error => this.errorMessage = <any>error,
-      () => console.log('ngOnInit:transports onCompleted'));
+      .subscribe(
+        data =>  this.transports = data,
+        error => this.errorMessage = <any>error,
+        () => console.log('ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
     this.setHasRequests();
     this.buildForm();

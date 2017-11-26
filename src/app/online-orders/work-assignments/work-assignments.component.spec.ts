@@ -11,9 +11,9 @@ import { Lookup } from '../../lookups/models/lookup';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { OnlineOrdersService } from '../online-orders.service';
-import { loadTransportRules } from '../shared';
-import { WorkOrderServiceSpy, WorkAssignmentsServiceSpy, LookupsServiceSpy, OnlineOrdersServiceSpy, RouterSpy } from "../../shared/testing";
+import { WorkOrderServiceSpy, WorkAssignmentsServiceSpy, LookupsServiceSpy, OnlineOrdersServiceSpy, RouterSpy, TransportRulesServiceSpy } from "../../shared/testing";
 import { Router } from "@angular/router";
+import { TransportRulesService } from '../transport-rules.service';
 
 describe('WorkAssignmentsComponent', () => {
   let component: WorkAssignmentsComponent;
@@ -35,8 +35,8 @@ describe('WorkAssignmentsComponent', () => {
         providers: [
           { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy },
           { provide: LookupsService, useClass: LookupsServiceSpy },
-          { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
           { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
+          { provide: TransportRulesService, useClass: TransportRulesServiceSpy },
           { provide: Router, useClass: RouterSpy }
         ]
       }

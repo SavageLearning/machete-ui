@@ -18,28 +18,9 @@ export class WorkAssignmentsService {
   storageKey = 'machete.workassignments';
 
   private transports: Lookup[];
-  private transportsSource = 
-    new BehaviorSubject<Lookup[]>(new Array<Lookup>()); 
-  
-  getTransportsStream(): Observable<Lookup[]> {
-    return this.transportsSource.asObservable();
-  }
-
   private transportRules: TransportRule[];
-  private transportRulesSource = 
-    new BehaviorSubject<TransportRule[]>(new Array<TransportRule>());
-
-  getTransportRulesStream(): Observable<TransportRule[]> {
-    return this.transportRulesSource.asObservable();
-  }
   private combinedSource: Observable<[TransportRule[], Lookup[], WorkOrder]>;
   private workOrder: WorkOrder;
-  private workOrderSource =
-    new BehaviorSubject<WorkOrder>(new WorkOrder());
-
-  getWorkOrderStream(): Observable<WorkOrder> {
-    return this.workOrderSource.asObservable();
-  }
 
   constructor(
     private onlineService: OnlineOrdersService,
@@ -54,40 +35,18 @@ export class WorkAssignmentsService {
       let requests: WorkAssignment[] = JSON.parse(data);
       this.requests = requests;
     }
-    this.lookupsService.getLookups(LCategory.TRANSPORT)
-      .subscribe(
-        data => {
-          this.transports = data;
-          this.transportsSource.next(data);
-        },
-        error => console.error('initializeTranports.error: ' + JSON.stringify(error)),
-        () => console.log('initializeTransport.OnComplete')
-      );
-      
-    this.transportRulesService.getTransportRules()
-      .subscribe(
-        data => {
-          this.transportRules = data;
-          this.transportRulesSource.next(data);
-        });
-
-    this.orderService.getStream()
-      .subscribe(
-        data => {
-          this.workOrder = data;
-          this.workOrderSource.next(data);
-        }
-      );
-    
-      this.combinedSource = Observable.combineLatest(
-        this.getTransportRulesStream(),
-        this.getTransportsStream(),
-        this.getWorkOrderStream()
-    );
+    this.combinedSource = Observable.combineLatest(
+      this.transportRulesService.getTransportRules(),
+      this.lookupsService.getLookups(LCategory.TRANSPORT),
+      this.orderService.getStream());
 
     const subscribed = this.combinedSource.subscribe(
       values => {
         const [rules, transports, order] = values;
+        this.workOrder = order;
+        this.transportRules = rules;
+        this.transports = transports;
+        this.compactRequests();
         console.log('combined subscription::', values);
       });
   }
@@ -102,9 +61,9 @@ export class WorkAssignmentsService {
 
   save(request: WorkAssignment) {
     Observable.zip(
-      this.getTransportRulesStream(),
-      this.getTransportsStream(),
-      this.getWorkOrderStream(),
+      this.transportRulesService.getTransportRules(),
+      this.lookupsService.getLookups(LCategory.TRANSPORT),
+      this.orderService.getStream(),
       () => {}
     )
     .subscribe(() => {
@@ -163,6 +122,7 @@ export class WorkAssignmentsService {
       this.requests[newid].id = newid + 1;
       this.requests[newid].transportCost = 
         this.calculateTransportCost(newid + 1, rule);
+        console.log('completed compactRequest');
     }
   }
 
@@ -187,11 +147,11 @@ export class WorkAssignmentsService {
 
     const result = rules.find(f => f.zipcodes.includes(order.zipcode));
     if (result === null || result == undefined) {
-      throw new Error('Zipcode does not match any rule');
+      throw new Error(`Zipcode ${order.zipcode} does not match any rule`);
     }
-    return result;
+    return result; 
   }
-  
+
   calculateTransportCost(id: number, rule: TransportRule): number {
     // can have a cost rule for a van, with an id greater that min/max worker,
     // that then leads to no rule.

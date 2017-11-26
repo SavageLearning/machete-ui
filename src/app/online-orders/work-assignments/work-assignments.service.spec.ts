@@ -15,26 +15,27 @@ import { Observable } from 'rxjs/Observable';
 import { WorkOrder } from '../work-order/models/work-order';
 import { TransportRule, CostRule } from '../shared/index';
 import { AuthServiceSpy, EmployersServiceSpy, 
-  WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy
+  WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, TransportRulesServiceSpy
 } from '../../shared/testing';
+import { TransportRulesService } from '../transport-rules.service';
 
 describe('WorkAssignmentsService', () => {
   let service: WorkAssignmentsService;
   let httpMock: HttpTestingController;
   let baseref: string  = environment.dataUrl;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     TestBed.configureTestingModule({
       providers: [
+        //
+        // this method of testing instantiates real objects then spies on the methods below
         WorkAssignmentsService,
         WorkOrderService,
         LookupsService,
         OnlineOrdersService,
-        //{ provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
-        //{ provide: WorkOrderService, useClass: WorkOrderServiceSpy},
+        TransportRulesService,
         { provide: EmployersService, useClass: EmployersServiceSpy },
         { provide: AuthService, useClass: AuthServiceSpy },
-        //{ provide: LookupsService, useClass: LookupsServiceSpy },
         
       ],
       imports: [
@@ -49,19 +50,20 @@ describe('WorkAssignmentsService', () => {
 
     let transportRules = new Array<TransportRule>();
     let costRules = new Array<CostRule>();
+
     costRules.push(new CostRule({ minWorker: 0, maxWorker: 100, cost: 15 }));
     transportRules.push(new TransportRule({
       lookupKey: 'transport_van',
       costRules: costRules,
       zipcodes: ['12345']}));
 
-    spyOn(OnlineOrdersService.prototype, 'getTransportRules')
-      .and.returnValue(Observable.of(transportRules));
-
     let transports = new Array<Lookup>();
     transports.push(new Lookup({id: 32, key: 'transport_van' }));
     spyOn(LookupsService.prototype, 'getLookups')
       .and.returnValue(Observable.of(transports));
+
+    spyOn(TransportRulesService.prototype, 'getTransportRules')
+      .and.returnValue(Observable.of(transportRules));
 
     service = TestBed.get(WorkAssignmentsService);
     httpMock = TestBed.get(HttpTestingController);
