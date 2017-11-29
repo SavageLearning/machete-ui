@@ -12,6 +12,7 @@ import { MySelectItem } from '../../shared/models/my-select-item';
 import { hoursValidator } from '../shared/validators/hours';
 import { loadSkillRules } from '../shared/rules/load-skill-rules';
 import { TransportRulesService } from '../transport-rules.service';
+import { SkillRule } from '../shared/models/skill-rule';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -21,6 +22,7 @@ export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service
   transports: Lookup[];
   skillsDropDown: MySelectItem[];
+  skillsRules: SkillRule[];
   selectedSkill: Lookup = new Lookup();
   requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
   request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
@@ -66,6 +68,8 @@ export class WorkAssignmentsComponent implements OnInit {
           this.skills = listData;
           this.skillsDropDown = listData.map(l =>
             new MySelectItem(l.text_EN, String(l.id)));
+          this.skillsRules = listData.map(l => new SkillRule(l));
+          console.log(this.skillsRules);
         },
         error => this.errorMessage = <any>error,
         () => console.log('ngOnInit:skills onCompleted'));
@@ -84,7 +88,7 @@ export class WorkAssignmentsComponent implements OnInit {
       'id': '',
       'skillId': ['', requiredValidator('Please select the type of work to be performed.')],
       'skill': [''],
-      'hours': ['', hoursValidator(loadSkillRules(), this.skills, 'skillId', 'hours')],
+      'hours': ['', hoursValidator(this.skillsRules, this.skills, 'skillId', 'hours')],
       'description': [''],
       'requiresHeavyLifting': [false],
       'hourlyWage': ['']
