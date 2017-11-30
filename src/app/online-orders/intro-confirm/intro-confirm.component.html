@@ -9,6 +9,6 @@
     </td>
   </tr>
 </table>
-<button [disabled]="!confirmStatus" (click)="nextStep()">Confirm and proceed</button>
+<button pButton [disabled]="!confirmStatus" (click)="nextStep()" label="Confirm and proceed"></button>
 
 <!-- <p-checkbox type="checkbox" name="confirmBox" [(ngModel)]="status" (onChange)="checkConfirm($event)"> -->
