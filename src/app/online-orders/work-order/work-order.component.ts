@@ -6,12 +6,14 @@ import { OnlineOrdersService } from '../online-orders.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
-import { ScheduleRule, schedulingValidator, requiredValidator} from '../shared';
+import { ScheduleRule, schedulingValidator, requiredValidator, TransportRule} from '../shared';
 import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { Router } from "@angular/router";
 import { Observable } from 'rxjs/Observable';
 import { ScheduleRulesService } from '../schedule-rules.service';
+import { zipcodeValidator } from '../shared/validators/zipcode';
+import { TransportRulesService } from '../transport-rules.service';
 
 @Component({
   selector: 'app-work-order',
@@ -21,6 +23,7 @@ import { ScheduleRulesService } from '../schedule-rules.service';
 export class WorkOrderComponent implements OnInit {
   transportMethods: Lookup[];
   transportMethodsDropDown: MySelectItem[];
+  transportRules: TransportRule[];
   orderForm: FormGroup;
   order: WorkOrder = new WorkOrder();
   errorMessage: string;
@@ -61,6 +64,7 @@ export class WorkOrderComponent implements OnInit {
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
     private schedulingRulesService: ScheduleRulesService,
+    private transportRulesService: TransportRulesService,
     private router: Router,
     private fb: FormBuilder) {
       console.log('.ctor'); 
@@ -78,11 +82,13 @@ export class WorkOrderComponent implements OnInit {
     Observable.combineLatest(
       this.lookupsService.getLookups(LCategory.TRANSPORT),
       this.orderService.getStream(),
-      this.schedulingRulesService.getScheduleRules()
-    ).subscribe(([l, o, s]) => {
+      this.schedulingRulesService.getScheduleRules(),
+      this.transportRulesService.getTransportRules()
+    ).subscribe(([l, o, s, t]) => {
       this.order = o;
       this.transportMethods = l;
       this.schedulingRules = s;
+      this.transportRules = t;
       // map transport entries to dropdown
       let items = [new MySelectItem('Select transportion', null)];
       let transports = l.map(l =>
@@ -103,7 +109,10 @@ export class WorkOrderComponent implements OnInit {
       'worksiteAddress2': [this.order.worksiteAddress2],
       'city': [this.order.city, requiredValidator('City is required.')],
       'state': [this.order.state, requiredValidator('State is required.')],
-      'zipcode': [this.order.zipcode, requiredValidator('Zip code is required.')],
+      'zipcode': [this.order.zipcode, [
+        requiredValidator('Zipcode is required.'),
+        zipcodeValidator(this.transportRules)
+      ]],
       'phone': [this.order.phone, requiredValidator('Phone is required.')],
       'description': [this.order.description, requiredValidator('Description is required.')],
       'additionalNotes': [this.order.additionalNotes],
