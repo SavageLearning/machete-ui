@@ -126,10 +126,15 @@
             </ng-template>
           </p-column>
           <p-column field="hours" header="hours requested"></p-column>
-          <p-column field="wage" header="Hourly wage">
+          <p-column field="hourlyWage" header="Hourly wage">
             <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
               <span>{{wa[col.field]| currency:'USD':true}}</span>
           </ng-template>
+          </p-column>
+          <p-column header="subtotal">
+            <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+              <span>{{wa['hours'] * wa['hourlyWage'] | currency:'USD':true}}</span>
+            </ng-template>
           </p-column>
         </p-dataTable>
   </div>
