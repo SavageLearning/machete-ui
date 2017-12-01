@@ -10,11 +10,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-final-confirm',
-  templateUrl: './final-confirm.component.html',
-  styleUrls: ['./final-confirm.component.css']
+  selector: 'app-order-confirm',
+  templateUrl: './order-confirm.component.html',
+  styleUrls: ['./order-confirm.component.css']
 })
-export class FinalConfirmComponent implements OnInit {
+export class OrderConfirmComponent implements OnInit {
   order: WorkOrder = new WorkOrder();
   transportLabel: string;
   workerCount: number;

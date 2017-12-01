@@ -7,14 +7,14 @@ import { IntroductionComponent } from './introduction/introduction.component';
 import { IntroConfirmComponent } from './intro-confirm/intro-confirm.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkAssignmentsComponent } from './work-assignments/work-assignments.component';
-import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
+import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { AuthGuardService } from '../shared/services/auth-guard.service';
 import { WorkOrderGuard } from './guards/work-order.guard';
 import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
-import { FinalConfirmGuard } from "./guards/final-confirm.guard";
+import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 
 const onlineOrderRoutes: Routes = [
   {
@@ -46,10 +46,10 @@ const onlineOrderRoutes: Routes = [
         canActivate: [WorkAssignmentsGuard]
       },
       {
-        path: 'final-confirm',
-        component: FinalConfirmComponent,
+        path: 'order-confirm',
+        component: OrderConfirmComponent,
         canLoad: [AuthGuardService],
-        canActivate: [FinalConfirmGuard]
+        canActivate: [OrderConfirmGuard]
       }
     ]
   },
@@ -65,7 +65,7 @@ const onlineOrderRoutes: Routes = [
     [
       WorkOrderGuard,
       WorkAssignmentsGuard,
-      FinalConfirmGuard,
+      OrderConfirmGuard,
       OnlineOrdersComponent,
       WorkOrderService,
       EmployersService,

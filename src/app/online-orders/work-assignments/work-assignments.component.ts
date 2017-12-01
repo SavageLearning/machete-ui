@@ -202,7 +202,7 @@ export class WorkAssignmentsComponent implements OnInit {
   }
 
   finalize() {
-    this.router.navigate(['/online-orders/final-confirm']);
+    this.router.navigate(['/online-orders/order-confirm']);
     
   }
 }

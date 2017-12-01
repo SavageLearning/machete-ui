@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinalConfirmComponent } from './final-confirm.component';
+import { OrderConfirmComponent } from './order-confirm.component';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { WorkOrder } from '../work-order/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
@@ -11,16 +11,16 @@ import { DataTableModule } from 'primeng/primeng';
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 import { Router } from '@angular/router';
 
-describe('FinalConfirmComponent', () => {
-  let component: FinalConfirmComponent;
-  let fixture: ComponentFixture<FinalConfirmComponent>;
+describe('OrderConfirmComponent', () => {
+  let component: OrderConfirmComponent;
+  let fixture: ComponentFixture<OrderConfirmComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FinalConfirmComponent ],
+      declarations: [ OrderConfirmComponent ],
       imports: [DataTableModule]
     })
-    .overrideComponent(FinalConfirmComponent, {
+    .overrideComponent(OrderConfirmComponent, {
       set: {
         providers: [
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
@@ -36,7 +36,7 @@ describe('FinalConfirmComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FinalConfirmComponent);
+    fixture = TestBed.createComponent(OrderConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
