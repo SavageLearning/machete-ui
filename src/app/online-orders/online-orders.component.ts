@@ -35,6 +35,7 @@ export class OnlineOrdersComponent implements OnInit {
             case '/online-orders/work-order': { this.activeIndex = 2; break; }
             case '/online-orders/work-assignments': { this.activeIndex = 3; break; }
             case '/online-orders/order-confirm': { this.activeIndex = 4; break; }
+            case '/online-orders/order-complete': { this.activeIndex = 5; break; }
           }
         }
       });
@@ -46,7 +47,8 @@ export class OnlineOrdersComponent implements OnInit {
       {label: 'Confirm', routerLink: ['intro-confirm']},
       {label: 'work site details', routerLink: ['work-order']},
       {label: 'worker details', routerLink: ['work-assignments']},
-      {label: 'finalize', routerLink: ['order-confirm']}
+      {label: 'confirm', routerLink: ['order-confirm']},
+      {label: 'done', routerLink: ['order-complete'] }
     ];
   }
 

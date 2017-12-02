@@ -14,8 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
 import { TransportRulesService } from './transport-rules.service';
-import { OrderCompleteComponent } from './src/app/online-orders/order-complete/order-complete.component';
-import { PaypalNoticeComponent } from './src/app/online-orders/paypal-notice/paypal-notice.component';
+import { OrderCompleteComponent } from './order-complete/order-complete.component';
+import { PaypalNoticeComponent } from './paypal-notice/paypal-notice.component';
 
 @NgModule({
   imports: [

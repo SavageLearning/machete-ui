@@ -67,6 +67,8 @@ export class OrderConfirmComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log('Returned from POST', data); 
+          this.router.navigate(['/online-orders/order-complete']);
+          
         },
         (err: HttpErrorResponse) => {
           console.error('POST error', err);
