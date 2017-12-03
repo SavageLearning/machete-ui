@@ -12,7 +12,7 @@ export class OrderCompleteGuard implements CanActivate {
     onlineService.getOrderCompleteStream().subscribe(
       confirm => {
         console.log('.ctor->Ordercompleted:', confirm)
-        this.isConfirmed = confirm;
+        this.isConfirmed = confirm != null;
       }
     );
   }

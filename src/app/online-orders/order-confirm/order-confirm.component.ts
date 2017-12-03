@@ -53,10 +53,7 @@ export class OrderConfirmComponent implements OnInit {
         this.transportCost = 0;
         this.laborCost = 0;
       }
-
       this.order.workAssignments = wa;
-
-
     },
     error => console.error('error', error));
 

@@ -21,15 +21,14 @@ export class OnlineOrdersService {
   private workOrderConfirmSource = new BehaviorSubject<boolean>(false);  
   private workAssignmentsConfirm = false;
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
-  private orderComplete = false;
-  private orderCompleteSource = new BehaviorSubject<boolean>(false);
+  private orderComplete: WorkOrder;
+  private orderCompleteSource: BehaviorSubject<WorkOrder>;
 
   storageKey = 'machete.online-orders-service';
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
   orderCompleteKey = this.storageKey + '.ordercomplete';
-  submitResult: WorkOrder;
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
@@ -48,7 +47,7 @@ export class OnlineOrdersService {
     return this.workOrderConfirmSource.asObservable();
   }
 
-  getOrderCompleteStream(): Observable<boolean> {
+  getOrderCompleteStream(): Observable<WorkOrder> {
     return this.orderCompleteSource.asObservable();
   }
   getWorkAssignmentConfirmedStream(): Observable<boolean> {
@@ -56,18 +55,26 @@ export class OnlineOrdersService {
   }
 
   loadConfirmState() {
-    let loaded =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
-    if (loaded != null && loaded.length > 0) {
-      this.initialConfirm = loaded;
-      this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loaded);
+    let loadedConfirms =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
+    if (loadedConfirms != null && loadedConfirms.length > 0) {
+      this.initialConfirm = loadedConfirms;
+      this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadedConfirms);
     } else {
       this.initialConfirm = loadConfirms();
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadConfirms());
-
     }
+
+    let loadedCompleteOrder = JSON.parse(sessionStorage.getItem(this.orderCompleteKey)) as WorkOrder;
+    if (loadedCompleteOrder != null) {
+      this.orderComplete = loadedCompleteOrder;
+      this.orderCompleteSource = new BehaviorSubject<WorkOrder>(loadedCompleteOrder);
+    } else {
+      this.orderComplete = new WorkOrder();
+      this.orderCompleteSource = new BehaviorSubject<WorkOrder>(new WorkOrder());
+    }
+
     this.workOrderConfirm = (sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
     this.workAssignmentsConfirm = (sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
-    this.orderComplete = (sessionStorage.getItem(this.orderCompleteKey) == 'true');
     // notify the subscribers
     //this.initialConfirmSource.next(this.initialConfirm);
     this.workOrderConfirmSource.next(this.workOrderConfirm);
@@ -101,12 +108,12 @@ export class OnlineOrdersService {
     this.workAssignmentsConfirmSource.next(choice);
   }
 
-  setOrderPosted(choice: boolean) {
-    console.log('setOrderComplete:', choice);
-    this.orderComplete = choice;
+  setOrderComplete(order: WorkOrder) {
+    console.log('setOrderComplete:', order);
+    this.orderComplete = order;
     sessionStorage.setItem(this.orderCompleteKey,
-      JSON.stringify(choice));
-    this.orderCompleteSource.next(choice);
+      JSON.stringify(order));
+    this.orderCompleteSource.next(order);
   }
 
   createOrder(order: WorkOrder): Observable<WorkOrder> {
@@ -117,9 +124,8 @@ export class OnlineOrdersService {
       headers: postHeaders
       }).map(
       (data) => {
-        this.submitResult = data as WorkOrder;
         // enable order completed
-        this.setOrderPosted(true);
+        this.setOrderComplete(data['data'] as WorkOrder);
         // Make decisions from the record returned from the API,
         // not what's in the UI app
         return data;

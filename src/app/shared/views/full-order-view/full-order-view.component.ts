@@ -13,9 +13,7 @@ export class FullOrderViewComponent implements OnInit {
   @Input() transportCost: number;
   @Input() laborCost: number;
 
-  constructor() { 
-    console.log(this.order);
-  }
+  constructor() {   }
 
   ngOnInit() {
     console.log(this.order);
