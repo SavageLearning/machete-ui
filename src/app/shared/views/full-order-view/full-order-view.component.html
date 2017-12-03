@@ -65,6 +65,14 @@
   </div>
 </div>
 <div class="ui-g-12 ui-md-6">
+    <div class="ui-g-12" *ngIf="order.id">
+        <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <label for="description">Order #</label>
+        </div>
+        <div class="ui-g-12 ui-md-8 ui-g-nopad">
+          {{order.id }}
+        </div>
+      </div>
   <div class="ui-g-12">
     <div class="ui-g-12 ui-md-4 ui-g-nopad">
       <label for="description">Work Description</label>
