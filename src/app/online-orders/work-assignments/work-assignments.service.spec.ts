@@ -3,7 +3,7 @@ import { WorkAssignmentsService } from './work-assignments.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../../environments/environment';
-import { WorkAssignment } from './models/work-assignment';
+import { WorkAssignment } from '../../shared/models/work-assignment';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { EmployersService } from '../../employers/employers.service';
@@ -12,7 +12,7 @@ import { Http, HttpModule } from '@angular/http';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import { Observable } from 'rxjs/Observable';
-import { WorkOrder } from '../work-order/models/work-order';
+import { WorkOrder } from '../../shared/models/work-order';
 import { TransportRule, CostRule } from '../shared/index';
 import { AuthServiceSpy, EmployersServiceSpy, 
   WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, TransportRulesServiceSpy

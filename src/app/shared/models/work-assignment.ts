@@ -1,7 +1,7 @@
 /**
  * Created by jcii on 5/31/17.
  */
-import { Record } from '../../shared';
+import { Record } from './record';
 export class WorkAssignment extends Record<WorkAssignment>
 {
   skillId: number;

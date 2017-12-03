@@ -1,4 +1,4 @@
-import { WorkAssignment } from './work-assignments/models/work-assignment';
+import { WorkAssignment } from '../shared/models/work-assignment';
 import { OnlineOrdersService } from './online-orders.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';

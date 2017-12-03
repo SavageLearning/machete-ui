@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { WorkOrder } from './models/work-order';
+import { WorkOrder } from '../../shared/models/work-order';
 import { LookupsService } from '../../lookups/lookups.service';
 import { OnlineOrdersService } from '../online-orders.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';

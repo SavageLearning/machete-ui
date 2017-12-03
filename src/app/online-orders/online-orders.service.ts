@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { WorkOrder } from './work-order/models/work-order';
+import { WorkOrder } from '../shared/models/work-order';
 import { HttpClient } from '@angular/common/http';
 import { WorkOrderService } from './work-order/work-order.service';
-import { WorkAssignment } from './work-assignments/models/work-assignment';
+import { WorkAssignment } from '../shared/models/work-assignment';
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 

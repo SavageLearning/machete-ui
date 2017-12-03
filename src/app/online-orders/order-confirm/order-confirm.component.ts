@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnlineOrdersService } from '../online-orders.service';
-import { WorkOrder } from '../work-order/models/work-order';
+import { WorkOrder } from '../../shared/models/work-order';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { LookupsService } from "../../lookups/lookups.service";
 import { LCategory } from "../../lookups/models/lookup";

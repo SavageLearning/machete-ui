@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderConfirmComponent } from './order-confirm.component';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { WorkOrder } from '../work-order/models/work-order';
+import { WorkOrder } from '../../shared/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, WorkAssignmentsServiceSpy, RouterSpy } from '../../shared/testing';
 import { LookupsService } from "../../lookups/lookups.service";
@@ -10,6 +10,7 @@ import { DataTableModule } from 'primeng/primeng';
 
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 import { Router } from '@angular/router';
+import { FullOrderViewComponent } from '../../shared/views/full-order-view/full-order-view.component';
 
 describe('OrderConfirmComponent', () => {
   let component: OrderConfirmComponent;
@@ -17,7 +18,10 @@ describe('OrderConfirmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderConfirmComponent ],
+      declarations: [ 
+        OrderConfirmComponent,
+        FullOrderViewComponent
+       ],
       imports: [DataTableModule]
     })
     .overrideComponent(OrderConfirmComponent, {

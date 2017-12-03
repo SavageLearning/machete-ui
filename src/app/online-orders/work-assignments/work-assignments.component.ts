@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {WorkAssignment} from './models/work-assignment';
+import {WorkAssignment} from '../../shared/models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';

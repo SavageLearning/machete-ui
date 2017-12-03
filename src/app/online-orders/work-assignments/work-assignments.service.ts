@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {WorkAssignment} from './models/work-assignment';
+import {WorkAssignment} from '../../shared/models/work-assignment';
 import {Observable} from 'rxjs/Observable';
 
 import { OnlineOrdersService } from '../online-orders.service';
@@ -8,7 +8,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { LookupsService } from '../../lookups/lookups.service';
-import { WorkOrder } from "../work-order/models/work-order";
+import { WorkOrder } from "../../shared/models/work-order";
 import { Subject } from "rxjs";
 import { TransportRulesService } from '../transport-rules.service';
 

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { WorkOrderService } from './work-order.service';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
-import { WorkOrder } from './models/work-order';
+import { WorkOrder } from '../../shared/models/work-order';
 import { Employer } from '../../shared/models/employer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule, CalendarModule, DialogModule } from 'primeng/primeng';
