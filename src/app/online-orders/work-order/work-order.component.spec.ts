@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { WorkOrderService } from './work-order.service';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
-import { WorkOrder } from './models/work-order';
+import { WorkOrder } from '../../shared/models/work-order';
 import { Employer } from '../../shared/models/employer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule, CalendarModule, DialogModule } from 'primeng/primeng';
@@ -13,9 +13,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OnlineOrdersService } from '../online-orders.service';
 import { ScheduleRule } from '../shared/models/schedule-rule';
 import { ConfigsService } from '../../configs/configs.service';
-import { WorkOrderServiceSpy, LookupsServiceSpy, ConfigsServiceSpy, OnlineOrdersServiceSpy, RouterSpy, ScheduleRulesServiceSpy } from '../../shared/testing';
+import { WorkOrderServiceSpy, LookupsServiceSpy, ConfigsServiceSpy, OnlineOrdersServiceSpy, RouterSpy, ScheduleRulesServiceSpy, TransportRulesServiceSpy } from '../../shared/testing';
 import { Router } from "@angular/router";
 import { ScheduleRulesService } from '../schedule-rules.service';
+import { TransportRulesService } from '../transport-rules.service';
 
 describe('WorkOrderComponent', () => {
   let component: WorkOrderComponent;
@@ -40,7 +41,9 @@ describe('WorkOrderComponent', () => {
           { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
           { provide: ConfigsService, useClass: ConfigsServiceSpy },
           { provide: Router, useClass: RouterSpy},
-          { provide: ScheduleRulesService, useClass: ScheduleRulesServiceSpy }
+          { provide: ScheduleRulesService, useClass: ScheduleRulesServiceSpy },
+          { provide: TransportRulesService, useClass: TransportRulesServiceSpy }
+          
         ]
       }
     })

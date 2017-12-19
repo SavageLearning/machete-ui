@@ -37,8 +37,4 @@ describe('OnlineOrdersService', () => {
   it('should ...', inject([OnlineOrdersService], (service1: OnlineOrdersService) => {
     expect(service1).toBeTruthy();
   }));
-  // this works because the data is hardcoded (for now)
-  it('should load 5 transport rules', () => {
-      expect(service.transportRules.length).toBe(5);
-  });
 });

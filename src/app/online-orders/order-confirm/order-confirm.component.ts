@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnlineOrdersService } from '../online-orders.service';
-import { WorkOrder } from '../work-order/models/work-order';
+import { WorkOrder } from '../../shared/models/work-order';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { LookupsService } from "../../lookups/lookups.service";
 import { LCategory } from "../../lookups/models/lookup";
@@ -10,11 +10,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-final-confirm',
-  templateUrl: './final-confirm.component.html',
-  styleUrls: ['./final-confirm.component.css']
+  selector: 'app-order-confirm',
+  templateUrl: './order-confirm.component.html',
+  styleUrls: ['./order-confirm.component.css']
 })
-export class FinalConfirmComponent implements OnInit {
+export class OrderConfirmComponent implements OnInit {
   order: WorkOrder = new WorkOrder();
   transportLabel: string;
   workerCount: number;
@@ -53,10 +53,7 @@ export class FinalConfirmComponent implements OnInit {
         this.transportCost = 0;
         this.laborCost = 0;
       }
-
       this.order.workAssignments = wa;
-
-
     },
     error => console.error('error', error));
 
@@ -67,6 +64,8 @@ export class FinalConfirmComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log('Returned from POST', data); 
+          this.router.navigate(['/online-orders/order-complete']);
+          
         },
         (err: HttpErrorResponse) => {
           console.error('POST error', err);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {WorkOrder} from './models/work-order';
+import {WorkOrder} from '../../shared/models/work-order';
 import { EmployersService} from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
 import { BehaviorSubject, ReplaySubject } from "rxjs";

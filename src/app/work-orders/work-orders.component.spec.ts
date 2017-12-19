@@ -4,6 +4,8 @@ import { WorkOrder } from '../shared/models/work-order';
 import { Observable } from 'rxjs/Observable';
 import { WorkOrdersService } from './work-orders.service';
 import { DataTableModule } from 'primeng/primeng';
+import { TransportRulesService } from '../online-orders/transport-rules.service';
+import { TransportRulesServiceSpy } from '../shared/testing/services.spy';
 class WorkOrdersServiceSpy {
   getOrders = jasmine.createSpy('getOrders')
     .and.callFake(

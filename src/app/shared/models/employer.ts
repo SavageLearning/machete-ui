@@ -1,7 +1,6 @@
 import { WorkOrder } from './work-order';
-
-export class Employer {
-  id: number;
+import { Record } from './record';
+export class Employer extends Record<Employer> {
   active: boolean;
   address1: string;
   address2: string;

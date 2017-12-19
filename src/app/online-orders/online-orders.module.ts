@@ -5,7 +5,7 @@ import { OnlineOrdersComponent } from './online-orders.component';
 import { IntroConfirmComponent } from './intro-confirm/intro-confirm.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkAssignmentsComponent } from './work-assignments/work-assignments.component';
-import { FinalConfirmComponent } from './final-confirm/final-confirm.component';
+import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
 import { StepsModule, CalendarModule, DropdownModule,
           DataTableModule, InputSwitchModule, MessagesModule,
@@ -13,6 +13,10 @@ import { StepsModule, CalendarModule, DropdownModule,
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
+import { TransportRulesService } from './transport-rules.service';
+import { OrderCompleteComponent } from './order-complete/order-complete.component';
+import { PaypalNoticeComponent } from './paypal-notice/paypal-notice.component';
+import { FullOrderViewComponent } from '../shared/views/full-order-view/full-order-view.component';
 
 @NgModule({
   imports: [
@@ -35,11 +39,15 @@ import { ScheduleRulesService } from './schedule-rules.service';
     IntroConfirmComponent,
     WorkOrderComponent,
     WorkAssignmentsComponent,
-    FinalConfirmComponent
+    OrderConfirmComponent,
+    OrderCompleteComponent,
+    PaypalNoticeComponent,
+    FullOrderViewComponent
   ],
   providers: [
     OnlineOrdersService,
-    ScheduleRulesService
+    ScheduleRulesService,
+    TransportRulesService
   ]
 })
 export class OnlineOrdersModule { }

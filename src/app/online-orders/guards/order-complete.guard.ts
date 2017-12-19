@@ -4,15 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { OnlineOrdersService } from '../online-orders.service';
 
 @Injectable()
-export class FinalConfirmGuard implements CanActivate {
+export class OrderCompleteGuard implements CanActivate {
   isConfirmed = false;
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
     console.log('.ctor');
-    onlineService.getWorkAssignmentConfirmedStream().subscribe(
+    onlineService.getOrderCompleteStream().subscribe(
       confirm => {
-        console.log('.ctor->finalConfirmed:', confirm)
-        this.isConfirmed = confirm;
+        console.log('.ctor->Ordercompleted:', confirm)
+        this.isConfirmed = confirm != null;
       }
     );
   }

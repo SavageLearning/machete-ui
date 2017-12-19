@@ -1,34 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { WorkOrder } from './work-order/models/work-order';
+import { WorkOrder } from '../shared/models/work-order';
 import { HttpClient } from '@angular/common/http';
 import { WorkOrderService } from './work-order/work-order.service';
-import { WorkAssignment } from './work-assignments/models/work-assignment';
+import { WorkAssignment } from '../shared/models/work-assignment';
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import { ScheduleRule, TransportRule, loadTransportRules } from './shared';
+import { ScheduleRule, TransportRule } from './shared';
 import { BehaviorSubject } from "rxjs";
 import { Confirm } from "./shared/models/confirm";
 import { loadConfirms } from "./shared/rules/load-confirms";
 
 @Injectable()
 export class OnlineOrdersService {
-  transportRules = new Array<TransportRule>();
-
   private initialConfirm: Confirm[];
   private initialConfirmSource: BehaviorSubject<Confirm[]>; 
   private workOrderConfirm = false;
   private workOrderConfirmSource = new BehaviorSubject<boolean>(false);  
   private workAssignmentsConfirm = false;
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
+  private orderComplete: WorkOrder;
+  private orderCompleteSource: BehaviorSubject<WorkOrder>;
 
   storageKey = 'machete.online-orders-service';
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
-  submitResult: WorkOrder;
+  orderCompleteKey = this.storageKey + '.ordercomplete';
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
@@ -37,7 +37,6 @@ export class OnlineOrdersService {
     // this loads static data from a file. will replace later.
     
     this.loadConfirmState();
-    this.transportRules = loadTransportRules();
   }
 
   getInitialConfirmedStream(): Observable<Confirm[]> {
@@ -48,27 +47,39 @@ export class OnlineOrdersService {
     return this.workOrderConfirmSource.asObservable();
   }
 
+  getOrderCompleteStream(): Observable<WorkOrder> {
+    return this.orderCompleteSource.asObservable();
+  }
   getWorkAssignmentConfirmedStream(): Observable<boolean> {
     return this.workAssignmentsConfirmSource.asObservable();
   }
 
   loadConfirmState() {
-    let loaded =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
-    if (loaded != null && loaded.length > 0) {
-      this.initialConfirm = loaded;
-      this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loaded);
+    let loadedConfirms =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
+    if (loadedConfirms != null && loadedConfirms.length > 0) {
+      this.initialConfirm = loadedConfirms;
+      this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadedConfirms);
     } else {
       this.initialConfirm = loadConfirms();
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadConfirms());
-
     }
+
+    let loadedCompleteOrder = JSON.parse(sessionStorage.getItem(this.orderCompleteKey)) as WorkOrder;
+    if (loadedCompleteOrder != null) {
+      this.orderComplete = loadedCompleteOrder;
+      this.orderCompleteSource = new BehaviorSubject<WorkOrder>(loadedCompleteOrder);
+    } else {
+      this.orderComplete = new WorkOrder();
+      this.orderCompleteSource = new BehaviorSubject<WorkOrder>(new WorkOrder());
+    }
+
     this.workOrderConfirm = (sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
     this.workAssignmentsConfirm = (sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
-
     // notify the subscribers
     //this.initialConfirmSource.next(this.initialConfirm);
     this.workOrderConfirmSource.next(this.workOrderConfirm);
     this.workAssignmentsConfirmSource.next(this.workAssignmentsConfirm);
+    this.orderCompleteSource.next(this.orderComplete);
   }
 
   getInitialConfirmValue(): Confirm[] {
@@ -84,7 +95,7 @@ export class OnlineOrdersService {
   setWorkorderConfirm(choice: boolean) {
     console.log('setWorkOrderConfirm:', choice);
     this.workOrderConfirm = choice;
-    sessionStorage.setItem(this.storageKey + '.workorderconfirm',
+    sessionStorage.setItem(this.workOrderConfirmKey,
       JSON.stringify(choice));
     this.workOrderConfirmSource.next(choice);
   }
@@ -92,9 +103,17 @@ export class OnlineOrdersService {
   setWorkAssignmentsConfirm(choice: boolean) {
     console.log('setWorkAssignmentsConfirm:', choice);
     this.workAssignmentsConfirm = choice;
-    sessionStorage.setItem(this.storageKey+'.workassignmentsconfirm',
+    sessionStorage.setItem(this.workAssignmentConfirmKey,
       JSON.stringify(choice));
     this.workAssignmentsConfirmSource.next(choice);
+  }
+
+  setOrderComplete(order: WorkOrder) {
+    console.log('setOrderComplete:', order);
+    this.orderComplete = order;
+    sessionStorage.setItem(this.orderCompleteKey,
+      JSON.stringify(order));
+    this.orderCompleteSource.next(order);
   }
 
   createOrder(order: WorkOrder): Observable<WorkOrder> {
@@ -105,7 +124,8 @@ export class OnlineOrdersService {
       headers: postHeaders
       }).map(
       (data) => {
-        this.submitResult = data as WorkOrder;
+        // enable order completed
+        this.setOrderComplete(data['data'] as WorkOrder);
         // Make decisions from the record returned from the API,
         // not what's in the UI app
         return data;
@@ -118,9 +138,5 @@ export class OnlineOrdersService {
         }
       }
     );
-  }
-
-  getTransportRules(): Observable<TransportRule[]> {
-    return Observable.of(this.transportRules);
   }
 }
