@@ -137,6 +137,14 @@ export class OnlineOrdersServiceSpy {
       .and.callFake(
         () => Observable.of(loadConfirms())
       );
+
+  getOrderCompleteStream = jasmine.createSpy('getOrderCompleteStream')
+      .and.callFake(
+        () => Observable.of(new WorkOrder({
+          id: 1,
+          transportMethodID: 32
+        }))
+      )
 }
 
 export class ConfigsServiceSpy {
