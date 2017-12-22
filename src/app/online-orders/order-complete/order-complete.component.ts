@@ -4,7 +4,8 @@ import { WorkOrder } from '../../shared/models/work-order';
 import { LookupsService } from '../../lookups/lookups.service';
 import { LCategory } from '../../lookups/models/lookup';
 import { Observable } from 'rxjs/Observable';
-declare let paypal: any;
+import * as paypal from 'paypal-checkout';
+
 @Component({
   selector: 'app-order-complete',
   templateUrl: './order-complete.component.html',
@@ -84,21 +85,26 @@ export class OrderCompleteComponent implements OnInit {
 
   public ngAfterViewChecked(): void {
     if(!this.didPaypalScriptLoad) {
-      this.loadPaypalScript().then(() => {
+      //this.loadPaypalScript().then(() => {
         paypal.Button.render(this.paypalConfig, '#paypal-button');
         this.loading = false;
-      });
+        this.didPaypalScriptLoad = true;
+      //});
     }
   }
-
-  public loadPaypalScript(): Promise<any> {
-    this.didPaypalScriptLoad = true;
-    return new Promise((resolve, reject) => {
-      const scriptElement = document.createElement('script');
-      scriptElement.src = 'https://www.paypalobjects.com/api/checkout.js';
-      scriptElement.onload = resolve;
-      document.body.appendChild(scriptElement);
-    });
-  }
+  // This is a hacky just-in-time load of the 176k checkout.js
+  // it blows up the tests because the call isn't mocked.
+  // Ignoring for now
+  // https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/add-paypal-button/
+  // https://github.com/KevinShiCA/ng4-paypal-button/blob/master/src/app/app.component.ts
+  // public loadPaypalScript(): Promise<any> {
+  //   this.didPaypalScriptLoad = true;
+  //   return new Promise((resolve, reject) => {
+  //     const scriptElement = document.createElement('script');
+  //     scriptElement.src = 'https://www.paypalobjects.com/api/checkout.js';
+  //     scriptElement.onload = resolve;
+  //     document.body.appendChild(scriptElement);
+  //   });
+  // }
 
 }
