@@ -15,7 +15,6 @@ import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
 import { TransportRulesService } from './transport-rules.service';
 import { OrderCompleteComponent } from './order-complete/order-complete.component';
-import { PaypalNoticeComponent } from './paypal-notice/paypal-notice.component';
 import { FullOrderViewComponent } from '../shared/views/full-order-view/full-order-view.component';
 
 @NgModule({
@@ -41,7 +40,6 @@ import { FullOrderViewComponent } from '../shared/views/full-order-view/full-ord
     WorkAssignmentsComponent,
     OrderConfirmComponent,
     OrderCompleteComponent,
-    PaypalNoticeComponent,
     FullOrderViewComponent
   ],
   providers: [
