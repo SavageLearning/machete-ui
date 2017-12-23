@@ -45,6 +45,11 @@ export class OrderCompleteComponent implements OnInit {
     },
     onAuthorize: (data, actions) => {
       console.log('Payment was successful!', data, actions);
+      // TODO: add confirmation notice/spinner
+      this.onlineService.executePaypal(this.order.id, data['payerID'], data['paymentID'])
+        .subscribe(
+          data => console.log('execute paypal returned:', data),
+          error => console.error('execute paypal errored:', error));
     },
     onCancel: function(data) {
       console.log('The payment was cancelled!', data);
