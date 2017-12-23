@@ -141,7 +141,7 @@ export class OnlineOrdersService {
   }
 
   executePaypal(orderID: number, payerID: string, paymentID: string): Observable<any> {
-    let url = environment.dataUrl + '/api/onlineorders' + orderID + '/paypalexecute';
+    let url = environment.dataUrl + '/api/onlineorders/' + orderID + '/paypalexecute';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post<any>(url, JSON.stringify({
