@@ -35,7 +35,12 @@ export class OrderCompleteComponent implements OnInit {
           transactions: [
             { amount: { total: this.transportCost, currency: 'USD' } }
           ]
-        }
+        },
+        experience: {
+          input_fields: {
+              no_shipping: 1
+          }
+        },
       });
     },
     onAuthorize: (data, actions) => {
