@@ -145,7 +145,8 @@ export class WorkAssignmentsService {
       throw new Error('No TransportRules match lookup key: ' + lookup.key);
     }
 
-    const result = rules.find(f => f.zipcodes.includes(order.zipcode));
+    const result = rules.find(f => f.zipcodes.includes(order.zipcode) || 
+                                   f.zipcodes.includes("*"));
     if (result === null || result == undefined) {
       throw new Error(`Zipcode ${order.zipcode} does not match any rule`);
     }
