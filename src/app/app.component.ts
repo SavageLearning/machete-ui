@@ -1,7 +1,8 @@
-import {Component, AfterViewInit, ElementRef, Renderer, ViewChild} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ElementRef, Renderer, ViewChild} from '@angular/core';
 import { environment } from '../environments/environment';
 import { ConfigsService } from './configs/configs.service';
 import { LookupsService } from './lookups/lookups.service';
+import { Router, NavigationEnd } from '@angular/router';
 console.log('environment.name:', environment.name);
 
 enum MenuOrientation {
@@ -18,7 +19,7 @@ declare var jQuery: any;
   styleUrls: ['./app.component.scss'],
   providers: [ LookupsService, ConfigsService ]
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
     layoutCompact = false;
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
     darkMenu = true;
@@ -40,8 +41,17 @@ export class AppComponent implements AfterViewInit {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ElementRef;
 
-    constructor(public renderer: Renderer) {}
+    constructor(public renderer: Renderer, private router: Router) {}
 
+    ngOnInit()
+    {
+        this.router.events.subscribe((evt) => {
+            if (!(evt instanceof NavigationEnd)) {
+                return;
+            }
+            window.scrollTo(0, 0)
+        });
+    }
     ngAfterViewInit() {
         this.layoutContainer = <HTMLDivElement> this.layourContainerViewChild.nativeElement;
         this.layoutMenuScroller = <HTMLDivElement> this.layoutMenuScrollerViewChild.nativeElement;
