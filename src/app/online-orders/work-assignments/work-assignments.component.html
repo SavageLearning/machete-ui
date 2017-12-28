@@ -1,8 +1,8 @@
 <div class="ui-fluid">
-  <div class="card">
-    <form [formGroup]="requestForm" (ngSubmit)="saveRequest()" class="ui-g form-group">
-      <div class="ui-g-12 ui-md-6">
-        <div class="ui-g-12">
+  <div class="card ui-g-nopad">
+    <form [formGroup]="requestForm" (ngSubmit)="saveRequest()" class="ui-g form-group ui-g-nopad">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
             <label for="skillsList">Skill needed</label>
           </div>
@@ -22,11 +22,38 @@
             {{formErrors.skillId}}
           </div>
         </div>
-        <div class="ui-g-12">
+
+        <div class="ui-g-12" *ngIf="this.selectedSkill.skillDescriptionEn != null">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
+              <label for="description">Skill description</label>
+          </div>
+          <div id="description" class="ui-g-12 ui-md-8 ui-g-nopad">
+            {{this.selectedSkill.skillDescriptionEn}}
+          </div>
+        </div>
+        <div class="ui-g-12" *ngIf="this.selectedSkill.wage != null">
+          <div class="ui-g-6 ui-md-4 ui-g-nopad">
+              <label for="wage">Hourly rate</label>
+          </div>
+          <div id="wage" class="ui-g-6 ui-md-8 ui-g-nopad">
+            {{this.selectedSkill.wage | currency:'USD':true}}
+          </div>
+        </div>
+        <div class="ui-g-12" *ngIf="this.selectedSkill.minHour != null">
+          <div class="ui-g-6 ui-md-4 ui-g-nopad">
+            <label for="minHour">Minimum time</label>
+          </div>
+          <div id="minHour" class="ui-g-6 ui-md-8 ui-g-nopad">
+            {{this.selectedSkill.minHour}}
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12">
+          <div class="ui-g-6 ui-md-4 ui-g-nopad">
             <label for="hours">Hours needed</label>
           </div>
-          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+          <div class="ui-g-6 ui-md-8 ui-g-nopad">
             <input class="ui-inputtext" formControlName="hours" id="hours" type="text" pInputText/>
           </div>
         </div>
@@ -36,10 +63,10 @@
           </div>
         </div>
         <div class="ui-g-12">
-          <div class="ui-g-12 ui-md-4 ui-g-nopad">
+          <div class="ui-g-8 ui-md-4 ui-g-nopad">
             <label for="requiresHeavyLifting">Requires heavy lifting?</label>
           </div>
-          <div class="ui-g-12 ui-md-8 ui-g-nopad">
+          <div class="ui-g-4 ui-md-8 ui-g-nopad">
             <p-inputSwitch id="requiresHeavyLifting" formControlName="requiresHeavyLifting"></p-inputSwitch>
           </div>
         </div>
@@ -52,32 +79,7 @@
             <textarea rows="3" class="ui-inputtext" formControlName="description" id="description" type="text" pInputText></textarea>
           </div>
         </div>
-      </div>
-      <div class="ui-g-12 ui-md-6">
-        <div class="ui-g-12">
-          <div class="ui-g-12 ui-md-4 ui-g-nopad">
-            Skill description
-          </div>
-          <div class="ui-g-12 ui-md-8 ui-g-nopad">
-            {{this.selectedSkill.skillDescriptionEn}}
-          </div>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-12 ui-md-4 ui-g-nopad">
-            Hourly rate
-          </div>
-          <div class="ui-g-12 ui-md-8 ui-g-nopad">
-            {{this.selectedSkill.wage | currency:'USD':true}}
-          </div>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-12 ui-md-4 ui-g-nopad">
-            Minimum time
-          </div>
-          <div class="ui-g-12 ui-md-8 ui-g-nopad">
-            {{this.selectedSkill.minHour}}
-          </div>
-        </div>
+    
       </div>
       <div class="ui-g-12">
         <button pButton type="submit" label="Save"></button>
@@ -85,17 +87,17 @@
     </form>
   <div>
     <p-dataTable [value]="requestList" [(selection)]="selectedRequest" (onRowSelect)="onRowSelect($event)" [responsive]="true">
-      <p-column field="id" header="#"></p-column>
-      <p-column field="skill" header="Skill needed"></p-column>
-      <p-column field="transportCost" header="Transport cost">
+      <p-column field="id" header="Request #" [style]="{'padding':'.1em .875em'}"></p-column>
+      <p-column field="skill" header="Skill needed" [style]="{'padding':'.1em .875em'}"></p-column>
+      <p-column field="transportCost" header="Transport cost" [style]="{'padding':'.1em .875em'}">
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
           <span>{{wa[col.field]| currency:'USD':true}}</span>
         </ng-template>
       </p-column>
-      <p-column field="hours" header="hours requested"></p-column>
-      <p-column field="description" header="notes"></p-column>
-      <p-column field="requiresHeavyLifting" header="Heavy lifting?"></p-column>
-      <p-column field="hourlyWage" header="Hourly wage">
+      <p-column field="hours" header="hours requested" [style]="{'padding':'.1em .875em'}"></p-column>
+      <p-column field="description" header="notes" [style]="{'padding':'.1em .875em'}" *ngIf="description != null"></p-column>
+      <p-column field="requiresHeavyLifting" header="Heavy lifting?" [style]="{'padding':'.1em .875em'}"></p-column>
+      <p-column field="hourlyWage" header="Hourly wage" [style]="{'padding':'.1em .875em'}">
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
           <span>{{wa[col.field]| currency:'USD':true}}</span>
         </ng-template>
