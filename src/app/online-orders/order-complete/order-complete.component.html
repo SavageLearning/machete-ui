@@ -1,4 +1,4 @@
-<div id="paypal-button"></div>
+<div id="paypal-button" *ngIf="transportCost > 0"></div>
 <div class="ui-fluid card ui-g">
   <full-order-view 
     [transportLabel]="transportLabel"

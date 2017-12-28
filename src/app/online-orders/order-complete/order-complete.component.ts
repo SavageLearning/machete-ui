@@ -46,7 +46,7 @@ export class OrderCompleteComponent implements OnInit {
     onAuthorize: (data, actions) => {
       console.log('Payment was successful!', data, actions);
       // TODO: add confirmation notice/spinner
-      this.onlineService.executePaypal(this.order.id, data['payerID'], data['paymentID'])
+      this.onlineService.executePaypal(this.order.id, data['payerID'], data['paymentID'], data['paymentToken'])
         .subscribe(
           data => console.log('execute paypal returned:', data),
           error => console.error('execute paypal errored:', error));
@@ -70,7 +70,7 @@ export class OrderCompleteComponent implements OnInit {
       this.onlineService.getOrderCompleteStream(),
       
     ).subscribe(([l,o])=>{
-      console.log(l,o);
+      console.log('ngOnInit:combineLatest received:', l,o);
       this.order = o;
       this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
       let wa = o.workAssignments;

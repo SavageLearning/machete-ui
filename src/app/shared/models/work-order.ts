@@ -23,11 +23,12 @@ export class WorkOrder extends Record<WorkOrder> {
   // lunchSupplied: boolean;
   // onlineSource: boolean;
   // paperOrderNum?: number;
-  // paypalErrors: string;
-  // paypalFee?: number;
-  // paypalPayerId: string;
-  // paypalToken: string;
-  // paypalTransactID: string;
+  ppFee?: string;
+  ppPayerID?: number;
+  ppState?: string;
+  ppResponse?: string;
+  ppPaymentToken?: string;
+  ppPaymentID?: string;
   // permanentPlacement: boolean;
   phone: string;
   state: string;

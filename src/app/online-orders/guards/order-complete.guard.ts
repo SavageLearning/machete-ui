@@ -11,7 +11,7 @@ export class OrderCompleteGuard implements CanActivate {
     console.log('.ctor');
     onlineService.getOrderCompleteStream().subscribe(
       confirm => {
-        console.log('.ctor->Ordercompleted:', confirm)
+        console.log('.ctor->Ordercompleted callback')
         this.isConfirmed = confirm != null;
       }
     );

@@ -1,7 +1,7 @@
 export const environment = {
   name: 'dev',
   production: false,
-  dataUrl: 'http://api.machetessl.org',
+  dataUrl: 'https://api.machetessl.org',
   authUrl: 'https://identity.machetessl.org/id',
   oidc_client_settings: {
     authority: 'https://identity.machetessl.org/id',

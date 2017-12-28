@@ -23,12 +23,15 @@ export class OnlineOrdersService {
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
   private orderComplete: WorkOrder;
   private orderCompleteSource: BehaviorSubject<WorkOrder>;
+  private paypalResponse: any;
+  private paypalResponseSource:  BehaviorSubject<any>;
 
   storageKey = 'machete.online-orders-service';
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
   orderCompleteKey = this.storageKey + '.ordercomplete';
+  paypalResponseKey = this.storageKey + '.paypalresponse';
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
@@ -54,7 +57,13 @@ export class OnlineOrdersService {
     return this.workAssignmentsConfirmSource.asObservable();
   }
 
+  getPaypalResponseStream(): Observable<any> {
+    return this.paypalResponseSource.asObservable();
+  }
+
   loadConfirmState() {
+    // This pattern is ugly; should be able to simplify, perhaps use BehaviorSubjectSource instead
+    // of companion private variable
     let loadedConfirms =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
     if (loadedConfirms != null && loadedConfirms.length > 0) {
       this.initialConfirm = loadedConfirms;
@@ -66,11 +75,26 @@ export class OnlineOrdersService {
 
     let loadedCompleteOrder = JSON.parse(sessionStorage.getItem(this.orderCompleteKey)) as WorkOrder;
     if (loadedCompleteOrder != null) {
+      // if we're loading from storage, make sure this record is current (may be recovering after)
+      // paypalexecute started
       this.orderComplete = loadedCompleteOrder;
       this.orderCompleteSource = new BehaviorSubject<WorkOrder>(loadedCompleteOrder);
+      this.getOrder(loadedCompleteOrder.id)
+        .subscribe(data => {
+          this.setOrderComplete(data['data'] as WorkOrder);
+        });
     } else {
       this.orderComplete = new WorkOrder();
       this.orderCompleteSource = new BehaviorSubject<WorkOrder>(new WorkOrder());
+    }
+
+    let loadedPaypalResponse = JSON.parse(sessionStorage.getItem(this.paypalResponseKey)) as any;
+    if (loadedPaypalResponse != null) {
+      this.paypalResponse = loadedPaypalResponse;
+      this.paypalResponseSource = new BehaviorSubject<any>(loadedPaypalResponse);
+    } else {
+      this.paypalResponse = new Object();
+      this.paypalResponseSource = new BehaviorSubject<any>(new Object());
     }
 
     this.workOrderConfirm = (sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
@@ -82,9 +106,6 @@ export class OnlineOrdersService {
     this.orderCompleteSource.next(this.orderComplete);
   }
 
-  getInitialConfirmValue(): Confirm[] {
-    return this.initialConfirm;
-  }
   setInitialConfirm(choice: Confirm[]) {
     console.log('setInitialConfirm:', choice);
     this.initialConfirm = choice;
@@ -116,6 +137,14 @@ export class OnlineOrdersService {
     this.orderCompleteSource.next(order);
   }
 
+  setPaypalResponse(response: any) {
+    console.log(response);
+    this.paypalResponse = response;
+    sessionStorage.setItem(this.paypalResponseKey,
+      JSON.stringify(response));
+    this.paypalResponseSource.next(response);
+  }
+
   createOrder(order: WorkOrder): Observable<WorkOrder> {
     let url = environment.dataUrl + '/api/onlineorders';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
@@ -140,14 +169,32 @@ export class OnlineOrdersService {
     );
   }
 
-  executePaypal(orderID: number, payerID: string, paymentID: string): Observable<any> {
+  getOrder(id: number): Observable<WorkOrder> {
+    let url = environment.dataUrl + '/api/onlineorders/' + id;
+    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.get<WorkOrder>(url, {
+      headers: postHeaders
+    }).map((data) => {
+      console.log('getOrder received:', data);
+      return data;
+    });
+  }
+
+  executePaypal(orderID: number, payerID: string, paymentID: string, token: string): Observable<any> {
     let url = environment.dataUrl + '/api/onlineorders/' + orderID + '/paypalexecute';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.post<any>(url, JSON.stringify({
-      payerID: payerID,
-      paymentID: paymentID
+    return this.http.post<any>(url, 
+      JSON.stringify({
+        payerID: payerID,
+        paymentID: paymentID,
+        paymentToken: token
       }), 
-      { headers: postHeaders });
+      { headers: postHeaders })
+      .map(data => {
+        this.setPaypalResponse(data);
+        return data;
+      });
   }
 }
