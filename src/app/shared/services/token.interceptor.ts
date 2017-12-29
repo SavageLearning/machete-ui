@@ -32,7 +32,8 @@ export class TokenInterceptor implements HttpInterceptor {
         if (user.expired) {
           this.auth.redirectUrl = url;
           // TODO: should go to login start, or silently renew?
-          this.route.navigate(['/unauthorized']);
+          this.auth.startSigninMainWindow();
+          //this.route.navigate(['/unauthorized']);
           return next.handle(request);
 
         }

@@ -108,14 +108,6 @@ export class AuthService {
 
   endSigninMainWindow(url?: string): Observable<User> {
     return Observable.fromPromise(this.mgr.signinRedirectCallback(url));
-    // .then(function (user) {
-    //   console.log('auth.service.endSigninMainWindow.user: ', user.profile.sub);
-    //   if (user.state) {
-    //     this.router.navigate(['dashboard']);
-    //   }
-    // }).catch(function (err) {
-    //   console.error('auth.service.endSigninMainWindow returned: ' + JSON.stringify(err));
-    // });
   }
 
   startSignoutMainWindow() {
