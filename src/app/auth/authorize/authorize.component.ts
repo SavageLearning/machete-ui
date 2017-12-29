@@ -20,6 +20,10 @@ export class AuthorizeComponent implements OnInit {
         let rtr = this.router;
         console.log('endSigninMainWindow.user: ', user);
         this.auth.getUserEmitter().emit(user);
+          if (user.state && user.profile.role == "Hirer" && user.state == "/welcome") {
+            rtr.navigate(['/online-orders/introduction']);
+            return; 
+          }
           if (user.state) {
             rtr.navigate([user.state]);
           }

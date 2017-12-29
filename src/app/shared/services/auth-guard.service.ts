@@ -17,6 +17,7 @@ export class AuthGuardService implements CanActivate {
         isLoggedIn.subscribe((loggedin) => {
             if (!loggedin) {
                 console.log('canActivate NOT loggedIn: url:', state)
+                // state.url: where they were going before they got here
                 this.authService.setRedirectUrl(state.url);
                 this.router.navigate(['unauthorized']);
             }
