@@ -16,6 +16,7 @@ import { ScheduleRulesService } from './schedule-rules.service';
 import { TransportRulesService } from './transport-rules.service';
 import { OrderCompleteComponent } from './order-complete/order-complete.component';
 import { FullOrderViewComponent } from '../shared/views/full-order-view/full-order-view.component';
+import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { FullOrderViewComponent } from '../shared/views/full-order-view/full-ord
     WorkAssignmentsComponent,
     OrderConfirmComponent,
     OrderCompleteComponent,
-    FullOrderViewComponent
+    FullOrderViewComponent,
+    OrderNotFoundComponent
   ],
   providers: [
     OnlineOrdersService,
