@@ -27,10 +27,11 @@ export class AppMenuComponent implements OnInit {
 
     constructor(
         @Inject(forwardRef(() => AppComponent)) public app: AppComponent,
-        private auth: AuthService) {}
+        private auth: AuthService) {
+            console.log('.ctor');
+        }
 
     ngOnInit() {
-        console.log('ngOnInit');
         this.auth.getUserEmitter()
             .subscribe(
                 (user: User) => {
@@ -42,7 +43,6 @@ export class AppMenuComponent implements OnInit {
                         roles = [roles];
                     }
                     this.model = loadMenuRules(roles)
-                    console.log(this.model);
                 }
             );
         this.auth.getUser();

@@ -35,7 +35,7 @@ export class OrderConfirmComponent implements OnInit {
       this.ordersService.getStream(),
       this.assignmentService.getStream()
     ).subscribe(([l, o, wa]) => {
-      console.log('ngOnInit', l, o, wa);
+      console.log('ngOnInit->combineLatest.subscribe', l, o, wa);
       this.order = o;
       this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
       if (wa != null && wa.length > 0) {
