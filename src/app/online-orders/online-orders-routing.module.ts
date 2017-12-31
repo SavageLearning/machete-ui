@@ -16,7 +16,6 @@ import { WorkAssignmentsService } from './work-assignments/work-assignments.serv
 import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
 import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 import { OrderCompleteComponent } from './order-complete/order-complete.component';
-import { OrderCompleteGuard } from './guards/order-complete.guard';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 
 const onlineOrderRoutes: Routes = [
@@ -82,11 +81,9 @@ const onlineOrderRoutes: Routes = [
       WorkOrderGuard,
       WorkAssignmentsGuard,
       OrderConfirmGuard,
-      OrderCompleteGuard,
       OnlineOrdersComponent,
       WorkOrderService,
       EmployersService,
-      // WorkAssignmentsService
     ]
   ]
 })

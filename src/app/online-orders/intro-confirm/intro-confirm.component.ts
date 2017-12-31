@@ -24,9 +24,8 @@ export class IntroConfirmComponent implements OnInit {
       confirmed => {
         this.confirmChoices = confirmed;
         this.confirmStatus = this.confirmChoices
-                                .map(a => a.confirmed)
-                                .reduce((a,b) => a && b );
-        //console.log('ngOnInit:getInitialConfirmedStream', confirmed, this.confirmStatus)
+            .map(a => a.confirmed)
+            .reduce((a,b) => a && b );
       }
     );
   }
@@ -37,13 +36,9 @@ export class IntroConfirmComponent implements OnInit {
                             .reduce((a,b) => a && b );
     this.confirmStatus = result;
     this.onlineService.setInitialConfirm(this.confirmChoices);                            
-    //console.log('checkConfirm', this.confirmChoices, result);
   }
 
   nextStep() {
-
-    
     this.router.navigate(['/online-orders/work-order']);
   }
-
 }

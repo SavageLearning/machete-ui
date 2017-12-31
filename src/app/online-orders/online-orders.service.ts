@@ -19,19 +19,16 @@ export class OnlineOrdersService {
   private initialConfirmSource: BehaviorSubject<Confirm[]>; 
   private workOrderConfirmSource = new BehaviorSubject<boolean>(false);  
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
-  // private orderCompleteSource: BehaviorSubject<WorkOrder>;
   private paypalResponseSource:  BehaviorSubject<any>;
 
   storageKey = 'machete.online-orders-service';
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
-  //orderCompleteKey = this.storageKey + '.ordercomplete';
   paypalResponseKey = this.storageKey + '.paypalresponse';
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
-    //private assignmentService: WorkAssignmentsService
   ) {
     console.log('.ctor');
     // this loads static data from a file. will replace later.
@@ -47,9 +44,6 @@ export class OnlineOrdersService {
     return this.workOrderConfirmSource.asObservable();
   }
 
-  // getOrderCompleteStream(): Observable<WorkOrder> {
-  //   return this.orderCompleteSource.asObservable();
-  // }
   getWorkAssignmentConfirmedStream(): Observable<boolean> {
     return this.workAssignmentsConfirmSource.asObservable();
   }
@@ -68,19 +62,6 @@ export class OnlineOrdersService {
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadConfirms());
     }
 
-    // let loadedCompleteOrder = JSON.parse(sessionStorage.getItem(this.orderCompleteKey)) as WorkOrder;
-    // if (loadedCompleteOrder != null) {
-    //   // if we're loading from storage, make sure this record is current (may be recovering after)
-    //   // paypalexecute started
-    //   this.orderCompleteSource = new BehaviorSubject<WorkOrder>(loadedCompleteOrder);
-    //   this.getOrder(loadedCompleteOrder.id)
-    //     .subscribe(data => {
-    //       this.setOrderComplete(data['data'] as WorkOrder);
-    //     });
-    // } else {
-    //   this.orderCompleteSource = new BehaviorSubject<WorkOrder>(new WorkOrder());
-    // }
-
     let loadedPaypalResponse = JSON.parse(sessionStorage.getItem(this.paypalResponseKey)) as any;
     if (loadedPaypalResponse != null) {
       this.paypalResponseSource = new BehaviorSubject<any>(loadedPaypalResponse);
@@ -88,12 +69,11 @@ export class OnlineOrdersService {
       this.paypalResponseSource = new BehaviorSubject<any>(new Object());
     }
 
-    // this.workOrderConfirm = (sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
-    // this.workAssignmentsConfirm = (sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
     // notify the subscribers
-    this.workOrderConfirmSource.next(sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
-    this.workAssignmentsConfirmSource.next(sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
-    //this.orderCompleteSource.next(this.orderComplete);
+    this.workOrderConfirmSource.next(
+      sessionStorage.getItem(this.workOrderConfirmKey) == 'true');
+    this.workAssignmentsConfirmSource.next(
+      sessionStorage.getItem(this.workAssignmentConfirmKey) == 'true');
   }
 
   clearState() {
@@ -102,44 +82,31 @@ export class OnlineOrdersService {
     this.setWorkorderConfirm(false);
     this.setWorkAssignmentsConfirm(false);
     this.setPaypalResponse(new Object());
-    //this.orderService.clearState();
-    //this.assignmentService.clearState();
+
   }
 
   setInitialConfirm(choice: Confirm[]) {
     //console.log('setInitialConfirm:', choice);
-    //this.initialConfirm = choice;
     sessionStorage.setItem(this.initialConfirmKey, JSON.stringify(choice));
     this.initialConfirmSource.next(choice);
   }
 
   setWorkorderConfirm(choice: boolean) {
     //console.log('setWorkOrderConfirm:', choice);
-    //this.workOrderConfirm = choice;
     sessionStorage.setItem(this.workOrderConfirmKey,
       JSON.stringify(choice));
     this.workOrderConfirmSource.next(choice);
   }
 
   setWorkAssignmentsConfirm(choice: boolean) {
-    console.log('setWorkAssignmentsConfirm:', choice);
-    //this.workAssignmentsConfirm = choice;
+    //console.log('setWorkAssignmentsConfirm:', choice);
     sessionStorage.setItem(this.workAssignmentConfirmKey,
       JSON.stringify(choice));
     this.workAssignmentsConfirmSource.next(choice);
   }
 
-  // setOrderComplete(order: WorkOrder) {
-  //   console.log('setOrderComplete:', order);
-  //   this.orderComplete = order;
-  //   sessionStorage.setItem(this.orderCompleteKey,
-  //     JSON.stringify(order));
-  //   this.orderCompleteSource.next(order);
-  // }
-
   setPaypalResponse(response: any) {
     console.log(response);
-    //this.paypalResponse = response;
     sessionStorage.setItem(this.paypalResponseKey,
       JSON.stringify(response));
     this.paypalResponseSource.next(response);
