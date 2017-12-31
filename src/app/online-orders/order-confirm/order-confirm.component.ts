@@ -37,7 +37,10 @@ export class OrderConfirmComponent implements OnInit {
     ).subscribe(([l, o, wa]) => {
       console.log('ngOnInit->combineLatest.subscribe', l, o, wa);
       this.order = o;
-      this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
+      if (o.transportMethodID > 0)
+      {
+        this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
+        }
       if (wa != null && wa.length > 0) {
         // sums up the transport  costs
         this.transportCost = 
@@ -63,8 +66,15 @@ export class OrderConfirmComponent implements OnInit {
     this.onlineService.createOrder(this.order)
       .subscribe(
         (data) => {
-          console.log('Returned from POST', data); 
-          this.router.navigate(['/online-orders/order-complete']);
+          if (data.id == null)
+          {
+            console.error('workorder doesn\'t have an ID');
+            return;
+          }
+          this.onlineService.clearState();
+          this.ordersService.clearState();
+          this.assignmentService.clearState();
+          this.router.navigate(['/online-orders/order-complete/' + data.id]);
           
         },
         (err: HttpErrorResponse) => {

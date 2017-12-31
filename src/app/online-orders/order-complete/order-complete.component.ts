@@ -5,6 +5,7 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { LCategory } from '../../lookups/models/lookup';
 import { Observable } from 'rxjs/Observable';
 import * as paypal from 'paypal-checkout';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-complete',
@@ -62,16 +63,23 @@ export class OrderCompleteComponent implements OnInit {
   constructor(
     private onlineService: OnlineOrdersService,
     private lookups: LookupsService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    const id = +this.route.snapshot.paramMap.get('id');
     Observable.combineLatest(
       this.lookups.getLookups(LCategory.TRANSPORT),
-      this.onlineService.getOrderCompleteStream(),
+      this.onlineService.getOrder(id),
       
     ).subscribe(([l,o])=>{
       console.log('ngOnInit:combineLatest received:', l,o);
       this.order = o;
+      if (o == null) {
+        this.router.navigate(['/online-orders/order-not-found'])
+        return;
+      }
       this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
       let wa = o.workAssignments;
       if (wa != null && wa.length > 0) {
@@ -94,7 +102,7 @@ export class OrderCompleteComponent implements OnInit {
   }
 
   public ngAfterViewChecked(): void {
-    if(!this.didPaypalScriptLoad) {
+    if(this.transportCost > 0 && !this.didPaypalScriptLoad) {
       //this.loadPaypalScript().then(() => {
         paypal.Button.render(this.paypalConfig, '#paypal-button');
         this.loading = false;

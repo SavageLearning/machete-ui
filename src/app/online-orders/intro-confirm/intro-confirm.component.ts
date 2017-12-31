@@ -26,7 +26,7 @@ export class IntroConfirmComponent implements OnInit {
         this.confirmStatus = this.confirmChoices
                                 .map(a => a.confirmed)
                                 .reduce((a,b) => a && b );
-        console.log('ngOnInit:getInitialConfirmedStream', confirmed, this.confirmStatus)
+        //console.log('ngOnInit:getInitialConfirmedStream', confirmed, this.confirmStatus)
       }
     );
   }
@@ -37,7 +37,7 @@ export class IntroConfirmComponent implements OnInit {
                             .reduce((a,b) => a && b );
     this.confirmStatus = result;
     this.onlineService.setInitialConfirm(this.confirmChoices);                            
-    console.log('checkConfirm', this.confirmChoices, result);
+    //console.log('checkConfirm', this.confirmChoices, result);
   }
 
   nextStep() {

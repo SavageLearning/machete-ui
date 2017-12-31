@@ -57,4 +57,29 @@ export class WorkOrder extends Record<WorkOrder> {
   // transportMethod: string;
 
   workAssignments?: WorkAssignment[];
+
+  isNotEmpty(): boolean {
+    return !this.isEmpty();
+  }
+  isEmpty(): boolean {    
+    for (var key in this) {
+      if (this[key] !== null && this[key] != "")
+        console.log('Not empty: ', this[key]);
+        return false;
+    }
+    // if (this.additionalNotes != null) return false;
+    // if (this.city != null) return false;
+    // if (this.contactName != null) return false;
+    // if (this.dateTimeofWork != null) return false;
+    // if (this.description != null) return false;
+    // if (this.phone != null) return false;
+    // if (this.ppFee != null) return false;
+    // if (this.ppPayerID != null) return false;
+    // if (this.ppPaymentID != null) return false;
+    // if (this.ppPaymentToken != null) return false;
+    // if (this.ppResponse != null) return false;
+    // if (this.ppState != null) return false;
+
+    return true;
+  }
 }

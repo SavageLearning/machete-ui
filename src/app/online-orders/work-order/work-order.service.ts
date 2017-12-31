@@ -13,16 +13,20 @@ export class WorkOrderService {
 
   storageKey = 'machete.workorder';
   constructor(private employerService: EmployersService) {
-    console.log('.ctor');
     let data = sessionStorage.getItem(this.storageKey);
-    if (data) {
-      let order: WorkOrder = JSON.parse(data);
-      order.dateTimeofWork = new Date(order.dateTimeofWork);
+    let order = new WorkOrder(JSON.parse(data));
+    // check that data's not null first
+    if (data && order && order.isNotEmpty()) {
+      console.log('.ctor->Loading existing order', order);
+      order.dateTimeofWork = new Date(order.dateTimeofWork); // deserializing date
       this.order = order;
       this.orderSource.next(this.order);
     } else {
+      console.log('.ctor->Create work order from employer');
       this.employerService.getEmployerBySubject()
         .subscribe(data => {
+          // loading employer data as the defaults for
+          // the new workorder
           this.order = this.mapOrderFrom(data);
           this.orderSource.next(this.order);
         });
@@ -66,8 +70,11 @@ export class WorkOrderService {
   }
 
   // TODO: Call clear when order expires, is completed, removed.
-  clear() {
-    this.order = null;
+  clearState() {
+    this.order = new WorkOrder();
+    console.log('WorkOrdersService.clearState-----');
+
     sessionStorage.removeItem(this.storageKey);
+    this.orderSource.next(this.order);
   }
 }

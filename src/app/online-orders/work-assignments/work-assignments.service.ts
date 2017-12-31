@@ -109,7 +109,13 @@ export class WorkAssignmentsService {
       JSON.stringify(this.requests));
   }
 
-  clear() {}
+  clearState() {
+    this.requests = new Array<WorkAssignment>();
+    this.workOrder = null;
+    console.log('WorkAssignmentsService.clearState-----')
+
+    sessionStorage.removeItem(this.storageKey);
+  }
 
   findSelectedRequestIndex(request: WorkAssignment): number {
     return this.requests.findIndex(a => a.id === request.id);
@@ -117,6 +123,11 @@ export class WorkAssignmentsService {
 
   compactRequests() {
     let rule = this.getTransportRule();
+    if (rule == null)
+    {
+      console.log('compactRequests: rule null, skipping...');
+      return;
+    }
     for (let i in this.requests) {
       let newid = Number(i);
       this.requests[newid].id = newid + 1;
@@ -129,15 +140,18 @@ export class WorkAssignmentsService {
   getTransportRule(): TransportRule {
     const order = this.workOrder;
     if (order === null || order === undefined) {
-      throw new Error('OrderService returned an undefined order');
+      console.log('OrderService returned an undefined order');
+      return null;
     }
     if (order.transportMethodID <= 0) {
-      throw new Error('Order missing valid transportMethodID');
+      console.log('Order missing valid transportMethodID')
+      return null;
     }
 
     const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
     if (lookup === null || lookup === undefined) {
-      throw new Error('LookupService didn\'t return a valid lookup for transportMethodID: ' + order.transportMethodID);
+      console.log('LookupService didn\'t return a valid lookup for transportMethodID: ' + order.transportMethodID);
+      return null;
     }
 
     const rules = this.transportRules.filter(f => f.lookupKey == lookup.key);

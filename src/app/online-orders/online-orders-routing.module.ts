@@ -17,6 +17,7 @@ import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
 import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 import { OrderCompleteComponent } from './order-complete/order-complete.component';
 import { OrderCompleteGuard } from './guards/order-complete.guard';
+import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 
 const onlineOrderRoutes: Routes = [
   {
@@ -54,11 +55,19 @@ const onlineOrderRoutes: Routes = [
         canActivate: [OrderConfirmGuard]
       },
       {
-        path: 'order-complete',
+        path: 'order-complete/:id',
         component: OrderCompleteComponent,
-        canLoad: [AuthGuardService],
-        canActivate: [OrderCompleteGuard]
-      },    ]
+        canLoad: [AuthGuardService]
+      },
+      {
+        path: 'order-not-found',
+        component: OrderNotFoundComponent,
+        canLoad: [AuthGuardService]
+      },
+      {
+        path: '**', redirectTo: 'order-not-found'
+      }
+    ]
   },
 ];
 @NgModule({
@@ -77,7 +86,7 @@ const onlineOrderRoutes: Routes = [
       OnlineOrdersComponent,
       WorkOrderService,
       EmployersService,
-      WorkAssignmentsService
+      // WorkAssignmentsService
     ]
   ]
 })

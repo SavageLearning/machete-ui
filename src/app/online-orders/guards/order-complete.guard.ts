@@ -5,19 +5,23 @@ import { OnlineOrdersService } from '../online-orders.service';
 
 @Injectable()
 export class OrderCompleteGuard implements CanActivate {
-  isConfirmed = false;
+  isCompleted = false;
 
   constructor(private onlineService: OnlineOrdersService, private router: Router) {
-    console.log('.ctor');
-    onlineService.getOrderCompleteStream().subscribe(
-      confirm => {
-        console.log('.ctor->Ordercompleted callback')
-        this.isConfirmed = confirm != null;
-      }
-    );
+    // console.log('.ctor');
+    // onlineService.getOrderCompleteStream().subscribe(
+    //   completeOrder => {
+    //     console.log('.ctor->Ordercompleted:', completeOrder)
+    //     if (completeOrder != null && completeOrder.id != null)
+    //     {
+    //       this.isCompleted = true;
+    //       router.navigate([this.router.routerState.snapshot.url]);
+    //     }
+    //   }
+    // );
   }
 
   canActivate(): boolean {
-    return this.isConfirmed;
+    return this.isCompleted;
   }
 }
