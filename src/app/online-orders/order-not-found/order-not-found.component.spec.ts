@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaypalNoticeComponent } from './paypal-notice.component';
+import { OrderNotFoundComponent } from './order-not-found.component';
 
-describe('PaypalNoticeComponent', () => {
-  let component: PaypalNoticeComponent;
-  let fixture: ComponentFixture<PaypalNoticeComponent>;
+describe('OrderNotFoundComponent', () => {
+  let component: OrderNotFoundComponent;
+  let fixture: ComponentFixture<OrderNotFoundComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaypalNoticeComponent ]
+      declarations: [ OrderNotFoundComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaypalNoticeComponent);
+    fixture = TestBed.createComponent(OrderNotFoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,7 +9,7 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class UnauthorizedComponent implements OnInit {
   //, private location:Location
-  constructor(private location: Location, private service: AuthService) {
+  constructor(private location: Location, private auth: AuthService) {
 
   }
 
@@ -17,7 +17,7 @@ export class UnauthorizedComponent implements OnInit {
   }
 
   login() {
-    this.service.startSigninMainWindow();
+    this.auth.startSigninMainWindow();
   }
 
 }

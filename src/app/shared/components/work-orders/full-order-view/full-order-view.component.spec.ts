@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataTableModule } from 'primeng/primeng';
 
 import { FullOrderViewComponent } from './full-order-view.component';
-import { WorkOrder } from '../../models/work-order';
+import { WorkOrder } from '../../../../shared/models/work-order';
 
 describe('FullOrderViewComponent', () => {
   let component: FullOrderViewComponent;

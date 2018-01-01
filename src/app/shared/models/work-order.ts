@@ -7,9 +7,6 @@ export class WorkOrder extends Record<WorkOrder> {
   // createdby: string;
   // datecreated: Date;
   // dateupdated: Date;
-  // id: number;
-  // idPrefix: string;
-  // idString: string;
   // updatedby: string;
   // additionalNotes: string;
   city: string;
@@ -20,40 +17,40 @@ export class WorkOrder extends Record<WorkOrder> {
   // employerID: number;
   // englishRequired: boolean;
   // englishRequiredNote: string;
-  // lunchSupplied: boolean;
   // onlineSource: boolean;
   // paperOrderNum?: number;
-  // paypalErrors: string;
-  // paypalFee?: number;
-  // paypalPayerId: string;
-  // paypalToken: string;
-  // paypalTransactID: string;
-  // permanentPlacement: boolean;
+  ppFee?: string;
+  ppPayerID?: number;
+  ppState?: string;
+  ppResponse?: string;
+  ppPaymentToken?: string;
+  ppPaymentID?: string;
   phone: string;
   state: string;
   // statusEN: string;
-  // statusES: string;
   // statusID: number;
   // timeFlexible: boolean;
   // timeZoneOffset: number;
   // transportFee: number;
-  // transportFeeExtra: number;
   // transportMethodEN: string;
-  // transportMethodES: string;
   transportMethodID: number;
-  // transportTransactID: string;
-  // transportTransactType?: number;
-  // typeOfWorkID: number;
   // waPseudoIDCounter: number;
   worksiteAddress1: string;
   worksiteAddress2: string;
   zipcode: string;
-  // EID: string;
-  // WOID: string;
-  // recordid: string;
-  // dateupdatedstring: string;
-  // datecreatedstring: string;
-  // transportMethod: string;
 
   workAssignments?: WorkAssignment[];
+
+  isNotEmpty(): boolean {
+    return !this.isEmpty();
+  }
+  isEmpty(): boolean {    
+    for (var key in this) {
+      if (this[key] !== null && this[key] != "")
+        console.log('Not empty: ', this[key]);
+        return false;
+    }
+
+    return true;
+  }
 }

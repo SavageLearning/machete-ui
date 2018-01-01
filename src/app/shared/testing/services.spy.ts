@@ -27,6 +27,19 @@ export class LookupsServiceSpy {
     );
 }
 
+export class MyWorkOrdersServiceSpy {
+  getOrder = jasmine.createSpy('getOrder')
+    .and.callFake(
+      () => Observable.of(new WorkOrder({id: 1, transportMethodID: 32}))
+    );
+
+}
+
+export class ActivatedRouteSpy {
+  get = jasmine.createSpy('snapshot')
+    .and.callThrough();
+  
+}
 export class AuthServiceSpy {
   startSigninMainWindow = jasmine.createSpy('startSigninMainWindow');
   
@@ -75,6 +88,7 @@ export class RouterSpy {
     .and.callFake(
       () => ""
     );
+  navigate = jasmine.createSpy('navigate');
 }
 
 export class WorkAssignmentsServiceSpy {

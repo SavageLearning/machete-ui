@@ -4,6 +4,7 @@ import { Employer } from '../shared/models/employer';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LookupsService } from '../lookups/lookups.service';
 import { MySelectItem } from '../shared/models/my-select-item';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -57,7 +58,8 @@ export class EmployersComponent implements OnInit {
   constructor(
     private employersService: EmployersService,
     private lookupsService: LookupsService,
-     private fb: FormBuilder
+     private fb: FormBuilder,
+     private router: Router
   ) { }
 
   ngOnInit() {
@@ -127,7 +129,9 @@ export class EmployersComponent implements OnInit {
 
     this.employersService.save(formModel)
       .subscribe(
-        data => {},
+        data => {
+          this.router.navigate(['/welcome']);
+        },
         //   this.employer = data;
         //   this.buildForm();
         // },

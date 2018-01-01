@@ -1,8 +1,8 @@
 <div class="ui-fluid">
-  <div class="card">
+  <div class="card ui-g-nopad">
     <form [formGroup]="orderForm" (ngSubmit)="save()" class="ui-g form-group">
-      <div class="ui-g-12 ui-md-6">
-        <div class="ui-g-12">
+      <div class="ui-g-12 ui-md-6 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
           <div class="ui-g-12 ui-md-4  ui-g-nopad">
             <label for="dateTimeofWork">Time needed</label>
           </div>
@@ -20,7 +20,7 @@
                 </span>
           </div>
         </div>
-        <div class="ui-g-12">
+        <div class="ui-g-12 ui-g-nopad">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
             <label for="contactName">Contact name</label>
           </div>
@@ -34,7 +34,7 @@
                 </span>
           </div>
         </div>
-        <div class="ui-g-12">
+        <div class="ui-g-12 ui-g-nopad">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
             <label for="worksiteAddress1">Address (1)</label>
           </div>
@@ -48,7 +48,7 @@
                 </span>
           </div>
         </div>
-        <div class="ui-g-12">
+        <div class="ui-g-12 ui-g-nopad">
           <div class="ui-g-12 ui-md-4  ui-g-nopad">
             <label for="worksiteAddress2">Address (2)</label>
           </div>
@@ -57,7 +57,7 @@
                    pInputText/>
           </div>
         </div>
-        <div class="ui-g-12">
+        <div class="ui-g-12 ui-g-nopad">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
             <label for="city">City</label>
           </div>
@@ -163,6 +163,7 @@
     </form>
   </div>
 </div>
+
 <div>
   <p-dialog header="Title" [(visible)]="displayTransportCosts">
       Content

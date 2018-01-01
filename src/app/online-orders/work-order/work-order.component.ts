@@ -135,8 +135,10 @@ export class WorkOrderComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
-            this.formErrors[field] += control.errors[key] + ' ';
+          if (this.showErrors == true){
+            console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+          }
+          this.formErrors[field] += control.errors[key] + ' ';
         }
       }
     }
@@ -166,7 +168,7 @@ export class WorkOrderComponent implements OnInit {
   prepareOrderForSave(): WorkOrder {
     const formModel = this.orderForm.value;
 
-    const order: WorkOrder = {
+    const order = new WorkOrder({
       id: 0,
       dateTimeofWork: formModel.dateTimeofWork,
       contactName: formModel.contactName,
@@ -179,7 +181,7 @@ export class WorkOrderComponent implements OnInit {
       description: formModel.description,
       additionalNotes: formModel.additionalNotes,
       transportMethodID: formModel.transportMethodID
-    };
+    });
     return order;
   }
 

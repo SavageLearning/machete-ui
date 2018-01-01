@@ -1,0 +1,124 @@
+<div class="ui-g-12 ui-md-6 ui-g-nopad">
+  <div class="ui-g-12">
+    <div class="ui-g-12 ui-md-4  ui-g-nopad">
+      <label for="dateTimeofWork">Time requested</label>
+    </div>
+    <div class="ui-g-12 ui-md-8  ui-g-nopad">
+      {{order.dateTimeofWork |date:'short'}}
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-12 ui-md-4 ui-g-nopad">
+      <label for="contactName">Contact & site information</label>
+    </div>
+    <div class="ui-g-12  ui-md-8 ui-g-nopad">
+      <div>{{order.contactName}}</div>
+      <div>{{order.worksiteAddress1}}</div>
+      <div>{{order.worksiteAddress2}}</div>
+      <div>{{order.city}}, 
+      {{order.state}}
+      {{order.zipcode}}</div>
+      <div>{{order.phone}}</div>
+    </div>
+  </div>
+</div>
+<div class="ui-g-12 ui-md-6 ui-g-nopad">
+  <div class="ui-g-12" *ngIf="order.id">
+      <div class="ui-g-6 ui-md-4 ui-g-nopad">
+        <label for="description">Order #</label>
+      </div>
+      <div class="ui-g-6 ui-md-8 ui-g-nopad">
+        {{order.id }}
+      </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-12 ui-md-4 ui-g-nopad">
+      <label for="description">Work Description</label>
+    </div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      {{order.description}}
+    </div>
+  </div>
+  <div class="ui-g-12" *ngIf="order.additionalNotes">
+    <div class="ui-g-12 ui-md-4 ui-g-nopad">
+      <label for="additionalNotes">Additional notes to dispatcher</label>
+    </div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      {{order.additionalNotes}}
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-6 ui-md-4 ui-g-nopad">
+      <label for="transportLabel">Transport method</label>
+    </div>
+    <div class="ui-g-6 ui-md-8 ui-g-nopad">
+      {{transportLabel}}
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-6 ui-md-4 ui-g-nopad">
+      <label for="workerCount">Worker count</label>
+    </div>
+    <div class="ui-g-6 ui-md-8 ui-g-nopad">
+      {{workerCount}}
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-6 ui-md-4 ui-g-nopad">
+      <label for="transportCost">transport fees</label>
+    </div>
+    <div class="ui-g-6 ui-md-8 ui-g-nopad">
+      {{transportCost | currency:'USD':true}}
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-6 ui-md-4 ui-g-nopad">
+      <label for="laborCost">labor cost</label>
+    </div>
+    <div class="ui-g-6 ui-md-8 ui-g-nopad">
+      {{laborCost | currency:'USD':true}}
+    </div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-12 ui-md-4 ui-g-nopad">
+      <label for="ppPaymentID">Paypal Payment #</label>
+    </div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      {{order.ppPaymentID}}
+    </div>
+  </div>   
+  <div class="ui-g-12">
+      <div class="ui-g-6 ui-md-4 ui-g-nopad">
+        <label for="ppState">Payment State</label>
+      </div>
+      <div class="ui-g-6 ui-md-8 ui-g-nopad">
+        {{order.ppState}}
+      </div>
+    </div>   
+  </div>
+<div>
+    <p-dataTable [value]="order.workAssignments" 
+      [responsive]="true">
+      <p-column field="skill" header="Skill needed" [style]="{'padding':'.1em .875em'}"></p-column>
+      <p-column field="requiresHeavyLifting" header="Heavy lifting?" [style]="{'padding':'.1em .875em'}"></p-column>
+      <p-column field="transportCost" header="Transport cost" [style]="{'padding':'.1em .875em'}">
+          <ng-template pTemplate="header">
+              <span>{{ header }}</span>
+         </ng-template>
+        <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>{{wa[col.field]| currency:'USD':true}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="hours" header="hours requested"[style]="{'padding':'.1em .875em'}"></p-column>
+      <p-column field="hourlyWage" header="Hourly wage" [style]="{'padding':'.1em .875em'}">
+        <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>{{wa[col.field]| currency:'USD':true}}</span>
+      </ng-template>
+      </p-column>
+      <p-column header="Wage subtotal" [style]="{'padding':'.1em .875em'}">
+        <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>{{wa['hours'] * wa['hourlyWage'] | currency:'USD':true}}</span>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+</div>

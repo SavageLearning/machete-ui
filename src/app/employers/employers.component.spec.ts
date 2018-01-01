@@ -8,7 +8,8 @@ import { Employer } from '../shared/models/employer';
 import { Lookup } from '../lookups/models/lookup';
 import { DropdownModule } from 'primeng/primeng';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { EmployersServiceSpy, LookupsServiceSpy } from '../shared/testing';
+import { EmployersServiceSpy, LookupsServiceSpy, RouterSpy } from '../shared/testing';
+import { Router } from '@angular/router';
 
 describe('EmployersComponent', () => {
   let component: EmployersComponent;
@@ -27,7 +28,8 @@ describe('EmployersComponent', () => {
       set: {
         providers: [
           { provide: EmployersService, useClass: EmployersServiceSpy },
-          { provide: LookupsService, useClass: LookupsServiceSpy }
+          { provide: LookupsService, useClass: LookupsServiceSpy },
+          { provide: Router, useClass: RouterSpy }
         ]
       }
     })

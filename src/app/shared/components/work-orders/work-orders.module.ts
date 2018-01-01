@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WorkOrdersComponent } from './work-orders.component';
-import { WorkOrdersRoutingModule } from './work-orders-routing.module';
+import { FullOrderViewComponent } from './full-order-view/full-order-view.component';
 import { DataTableModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
     CommonModule,
-    DataTableModule,
-    WorkOrdersRoutingModule
+    DataTableModule
   ],
-  declarations: [WorkOrdersComponent]
+  declarations: [
+    FullOrderViewComponent
+  ],
+  exports: [
+    FullOrderViewComponent
+  ]
 })
 export class WorkOrdersModule { }

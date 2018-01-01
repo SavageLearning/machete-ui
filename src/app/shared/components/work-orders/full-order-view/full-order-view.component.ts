@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkOrder } from '../../models/work-order';
+import { WorkOrder } from '../../../models/work-order';
 
 @Component({
   selector: 'full-order-view',
@@ -13,11 +13,11 @@ export class FullOrderViewComponent implements OnInit {
   @Input() transportCost: number;
   @Input() laborCost: number;
 
-  constructor() {   }
+  constructor() {  
+    console.log('.ctor');
+   }
 
   ngOnInit() {
-    console.log(this.order);
-    
   }
 
 }

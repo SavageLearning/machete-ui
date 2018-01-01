@@ -14,9 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
 import { TransportRulesService } from './transport-rules.service';
-import { OrderCompleteComponent } from './order-complete/order-complete.component';
-import { PaypalNoticeComponent } from './paypal-notice/paypal-notice.component';
-import { FullOrderViewComponent } from '../shared/views/full-order-view/full-order-view.component';
+import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
+import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
 
 @NgModule({
   imports: [
@@ -31,7 +30,8 @@ import { FullOrderViewComponent } from '../shared/views/full-order-view/full-ord
     MessagesModule,
     DialogModule,
     CheckboxModule,
-    OnlineOrdersRoutingModule
+    OnlineOrdersRoutingModule,
+    WorkOrdersModule
   ],
   declarations: [
     IntroductionComponent,
@@ -40,9 +40,7 @@ import { FullOrderViewComponent } from '../shared/views/full-order-view/full-ord
     WorkOrderComponent,
     WorkAssignmentsComponent,
     OrderConfirmComponent,
-    OrderCompleteComponent,
-    PaypalNoticeComponent,
-    FullOrderViewComponent
+    OrderNotFoundComponent
   ],
   providers: [
     OnlineOrdersService,

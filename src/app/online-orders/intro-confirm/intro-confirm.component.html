@@ -1,14 +1,14 @@
-<strong>You must accept the following terms to continue:</strong>
-<table>
-  <tr *ngFor="let item of confirmChoices">
-    <td>
-      <input type="checkbox" [(ngModel)]="item.confirmed" (ngModelChange)="checkConfirm()">         
-    </td>
-    <td>
-      {{item.description}}
-    </td>
-  </tr>
-</table>
-<button pButton [disabled]="!confirmStatus" (click)="nextStep()" label="Confirm and proceed"></button>
-
-<!-- <p-checkbox type="checkbox" name="confirmBox" [(ngModel)]="status" (onChange)="checkConfirm($event)"> -->
+<div class="card">
+  <strong>You must accept the following terms to continue:</strong>
+  <table>
+    <tr *ngFor="let item of confirmChoices">
+      <td class="ui-g-1">
+        <input type="checkbox" [(ngModel)]="item.confirmed" (ngModelChange)="checkConfirm()">         
+      </td>
+      <td class="ui-g-11">
+        {{item.description}}
+      </td>
+    </tr>
+  </table>
+  <button pButton [disabled]="!confirmStatus" (click)="nextStep()" label="Confirm and proceed"></button>
+</div>

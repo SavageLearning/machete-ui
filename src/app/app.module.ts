@@ -21,7 +21,7 @@ import { TokenInterceptor } from './shared/services/token.interceptor';
 import { OnlineOrdersModule } from './online-orders/online-orders.module';
 import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
-import { WorkOrdersModule } from './work-orders/work-orders.module';
+import { MyWorkOrdersModule } from './my-work-orders/my-work-orders.module';
 import { EmployersModule } from './employers/employers.module';
 import { Log } from 'oidc-client';
 
@@ -45,7 +45,7 @@ import { Log } from 'oidc-client';
     ReportsModule,
     OnlineOrdersModule,
     ExportsModule,
-    WorkOrdersModule,
+    MyWorkOrdersModule,
     EmployersModule,
     AppRoutingModule
   ],

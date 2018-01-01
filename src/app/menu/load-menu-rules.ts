@@ -28,7 +28,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       id: 3,
       label: 'My work orders',
       icon: 'work',
-      routerLink: ['/work-orders'],
+      routerLink: ['/my-work-orders'],
       authorizedRoles: [
         LRole.ADMIN,
         LRole.HIRER
