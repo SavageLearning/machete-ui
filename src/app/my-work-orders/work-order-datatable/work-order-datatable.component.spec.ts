@@ -6,16 +6,17 @@ import { Observable } from 'rxjs/Observable';
 import { MyWorkOrdersService } from '../my-work-orders.service';
 import { DataTableModule } from 'primeng/primeng';
 import { TransportRulesService } from '../../online-orders/transport-rules.service';
-import { TransportRulesServiceSpy } from '../../shared/testing/services.spy';
+import { TransportRulesServiceSpy, RouterSpy } from '../../shared/testing/services.spy';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MomentModule } from 'angular2-moment/moment.module';
+import { Router } from '@angular/router';
 class WorkOrdersServiceSpy {
   getOrders = jasmine.createSpy('getOrders')
     .and.callFake(
       () => Observable.of(new Array<WorkOrder>())
     );
 }
-describe('WorkOrdersComponent', () => {
+describe('WorkOrderDatatableComponent', () => {
   let component: WorkOrderDatatableComponent;
   let fixture: ComponentFixture<WorkOrderDatatableComponent>;
 
@@ -31,6 +32,7 @@ describe('WorkOrdersComponent', () => {
       set: {
         providers: [
           { provide: MyWorkOrdersService, useClass: WorkOrdersServiceSpy },
+          { provide: Router, useClass: RouterSpy } 
         ]
       }
     })

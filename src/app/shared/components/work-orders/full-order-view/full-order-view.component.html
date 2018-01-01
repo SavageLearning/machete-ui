@@ -78,8 +78,24 @@
     <div class="ui-g-6 ui-md-8 ui-g-nopad">
       {{laborCost | currency:'USD':true}}
     </div>
-  </div>      
-</div>
+  </div>
+  <div class="ui-g-12">
+    <div class="ui-g-12 ui-md-4 ui-g-nopad">
+      <label for="ppPaymentID">Paypal Payment #</label>
+    </div>
+    <div class="ui-g-12 ui-md-8 ui-g-nopad">
+      {{order.ppPaymentID}}
+    </div>
+  </div>   
+  <div class="ui-g-12">
+      <div class="ui-g-6 ui-md-4 ui-g-nopad">
+        <label for="ppState">Payment State</label>
+      </div>
+      <div class="ui-g-6 ui-md-8 ui-g-nopad">
+        {{order.ppState}}
+      </div>
+    </div>   
+  </div>
 <div>
     <p-dataTable [value]="order.workAssignments" 
       [responsive]="true">

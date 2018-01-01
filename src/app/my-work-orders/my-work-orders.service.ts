@@ -26,8 +26,9 @@ export class MyWorkOrdersService {
       headers: postHeaders
     }).map(
       (data) => {
-        console.log('getOrder received:', data);
-        return data['data'] as WorkOrder;
+        let wo = data['data'];
+        console.log('getOrder received:', wo);
+        return wo as WorkOrder;
       }, (err: HttpErrorResponse) => {
         // TODO error
         console.error('online-orders.getOrder returned', err);
