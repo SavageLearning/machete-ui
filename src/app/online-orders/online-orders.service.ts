@@ -19,13 +19,11 @@ export class OnlineOrdersService {
   private initialConfirmSource: BehaviorSubject<Confirm[]>; 
   private workOrderConfirmSource = new BehaviorSubject<boolean>(false);  
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
-  private paypalResponseSource:  BehaviorSubject<any>;
 
   storageKey = 'machete.online-orders-service';
   initialConfirmKey = this.storageKey + '.initialconfirm';
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
-  paypalResponseKey = this.storageKey + '.paypalresponse';
   constructor(
     private http: HttpClient,
     private orderService: WorkOrderService,
@@ -48,10 +46,6 @@ export class OnlineOrdersService {
     return this.workAssignmentsConfirmSource.asObservable();
   }
 
-  getPaypalResponseStream(): Observable<any> {
-    return this.paypalResponseSource.asObservable();
-  }
-
   loadConfirmState() {
     // This pattern is ugly; should be able to simplify, perhaps use BehaviorSubjectSource instead
     // of companion private variable
@@ -60,13 +54,6 @@ export class OnlineOrdersService {
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadedConfirms);
     } else {
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadConfirms());
-    }
-
-    let loadedPaypalResponse = JSON.parse(sessionStorage.getItem(this.paypalResponseKey)) as any;
-    if (loadedPaypalResponse != null) {
-      this.paypalResponseSource = new BehaviorSubject<any>(loadedPaypalResponse);
-    } else {
-      this.paypalResponseSource = new BehaviorSubject<any>(new Object());
     }
 
     // notify the subscribers
@@ -81,8 +68,6 @@ export class OnlineOrdersService {
     this.setInitialConfirm(loadConfirms());
     this.setWorkorderConfirm(false);
     this.setWorkAssignmentsConfirm(false);
-    this.setPaypalResponse(new Object());
-
   }
 
   setInitialConfirm(choice: Confirm[]) {
@@ -105,13 +90,6 @@ export class OnlineOrdersService {
     this.workAssignmentsConfirmSource.next(choice);
   }
 
-  setPaypalResponse(response: any) {
-    console.log(response);
-    sessionStorage.setItem(this.paypalResponseKey,
-      JSON.stringify(response));
-    this.paypalResponseSource.next(response);
-  }
-
   createOrder(order: WorkOrder): Observable<WorkOrder> {
     let url = environment.dataUrl + '/api/onlineorders';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
@@ -130,39 +108,5 @@ export class OnlineOrdersService {
         }
       }
     );
-  }
-
-  getOrder(id: number): Observable<WorkOrder> {
-    let url = environment.dataUrl + '/api/onlineorders/' + id;
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-
-    return this.http.get<WorkOrder>(url, {
-      headers: postHeaders
-    }).map(
-      (data) => {
-        console.log('getOrder received:', data);
-        return data['data'] as WorkOrder;
-      }, (err: HttpErrorResponse) => {
-        // TODO error
-        console.error('online-orders.getOrder returned', err);
-      }
-    );
-  }
-
-  executePaypal(orderID: number, payerID: string, paymentID: string, token: string): Observable<any> {
-    let url = environment.dataUrl + '/api/onlineorders/' + orderID + '/paypalexecute';
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-
-    return this.http.post<any>(url, 
-      JSON.stringify({
-        payerID: payerID,
-        paymentID: paymentID,
-        paymentToken: token
-      }), 
-      { headers: postHeaders })
-      .map(data => {
-        this.setPaypalResponse(data);
-        return data;
-      });
   }
 }

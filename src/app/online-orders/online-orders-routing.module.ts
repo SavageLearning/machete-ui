@@ -15,7 +15,6 @@ import { EmployersService } from '../employers/employers.service';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
 import { OrderConfirmGuard } from "./guards/order-confirm.guard";
-import { OrderCompleteComponent } from './order-complete/order-complete.component';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 
 const onlineOrderRoutes: Routes = [
@@ -53,11 +52,7 @@ const onlineOrderRoutes: Routes = [
         canLoad: [AuthGuardService],
         canActivate: [OrderConfirmGuard]
       },
-      {
-        path: 'order-complete/:id',
-        component: OrderCompleteComponent,
-        canLoad: [AuthGuardService]
-      },
+
       {
         path: 'order-not-found',
         component: OrderNotFoundComponent,

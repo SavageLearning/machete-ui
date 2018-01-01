@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkOrder } from '../../models/work-order';
+import { WorkOrder } from '../../../models/work-order';
 
 @Component({
   selector: 'full-order-view',

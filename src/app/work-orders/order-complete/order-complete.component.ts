@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrder } from '../../shared/models/work-order';
 import { LookupsService } from '../../lookups/lookups.service';
 import { LCategory } from '../../lookups/models/lookup';
 import { Observable } from 'rxjs/Observable';
 import * as paypal from 'paypal-checkout';
 import { ActivatedRoute, Router } from '@angular/router';
+import { WorkOrdersService } from '../work-orders.service';
 
 @Component({
   selector: 'app-order-complete',
@@ -47,7 +47,7 @@ export class OrderCompleteComponent implements OnInit {
     onAuthorize: (data, actions) => {
       console.log('Payment was successful!', data, actions);
       // TODO: add confirmation notice/spinner
-      this.onlineService.executePaypal(this.order.id, data['payerID'], data['paymentID'], data['paymentToken'])
+      this.ordersService.executePaypal(this.order.id, data['payerID'], data['paymentID'], data['paymentToken'])
         .subscribe(
           data => console.log('execute paypal returned:', data),
           error => console.error('execute paypal errored:', error));
@@ -61,17 +61,20 @@ export class OrderCompleteComponent implements OnInit {
   };
 
   constructor(
-    private onlineService: OnlineOrdersService,
+    private ordersService: WorkOrdersService,
     private lookups: LookupsService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) { 
+    console.log('.ctor');
+  }
 
   ngOnInit() {
+    console.log('ngOnInit');
     const id = +this.route.snapshot.paramMap.get('id');
     Observable.combineLatest(
       this.lookups.getLookups(LCategory.TRANSPORT),
-      this.onlineService.getOrder(id),
+      this.ordersService.getOrder(id),
       
     ).subscribe(([l,o])=>{
       console.log('ngOnInit:combineLatest received:', l,o);

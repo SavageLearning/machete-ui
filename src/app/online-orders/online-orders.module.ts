@@ -14,9 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
 import { TransportRulesService } from './transport-rules.service';
-import { OrderCompleteComponent } from './order-complete/order-complete.component';
-import { FullOrderViewComponent } from '../shared/views/full-order-view/full-order-view.component';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
+import { OrderViewsModule } from '../shared/views/order-views/order-views.module';
 
 @NgModule({
   imports: [
@@ -31,7 +30,8 @@ import { OrderNotFoundComponent } from './order-not-found/order-not-found.compon
     MessagesModule,
     DialogModule,
     CheckboxModule,
-    OnlineOrdersRoutingModule
+    OnlineOrdersRoutingModule,
+    OrderViewsModule
   ],
   declarations: [
     IntroductionComponent,
@@ -40,8 +40,6 @@ import { OrderNotFoundComponent } from './order-not-found/order-not-found.compon
     WorkOrderComponent,
     WorkAssignmentsComponent,
     OrderConfirmComponent,
-    OrderCompleteComponent,
-    FullOrderViewComponent,
     OrderNotFoundComponent
   ],
   providers: [
