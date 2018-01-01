@@ -10,16 +10,12 @@ import { WorkOrder } from '../shared/models/work-order';
   providers: [MyWorkOrdersService]
 })
 export class MyWorkOrdersComponent implements OnInit {
-  orders: WorkOrder[];
 
-  constructor(private workOrderService: MyWorkOrdersService) { }
+
+  constructor() { }
 
   ngOnInit() {
-    this.workOrderService.getOrders()
-      .subscribe(
-        data => {
-          this.orders = data;
-        });
+
   }
 
 }

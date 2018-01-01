@@ -1,28 +1,2 @@
-<p>
-  These are your past orders:
-</p>
+
 <router-outlet></router-outlet>
-<p-dataTable
-  #dt
-  sortMode="multiple"
-  [value]="orders"
-  [responsive]="true"
-  resizable="true"
-  [paginator]="true"
-  [rows]="10"
-  >
-  <p-header>
-    
-  </p-header>
-  <p-column field="paperOrderNum" header="Order #" [sortable]="true"></p-column>
-  <p-column field="dateTimeofWork" header="Time needed"  [sortable]="true">
-      <ng-template let-col let-row="rowData" pTemplate="body">
-          <span >{{ row.dateTimeofWork |amDateFormat:'MMM DD YYYY, h:mm' }}</span>
-        </ng-template>
-  </p-column>
-  <p-column field="statusEN" header="Status"  [sortable]="true"></p-column>
-  <p-column field="transportMethodEN" header="Trans. method" [sortable]="true"></p-column>
-  <!-- <p-column field="" header="Worker count" [sortable]="true"></p-column> -->
-  <p-column field="contactName" header="Contact name" [sortable]="true"></p-column>
-  <p-column field="workSiteAddress1" header="Address" [sortable]="true"></p-column>
-</p-dataTable>  
