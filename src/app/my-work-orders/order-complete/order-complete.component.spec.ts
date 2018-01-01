@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrderCompleteComponent } from './order-complete.component';
-import { FullOrderViewComponent } from '../../shared/views/full-order-view/full-order-view.component';
+import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
 import { DataTableModule } from 'primeng/primeng';
-import { OnlineOrdersService } from '../online-orders.service';
-import { OnlineOrdersServiceSpy, LookupsServiceSpy } from '../../shared/testing';
 import { LookupsService } from '../../lookups/lookups.service';
+import { LookupsServiceSpy, MyWorkOrdersServiceSpy, ActivatedRouteSpy, RouterSpy } from '../../shared/testing'; 
 import * as paypal from 'paypal-checkout';
+import { MyWorkOrdersService } from '../my-work-orders.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('OrderCompleteComponent', () => {
   let component: OrderCompleteComponent;
@@ -24,7 +25,14 @@ describe('OrderCompleteComponent', () => {
       set: {
         providers: [
           { provide: LookupsService, useClass: LookupsServiceSpy},
-          { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
+          { provide: MyWorkOrdersService, useClass: MyWorkOrdersServiceSpy },
+          { provide: ActivatedRoute, useValue: { snapshot: {
+            paramMap: {
+              get: (id) => { return 1; } 
+            }
+          } 
+          }},
+          { provide: Router, useClass: RouterSpy } 
         ]
       }
     })

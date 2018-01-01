@@ -10,7 +10,7 @@ import { DataTableModule } from 'primeng/primeng';
 
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 import { Router } from '@angular/router';
-import { FullOrderViewComponent } from '../../shared/views/full-order-view/full-order-view.component';
+import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
 
 describe('OrderConfirmComponent', () => {
   let component: OrderConfirmComponent;

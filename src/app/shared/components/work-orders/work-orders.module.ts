@@ -15,4 +15,4 @@ import { DataTableModule } from 'primeng/primeng';
     FullOrderViewComponent
   ]
 })
-export class OrderViewsModule { }
+export class WorkOrdersModule { }

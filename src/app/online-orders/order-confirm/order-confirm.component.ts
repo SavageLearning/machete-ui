@@ -74,7 +74,7 @@ export class OrderConfirmComponent implements OnInit {
           this.onlineService.clearState();
           this.ordersService.clearState();
           this.assignmentService.clearState();
-          this.router.navigate(['/work-orders/order-complete/' + data.id]);
+          this.router.navigate(['/my-work-orders/' + data.id]);
           
         },
         (err: HttpErrorResponse) => {

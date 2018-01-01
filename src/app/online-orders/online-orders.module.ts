@@ -15,7 +15,7 @@ import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
 import { TransportRulesService } from './transport-rules.service';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
-import { OrderViewsModule } from '../shared/views/order-views/order-views.module';
+import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
 
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ import { OrderViewsModule } from '../shared/views/order-views/order-views.module
     DialogModule,
     CheckboxModule,
     OnlineOrdersRoutingModule,
-    OrderViewsModule
+    WorkOrdersModule
   ],
   declarations: [
     IntroductionComponent,

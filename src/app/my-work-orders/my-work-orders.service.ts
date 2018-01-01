@@ -6,7 +6,7 @@ import { WorkOrder } from '../shared/models/work-order';
 import { HandleError } from '../shared/handle-error';
 import { HttpHeaders } from '@angular/common/http';
 @Injectable()
-export class WorkOrdersService {
+export class MyWorkOrdersService {
 
   constructor(private http: HttpClient) { }
 

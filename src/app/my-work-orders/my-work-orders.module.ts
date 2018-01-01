@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WorkOrdersComponent } from './work-orders.component';
-import { WorkOrdersRoutingModule } from './work-orders-routing.module';
+import { MyWorkOrdersComponent } from './my-work-orders.component';
+import { WorkOrdersRoutingModule } from './my-work-orders-routing.module';
 import { DataTableModule } from 'primeng/primeng';
 import { MomentModule } from 'angular2-moment';
 import { OrderCompleteComponent } from './order-complete/order-complete.component';
-import { OrderViewsModule } from '../shared/views/order-views/order-views.module';
+import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
 
 @NgModule({
   imports: [
@@ -13,11 +13,11 @@ import { OrderViewsModule } from '../shared/views/order-views/order-views.module
     DataTableModule,
     WorkOrdersRoutingModule,
     MomentModule,
-    OrderViewsModule
+    WorkOrdersModule
   ],
   declarations: [
-    WorkOrdersComponent,
+    MyWorkOrdersComponent,
     OrderCompleteComponent,
   ]
 })
-export class WorkOrdersModule { }
+export class MyWorkOrdersModule { }

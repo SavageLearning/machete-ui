@@ -5,7 +5,7 @@ import { LCategory } from '../../lookups/models/lookup';
 import { Observable } from 'rxjs/Observable';
 import * as paypal from 'paypal-checkout';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WorkOrdersService } from '../work-orders.service';
+import { MyWorkOrdersService } from '../my-work-orders.service';
 
 @Component({
   selector: 'app-order-complete',
@@ -61,7 +61,7 @@ export class OrderCompleteComponent implements OnInit {
   };
 
   constructor(
-    private ordersService: WorkOrdersService,
+    private ordersService: MyWorkOrdersService,
     private lookups: LookupsService,
     private route: ActivatedRoute,
     private router: Router
@@ -70,7 +70,7 @@ export class OrderCompleteComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
+    console.log('order-complete.component:ngOnInit');
     const id = +this.route.snapshot.paramMap.get('id');
     Observable.combineLatest(
       this.lookups.getLookups(LCategory.TRANSPORT),
