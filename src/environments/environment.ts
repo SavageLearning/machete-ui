@@ -1,10 +1,10 @@
 export const environment = {
   name: 'dev',
   production: false,
-  dataUrl: 'https://api.machetessl.org',
-  authUrl: 'https://identity.machetessl.org/id',
+  dataUrl: 'https://test-api.machetessl.org',
+  authUrl: 'https://test-identity.machetessl.org/id',
   oidc_client_settings: {
-    authority: 'https://identity.machetessl.org/id',
+    authority: 'https://test-identity.machetessl.org/id',
     client_id: 'machete-ui-local',
     redirect_uri: 'http://localhost:4200/authorize',
     post_logout_redirect_uri: 'http://localhost:4200/',

@@ -1,10 +1,10 @@
 export const environment = {
   name: 'cloud-test',
   production: true,
-  dataUrl: 'https://api.machetessl.org',
-  authUrl: 'https://identity.machetessl.org/id',
+  dataUrl: 'https://test-api.machetessl.org',
+  authUrl: 'https://test-identity.machetessl.org/id',
   oidc_client_settings: {
-    authority: 'https://identity.machetessl.org/id',
+    authority: 'https://test-identity.machetessl.org/id',
     client_id: 'machete-ui-cloud-test',
     redirect_uri: 'https://test.machetessl.org/V2/authorize',
     post_logout_redirect_uri: 'https://test.machetessl.org/V2',
