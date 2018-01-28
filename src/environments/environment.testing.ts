@@ -1,6 +1,7 @@
 export const environment = {
   name: 'testing',
   production: false,
+  paypalID: 'AeabfiAbx3eY7bFZDsns0L4u77c4TE4cLuU8bZ4hWA1u9D5kVA2_KbBIJh3mIJcjJ96fGEckqoi9ynyr',
   dataUrl: '',
   authUrl: '/id',
   oidc_client_settings: {

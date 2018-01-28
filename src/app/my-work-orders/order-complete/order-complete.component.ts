@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import * as paypal from 'paypal-checkout';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyWorkOrdersService } from '../my-work-orders.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-order-complete',
@@ -24,10 +25,9 @@ export class OrderCompleteComponent implements OnInit {
   public loading: boolean = true;
 
   public paypalConfig: any = {
-    env: 'sandbox',
+    env: 'paypalID',
     client: {
-      sandbox:    'AeabfiAbx3eY7bFZDsns0L4u77c4TE4cLuU8bZ4hWA1u9D5kVA2_KbBIJh3mIJcjJ96fGEckqoi9ynyr',
-      production: 'AcXQ3nPggEKWs48Q6_L8F9nwXppmuLNCRAfhzIsOHejWYvUr7Ob1Ciekdc0v4lRliCl0nIW6abuKQeuM'
+      paypalID:   environment.paypalID
     },
     commit: true,
     payment: (data, actions) => {
