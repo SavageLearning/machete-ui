@@ -1,7 +1,6 @@
 export const environment = {
   name: 'prod',
   production: true,
-  paypalID: 'ASP66lVOhFY2wgvyN_YKd3xtaARkgZtHZ9zwmkhO1DsmYtEfBnt0b5udf36mkBuFhvP7XTyKsgn9OiSm',
   dataUrl: 'https://api.machetessl.org',
   authUrl: 'https://identity.machetessl.org/id',
   baseRef: '/V2',

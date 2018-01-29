@@ -7,6 +7,7 @@ import * as paypal from 'paypal-checkout';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyWorkOrdersService } from '../my-work-orders.service';
 import { environment } from '../../../environments/environment';
+import { ConfigsService } from '../../configs/configs.service';
 
 @Component({
   selector: 'app-order-complete',
@@ -25,9 +26,11 @@ export class OrderCompleteComponent implements OnInit {
   public loading: boolean = true;
 
   public paypalConfig: any = {
-    env: 'paypalID',
+    // The env (sandbox/production) tells the paypal client which URL to use. 
+    env: '',
     client: {
-      paypalID:   environment.paypalID
+      sandbox: '',
+      production: ''
     },
     commit: true,
     payment: (data, actions) => {
@@ -68,9 +71,10 @@ export class OrderCompleteComponent implements OnInit {
     private ordersService: MyWorkOrdersService,
     private lookups: LookupsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private configsService: ConfigsService
   ) { 
-    console.log('.ctor');
+    console.log('.ctor');    
   }
 
   ngOnInit() {
@@ -79,9 +83,13 @@ export class OrderCompleteComponent implements OnInit {
     Observable.combineLatest(
       this.lookups.getLookups(LCategory.TRANSPORT),
       this.ordersService.getOrder(id),
-      
-    ).subscribe(([l,o])=>{
-      console.log('ngOnInit:combineLatest received:', l,o);
+      this.configsService.getConfig('PayPalClientID'),
+      this.configsService.getConfig('PayPalEnvironment')
+    ).subscribe(([l,o,id,env])=>{
+      console.log('ngOnInit:combineLatest received:', l,o,id,env);
+      this.paypalConfig['env'] = env.value;
+      this.paypalConfig.client[env.value] = id.value;
+      console.log('paypalConfig', this.paypalConfig);
       this.order = o;
       if (o == null) {
         this.router.navigate(['/online-orders/order-not-found'])

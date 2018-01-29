@@ -1,7 +1,6 @@
 export const environment = {
   name: 'cloud-test',
   production: true,
-  paypalID: 'AeabfiAbx3eY7bFZDsns0L4u77c4TE4cLuU8bZ4hWA1u9D5kVA2_KbBIJh3mIJcjJ96fGEckqoi9ynyr',
   dataUrl: 'https://test-api.machetessl.org',
   authUrl: 'https://test-identity.machetessl.org/id',
   oidc_client_settings: {

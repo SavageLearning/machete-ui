@@ -68,7 +68,7 @@
       <label for="transportCost">transport fees</label>
     </div>
     <div class="ui-g-6 ui-md-8 ui-g-nopad">
-      {{transportCost | currency:'USD':true}}
+      {{transportCost | currency:'USD':'true'}}
     </div>
   </div>
   <div class="ui-g-12">
@@ -76,7 +76,7 @@
       <label for="laborCost">labor cost</label>
     </div>
     <div class="ui-g-6 ui-md-8 ui-g-nopad">
-      {{laborCost | currency:'USD':true}}
+      {{laborCost | currency:'USD':'true'}}
     </div>
   </div>
   <div class="ui-g-12">
@@ -110,18 +110,18 @@
               <span>{{ header }}</span>
          </ng-template>
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
-          <span>{{wa[col.field]| currency:'USD':true}}</span>
+          <span>{{wa[col.field]| currency:'USD':'true'}}</span>
         </ng-template>
       </p-column>
       <p-column field="hours" header="hours requested"[style]="{'padding':'.1em .875em'}"></p-column>
       <p-column field="hourlyWage" header="Hourly wage" [style]="{'padding':'.1em .875em'}">
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
-          <span>{{wa[col.field]| currency:'USD':true}}</span>
+          <span>{{wa[col.field]| currency:'USD':'true'}}</span>
       </ng-template>
       </p-column>
       <p-column header="Wage subtotal" [style]="{'padding':'.1em .875em'}">
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
-          <span>{{wa['hours'] * wa['hourlyWage'] | currency:'USD':true}}</span>
+          <span>{{wa['hours'] * wa['hourlyWage'] | currency:'USD':'true'}}</span>
         </ng-template>
       </p-column>
     </p-dataTable>

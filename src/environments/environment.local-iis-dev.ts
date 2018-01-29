@@ -6,7 +6,6 @@
 export const environment = {
   name: 'local-iis-dev',
   production: false,
-  paypalID: 'AeabfiAbx3eY7bFZDsns0L4u77c4TE4cLuU8bZ4hWA1u9D5kVA2_KbBIJh3mIJcjJ96fGEckqoi9ynyr',
   dataUrl: 'http://localhost:63374',
   authUrl: 'https://localhost:44379/id',
   oidc_client_settings: {
