@@ -70,6 +70,8 @@
     <div class="ui-g-6 ui-md-8 ui-g-nopad">
       {{transportCost | currency:'USD':'true'}}
     </div>
+    <div id="paypal-button" *ngIf="transportCost > 0 && order.ppState != 'approved'"></div>
+    
   </div>
   <div class="ui-g-12">
     <div class="ui-g-6 ui-md-4 ui-g-nopad">
@@ -79,7 +81,7 @@
       {{laborCost | currency:'USD':'true'}}
     </div>
   </div>
-  <div class="ui-g-12">
+  <div class="ui-g-12" *ngIf="order.ppPaymentID !== null">
     <div class="ui-g-12 ui-md-4 ui-g-nopad">
       <label for="ppPaymentID">Paypal Payment #</label>
     </div>
@@ -87,7 +89,7 @@
       {{order.ppPaymentID}}
     </div>
   </div>   
-  <div class="ui-g-12">
+  <div class="ui-g-12" *ngIf="order.ppState !== null">
       <div class="ui-g-6 ui-md-4 ui-g-nopad">
         <label for="ppState">Payment State</label>
       </div>
