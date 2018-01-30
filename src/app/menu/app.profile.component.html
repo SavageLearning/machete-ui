@@ -7,14 +7,14 @@
 </div>
 
 <ul class="ultima-menu profile-menu" [@menu]="active ? 'visible' : 'hidden'">
-    <li role="menuitem">
+    <!-- <li role="menuitem">
         <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
             <i class="material-icons">person</i>
             <span>Profile</span>
         </a>
-    </li>
+    </li> -->
     <li role="menuitem">
-        <a href="#" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+        <a href="#" (click)="startSignoutMainWindow()" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
             <i class="material-icons">power_settings_new</i>
             <span>Logout</span>
         </a>

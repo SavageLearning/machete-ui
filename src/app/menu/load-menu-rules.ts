@@ -67,7 +67,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       authorizedRoles: [
         LRole.ADMIN,
         LRole.CHECKIN,
-        LRole.HIRER,
+        //LRole.HIRER,
         LRole.MANAGER,
         LRole.PHONEDESK,
         LRole.TEACHER,
