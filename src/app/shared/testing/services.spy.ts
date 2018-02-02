@@ -12,6 +12,7 @@ import { Subject } from "rxjs/Subject";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
 import { loadConfirms } from "../../online-orders/shared/rules/load-confirms";
+import { Config } from "../models/config";
 
 export class EmployersServiceSpy {
   getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
@@ -162,6 +163,10 @@ export class OnlineOrdersServiceSpy {
 }
 
 export class ConfigsServiceSpy {
+  getConfig = jasmine.createSpy('')
+    .and.callFake(
+      () => Observable.of(new Config())
+    );
   
 }
 
