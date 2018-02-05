@@ -39,12 +39,22 @@
       {{order.description}}
     </div>
   </div>
-  <div class="ui-g-12" *ngIf="order.additionalNotes">
+
+  <div class="ui-g-12">
+    <div class="ui-g-8 ui-md-4 ui-g-nopad">
+      <label for="englishRequired">English required?</label>
+    </div>
+    <div class="ui-g-4 ui-md-8 ui-g-nopad">
+      {{order.englishRequired ? 'Yes' : 'No'}}
+    </div>
+  </div>
+
+  <div class="ui-g-12" *ngIf="order.englishRequiredNote">
     <div class="ui-g-12 ui-md-4 ui-g-nopad">
-      <label for="additionalNotes">Additional notes to dispatcher</label>
+      <label for="englishRequiredNote">English requirements</label>
     </div>
     <div class="ui-g-12 ui-md-8 ui-g-nopad">
-      {{order.additionalNotes}}
+      {{order.englishRequiredNote}}
     </div>
   </div>
   <div class="ui-g-12">
@@ -70,18 +80,12 @@
     <div class="ui-g-6 ui-md-8 ui-g-nopad">
       {{transportCost | currency:'USD':'true'}}
     </div>
-    <div id="paypal-button" *ngIf="transportCost > 0 && order.ppState != 'approved'"></div>
-    
+    <div class="ui-g-12" *ngIf="showPayPal && transportCost > 0 && order.ppState != 'approved'">        
+        Due now and payable with
+        <div id="paypal-button" ></div>
+    </div>    
   </div>
-  <div class="ui-g-12">
-    <div class="ui-g-6 ui-md-4 ui-g-nopad">
-      <label for="laborCost">labor cost</label>
-    </div>
-    <div class="ui-g-6 ui-md-8 ui-g-nopad">
-      {{laborCost | currency:'USD':'true'}}
-    </div>
-  </div>
-  <div class="ui-g-12" *ngIf="order.ppPaymentID !== null">
+  <div class="ui-g-12" *ngIf="order.ppPaymentID != null">
     <div class="ui-g-12 ui-md-4 ui-g-nopad">
       <label for="ppPaymentID">Paypal Payment #</label>
     </div>
@@ -89,15 +93,27 @@
       {{order.ppPaymentID}}
     </div>
   </div>   
-  <div class="ui-g-12" *ngIf="order.ppState !== null">
-      <div class="ui-g-6 ui-md-4 ui-g-nopad">
-        <label for="ppState">Payment State</label>
-      </div>
-      <div class="ui-g-6 ui-md-8 ui-g-nopad">
-        {{order.ppState}}
-      </div>
-    </div>   
+  <div class="ui-g-12" *ngIf="order.ppState != null">
+    <div class="ui-g-6 ui-md-4 ui-g-nopad">
+      <label for="ppState">Payment State</label>
+    </div>
+    <div class="ui-g-6 ui-md-8 ui-g-nopad">
+      {{order.ppState}}
+    </div>
+  </div>   
+  <div class="ui-g-12 thin-border">
+    <div class="ui-g-6 ui-md-4 ui-g-nopad">
+      <label for="laborCost">labor cost</label>
+    </div>
+    <div class="ui-g-6 ui-md-8 ui-g-nopad">
+      {{laborCost | currency:'USD':'true'}}
+    </div>
+    <div class="ui-g-12">
+        To be paid directly to workers in cash at the end of the work day
+    </div>     
   </div>
+</div>  
+
 <div>
     <p-dataTable [value]="order.workAssignments" 
       [responsive]="true">

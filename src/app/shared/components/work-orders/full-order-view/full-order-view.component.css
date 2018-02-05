@@ -5,3 +5,9 @@ label {
 .ui-g-12 {
     padding: .1em;
 }
+
+.thin-border {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}

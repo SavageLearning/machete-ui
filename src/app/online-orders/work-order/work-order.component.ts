@@ -32,6 +32,7 @@ export class WorkOrderComponent implements OnInit {
   schedulingRules: ScheduleRule[];
   displayTransportCosts = false;
   displayUserGuide = true;
+  engReqToggle = false;
   storageKey = 'machete.work-order.component';
   formErrors = {
     'dateTimeofWork': '',
@@ -43,7 +44,8 @@ export class WorkOrderComponent implements OnInit {
     'zipcode':  '',
     'phone':  '',
     'description':  '',
-    'additionalNotes':  '',
+    'englishRequired': '',
+    'englishRequiredNote':  '',
     'transportMethodID': ''
   };
 
@@ -86,6 +88,7 @@ export class WorkOrderComponent implements OnInit {
       this.transportRulesService.getTransportRules()
     ).subscribe(([l, o, s, t]) => {
       this.order = o;
+      this.engReqToggle = o.englishRequired;
       this.transportMethods = l;
       this.schedulingRules = s;
       this.transportRules = t;
@@ -115,7 +118,8 @@ export class WorkOrderComponent implements OnInit {
       ]],
       'phone': [this.order.phone, requiredValidator('Phone is required.')],
       'description': [this.order.description, requiredValidator('Description is required.')],
-      'additionalNotes': [this.order.additionalNotes],
+      'englishRequired': [this.order.englishRequired],
+      'englishRequiredNote': [this.order.englishRequiredNote],
       'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required.')]
     });
 
@@ -179,7 +183,8 @@ export class WorkOrderComponent implements OnInit {
       zipcode: formModel.zipcode,
       phone: formModel.phone,
       description: formModel.description,
-      additionalNotes: formModel.additionalNotes,
+      englishRequired: formModel.englishRequired,
+      englishRequiredNote: formModel.englishRequiredNote,
       transportMethodID: formModel.transportMethodID
     });
     return order;

@@ -12,6 +12,7 @@ export class FullOrderViewComponent implements OnInit {
   @Input() workerCount: number;
   @Input() transportCost: number;
   @Input() laborCost: number;
+  @Input() showPayPal: boolean;
 
   constructor() {  
     console.log('.ctor');

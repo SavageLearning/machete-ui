@@ -9,7 +9,7 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
 import { StepsModule, CalendarModule, DropdownModule,
           DataTableModule, InputSwitchModule, MessagesModule,
-          DialogModule, CheckboxModule } from 'primeng/primeng';
+          DialogModule, CheckboxModule, ToggleButtonModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
@@ -30,6 +30,7 @@ import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.m
     MessagesModule,
     DialogModule,
     CheckboxModule,
+    ToggleButtonModule,
     OnlineOrdersRoutingModule,
     WorkOrdersModule
   ],

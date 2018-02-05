@@ -125,16 +125,27 @@
             </span>
           </div>
         </div>
+
         <div class="ui-g-12">
+            <div class="ui-g-8 ui-md-10 ui-g-nopad">
+              <label for="englishRequired">Do you need an English-speaking worker?</label>
+            </div>
+            <div class="ui-g-4 ui-md-2 ui-g-nopad">
+              <p-toggleButton [(ngModel)]="engReqToggle" id="englishRequired" formControlName="englishRequired"></p-toggleButton>
+            </div>
+          </div>
+
+
+        <div class="ui-g-12" *ngIf="engReqToggle">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
-            <label for="additionalNotes">Additional notes to dispatcher</label>
+            <label for="englishRequiredNote">Please describe English requirement</label>
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
               <span class="md-inputfield">
                   <textarea rows="5" pInputTextarea autoResize="autoResize" class="ui-inputtextarea"
-                            formControlName="additionalNotes" id="additionalNotes" type="text"></textarea>
+                            formControlName="englishRequiredNote" id="englishRequiredNote" type="text"></textarea>
                   <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
-                      {{formErrors.additionalNotes}}
+                      {{formErrors.englishRequiredNote}}
                   </div>
                 </span>
           </div>
