@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { HandleError } from '../shared/handle-error';
@@ -17,9 +17,10 @@ export class EmployersService {
 
   getEmployerBySubject(): Observable<Employer> {
     return this.auth.getUser$()
+      // using mergeMap to pass the Observable up
       .mergeMap((user: User) => {
         let uri = environment.dataUrl + '/api/employer/profile';
-        //uri = uri + '?sub=' + user.profile['sub'];
+
         return this.http.get(uri)
         .map(o => {
           console.log(uri, o);
@@ -28,7 +29,14 @@ export class EmployersService {
           }
           return o['data'] as Employer;
         })
-        .catch(HandleError.error);
+        .catch((error: HttpErrorResponse) =>
+          {
+           if (error.status == 404)
+           {}
+            //HandleError.error
+            return HandleError.error(error);
+          }
+        );
       });
   }
 
