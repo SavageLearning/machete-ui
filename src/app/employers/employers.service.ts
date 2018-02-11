@@ -23,7 +23,7 @@ export class EmployersService {
     this.http.get(uri)
       .subscribe(
         data => {
-          this.setEmployer(data as Employer);
+          this.setEmployer(data['data'] as Employer);
         },
         (error: HttpErrorResponse) => {
           this.setEmployer(null);
@@ -48,15 +48,16 @@ export class EmployersService {
     //uri = uri + '/' + employer.id;
     console.log('save:', uri, employer);
     // create or update 
-    if (employer.id === null)
-    return this.http.post(uri, JSON.stringify(employer), {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
-      })
-      .catch(HandleError.error);
-    else
-    return this.http.put(uri, JSON.stringify(employer), {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
-      })
-      .catch(HandleError.error);
+    this.http.put(uri, JSON.stringify(employer), {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+      }).subscribe(
+        data => {
+          this.setEmployer(data['data'] as Employer);
+        },
+        error => {
+          HandleError.error(error);
+        }
+      );
+    return this.getEmployer();
   }
 }
