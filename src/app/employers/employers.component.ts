@@ -63,7 +63,7 @@ export class EmployersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.employersService.getEmployerBySubject()
+    this.employersService.getEmployer()
       .subscribe(
         data => {
           this.employer = data || new Employer();

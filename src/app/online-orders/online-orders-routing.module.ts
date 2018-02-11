@@ -16,47 +16,42 @@ import { WorkAssignmentsService } from './work-assignments/work-assignments.serv
 import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
 import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
+import { ProfileGuard } from './guards/profile.guard';
 
 const onlineOrderRoutes: Routes = [
   {
     path: 'online-orders',
     component: OnlineOrdersComponent,
-    canLoad: [AuthGuardService],
-    canActivate: [AuthGuardService],
+    //canLoad: [AuthGuardService],
+    canActivate: [AuthGuardService, ProfileGuard],
     children: [
       {
         path: 'introduction',
         component: IntroductionComponent,
-        canLoad: [AuthGuardService]
       },
       {
         path: 'intro-confirm',
         component: IntroConfirmComponent,
-        canLoad: [AuthGuardService]
       },
       {
         path: 'work-order',
         component: WorkOrderComponent,
-        canLoad: [AuthGuardService],
         canActivate: [WorkOrderGuard]
       },
       {
         path: 'work-assignments',
         component: WorkAssignmentsComponent,
-        canLoad: [AuthGuardService],
         canActivate: [WorkAssignmentsGuard]
       },
       {
         path: 'order-confirm',
         component: OrderConfirmComponent,
-        canLoad: [AuthGuardService],
         canActivate: [OrderConfirmGuard]
       },
 
       {
         path: 'order-not-found',
         component: OrderNotFoundComponent,
-        canLoad: [AuthGuardService]
       },
       {
         path: '**', redirectTo: 'order-not-found'

@@ -7,37 +7,39 @@ import { Employer } from '../shared/models/employer';
 import { AuthService } from '../shared/index';
 import { Log, User } from 'oidc-client';
 import { HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class EmployersService {
-
+  private employerSource: Subject<Employer>;
   constructor(private http: HttpClient, private auth: AuthService) {
     console.log('.ctor');
+    this.employerSource = new Subject<Employer>();
+    this.fetchEmployer();
    }
 
-  getEmployerBySubject(): Observable<Employer> {
-    return this.auth.getUser$()
-      // using mergeMap to pass the Observable up
-      .mergeMap((user: User) => {
-        let uri = environment.dataUrl + '/api/employer/profile';
-
-        return this.http.get(uri)
-        .map(o => {
-          console.log(uri, o);
-          if (o['data'] == null) {
-            return new Employer();
-          }
-          return o['data'] as Employer;
-        })
-        .catch((error: HttpErrorResponse) =>
+  fetchEmployer() {
+    let uri = environment.dataUrl + '/api/employer/profile';    
+    this.http.get(uri)
+      .subscribe(
+        data => {
+          this.setEmployer(data as Employer);
+        },
+        (error: HttpErrorResponse) => {
+          this.setEmployer(null);
+          
+          if (error.status != 404)
           {
-           if (error.status == 404)
-           {}
-            //HandleError.error
-            return HandleError.error(error);
+            HandleError.error(error);
           }
-        );
-      });
+        });
+  }
+  getEmployer(): Observable<Employer> {
+    return this.employerSource.asObservable();
+  }
+
+  setEmployer(employer: Employer) {
+    this.employerSource.next(employer);
   }
 
   save(employer: Employer): Observable<Object> {
