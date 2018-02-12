@@ -4,13 +4,13 @@ import { Lookup, LCategory } from './models/lookup';
 import { HandleError } from '../shared/handle-error';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
   
   private lookups = new Array<Lookup>();
-  private lookupsSource = new ReplaySubject<Lookup[]>(1);
+  private lookupsSource = new BehaviorSubject<Lookup[]>(null);
   lookups$ = this.lookupsSource.asObservable();
   lookupsAge = 0;
   storageKey = 'machete.lookups';

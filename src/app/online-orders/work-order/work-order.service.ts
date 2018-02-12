@@ -3,12 +3,12 @@ import {Observable} from 'rxjs/Observable';
 import {WorkOrder} from '../../shared/models/work-order';
 import { EmployersService} from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
-import { BehaviorSubject, ReplaySubject } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class WorkOrderService {
   order: WorkOrder;
-  orderSource = new ReplaySubject<WorkOrder>(1);
+  orderSource = new BehaviorSubject<WorkOrder>(null);
   //order$ = this.orderSource.asObservable();
 
   storageKey = 'machete.workorder';

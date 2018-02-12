@@ -11,6 +11,7 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../../shared/models/work-order";
 import { Subject } from "rxjs";
 import { TransportRulesService } from '../transport-rules.service';
+import { HandleError } from '../../shared/handle-error';
 
 @Injectable()
 export class WorkAssignmentsService {
@@ -42,13 +43,17 @@ export class WorkAssignmentsService {
 
     const subscribed = this.combinedSource.subscribe(
       values => {
+        console.log('combined subscription::', values);
+        
         const [rules, transports, order] = values;
         this.workOrder = order;
         this.transportRules = rules;
         this.transports = transports;
         this.compactRequests();
-        console.log('combined subscription::', values);
-      });
+      },
+      error => HandleError.error(error),
+      () => console.log('combined subscription closed')
+     );
   }
 
   getStream(): Observable<WorkAssignment[]> {
@@ -150,7 +155,7 @@ export class WorkAssignmentsService {
 
     const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
     if (lookup === null || lookup === undefined) {
-      console.log('LookupService didn\'t return a valid lookup for transportMethodID: ' + order.transportMethodID);
+      console.log('LookupService didn\'t return a valid lookup for transportMethodID: ', order);
       return null;
     }
 
