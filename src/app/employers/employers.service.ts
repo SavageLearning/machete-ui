@@ -11,10 +11,10 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class EmployersService {
-  private employerSource: Subject<Employer>;
+  private employerSource: BehaviorSubject<Employer>;
   constructor(private http: HttpClient, private auth: AuthService) {
     console.log('.ctor');
-    this.employerSource = new Subject<Employer>();
+    this.employerSource = new BehaviorSubject<Employer>(null);
     this.fetchEmployer();
    }
 
@@ -52,6 +52,7 @@ export class EmployersService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
       }).subscribe(
         data => {
+          console.log('employer from PUT:', data['data']);
           this.setEmployer(data['data'] as Employer);
         },
         error => {

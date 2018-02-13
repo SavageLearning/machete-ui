@@ -7,7 +7,6 @@ import { Employer } from '../../shared/models/employer';
 
 @Injectable()
 export class ProfileGuard implements CanActivate {
-  exists = false;
 
   constructor(private employersService: EmployersService, private router: Router) {
     console.log('.ctor');
@@ -17,13 +16,14 @@ export class ProfileGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return this.employersService.getEmployer()
       .mergeMap((em: Employer) => {
-        console.log('.ctor->getEmployer:', em)
-        this.exists = em ? true : false;
-        if (!this.exists)
+        console.log('canActivate->getEmployer:', em)
+        let exists = em ? true : false;
+        if (!exists)
         {
           this.router.navigate(['/employers']);   
         }
-        return Observable.of(this.exists);
+        console.log('canActivate:', exists)
+        return Observable.of(exists);
         });
   }
 }
