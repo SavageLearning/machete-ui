@@ -10,6 +10,7 @@ import { UnauthorizedComponent, WelcomeComponent,
   AuthorizeComponent, DashboardComponent} from './auth/';
 
 import { RegisterComponent } from './auth/register/register.component';
+import { EmployersService } from './employers/employers.service';
 
 const appRoutes: Routes = [
   {
@@ -62,8 +63,9 @@ const appRoutes: Routes = [
     RouterModule
   ],
   providers: [
-
+    // here because used in router guards
     AuthGuardService,
+    EmployersService,
     SelectivePreloadingStrategy
   ]
 })
