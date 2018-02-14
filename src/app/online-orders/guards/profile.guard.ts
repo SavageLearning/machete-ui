@@ -15,7 +15,7 @@ export class ProfileGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.employersService.getEmployer()
-      .mergeMap((em: Employer) => {
+      .map((em: Employer) => {
         console.log('canActivate->getEmployer:', em)
         let exists = em ? true : false;
         if (!exists)
@@ -23,7 +23,7 @@ export class ProfileGuard implements CanActivate {
           this.router.navigate(['/employers']);   
         }
         console.log('canActivate:', exists)
-        return Observable.of(exists);
+        return exists;
         });
   }
 }

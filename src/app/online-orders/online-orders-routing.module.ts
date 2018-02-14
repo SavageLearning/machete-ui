@@ -72,8 +72,7 @@ const onlineOrderRoutes: Routes = [
       WorkAssignmentsGuard,
       OrderConfirmGuard,
       OnlineOrdersComponent,
-      WorkOrderService,
-      EmployersService,
+      WorkOrderService
     ]
   ]
 })

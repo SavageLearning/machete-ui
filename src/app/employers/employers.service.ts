@@ -26,6 +26,7 @@ export class EmployersService {
           this.setEmployer(data['data'] as Employer);
         },
         (error: HttpErrorResponse) => {
+          console.log(error);
           this.setEmployer(null);
           
           if (error.status != 404)
@@ -35,30 +36,31 @@ export class EmployersService {
         });
   }
   getEmployer(): Observable<Employer> {
+    //console.log('get---');
     return this.employerSource.asObservable();
   }
 
   setEmployer(employer: Employer) {
+    //console.log('set===', employer);
     this.employerSource.next(employer);
   }
 
-  save(employer: Employer): Observable<Object> {
+  save(employer: Employer): Observable<Employer> {
     let uri = environment.dataUrl + '/api/employer/profile';
     let method: Function;
     //uri = uri + '/' + employer.id;
     console.log('save:', uri, employer);
     // create or update 
-    this.http.put(uri, JSON.stringify(employer), {
+    return this.http.put(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
-      }).subscribe(
+      }).map(
         data => {
-          console.log('employer from PUT:', data['data']);
+          //console.log('employer from PUT:', data['data']);
           this.setEmployer(data['data'] as Employer);
-        },
-        error => {
-          HandleError.error(error);
-        }
+          return Observable.of(data['data'] );
+        })
+        .catch(
+          HandleError.error
       );
-    return this.getEmployer();
   }
 }

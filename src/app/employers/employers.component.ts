@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   selector: 'app-employers',
   templateUrl: './employers.component.html',
   styleUrls: ['./employers.component.css'],
-  providers: [ EmployersService, LookupsService ]
+  providers: []
 })
 export class EmployersComponent implements OnInit {
   employer: Employer = new Employer();
@@ -122,14 +122,13 @@ export class EmployersComponent implements OnInit {
       this.showErrors = true;
       return;
     }
-    console.log('saveEmployer: valid');
-
+    console.log('saveEmployer: form status valid');
     this.showErrors = false;
     const formModel = this.employerForm.value;
-
     this.employersService.save(formModel)
       .subscribe(
         data => {
+          console.log('employerService.save returned:', data);
           this.router.navigate(['/online-orders/introduction']);
         },
         //   this.employer = data;

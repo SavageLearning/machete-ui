@@ -3,6 +3,7 @@ import { environment } from '../environments/environment';
 import { ConfigsService } from './configs/configs.service';
 import { LookupsService } from './lookups/lookups.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { EmployersService } from './employers/employers.service';
 console.log('environment.name:', environment.name);
 
 enum MenuOrientation {
@@ -17,7 +18,7 @@ declare var jQuery: any;
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [ LookupsService, ConfigsService ]
+  providers: [ EmployersService, LookupsService, ConfigsService ]
 })
 export class AppComponent implements AfterViewInit, OnInit {
     layoutCompact = false;
