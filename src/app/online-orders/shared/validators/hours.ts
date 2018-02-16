@@ -15,11 +15,11 @@ export function hoursValidator(
     let hoursControl = control;
 
     if (!hoursControl.value) {
-      return null;
+      return {'hours': 'Please choose the hours of work you need.'}
     }
 
     if (!skillIdControl.value) {
-      return null
+      return null; // should be handled in work-assignment.component reactive forms
     }
     // https://gist.github.com/slavafomin/17ded0e723a7d3216fb3d8bf845c2f30
     let hours: number = Number(hoursControl.value);
