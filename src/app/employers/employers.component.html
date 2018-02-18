@@ -36,7 +36,9 @@
                 <input class="ui-inputtext ng-dirty ng-invalid" 
                       formControlName="phone" 
                       id="phone"
-                      type="text" pInputText/>
+                      type="text" 
+                      placeholder="123-456-7890"
+                      pInputText/>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
                 {{formErrors.phone}}
               </div>

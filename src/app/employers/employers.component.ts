@@ -5,6 +5,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LookupsService } from '../lookups/lookups.service';
 import { MySelectItem } from '../shared/models/my-select-item';
 import { Router } from '@angular/router';
+//import { phoneValidator } from '../shared/validators/phone';
+import { requiredValidator } from '../online-orders/shared/index';
+import { phoneValidator } from '../shared/validators/phone';
 
 
 @Component({
@@ -37,24 +40,6 @@ export class EmployersComponent implements OnInit {
     'zipcode': ''
   };
 
-  validationMessages = {
-    'address1': { 'required': 'Address is required' },
-    'address2': { },
-    'blogparticipate': { },
-    'business': { },
-    'businessname': { },
-    'cellphone': { },
-    'city': { 'required': 'City is required' },
-    'email': { 'required': 'Email is required' },
-    'fax': { 'required': '' },
-    'name': { 'required': 'Name is required' },
-    'phone': { 'required': 'Phonr is required' },
-    'referredBy': { },
-    'referredByOther': { },
-    'state': { 'required': 'State is required' },
-    'zipcode': { 'required': 'zipcode is required' }
-  };
-
   constructor(
     private employersService: EmployersService,
     private lookupsService: LookupsService,
@@ -63,33 +48,34 @@ export class EmployersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.buildForm();
     this.employersService.getEmployer()
       .subscribe(
         data => {
           this.employer = data || new Employer();
           this.buildForm();
         });
-    this.buildForm();
+
   }
 
   buildForm(): void {
     this.employerForm = this.fb.group({
-    'id': [this.employer.id],
-    'address1': [this.employer.address1, Validators.required],
+    //'id': [this.employer.id],
+    'address1': [this.employer.address1, requiredValidator('Address is required')],
     'address2': [this.employer.address2],
     'blogparticipate': [this.employer.blogparticipate],
     'business': [this.employer.business],
     'businessname': [this.employer.businessname],
     'cellphone': [this.employer.cellphone],
-    'city': [this.employer.city, Validators.required],
-    'email': [this.employer.email, Validators.required],
+    'city': [this.employer.city, requiredValidator('City is required')],
+    'email': [this.employer.email, requiredValidator('Email is required')],
     'fax': [this.employer.fax],
-    'name': [this.employer.name, Validators.required],
-    'phone': [this.employer.phone, Validators.required],
+    'name': [this.employer.name, requiredValidator('Name is required')],
+    'phone': [this.employer.phone, phoneValidator('Phone is required in ###-###-#### format')],
     'referredBy': [this.employer.referredBy],
     'referredByOther': [this.employer.referredByOther],
-    'state': [this.employer.state, Validators.required],
-    'zipcode': [this.employer.zipcode, Validators.required]
+    'state': [this.employer.state, requiredValidator('State is required')],
+    'zipcode': [this.employer.zipcode, requiredValidator('zipcode is required')]
     });
 
     this.employerForm.valueChanges
@@ -107,9 +93,11 @@ export class EmployersComponent implements OnInit {
       const control = form.get(field);
 
       if (control && !control.valid) {
-        const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+          if (this.showErrors == true){
+            console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+          }
+          this.formErrors[field] += control.errors[key] + ' ';
         }
       }
     }
@@ -139,5 +127,7 @@ export class EmployersComponent implements OnInit {
         }
       );
   }
+
+  
 
 }

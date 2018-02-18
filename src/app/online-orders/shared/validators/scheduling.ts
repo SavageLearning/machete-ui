@@ -20,11 +20,11 @@ export function schedulingValidator(rules: ScheduleRule[]): ValidatorFn {
     }
 
     if (date.getHours() < (rule.minStartMin / 60)) {
-        return {'scheduling': 'Start time is before minimum time of ' + String(rule.minStartMin / 60) + 'hours' }
+        return {'scheduling': 'Start time cannot be before ' + String(rule.minStartMin / 60) + ':00 hours' }
     }
 
     if (date.getHours() > (rule.maxEndMin / 60)) {
-        return {'scheduling': 'End time is after maximum time of ' + String(rule.minStartMin / 60) + 'hours' }
+        return {'scheduling': 'Start time cannot be after ' + String(rule.maxEndMin / 60) + ':00 hours' }
     }
 
     return null;

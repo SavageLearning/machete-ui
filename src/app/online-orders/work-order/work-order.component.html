@@ -102,7 +102,12 @@
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-              <input class="ui-inputtext" formControlName="phone" id="phone" type="text" pInputText/>
+              <input class="ui-inputtext" 
+                formControlName="phone" 
+                id="phone" 
+                type="text" 
+                placeholder="123-456-7890"
+                pInputText />
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.phone}}
               </div>
