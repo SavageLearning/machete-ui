@@ -80,8 +80,10 @@
     <div class="ui-g-6 ui-md-8 ui-g-nopad">
       {{transportCost | currency:'USD':'true'}}
     </div>
+    <div class="ui-g-12">
+      Due now and payable with Paypal
+    </div>  
     <div class="ui-g-12" *ngIf="showPayPal && transportCost > 0 && order.ppState != 'approved'">        
-        Due now and payable with
         <div id="paypal-button" ></div>
     </div>    
   </div>
