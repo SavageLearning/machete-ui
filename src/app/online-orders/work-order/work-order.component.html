@@ -161,7 +161,7 @@
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-              <p-dropdown id="transportMethodID" [options]="transportMethodsDropDown" formControlName="transportMethodID"
+              <p-dropdown id="transportMethodID" [(ngModel)]="selectedTransport" [options]="transportMethodsDropDown" formControlName="transportMethodID"
                           [autoWidth]="false"></p-dropdown>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.transportMethodID}}
@@ -174,6 +174,13 @@
           <a href="http://casa-latina.org/get-involved/hire-worker#Do I have to pick up the worker?" target="_blank">
             For transportation pricing, click here.
           </a>
+        </div>
+        <div class="ui-g-12" *ngIf="selectedTransport==32">
+          Before picking a Casa Latina Van drop off time, please check for available times using the following calendar<br/>
+          <a href="https://calendar.google.com/calendar/embed?src=voluntarios.casa.latina@gmail.com&ctz=America/Los_Angeles" target="_blank">
+            For Van transport, select an available time slot.
+          </a> <br/>
+          Arrival times are estimates and can be adjusted by CL dispatchers due to traffic, or high demand, etc.
         </div>
       </div>
       <div class="ui-g-12">

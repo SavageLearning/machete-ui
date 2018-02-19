@@ -34,6 +34,7 @@ export class WorkOrderComponent implements OnInit {
   displayTransportCosts = false;
   displayUserGuide = true;
   engReqToggle = false;
+  selectedTransport: number = 0;
   storageKey = 'machete.work-order.component';
   formErrors = {
     'dateTimeofWork': '',
@@ -103,6 +104,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   buildForm(): void {
+    this.selectedTransport = this.order.transportMethodID;
     this.orderForm = this.fb.group({
       'dateTimeofWork': [this.order.dateTimeofWork, [
         requiredValidator('Date & time is required.'),
