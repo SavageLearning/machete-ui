@@ -18,22 +18,18 @@ export class EmployersService {
     this.fetchEmployer();
    }
 
-  fetchEmployer() {
+  fetchEmployer(): Observable<Employer> {
     let uri = environment.dataUrl + '/api/employer/profile';    
-    this.http.get(uri)
-      .subscribe(
-        data => {
-          this.setEmployer(data['data'] as Employer);
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-          this.setEmployer(null);
-          
-          if (error.status != 404)
-          {
-            HandleError.error(error);
-          }
-        });
+    return this.http.get(uri)
+      .map(data => {
+        this.setEmployer(data['data'] as Employer);
+        return data['data'] as Employer;
+      })
+      .catch(error => {
+        console.log(error);
+        this.setEmployer(null);
+        return Promise.reject(error.message || error);
+      });
   }
   getEmployer(): Observable<Employer> {
     //console.log('get---');

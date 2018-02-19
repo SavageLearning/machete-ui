@@ -14,7 +14,7 @@ export class ProfileGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean> {
-    return this.employersService.getEmployer()
+    return this.employersService.fetchEmployer()
       .map((em: Employer) => {
         console.log('canActivate->getEmployer:', em)
         let exists = em ? true : false;
