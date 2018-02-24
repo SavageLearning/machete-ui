@@ -1,5 +1,3 @@
-/// <reference path="../../../../node_modules/@types/jasmine/index.d.ts" />
-let Jasmine = require('jasmine');
 import { Observable } from "rxjs/Observable";
 import { Employer } from "../models/employer";
 import { Lookup } from "../../lookups/models/lookup";
