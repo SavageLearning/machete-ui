@@ -7,23 +7,25 @@ export function schedulingValidator(rules: ScheduleRule[]): ValidatorFn {
     if (control.value == null) {
         return null;
     }
-    const date = control.value as Date;
-    const diffdate = date.valueOf() - Date.now();
-    const rule = rules.find(s => s.day === date.getDay());
+    const requestTime = control.value as Date;
+    const orderTime = Date.now();
+    const leadInSecs = requestTime.valueOf() - orderTime.valueOf();
 
-    if (diffdate < 0) {
+    const rule = rules.find(s => s.day === requestTime.getDay());
+
+    if (leadInSecs < 0) {
         return {'scheduling': 'Date cannot be in the past.'}
     }
 
-    if (diffdate < (rule.leadHours * 3600)) {
+    if (leadInSecs < (rule.leadHours * 3600)) {
         return {'scheduling': 'Lead time less than ' + String(rule.leadHours) + ' hours.'}
     }
 
-    if (date.getHours() < (rule.minStartMin / 60)) {
+    if (requestTime.getHours() < (rule.minStartMin / 60)) {
         return {'scheduling': 'Start time cannot be before ' + String(rule.minStartMin / 60) + ':00 hours' }
     }
 
-    if (date.getHours() > (rule.maxEndMin / 60)) {
+    if (requestTime.getHours() > (rule.maxEndMin / 60)) {
         return {'scheduling': 'Start time cannot be after ' + String(rule.maxEndMin / 60) + ':00 hours' }
     }
 
