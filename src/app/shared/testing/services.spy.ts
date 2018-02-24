@@ -15,7 +15,7 @@ import { loadConfirms } from "../../online-orders/shared/rules/load-confirms";
 import { Config } from "../models/config";
 
 export class EmployersServiceSpy {
-  getEmployerBySubject = jasmine.createSpy('getEmployerBySubject')
+  getEmployer = jasmine.createSpy('getEmployer')
     .and.callFake(
       () => Observable.of(new Employer())
     );
