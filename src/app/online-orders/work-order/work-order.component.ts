@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/Observable';
 import { ScheduleRulesService } from '../schedule-rules.service';
 import { zipcodeValidator } from '../shared/validators/zipcode';
 import { TransportRulesService } from '../transport-rules.service';
+import { phoneValidator } from '../../shared/validators/phone';
 
 @Component({
   selector: 'app-work-order',
@@ -32,6 +33,8 @@ export class WorkOrderComponent implements OnInit {
   schedulingRules: ScheduleRule[];
   displayTransportCosts = false;
   displayUserGuide = true;
+  engReqToggle = false;
+  selectedTransport: number = 0;
   storageKey = 'machete.work-order.component';
   formErrors = {
     'dateTimeofWork': '',
@@ -43,7 +46,8 @@ export class WorkOrderComponent implements OnInit {
     'zipcode':  '',
     'phone':  '',
     'description':  '',
-    'additionalNotes':  '',
+    'englishRequired': '',
+    'englishRequiredNote':  '',
     'transportMethodID': ''
   };
 
@@ -86,6 +90,7 @@ export class WorkOrderComponent implements OnInit {
       this.transportRulesService.getTransportRules()
     ).subscribe(([l, o, s, t]) => {
       this.order = o;
+      this.engReqToggle = o.englishRequired;
       this.transportMethods = l;
       this.schedulingRules = s;
       this.transportRules = t;
@@ -99,13 +104,14 @@ export class WorkOrderComponent implements OnInit {
   }
 
   buildForm(): void {
+    this.selectedTransport = this.order.transportMethodID;
     this.orderForm = this.fb.group({
       'dateTimeofWork': [this.order.dateTimeofWork, [
         requiredValidator('Date & time is required.'),
         schedulingValidator(this.schedulingRules)
       ]],
-      'contactName': [this.order.contactName, requiredValidator('Contact name is required.')],
-      'worksiteAddress1': [this.order.worksiteAddress1, requiredValidator('Address is required.')],
+      'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
+      'worksiteAddress1': [this.order.worksiteAddress1, requiredValidator('Address is required')],
       'worksiteAddress2': [this.order.worksiteAddress2],
       'city': [this.order.city, requiredValidator('City is required.')],
       'state': [this.order.state, requiredValidator('State is required.')],
@@ -113,10 +119,11 @@ export class WorkOrderComponent implements OnInit {
         requiredValidator('Zipcode is required.'),
         zipcodeValidator(this.transportRules)
       ]],
-      'phone': [this.order.phone, requiredValidator('Phone is required.')],
-      'description': [this.order.description, requiredValidator('Description is required.')],
-      'additionalNotes': [this.order.additionalNotes],
-      'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required.')]
+      'phone': [this.order.phone, phoneValidator('Phone is required in ###-###-#### format')],
+      'description': [this.order.description, requiredValidator('Description is required')],
+      'englishRequired': [this.order.englishRequired],
+      'englishRequiredNote': [this.order.englishRequiredNote],
+      'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required')]
     });
 
     this.orderForm.valueChanges
@@ -142,10 +149,6 @@ export class WorkOrderComponent implements OnInit {
         }
       }
     }
-  }
-
-  load() {
-
   }
 
   save() {
@@ -179,13 +182,10 @@ export class WorkOrderComponent implements OnInit {
       zipcode: formModel.zipcode,
       phone: formModel.phone,
       description: formModel.description,
-      additionalNotes: formModel.additionalNotes,
+      englishRequired: formModel.englishRequired,
+      englishRequiredNote: formModel.englishRequiredNote,
       transportMethodID: formModel.transportMethodID
     });
     return order;
-  }
-
-  clearOrder() {
-
   }
 }

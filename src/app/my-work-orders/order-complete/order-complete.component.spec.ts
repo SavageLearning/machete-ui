@@ -4,10 +4,11 @@ import { OrderCompleteComponent } from './order-complete.component';
 import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
 import { DataTableModule } from 'primeng/primeng';
 import { LookupsService } from '../../lookups/lookups.service';
-import { LookupsServiceSpy, MyWorkOrdersServiceSpy, ActivatedRouteSpy, RouterSpy } from '../../shared/testing'; 
+import { LookupsServiceSpy, MyWorkOrdersServiceSpy, ActivatedRouteSpy, RouterSpy, ConfigsServiceSpy } from '../../shared/testing'; 
 import * as paypal from 'paypal-checkout';
 import { MyWorkOrdersService } from '../my-work-orders.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfigsService } from '../../configs/configs.service';
 
 describe('OrderCompleteComponent', () => {
   let component: OrderCompleteComponent;
@@ -26,12 +27,15 @@ describe('OrderCompleteComponent', () => {
         providers: [
           { provide: LookupsService, useClass: LookupsServiceSpy},
           { provide: MyWorkOrdersService, useClass: MyWorkOrdersServiceSpy },
-          { provide: ActivatedRoute, useValue: { snapshot: {
-            paramMap: {
-              get: (id) => { return 1; } 
-            }
-          } 
-          }},
+          { provide: ConfigsService, useClass: ConfigsServiceSpy},
+          { provide: ActivatedRoute, useValue: { 
+            snapshot: {
+              paramMap: {
+                get: (id) => { return 1; } 
+              }
+            } 
+          }
+        },
           { provide: Router, useClass: RouterSpy } 
         ]
       }

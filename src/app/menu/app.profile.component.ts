@@ -50,4 +50,8 @@ export class InlineProfileComponent implements OnInit {
         this.active = !this.active;
         event.preventDefault();
     }
+
+    startSignoutMainWindow() {
+        this.auth.startSignoutMainWindow();
+      }
 }

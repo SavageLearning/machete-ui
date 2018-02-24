@@ -9,13 +9,14 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
 import { StepsModule, CalendarModule, DropdownModule,
           DataTableModule, InputSwitchModule, MessagesModule,
-          DialogModule, CheckboxModule } from 'primeng/primeng';
+          DialogModule, CheckboxModule, ToggleButtonModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
 import { TransportRulesService } from './transport-rules.service';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
+import { ProfileGuard } from './guards/profile.guard';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.m
     MessagesModule,
     DialogModule,
     CheckboxModule,
+    ToggleButtonModule,
     OnlineOrdersRoutingModule,
     WorkOrdersModule
   ],
@@ -45,7 +47,8 @@ import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.m
   providers: [
     OnlineOrdersService,
     ScheduleRulesService,
-    TransportRulesService
+    TransportRulesService,
+    ProfileGuard
   ]
 })
 export class OnlineOrdersModule { }

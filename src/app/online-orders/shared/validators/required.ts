@@ -9,6 +9,6 @@ function isEmptyInputValue(value: any): boolean {
 export function requiredValidator(message: string): ValidatorFn {
     return(control: AbstractControl): {[key: string]: any} => {
         return isEmptyInputValue(control.value) ? {'required': message} : null;
-    }
+    };
 }
 

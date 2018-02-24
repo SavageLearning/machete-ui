@@ -1,6 +1,7 @@
 export const environment = {
   name: 'mvc-embedded',
   production: false,
+  paypalID: '',
   dataUrl: 'http://localhost:63374',
   authUrl: 'https://localhost:44379/id',
   baseRef: '/V2',

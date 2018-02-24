@@ -3,12 +3,12 @@ import {Observable} from 'rxjs/Observable';
 import {WorkOrder} from '../../shared/models/work-order';
 import { EmployersService} from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
-import { BehaviorSubject, ReplaySubject } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class WorkOrderService {
   order: WorkOrder;
-  orderSource = new ReplaySubject<WorkOrder>(1);
+  orderSource = new BehaviorSubject<WorkOrder>(null);
   //order$ = this.orderSource.asObservable();
 
   storageKey = 'machete.workorder';
@@ -23,11 +23,11 @@ export class WorkOrderService {
       this.orderSource.next(this.order);
     } else {
       console.log('.ctor->Create work order from employer');
-      this.employerService.getEmployerBySubject()
+      this.employerService.getEmployer()
         .subscribe(data => {
           // loading employer data as the defaults for
           // the new workorder
-          this.order = this.mapOrderFrom(data);
+          this.order = this.mapOrderFrom(data || new Employer());
           this.orderSource.next(this.order);
         });
     }

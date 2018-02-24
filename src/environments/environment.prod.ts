@@ -6,7 +6,7 @@ export const environment = {
   baseRef: '/V2',
   oidc_client_settings: {
     authority: 'https://identity.machetessl.org/id',
-    client_id: 'machete-ui-test',
+    client_id: 'machete-casa-prod',
     redirect_uri: 'https://casa.machetessl.org/V2/authorize',
     post_logout_redirect_uri: 'https://casa.machetessl.org/V2',
     response_type: 'id_token token',

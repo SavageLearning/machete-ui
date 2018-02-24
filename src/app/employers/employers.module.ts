@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployersComponent } from './employers.component';
 import { EmployersRoutingModule } from './employers-routing.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputTextModule, ButtonModule, DropdownModule } from 'primeng/primeng';
+import { InputTextModule, ButtonModule, DropdownModule, KeyFilterModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -13,7 +13,8 @@ import { InputTextModule, ButtonModule, DropdownModule } from 'primeng/primeng';
     InputTextModule,
     ButtonModule,
     DropdownModule,
-    EmployersRoutingModule
+    EmployersRoutingModule,
+    KeyFilterModule
   ],
   declarations: [EmployersComponent]
 })

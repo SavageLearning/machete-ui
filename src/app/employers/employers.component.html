@@ -2,8 +2,8 @@
   Employer profile
 </h1>
 <div class="card">
-  Your profile is used to populate work site details when you make a new work order. 
-  Use it as the default for new orders. 
+  This is your employer profile. If you're a new employer, you must create a profile before you can place an order.
+  This profile information will pre-populate new orders to save you time.
 </div>
 <div class="ui-fluid">
   <div class="card">
@@ -36,7 +36,9 @@
                 <input class="ui-inputtext ng-dirty ng-invalid" 
                       formControlName="phone" 
                       id="phone"
-                      type="text" pInputText/>
+                      type="text" 
+                      placeholder="123-456-7890"
+                      pInputText/>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
                 {{formErrors.phone}}
               </div>

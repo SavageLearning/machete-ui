@@ -17,7 +17,7 @@ declare var jQuery: any;
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [ LookupsService, ConfigsService ]
+  providers: [  LookupsService, ConfigsService ]
 })
 export class AppComponent implements AfterViewInit, OnInit {
     layoutCompact = false;

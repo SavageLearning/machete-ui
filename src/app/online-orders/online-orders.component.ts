@@ -12,7 +12,6 @@ import { Router, NavigationEnd } from "@angular/router";
   templateUrl: './online-orders.component.html',
   styleUrls: ['./online-orders.component.css'],
   providers: [
-    EmployersService,
     WorkOrderService,
     WorkAssignmentsService,
     FormBuilder

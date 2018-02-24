@@ -2,21 +2,18 @@ import { WorkAssignment } from "./work-assignment";
 import { Record } from './record';
 
 export class WorkOrder extends Record<WorkOrder> {
-  additionalNotes: string;
-  
   // createdby: string;
   // datecreated: Date;
   // dateupdated: Date;
   // updatedby: string;
-  // additionalNotes: string;
   city: string;
   contactName: string;
   dateTimeofWork: Date;
   description: string;
   // disclosureAgreement?: boolean;
   // employerID: number;
-  // englishRequired: boolean;
-  // englishRequiredNote: string;
+  englishRequired: boolean;
+  englishRequiredNote: string;
   // onlineSource: boolean;
   // paperOrderNum?: number;
   ppFee?: string;
