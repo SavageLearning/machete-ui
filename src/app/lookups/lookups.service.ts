@@ -10,7 +10,9 @@ export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
   
   private lookups = new Array<Lookup>();
-  private lookupsSource = new Subject<Lookup[]>();
+  // need BehaviorSubject because we're caching the response and 
+  // need to be able serve the cache and not call API every time
+  lookupsSource = new BehaviorSubject<Lookup[]>(null);
   lookups$ = this.lookupsSource.asObservable();
   lookupsAge = 0;
   storageKey = 'machete.lookups';
@@ -20,8 +22,8 @@ export class LookupsService {
     this.lookupsAge = Number(sessionStorage.getItem(this.storageKey + '.age'));
 
     if (data && this.isNotStale) {
-      console.log('.ctor using sessionStorage');
       this.lookups = JSON.parse(data);
+      console.log('.ctor using sessionStorage', this.lookups);
       this.lookupsSource.next(this.lookups);
     } else {
       this.getAllLookups();
@@ -66,7 +68,9 @@ export class LookupsService {
 
   getLookups(category: LCategory): Observable<Lookup[]> {
     return this.lookups$
-      .map(res => res.filter(l => l.category == category))
+      .map(res => {
+        return res.filter(l => l.category == category);
+      })
       .catch(HandleError.error);
   }
 
