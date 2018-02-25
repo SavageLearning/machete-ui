@@ -126,9 +126,7 @@
         </ng-template>  
       </p-column>
       <p-column field="transportCost" header="Transport cost" [style]="{'padding':'.1em .875em'}">
-          <ng-template pTemplate="header">
-              <span>{{ header }}</span>
-         </ng-template>
+
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
           <span>{{wa[col.field]| currency:'USD':'true'}}</span>
         </ng-template>
