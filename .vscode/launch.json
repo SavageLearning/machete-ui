@@ -11,8 +11,7 @@
             "pathMapping": {
                 "/": "${workspaceRoot}/",
                 "/base/": "${workspaceRoot}/"
-            },
-            "outFiles": ["${workspaceRoot}/compiled/**/*.js"]
+            }
         },
         {
             "type": "chrome",
