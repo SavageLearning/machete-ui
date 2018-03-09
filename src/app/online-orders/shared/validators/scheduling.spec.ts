@@ -10,12 +10,20 @@ describe('ScheduleRule', () => {
     beforeEach(() => {
         ctrl = new FormControl();
         today = new Date();
-        tFunc = schedulingValidator(new Array<ScheduleRule>(new ScheduleRule({
+        tFunc = schedulingValidator(new Array<ScheduleRule>(
+          new ScheduleRule({
             day: today.getDay(),
             leadHours: 48,
             minStartMin: 420, //7am
             maxEndMin: 1020 // 5pm 
-        })));    
+          }), 
+          new ScheduleRule({
+            day: (new Date(today.valueOf()+(24 * 60 * 60 * 1000)).getDay()), // shame
+            leadHours: 48,
+            minStartMin: 420, //7am
+            maxEndMin: 1020 // 5pm 
+          })
+        ));    
     });
 
   it('should create an instance', () => {
@@ -32,16 +40,25 @@ describe('ScheduleRule', () => {
     expect(result['scheduling']).toBe('Date cannot be in the past.');
   });
 
-  it('should reject time before start time', () => {
+  it('should reject time 1 sec before start time', () => {
     //var utc = today.toJSON().slice(0,10).replace(/-/g,'/');
     var utc = today.valueOf() + (1 * 1000);
     var date = new Date(utc);
-    console.error(date, date.getUTCDay());
     ctrl.setValue(new Date(utc));
     // act
     const result = tFunc(ctrl);
     // 
     expect(result['scheduling']).toBe('Lead time of 0 hours less than the 2 days required.');
+  });
+
+  it('should reject time 2 hours before start time', () => {
+    var utc = today.valueOf() + (7200 * 1000);
+    var date = new Date(utc);
+    ctrl.setValue(new Date(utc));
+    // act
+    const result = tFunc(ctrl);
+    // 
+    expect(result['scheduling']).toBe('Lead time of 2 hours less than the 2 days required.');
   });
 
   

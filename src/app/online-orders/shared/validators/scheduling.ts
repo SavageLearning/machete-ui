@@ -10,6 +10,7 @@ export function schedulingValidator(rules: ScheduleRule[]): ValidatorFn {
     }
     const requestTime = new Date(control.value);
     const orderTime = new Date();
+    const today = new Date(orderTime.toDateString());
     const leadInSecs = requestTime.valueOf() - orderTime.valueOf();
     const rule = rules.find(s => s.day === requestTime.getDay());
 
@@ -17,11 +18,11 @@ export function schedulingValidator(rules: ScheduleRule[]): ValidatorFn {
         return {'scheduling': 'Date cannot be in the past.'}
     }
 
-    let daysSinceEpoch = Math.floor(orderTime.valueOf()/8.64e7);
-    let reqDaysSinceEpoch = Math.floor(requestTime.valueOf()/8.64e7);
-    let leadInHours = (reqDaysSinceEpoch - daysSinceEpoch) * 24;
+    let daysSinceEpoch = Math.floor(today.valueOf()/3.6e6);
+    let reqDaysSinceEpoch = Math.floor(requestTime.valueOf()/3.6e6);
+    let leadInHours = (reqDaysSinceEpoch - daysSinceEpoch);
     if (leadInHours < rule.leadHours) {
-        return {'scheduling': `Lead time of ${leadInHours} hours less than the ${rule.leadHours/24} days required.`}
+        return {'scheduling': `Lead time of ${(rule.leadHours/24)} days required.`}
     }
 
     if (requestTime.getHours() < (rule.minStartMin / 60)) {
