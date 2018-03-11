@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import { HandleError } from '../shared/handle-error';
 import { Employer } from '../shared/models/employer';
 import { AuthService } from '../shared/index';
-import { Log, User } from 'oidc-client';
+import {  User } from 'oidc-client';
 import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 

@@ -23,8 +23,6 @@ import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
 import { MyWorkOrdersModule } from './my-work-orders/my-work-orders.module';
 import { EmployersModule } from './employers/employers.module';
-import { Log } from 'oidc-client';
-
 @NgModule({
   declarations: [
     AppComponent,
