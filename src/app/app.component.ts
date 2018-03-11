@@ -3,6 +3,8 @@ import { environment } from '../environments/environment';
 import { ConfigsService } from './configs/configs.service';
 import { LookupsService } from './lookups/lookups.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { Message } from 'primeng/components/common/api';
 console.log('environment.name:', environment.name);
 
 enum MenuOrientation {
@@ -36,12 +38,16 @@ export class AppComponent implements AfterViewInit, OnInit {
     activeTopbarItem: any;
     documentClickListener: Function;
     resetMenu: boolean;
-
+    msgs: Message[] = [];
     @ViewChild('layoutContainer') layourContainerViewChild: ElementRef;
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ElementRef;
 
-    constructor(public renderer: Renderer, private router: Router) {}
+    constructor(
+        public renderer: Renderer, 
+        private router: Router,
+        private msgService: MessageService
+    ) {}
 
     ngOnInit()
     {

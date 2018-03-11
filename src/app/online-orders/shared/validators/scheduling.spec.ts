@@ -48,7 +48,7 @@ describe('ScheduleRule', () => {
     // act
     const result = tFunc(ctrl);
     // 
-    expect(result['scheduling']).toBe('Lead time of 0 hours less than the 2 days required.');
+    expect(result['scheduling']).toBe('Lead time of 1 days required.');
   });
 
   it('should reject time 2 hours before start time', () => {
@@ -58,7 +58,7 @@ describe('ScheduleRule', () => {
     // act
     const result = tFunc(ctrl);
     // 
-    expect(result['scheduling']).toBe('Lead time of 2 hours less than the 2 days required.');
+    expect(result['scheduling']).toBe('Lead time of 1 days required.');
   });
 
   
