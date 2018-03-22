@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 import {Headers, Response, RequestOptions, ResponseContentType, Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { Export } from './models/export';
@@ -18,8 +17,7 @@ export class ExportsService {
 
     console.log('getExportList: ', this.uriBase);
     return this.http.get(this.uriBase)
-      .map(res => res['data'] as string[])
-      .catch(this.handleError);
+      .map(res => res['data'] as Export[]);
   }
 
   getColumns(tableName: string): Observable<ExportColumn[]> {
@@ -27,8 +25,7 @@ export class ExportsService {
     let uri = this.uriBase + '/' + tableName.toLowerCase();
     console.log('getColumns ', uri);
     return this.http.get(uri)
-      .map(res => res['data'] as ExportColumn[])
-      .catch(this.handleError);
+      .map(res => res['data'] as ExportColumn[]);
   }
 
   getExport(tableName: string, o: SearchOptions): Observable<Response> {
@@ -45,11 +42,6 @@ export class ExportsService {
       .map((res: Response) => {
         return res;
     });
-  }
-
-  private handleError(error: any): Observable<any> {
-    console.error('exports.service.handleError:', JSON.stringify(error));
-    return Observable.of(error);
   }
 
   public encodeData(data: any): string {

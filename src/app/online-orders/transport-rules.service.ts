@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { TransportRule } from './shared/index';
 import { environment } from '../../environments/environment';
-import { HandleError } from '../shared/handle-error';
 
 @Injectable()
 export class TransportRulesService {
@@ -36,7 +35,6 @@ export class TransportRulesService {
         this.rules = res['data'] as TransportRule[];
         this.rulesAge = Date.now();
         return res['data'] as TransportRule[];
-      })
-      .catch(HandleError.error);
+      });
   }
 }

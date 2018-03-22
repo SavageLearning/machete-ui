@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
-import { HandleError } from '../shared/handle-error';
 import { Employer } from '../shared/models/employer';
 import { AuthService } from '../shared/index';
 import {  User } from 'oidc-client';
@@ -48,10 +47,7 @@ export class EmployersService {
       }).map(
         data => {
           this.setEmployer(data['data'] as Employer);
-          return Observable.of(data['data'] );
-        })
-        .catch(
-          HandleError.error
-      );
+          return data['data'];
+        });
   }
 }

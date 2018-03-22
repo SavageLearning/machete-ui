@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import { Lookup, LCategory } from './models/lookup';
-import { HandleError } from '../shared/handle-error';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -73,14 +72,12 @@ export class LookupsService {
       .map(res => {
         console.log('getlookups', res);
         return res.filter(l => l.category == category);
-      })
-      .catch(HandleError.error);
+      });
   }
 
   getLookup(id: number): Observable<Lookup> {
     return this.lookups$
       .mergeMap(a => a.filter(ll => ll.id == id))
-      .first()
-      .catch(HandleError.error);
+      .first();
   }
 }

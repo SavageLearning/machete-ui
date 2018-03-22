@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ScheduleRule } from './shared/index';
 import { environment } from '../../environments/environment';
-import { HandleError } from '../shared/handle-error';
 
 @Injectable()
 export class ScheduleRulesService {
@@ -35,7 +34,6 @@ export class ScheduleRulesService {
         this.rules = res['data'] as ScheduleRule[];
         this.rulesAge = Date.now();
         return res['data'] as ScheduleRule[];
-      })
-      .catch(HandleError.error);
+      });
   }
 }

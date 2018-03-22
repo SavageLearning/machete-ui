@@ -76,9 +76,6 @@ export class OrderConfirmComponent implements OnInit {
           this.assignmentService.clearState();
           this.router.navigate(['/my-work-orders/' + data.id]);
           
-        },
-        (err: HttpErrorResponse) => {
-          console.error('POST error', err);
         }
       );
   }
