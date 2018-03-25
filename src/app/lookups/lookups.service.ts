@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import { Lookup, LCategory } from './models/lookup';
-import { HandleError } from '../shared/handle-error';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -12,10 +11,12 @@ export class LookupsService {
   private lookups = new Array<Lookup>();
   // need BehaviorSubject because we're caching the response and 
   // need to be able serve the cache and not call API every time
-  lookupsSource = new BehaviorSubject<Lookup[]>(null);
+  lookupsSource = new BehaviorSubject<Lookup[]>(new Array<Lookup>());
   lookups$ = this.lookupsSource.asObservable();
   lookupsAge = 0;
   storageKey = 'machete.lookups';
+
+
   constructor(private http: HttpClient) {
     console.log('.ctor');
     let data = sessionStorage.getItem(this.storageKey);
@@ -69,15 +70,14 @@ export class LookupsService {
   getLookups(category: LCategory): Observable<Lookup[]> {
     return this.lookups$
       .map(res => {
+        console.log('getlookups', res);
         return res.filter(l => l.category == category);
-      })
-      .catch(HandleError.error);
+      });
   }
 
   getLookup(id: number): Observable<Lookup> {
     return this.lookups$
       .mergeMap(a => a.filter(ll => ll.id == id))
-      .first()
-      .catch(HandleError.error);
+      .first();
   }
 }

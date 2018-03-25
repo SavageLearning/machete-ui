@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigsService } from '../../configs/configs.service';
-import { Log } from 'oidc-client';
 import { AuthService } from '../../shared/index';
 import { Router } from '@angular/router';
 

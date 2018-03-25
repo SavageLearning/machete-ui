@@ -45,8 +45,6 @@ export class AuthService {
   clearState() {
     this.mgr.clearStaleState().then(function () {
       console.log('auth.service.clearStateState success');
-    }).catch(function (e) {
-      console.error('auth.service.clearStateState error', e.message);
     });
   }
 
@@ -84,8 +82,6 @@ export class AuthService {
       this.currentUser = user;
       //console.log('auth.service.getUser returned: ' + JSON.stringify(user));
       this.getUserEmitter().emit(user);
-    }).catch(function (err) {
-      console.error('getUser: ', err);
     });
   }
 
@@ -93,16 +89,12 @@ export class AuthService {
     this.mgr.removeUser().then(() => {
       this.getUserEmitter().emit(null);
       console.log('auth.service.removeUser: user removed');
-    }).catch(function (err) {
-      console.error('auth.service.removeUser returned: ' + JSON.stringify(err));
     });
   }
 
   startSigninMainWindow() {
     this.mgr.signinRedirect({ data: this.redirectUrl }).then(function () {
       console.log('signinRedirect done');
-    }).catch(function (err) {
-      console.error('auth.service.startSigninMainWindow returned: ' + JSON.stringify(err));
     });
   }
 
@@ -114,12 +106,6 @@ export class AuthService {
     this.mgr.getUser().then(user => {
       return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
         console.log('signed out', resp);
-		      setTimeout(5000, () => {
-          console.log('testing to see if fired...');
-        });
-      }).catch(function (err) {
-        console.error('auth.service.startSignoutMainWindow returned: ' + JSON.stringify(err));
-
       });
     });
   };
@@ -127,8 +113,6 @@ export class AuthService {
   endSignoutMainWindow() {
     this.mgr.signoutRedirectCallback().then(function (resp) {
       console.log('signed out', resp);
-    }).catch(function (err) {
-      console.error('auth.service.endSignoutMainWindow returned: ' + JSON.stringify(err));
     });
   };
 }

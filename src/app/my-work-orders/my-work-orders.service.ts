@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { WorkOrder } from '../shared/models/work-order';
-import { HandleError } from '../shared/handle-error';
 import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class MyWorkOrdersService {
@@ -14,8 +13,7 @@ export class MyWorkOrdersService {
     let uri = environment.dataUrl + '/api/onlineorders';
 
     return this.http.get(uri)
-      .map(o => o['data'] as WorkOrder[])
-      .catch(HandleError.error);
+      .map(o => o['data'] as WorkOrder[]);
   }
 
   getOrder(id: number): Observable<WorkOrder> {

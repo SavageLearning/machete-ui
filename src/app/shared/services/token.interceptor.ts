@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
-import { Log, User } from 'oidc-client';
+import { User } from 'oidc-client';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -22,7 +22,6 @@ export class TokenInterceptor implements HttpInterceptor {
     let url = this.route.url;
     return this.auth.getUser$()
       .mergeMap((user: User) => {
-        //console.log('currentUser: ', user);
         if (user === null || user === undefined) {
           this.auth.redirectUrl = url;
           this.route.navigate(['/welcome']);

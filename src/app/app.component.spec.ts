@@ -11,6 +11,8 @@ import {APP_BASE_HREF} from '@angular/common';
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { AuthService } from './shared/index';
 import { AuthServiceSpy } from './shared/testing';
+import { GrowlModule } from 'primeng/primeng';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -28,11 +30,13 @@ describe('AppComponent', () => {
       ],
       imports: [
         AppRoutingModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        GrowlModule
       ],
       providers: [
         {provide: APP_BASE_HREF, useValue: '/'},
-        { provide: AuthService, useClass: AuthServiceSpy }
+        { provide: AuthService, useClass: AuthServiceSpy },
+        MessageService
       ]
     }).compileComponents();
   }));

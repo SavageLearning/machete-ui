@@ -99,13 +99,6 @@ export class OnlineOrdersService {
       }).map(
       (data) => {
         return data['data'] as WorkOrder;
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.error('Client-side error occured.', err.error);
-        } else {
-          console.error('online-orders.service.POST: ' + err.message);
-        }
       }
     );
   }

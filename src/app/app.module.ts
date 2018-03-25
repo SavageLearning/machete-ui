@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-import { NgModule, Injector } from '@angular/core';
+import { NgModule, Injector, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -23,8 +23,10 @@ import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
 import { MyWorkOrdersModule } from './my-work-orders/my-work-orders.module';
 import { EmployersModule } from './employers/employers.module';
-import { Log } from 'oidc-client';
-
+import { GlobalErrorHandler } from './shared/global-error-handler';
+import { LoggingService } from './shared/services/logging.service';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { GrowlModule } from 'primeng/primeng';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,14 +49,21 @@ import { Log } from 'oidc-client';
     ExportsModule,
     MyWorkOrdersModule,
     EmployersModule,
-    AppRoutingModule
+    AppRoutingModule,
+    GrowlModule
   ],
   providers: [
     AuthService,
+    LoggingService,
+    MessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
+    },
+    {
+      provide: ErrorHandler, 
+      useClass: GlobalErrorHandler
     }
 
   ],
@@ -63,10 +72,6 @@ import { Log } from 'oidc-client';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    if (!environment.production) {
-      Log.level = Log.INFO;
-      Log.logger = console;
-    }
     console.log('.ctor');
   }
 

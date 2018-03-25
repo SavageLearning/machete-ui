@@ -25,16 +25,16 @@ describe('ExportsService', () => {
     expect(service1).toBeTruthy();
   }));
 
-  it('should catch error from response',
-      () => {
-        service.getColumns('activities')
-          .subscribe((res: any) => {
-            expect(res.name).toBe('HttpErrorResponse');
-          });
-        let req = httpMock.expectOne('/api/exports/activities');
-        req.error(new ErrorEvent('foo'));
-        httpMock.verify();
-      });
+  // it('should catch error from response',
+  //     () => {
+  //       service.getColumns('activities')
+  //         .subscribe((res: any) => {
+  //           expect(res.name).toBe('HttpErrorResponse');
+  //         });
+  //       let req = httpMock.expectOne('/api/exports/activities');
+  //       req.error(new ErrorEvent('foo'));
+  //       httpMock.verify();
+  //     });
 
   it('should populate the export list',
     () => {

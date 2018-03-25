@@ -54,7 +54,6 @@ export class ReportsComponent implements OnInit {
       return;
     }
     this.selectedReport = this.reportList.filter(x => x.name === this.selectedReportID)[0];
-    // TODO catch exception if not found
     this.description = this.selectedReport.description;
     this.title = this.selectedReport.title || this.selectedReport.commonName;
     this.name = this.selectedReport.name;

@@ -11,7 +11,6 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../../shared/models/work-order";
 import { Subject } from "rxjs";
 import { TransportRulesService } from '../transport-rules.service';
-import { HandleError } from '../../shared/handle-error';
 
 @Injectable()
 export class WorkAssignmentsService {
@@ -50,9 +49,7 @@ export class WorkAssignmentsService {
         this.transportRules = rules;
         this.transports = transports;
         this.compactRequests();
-      },
-      error => HandleError.error(error),
-      () => console.log('combined subscription closed')
+      }
      );
   }
 

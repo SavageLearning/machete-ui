@@ -3,8 +3,6 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Config, CCategory } from '../shared/models/config';
-import { HandleError } from '../shared/handle-error';
-
 @Injectable()
 export class ConfigsService {
   uriBase = environment.dataUrl + '/api/configs';
@@ -35,21 +33,18 @@ export class ConfigsService {
         this.configs = res['data'] as Config[];
         this.configsAge = Date.now();
         return res['data'] as Config[];
-      })
-      .catch(HandleError.error);
+      });
   }
 
   getConfigs(category: CCategory): Observable<Config[]> {
 
     return this.getAllConfigs()
-      .map(res => res.filter(l => l.category == category))
-      .catch(HandleError.error);
+      .map(res => res.filter(l => l.category == category));
   }
 
   getConfig(key: string): Observable<Config> {
     return this.getAllConfigs()
     .mergeMap(a => a.filter(ll => ll.key == key))
-    .first()
-    .catch(HandleError.error);
+    .first();
   }
 }

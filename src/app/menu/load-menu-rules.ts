@@ -1,6 +1,5 @@
 
 import { MenuRule, LRole } from './menu-rule';
-import { Log } from 'oidc-client';
 
 export function loadMenuRules(authList: string[]): Array<MenuRule> {
   const rules = [
