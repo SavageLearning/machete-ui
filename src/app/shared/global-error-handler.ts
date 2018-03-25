@@ -31,6 +31,7 @@ handleError(error) {
     // log on the server
     msgService.add({severity:'error', summary: shortMsg});
     loggingService.log(message, location );
+    throw error;
   }
   
 }
