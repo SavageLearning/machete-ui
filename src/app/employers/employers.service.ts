@@ -26,7 +26,7 @@ export class EmployersService {
       })
       .catch(error => {
         this.setEmployer(null);
-        return Observable.throw(error)
+        return Observable.of(null);
       });
   }
   getEmployer(): Observable<Employer> {
