@@ -7,7 +7,8 @@ import { MySelectItem } from '../shared/models/my-select-item';
 import { Router } from '@angular/router';
 //import { phoneValidator } from '../shared/validators/phone';
 import { requiredValidator } from '../online-orders/shared/index';
-import { phoneValidator } from '../shared/validators/phone';
+import { phoneValidator, phoneOrEmptyValidator } from '../shared/validators/phone';
+import { regexValidator } from '../shared/validators/regex';
 
 
 @Component({
@@ -66,7 +67,7 @@ export class EmployersComponent implements OnInit {
     'blogparticipate': [this.employer.blogparticipate],
     'business': [this.employer.business],
     'businessname': [this.employer.businessname],
-    'cellphone': [this.employer.cellphone],
+    'cellphone': [this.employer.cellphone, phoneOrEmptyValidator('Cell is optional, but requires ###-###-#### format')],
     'city': [this.employer.city, requiredValidator('City is required')],
     'email': [this.employer.email, requiredValidator('Email is required')],
     'fax': [this.employer.fax],
@@ -74,7 +75,9 @@ export class EmployersComponent implements OnInit {
     'phone': [this.employer.phone, phoneValidator('Phone is required in ###-###-#### format')],
     'referredBy': [this.employer.referredBy],
     'referredByOther': [this.employer.referredByOther],
-    'state': [this.employer.state, requiredValidator('State is required')],
+    'state': [this.employer.state, [
+      requiredValidator('State is required, '), 
+      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), "State must be two letters")]],
     'zipcode': [this.employer.zipcode, requiredValidator('zipcode is required')]
     });
 
@@ -118,12 +121,6 @@ export class EmployersComponent implements OnInit {
         data => {
           console.log('employerService.save returned:', data);
           this.router.navigate(['/online-orders/introduction']);
-        },
-        //   this.employer = data;
-        //   this.buildForm();
-        // },
-        error => {
-          console.error(error);
         }
       );
   }

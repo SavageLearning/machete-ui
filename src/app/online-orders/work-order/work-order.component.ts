@@ -15,6 +15,7 @@ import { ScheduleRulesService } from '../schedule-rules.service';
 import { zipcodeValidator } from '../shared/validators/zipcode';
 import { TransportRulesService } from '../transport-rules.service';
 import { phoneValidator } from '../../shared/validators/phone';
+import { regexValidator } from '../../shared/validators/regex';
 
 @Component({
   selector: 'app-work-order',
@@ -114,7 +115,8 @@ export class WorkOrderComponent implements OnInit {
       'worksiteAddress1': [this.order.worksiteAddress1, requiredValidator('Address is required')],
       'worksiteAddress2': [this.order.worksiteAddress2],
       'city': [this.order.city, requiredValidator('City is required.')],
-      'state': [this.order.state, requiredValidator('State is required.')],
+      'state': [this.order.state, [requiredValidator('State is required.'), 
+      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), "State must be two letters")]],
       'zipcode': [this.order.zipcode, [
         requiredValidator('Zipcode is required.'),
         zipcodeValidator(this.transportRules)

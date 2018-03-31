@@ -14,7 +14,7 @@ export class EmployersService {
   constructor(private http: HttpClient, private auth: AuthService) {
     console.log('.ctor');
     this.employerSource = new BehaviorSubject<Employer>(null);
-    this.fetchEmployer();
+    this.fetchEmployer().subscribe();
    }
 
   fetchEmployer(): Observable<Employer> {
@@ -26,6 +26,7 @@ export class EmployersService {
       })
       .catch(error => {
         this.setEmployer(null);
+        console.log('error from getEmployer');
         return Observable.of(null);
       });
   }
