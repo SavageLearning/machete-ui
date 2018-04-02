@@ -124,7 +124,7 @@ export class WorkOrderComponent implements OnInit {
       'phone': [this.order.phone, phoneValidator('Phone is required in ###-###-#### format')],
       'description': [this.order.description, requiredValidator('Description is required')],
       'englishRequired': [this.order.englishRequired],
-      'englishRequiredNote': [this.order.englishRequiredNote],
+      'englishRequiredNote': [this.order.englishRequiredNote, regexValidator(new RegExp(/^.{0,100}$/), "Note must be less than 100 characters")],
       'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required')]
     });
 
