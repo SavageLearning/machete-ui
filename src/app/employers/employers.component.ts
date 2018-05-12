@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { requiredValidator } from '../online-orders/shared/index';
 import { phoneValidator, phoneOrEmptyValidator } from '../shared/validators/phone';
 import { regexValidator } from '../shared/validators/regex';
+import { lengthValidator } from '../shared/validators/length';
 
 
 @Component({
@@ -62,23 +63,23 @@ export class EmployersComponent implements OnInit {
   buildForm(): void {
     this.employerForm = this.fb.group({
     //'id': [this.employer.id],
-    'address1': [this.employer.address1, requiredValidator('Address is required')],
-    'address2': [this.employer.address2],
+    'address1': [this.employer.address1, [requiredValidator('Address is required'), lengthValidator(50, 'address1')]],
+    'address2': [this.employer.address2, lengthValidator(50, 'address2')],
     'blogparticipate': [this.employer.blogparticipate],
     'business': [this.employer.business],
     'businessname': [this.employer.businessname],
     'cellphone': [this.employer.cellphone, phoneOrEmptyValidator('Cell is optional, but requires ###-###-#### format')],
-    'city': [this.employer.city, requiredValidator('City is required')],
+    'city': [this.employer.city, [requiredValidator('City is required'), lengthValidator(50, 'city')]],
     'email': [this.employer.email, requiredValidator('Email is required')],
     'fax': [this.employer.fax],
-    'name': [this.employer.name, requiredValidator('Name is required')],
+    'name': [this.employer.name, [requiredValidator('Name is required'), lengthValidator(50, 'name')]],
     'phone': [this.employer.phone, phoneValidator('Phone is required in ###-###-#### format')],
     'referredBy': [this.employer.referredBy],
     'referredByOther': [this.employer.referredByOther],
     'state': [this.employer.state, [
-      requiredValidator('State is required, '), 
-      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), "State must be two letters")]],
-    'zipcode': [this.employer.zipcode, requiredValidator('zipcode is required')]
+      requiredValidator('State is required'), 
+      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")]],
+    'zipcode': [this.employer.zipcode, [requiredValidator('zipcode is required'), lengthValidator(10, 'zipcode')]]
     });
 
     this.employerForm.valueChanges

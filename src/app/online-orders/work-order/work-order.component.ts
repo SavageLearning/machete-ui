@@ -16,6 +16,7 @@ import { zipcodeValidator } from '../shared/validators/zipcode';
 import { TransportRulesService } from '../transport-rules.service';
 import { phoneValidator } from '../../shared/validators/phone';
 import { regexValidator } from '../../shared/validators/regex';
+import { lengthValidator } from '../../shared/validators/length';
 
 @Component({
   selector: 'app-work-order',
@@ -112,19 +113,19 @@ export class WorkOrderComponent implements OnInit {
         schedulingValidator(this.schedulingRules)
       ]],
       'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
-      'worksiteAddress1': [this.order.worksiteAddress1, requiredValidator('Address is required')],
-      'worksiteAddress2': [this.order.worksiteAddress2],
-      'city': [this.order.city, requiredValidator('City is required.')],
+      'worksiteAddress1': [this.order.worksiteAddress1, [requiredValidator('Address is required'), lengthValidator(50, 'worksiteAddress1')]],
+      'worksiteAddress2': [this.order.worksiteAddress2, lengthValidator(50, 'worksiteAddress2'), ],
+      'city': [this.order.city, [requiredValidator('City is required.'), lengthValidator(50, 'city')]],
       'state': [this.order.state, [requiredValidator('State is required.'), 
-      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), "State must be two letters")]],
+      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")]],
       'zipcode': [this.order.zipcode, [
         requiredValidator('Zipcode is required.'),
         zipcodeValidator(this.transportRules)
       ]],
       'phone': [this.order.phone, phoneValidator('Phone is required in ###-###-#### format')],
-      'description': [this.order.description, requiredValidator('Description is required')],
+      'description': [this.order.description, [requiredValidator('Description is required'), lengthValidator(100, 'description')]],
       'englishRequired': [this.order.englishRequired],
-      'englishRequiredNote': [this.order.englishRequiredNote, regexValidator(new RegExp(/^.{0,100}$/), "Note must be less than 100 characters")],
+      'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100, 'englishRequiredNote')],
       'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required')]
     });
 
