@@ -6,7 +6,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
     new MenuRule({
       id: 1,
       label: 'Place an order',
-      icon: 'business',
+      icon: 'build',
       routerLink: ['/online-orders/introduction'],
       authorizedRoles: [
         LRole.ADMIN,
@@ -16,7 +16,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
     new MenuRule({
       id: 2,
       label: 'My profile',
-      icon: 'business',
+      icon: 'home',
       routerLink: ['/employers'],
       authorizedRoles: [
         LRole.ADMIN,
@@ -59,19 +59,42 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       ]
     }),
     new MenuRule({
-      id: 11,
-      label: 'Dashboard',
-      icon: 'file_download',
-      routerLink: ['/dashboard'],
+      id: 12,
+      label: 'Configuration',
+      icon: 'settings_application',
+      routerLink: ['/configuration'],
       authorizedRoles: [
         LRole.ADMIN,
         LRole.CHECKIN,
-        //LRole.HIRER,
         LRole.MANAGER,
         LRole.PHONEDESK,
         LRole.TEACHER,
         LRole.USER
-      ]}),
+      ],
+      items: [
+        new MenuRule({
+          id: 11,
+          label: 'Auth diagnostics',
+          icon: 'perm_identity',
+          routerLink: ['/dashboard'],
+          authorizedRoles: [
+            LRole.ADMIN,
+            LRole.CHECKIN,
+            LRole.MANAGER,
+            LRole.PHONEDESK,
+            LRole.TEACHER,
+            LRole.USER
+          ]
+        }),
+        new MenuRule({
+          id: 13,
+          label: 'Transport Providers',
+          icon: 'airport_shuttle',
+          routerLink: ['/transport-providers'],
+          authorizedRoles: [LRole.ADMIN]
+        })
+      ]
+    })
   ];
   // lambda-fu
   if (authList === null || authList === undefined) {

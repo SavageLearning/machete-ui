@@ -5,6 +5,7 @@ export class MenuRule {
   routerLink?: string[];
   url?: string[];
   authorizedRoles = new Array<string>();
+  items = new Array<MenuRule>();
 
   public constructor(init?: Partial<MenuRule>) {
     Object.assign(this, init);
