@@ -131,7 +131,7 @@ export class WorkOrderComponent implements OnInit {
       'description': [this.order.description, [requiredValidator('Description is required'), lengthValidator(100, 'description')]],
       'englishRequired': [this.order.englishRequired],
       'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100, 'englishRequiredNote')],
-      'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required'), transportAvailabilityValidator(this.transportMethods)]
+      'transportMethodID': [this.order.transportMethodID, [requiredValidator('A transport method is required'), transportAvailabilityValidator(this.transportMethods)]]
     });
 
     this.orderForm.valueChanges

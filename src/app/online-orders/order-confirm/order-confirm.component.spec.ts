@@ -4,13 +4,14 @@ import { OrderConfirmComponent } from './order-confirm.component';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { WorkOrder } from '../../shared/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
-import { WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, WorkAssignmentsServiceSpy, RouterSpy } from '../../shared/testing';
+import { WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, WorkAssignmentsServiceSpy, RouterSpy, MessageServiceSpy } from '../../shared/testing';
 import { LookupsService } from "../../lookups/lookups.service";
 import { DataTableModule } from 'primeng/primeng';
 
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 import { Router } from '@angular/router';
 import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 describe('OrderConfirmComponent', () => {
   let component: OrderConfirmComponent;
@@ -30,6 +31,7 @@ describe('OrderConfirmComponent', () => {
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
           { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
           { provide: LookupsService, useClass: LookupsServiceSpy},
+          {provide: MessageService, useClass: MessageServiceSpy },
           { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy},
           { provide: Router, useClass: RouterSpy }
           
