@@ -6,7 +6,7 @@ import { OnlineOrdersService } from '../online-orders.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
-import { ScheduleRule, schedulingValidator, requiredValidator, TransportRule} from '../shared';
+import { ScheduleRule, schedulingValidator, requiredValidator, TransportRule, TransportProviderAvailability, TransportProvider} from '../shared';
 import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { Router } from "@angular/router";
@@ -17,6 +17,8 @@ import { TransportRulesService } from '../transport-rules.service';
 import { phoneValidator } from '../../shared/validators/phone';
 import { regexValidator } from '../../shared/validators/regex';
 import { lengthValidator } from '../../shared/validators/length';
+import { TransportProvidersService } from '../transport-providers.service';
+import { transportAvailabilityValidator } from '../shared/validators/transport-availability';
 
 @Component({
   selector: 'app-work-order',
@@ -24,7 +26,7 @@ import { lengthValidator } from '../../shared/validators/length';
   styleUrls: ['./work-order.component.css']
 })
 export class WorkOrderComponent implements OnInit {
-  transportMethods: Lookup[];
+  transportMethods: TransportProvider[];
   transportMethodsDropDown: MySelectItem[];
   transportRules: TransportRule[];
   orderForm: FormGroup;
@@ -65,7 +67,8 @@ export class WorkOrderComponent implements OnInit {
   }
 
   constructor(
-    private lookupsService: LookupsService,
+    //private lookupsService: LookupsService,
+    private transportProviderService: TransportProvidersService, 
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
@@ -86,7 +89,8 @@ export class WorkOrderComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     Observable.combineLatest(
-      this.lookupsService.getLookups(LCategory.TRANSPORT),
+      //this.lookupsService.getLookups(LCategory.TRANSPORT),
+      this.transportProviderService.getTransportProviders(),
       this.orderService.getStream(),
       this.schedulingRulesService.getScheduleRules(),
       this.transportRulesService.getTransportRules()
@@ -99,7 +103,7 @@ export class WorkOrderComponent implements OnInit {
       // map transport entries to dropdown
       let items = [new MySelectItem('Select transportion', null)];
       let transports = l.map(l =>
-        new MySelectItem(l.text_EN, String(l.id)));
+        new MySelectItem(l.text, String(l.id)));
       this.transportMethodsDropDown = items.concat(transports);       
       this.buildForm();
     });
@@ -110,7 +114,8 @@ export class WorkOrderComponent implements OnInit {
     this.orderForm = this.fb.group({
       'dateTimeofWork': [this.order.dateTimeofWork, [
         requiredValidator('Date & time is required.'),
-        schedulingValidator(this.schedulingRules)
+        schedulingValidator(this.schedulingRules),
+        transportAvailabilityValidator(this.transportMethods),
       ]],
       'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
       'worksiteAddress1': [this.order.worksiteAddress1, [requiredValidator('Address is required'), lengthValidator(50, 'worksiteAddress1')]],
@@ -126,7 +131,7 @@ export class WorkOrderComponent implements OnInit {
       'description': [this.order.description, [requiredValidator('Description is required'), lengthValidator(100, 'description')]],
       'englishRequired': [this.order.englishRequired],
       'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100, 'englishRequiredNote')],
-      'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required')]
+      'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required'), transportAvailabilityValidator(this.transportMethods)]
     });
 
     this.orderForm.valueChanges

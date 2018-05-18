@@ -21,3 +21,16 @@ export enum TransportType {
     transport_pickup
 }
 
+export class TransportProvider extends Record<TransportProvider> {
+    key: string;
+    text: string;
+    defaultAttribute: boolean;
+    sortorder?: number;
+    active: boolean;
+}
+
+export class TransportProviderAvailability extends Record<TransportProviderAvailability> {
+    day: number;
+    available: boolean;
+}
+
