@@ -27,6 +27,7 @@ export class TransportProvider extends Record<TransportProvider> {
     defaultAttribute: boolean;
     sortorder?: number;
     active: boolean;
+    availabilityRules: TransportProviderAvailability[];
 }
 
 export class TransportProviderAvailability extends Record<TransportProviderAvailability> {

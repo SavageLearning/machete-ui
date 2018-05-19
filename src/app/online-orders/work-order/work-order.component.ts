@@ -115,7 +115,7 @@ export class WorkOrderComponent implements OnInit {
       'dateTimeofWork': [this.order.dateTimeofWork, [
         requiredValidator('Date & time is required.'),
         schedulingValidator(this.schedulingRules),
-        transportAvailabilityValidator(this.transportMethods),
+        transportAvailabilityValidator('dateTimeofWork', this.transportMethods),
       ]],
       'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
       'worksiteAddress1': [this.order.worksiteAddress1, [requiredValidator('Address is required'), lengthValidator(50, 'worksiteAddress1')]],
@@ -131,7 +131,7 @@ export class WorkOrderComponent implements OnInit {
       'description': [this.order.description, [requiredValidator('Description is required'), lengthValidator(100, 'description')]],
       'englishRequired': [this.order.englishRequired],
       'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100, 'englishRequiredNote')],
-      'transportMethodID': [this.order.transportMethodID, [requiredValidator('A transport method is required'), transportAvailabilityValidator(this.transportMethods)]]
+      'transportMethodID': [this.order.transportMethodID, [requiredValidator('A transport method is required'), transportAvailabilityValidator('transportMethodID', this.transportMethods)]]
     });
 
     this.orderForm.valueChanges
