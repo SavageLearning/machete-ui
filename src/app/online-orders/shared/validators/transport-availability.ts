@@ -3,7 +3,7 @@ import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } fr
 import { TransportRule, TransportProvider, TransportProviderAvailability } from '../index';
 import * as moment from 'moment/moment';
 
-export function transportAvailabilityValidator(name: string, rules: TransportProvider[]): ValidatorFn {
+export function transportAvailabilityValidator(rules: TransportProvider[], fields: string[]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       if (rules == null) return null;
       if (control.parent == null) return null;
@@ -14,7 +14,11 @@ export function transportAvailabilityValidator(name: string, rules: TransportPro
       let provider = rules.find(f => f.id == transportMethodID);
       let day = provider.availabilityRules.find(a => a.day == moment(dateTimeofWork).day())
       if(!day.available) {
-        return {name: `${provider.text} not available on ${moment(dateTimeofWork).format('dddd')}.`}
+        return {'transportAvailability': `${provider.text} not available on ${moment(dateTimeofWork).format('dddd')}.`}
+      }
+      for (let i in fields) {
+        const ctrl = control.parent.get(fields[i]);
+        ctrl.setErrors(null);
       }
       return null;
     };

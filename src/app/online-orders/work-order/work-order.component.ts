@@ -115,23 +115,36 @@ export class WorkOrderComponent implements OnInit {
       'dateTimeofWork': [this.order.dateTimeofWork, [
         requiredValidator('Date & time is required.'),
         schedulingValidator(this.schedulingRules),
-        transportAvailabilityValidator('dateTimeofWork', this.transportMethods),
+        transportAvailabilityValidator(this.transportMethods, ['transportMethodID'])
       ]],
       'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
-      'worksiteAddress1': [this.order.worksiteAddress1, [requiredValidator('Address is required'), lengthValidator(50, 'worksiteAddress1')]],
-      'worksiteAddress2': [this.order.worksiteAddress2, lengthValidator(50, 'worksiteAddress2'), ],
-      'city': [this.order.city, [requiredValidator('City is required.'), lengthValidator(50, 'city')]],
-      'state': [this.order.state, [requiredValidator('State is required.'), 
-      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")]],
+      'worksiteAddress1': [this.order.worksiteAddress1, [
+        requiredValidator('Address is required'), 
+        lengthValidator(50)
+      ]],
+      'worksiteAddress2': [this.order.worksiteAddress2, lengthValidator(50), ],
+      'city': [this.order.city, [
+        requiredValidator('City is required.'), 
+        lengthValidator(50)
+      ]],
+      'state': [this.order.state, [
+        requiredValidator('State is required.'), 
+        regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")
+      ]],
       'zipcode': [this.order.zipcode, [
         requiredValidator('Zipcode is required.'),
         zipcodeValidator(this.transportRules)
       ]],
       'phone': [this.order.phone, phoneValidator('Phone is required in ###-###-#### format')],
-      'description': [this.order.description, [requiredValidator('Description is required'), lengthValidator(100, 'description')]],
+      'description': [this.order.description, [
+        requiredValidator('Description is required'), 
+        lengthValidator(100)]],
       'englishRequired': [this.order.englishRequired],
-      'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100, 'englishRequiredNote')],
-      'transportMethodID': [this.order.transportMethodID, [requiredValidator('A transport method is required'), transportAvailabilityValidator('transportMethodID', this.transportMethods)]]
+      'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100)],
+      'transportMethodID': [this.order.transportMethodID, [
+        requiredValidator('A transport method is required'), 
+        transportAvailabilityValidator(this.transportMethods, ['dateTimeofWork'])
+      ]]
     });
 
     this.orderForm.valueChanges
@@ -150,9 +163,9 @@ export class WorkOrderComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          if (this.showErrors == true){
-            console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
-          }
+          // if (this.showErrors == true){
+          //   console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+          // }
           this.formErrors[field] += control.errors[key] + ' ';
         }
       }
