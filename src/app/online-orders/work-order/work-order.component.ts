@@ -67,7 +67,6 @@ export class WorkOrderComponent implements OnInit {
   }
 
   constructor(
-    //private lookupsService: LookupsService,
     private transportProviderService: TransportProvidersService, 
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
@@ -89,7 +88,6 @@ export class WorkOrderComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     Observable.combineLatest(
-      //this.lookupsService.getLookups(LCategory.TRANSPORT),
       this.transportProviderService.getTransportProviders(),
       this.orderService.getStream(),
       this.schedulingRulesService.getScheduleRules(),

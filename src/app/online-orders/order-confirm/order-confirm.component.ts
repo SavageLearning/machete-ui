@@ -8,6 +8,7 @@ import { WorkAssignmentsService } from "../work-assignments/work-assignments.ser
 import { Observable } from "rxjs/Observable";
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TransportProvidersService } from '../transport-providers.service';
 
 @Component({
   selector: 'app-order-confirm',
@@ -24,14 +25,14 @@ export class OrderConfirmComponent implements OnInit {
   constructor(
     private ordersService: WorkOrderService,
     private onlineService: OnlineOrdersService,
-    private lookups: LookupsService,
+    private transportProviderService: TransportProvidersService,
     private assignmentService: WorkAssignmentsService,
     private router: Router
   ) { }
 
   ngOnInit() {    
     Observable.combineLatest(
-      this.lookups.getLookups(LCategory.TRANSPORT),
+      this.transportProviderService.getTransportProviders(),
       this.ordersService.getStream(),
       this.assignmentService.getStream()
     ).subscribe(([l, o, wa]) => {
@@ -39,7 +40,7 @@ export class OrderConfirmComponent implements OnInit {
       this.order = o;
       if (o.transportMethodID > 0)
       {
-        this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
+        this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text;
         }
       if (wa != null && wa.length > 0) {
         // sums up the transport  costs

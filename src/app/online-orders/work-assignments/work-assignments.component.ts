@@ -7,12 +7,13 @@ import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { TransportRule, requiredValidator } from '../shared';
+import { TransportRule, requiredValidator, TransportProvider } from '../shared';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { hoursValidator } from '../shared/validators/hours';
 import { loadSkillRules } from '../shared/rules/load-skill-rules';
 import { TransportRulesService } from '../transport-rules.service';
 import { SkillRule } from '../shared/models/skill-rule';
+import { TransportProvidersService } from '../transport-providers.service';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -20,7 +21,7 @@ import { SkillRule } from '../shared/models/skill-rule';
 })
 export class WorkAssignmentsComponent implements OnInit {
   skills: Lookup[]; // Lookups from Lookups Service
-  transports: Lookup[];
+  transports: TransportProvider[];
   skillsDropDown: MySelectItem[];
   skillsRules: SkillRule[];
   selectedSkill: Lookup = new Lookup();
@@ -44,6 +45,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
   constructor(
     private lookupsService: LookupsService,
+    private transportProviderService: TransportProvidersService,
     private waService: WorkAssignmentsService,
     private onlineService: OnlineOrdersService,
     private transportRulesService: TransportRulesService,
@@ -73,7 +75,7 @@ export class WorkAssignmentsComponent implements OnInit {
         },
         error => this.errorMessage = <any>error,
         () => console.log('ngOnInit:skills onCompleted'));
-    this.lookupsService.getLookups(LCategory.TRANSPORT)
+        this.transportProviderService.getTransportProviders()
       .subscribe(
         data =>  this.transports = data,
         error => this.errorMessage = <any>error,

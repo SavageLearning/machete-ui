@@ -3,7 +3,7 @@ import {WorkAssignment} from '../../shared/models/work-assignment';
 import {Observable} from 'rxjs/Observable';
 
 import { OnlineOrdersService } from '../online-orders.service';
-import { TransportRule, CostRule } from '../shared/index';
+import { TransportRule, CostRule, TransportProvider } from '../shared/index';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
@@ -11,21 +11,22 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../../shared/models/work-order";
 import { Subject } from "rxjs";
 import { TransportRulesService } from '../transport-rules.service';
+import { TransportProvidersService } from '../transport-providers.service';
 
 @Injectable()
 export class WorkAssignmentsService {
   requests: WorkAssignment[] = new Array<WorkAssignment>();
   storageKey = 'machete.workassignments';
 
-  private transports: Lookup[];
+  private transports: TransportProvider[];
   private transportRules: TransportRule[];
-  private combinedSource: Observable<[TransportRule[], Lookup[], WorkOrder]>;
+  private combinedSource: Observable<[TransportRule[], TransportProvider[], WorkOrder]>;
   private workOrder: WorkOrder;
 
   constructor(
     private onlineService: OnlineOrdersService,
     private orderService: WorkOrderService,
-    private lookupsService: LookupsService,
+    private transportProviderService: TransportProvidersService, 
     private transportRulesService: TransportRulesService
   ) {
     console.log('.ctor');
@@ -37,7 +38,7 @@ export class WorkAssignmentsService {
     }
     this.combinedSource = Observable.combineLatest(
       this.transportRulesService.getTransportRules(),
-      this.lookupsService.getLookups(LCategory.TRANSPORT),
+      this.transportProviderService.getTransportProviders(),
       this.orderService.getStream());
 
     const subscribed = this.combinedSource.subscribe(
@@ -64,7 +65,7 @@ export class WorkAssignmentsService {
   save(request: WorkAssignment) {
     Observable.zip(
       this.transportRulesService.getTransportRules(),
-      this.lookupsService.getLookups(LCategory.TRANSPORT),
+      this.transportProviderService.getTransportProviders(),
       this.orderService.getStream(),
       () => {}
     )
@@ -150,15 +151,15 @@ export class WorkAssignmentsService {
       return null;
     }
 
-    const lookup: Lookup = this.transports.find(f => f.id == order.transportMethodID);
-    if (lookup === null || lookup === undefined) {
+    const provider: TransportProvider = this.transports.find(f => f.id == order.transportMethodID);
+    if (provider === null || provider === undefined) {
       console.log('LookupService didn\'t return a valid lookup for transportMethodID: ', order);
       return null;
     }
 
-    const rules = this.transportRules.filter(f => f.lookupKey == lookup.key);
+    const rules = this.transportRules.filter(f => f.lookupKey == provider.key);
     if (rules === null || rules === undefined) {
-      throw new Error('No TransportRules match lookup key: ' + lookup.key);
+      throw new Error('No TransportRules match lookup key: ' + provider.key);
     }
 
     const result = rules.find(f => f.zipcodes.includes(order.zipcode) || 
