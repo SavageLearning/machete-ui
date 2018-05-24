@@ -30,7 +30,7 @@ export class WorkOrder extends Record<WorkOrder> {
   // timeZoneOffset: number;
   // transportFee: number;
   // transportMethodEN: string;
-  transportMethodID: number;
+  transportProviderID: number;
   // waPseudoIDCounter: number;
   worksiteAddress1: string;
   worksiteAddress2: string;

@@ -52,7 +52,7 @@ export class WorkOrderComponent implements OnInit {
     'description':  '',
     'englishRequired': '',
     'englishRequiredNote':  '',
-    'transportMethodID': ''
+    'transportProviderID': ''
   };
 
 
@@ -108,12 +108,12 @@ export class WorkOrderComponent implements OnInit {
   }
 
   buildForm(): void {
-    this.selectedTransport = this.order.transportMethodID;
+    this.selectedTransport = this.order.transportProviderID;
     this.orderForm = this.fb.group({
       'dateTimeofWork': [this.order.dateTimeofWork, [
         requiredValidator('Date & time is required.'),
         schedulingValidator(this.schedulingRules),
-        transportAvailabilityValidator(this.transportMethods, ['transportMethodID'])
+        transportAvailabilityValidator(this.transportMethods, ['transportProviderID'])
       ]],
       'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
       'worksiteAddress1': [this.order.worksiteAddress1, [
@@ -139,7 +139,7 @@ export class WorkOrderComponent implements OnInit {
         lengthValidator(100)]],
       'englishRequired': [this.order.englishRequired],
       'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100)],
-      'transportMethodID': [this.order.transportMethodID, [
+      'transportProviderID': [this.order.transportProviderID, [
         requiredValidator('A transport method is required'), 
         transportAvailabilityValidator(this.transportMethods, ['dateTimeofWork'])
       ]]
@@ -203,7 +203,7 @@ export class WorkOrderComponent implements OnInit {
       description: formModel.description,
       englishRequired: formModel.englishRequired,
       englishRequiredNote: formModel.englishRequiredNote,
-      transportMethodID: formModel.transportMethodID
+      transportProviderID: formModel.transportProviderID
     });
     return order;
   }

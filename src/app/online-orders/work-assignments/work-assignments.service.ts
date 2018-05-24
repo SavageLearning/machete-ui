@@ -146,14 +146,14 @@ export class WorkAssignmentsService {
       console.log('OrderService returned an undefined order');
       return null;
     }
-    if (order.transportMethodID <= 0) {
-      console.log('Order missing valid transportMethodID')
+    if (order.transportProviderID <= 0) {
+      console.log('Order missing valid transportProviderID')
       return null;
     }
 
-    const provider: TransportProvider = this.transports.find(f => f.id == order.transportMethodID);
+    const provider: TransportProvider = this.transports.find(f => f.id == order.transportProviderID);
     if (provider === null || provider === undefined) {
-      console.log('LookupService didn\'t return a valid lookup for transportMethodID: ', order);
+      console.log('LookupService didn\'t return a valid lookup for transportProviderID: ', order);
       return null;
     }
 

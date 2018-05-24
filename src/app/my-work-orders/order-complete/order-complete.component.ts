@@ -96,7 +96,7 @@ export class OrderCompleteComponent implements OnInit {
         this.router.navigate(['/online-orders/order-not-found'])
         return;
       }
-      this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text;
+      this.transportLabel = l.find(ll => ll.id == o.transportProviderID).text;
       let wa = o.workAssignments;
       if (wa != null && wa.length > 0) {
         // sums up the transport  costs

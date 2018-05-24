@@ -46,7 +46,7 @@ describe('WorkAssignmentsService', () => {
     sessionStorage.removeItem('machete.workassignments');
     spyOn(WorkOrderService.prototype, 'getStream')
       .and.returnValue(Observable.of(
-        new WorkOrder({transportMethodID: 32, zipcode: '12345'})));
+        new WorkOrder({transportProviderID: 32, zipcode: '12345'})));
 
     let transportRules = new Array<TransportRule>();
     let costRules = new Array<CostRule>();

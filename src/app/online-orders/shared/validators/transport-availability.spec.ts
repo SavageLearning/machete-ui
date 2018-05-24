@@ -15,11 +15,11 @@ describe('TransportAvailability', () => {
         fb = new FormBuilder();
         fg = fb.group({
           dateTimeofWork: today,
-          transportMethodID: 1
+          transportProviderID: 1
         });
         ctrl = fg.get('dateTimeofWork');
         
-        tFunc = transportAvailabilityValidator('testfield', new Array<TransportProvider>(
+        tFunc = transportAvailabilityValidator( new Array<TransportProvider>(
           new TransportProvider({
             id: 1,
             key: '',
@@ -37,7 +37,7 @@ describe('TransportAvailability', () => {
               new TransportProviderAvailability({day: 6, available: true})
             )
           })
-        ));    
+        ), ['foo']);    
     });
 
   it('should create an instance', () => {
@@ -47,7 +47,7 @@ describe('TransportAvailability', () => {
   it('should not show van on Sunday', () => {
     fg = fb.group({
       dateTimeofWork: moment().add(1, 'weeks').isoWeekday(0),
-      transportMethodID: 1
+      transportProviderID: 1
     });
 
     ctrl = fg.get('dateTimeofWork');
