@@ -51,7 +51,7 @@ export class WorkAssignmentsService {
         this.transports = transports;
         this.compactRequests();
       }
-     );
+    );
   }
 
   getStream(): Observable<WorkAssignment[]> {

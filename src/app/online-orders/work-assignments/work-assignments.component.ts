@@ -14,6 +14,7 @@ import { loadSkillRules } from '../shared/rules/load-skill-rules';
 import { TransportRulesService } from '../transport-rules.service';
 import { SkillRule } from '../shared/models/skill-rule';
 import { TransportProvidersService } from '../transport-providers.service';
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -34,6 +35,7 @@ export class WorkAssignmentsComponent implements OnInit {
   showErrors = false;
   hasRequests= false;
   transportRules: TransportRule[];
+  private combinedSource: Observable<[TransportRule[], Lookup[], TransportProvider[]]>;
   formErrors = {
     'skillId': '',
     'skill': '',
@@ -57,29 +59,50 @@ export class WorkAssignmentsComponent implements OnInit {
   ngOnInit() {
     console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
-    this.transportRulesService.getTransportRules()
-      .subscribe(
-        data => this.transportRules = data,
-        // When this leads to a REST call, compactRequests will depend on it
-        error => console.error('ngOnInit.getTransportRules.error' + error),
-        () => console.log('ngOnInit:getTransportRules onCompleted'));
 
-    this.lookupsService.getLookups(LCategory.SKILL)
-      .subscribe(
-        listData => {
-          this.skills = listData;
-          this.skillsDropDown = listData.map(l =>
-            new MySelectItem(l.text_EN, String(l.id)));
-          this.skillsRules = listData.map(l => new SkillRule(l));
-          console.log(this.skillsRules);
-        },
-        error => this.errorMessage = <any>error,
-        () => console.log('ngOnInit:skills onCompleted'));
-        this.transportProviderService.getTransportProviders()
-      .subscribe(
-        data =>  this.transports = data,
-        error => this.errorMessage = <any>error,
-        () => console.log('ngOnInit:transports onCompleted'));
+    this,this.combinedSource = Observable.combineLatest(
+      this.transportRulesService.getTransportRules(),
+      this.lookupsService.getLookups(LCategory.SKILL),
+      this.transportProviderService.getTransportProviders());
+
+    const subscribed = this.combinedSource.subscribe(
+      values => {
+        const [rules, skills, transports] = values;
+        //
+        this.transportRules = rules;
+        //
+        this.skills = skills;
+        this.skillsDropDown = skills.map(l =>
+          new MySelectItem(l.text_EN, String(l.id)));
+        this.skillsRules = skills.map(l => new SkillRule(l));
+        //
+        this.transports = transports;
+        this.buildForm();
+      }
+    );
+    // this.transportRulesService.getTransportRules()
+    //   .subscribe(
+    //     data => this.transportRules = data,
+    //     // When this leads to a REST call, compactRequests will depend on it
+    //     error => console.error('ngOnInit.getTransportRules.error' + error),
+    //     () => console.log('ngOnInit:getTransportRules onCompleted'));
+
+    // this.lookupsService.getLookups(LCategory.SKILL)
+    //   .subscribe(
+    //     listData => {
+    //       this.skills = listData;
+    //       this.skillsDropDown = listData.map(l =>
+    //         new MySelectItem(l.text_EN, String(l.id)));
+    //       this.skillsRules = listData.map(l => new SkillRule(l));
+    //       console.log(this.skillsRules);
+    //     },
+    //     error => this.errorMessage = <any>error,
+    //     () => console.log('ngOnInit:skills onCompleted'));
+    // this.transportProviderService.getTransportProviders()
+    //   .subscribe(
+    //     data =>  this.transports = data,
+    //     error => this.errorMessage = <any>error,
+    //     () => console.log('ngOnInit:transports onCompleted'));
     this.requestList = this.waService.getAll();
     this.setHasRequests();
     this.buildForm();
