@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { TransportProvider } from './shared/models/transport-rule';
+import { TransportProvider } from './shared/';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
