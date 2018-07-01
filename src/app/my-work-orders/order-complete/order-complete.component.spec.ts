@@ -4,12 +4,13 @@ import { OrderCompleteComponent } from './order-complete.component';
 import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
 import { DataTableModule } from 'primeng/primeng';
 import { LookupsService } from '../../lookups/lookups.service';
-import { LookupsServiceSpy, MyWorkOrdersServiceSpy, ActivatedRouteSpy, RouterSpy, ConfigsServiceSpy, MessageServiceSpy } from '../../shared/testing'; 
+import { LookupsServiceSpy, MyWorkOrdersServiceSpy, ActivatedRouteSpy, RouterSpy, ConfigsServiceSpy, MessageServiceSpy, TransportProvidersServiceSpy } from '../../shared/testing'; 
 import * as paypal from 'paypal-checkout';
 import { MyWorkOrdersService } from '../my-work-orders.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigsService } from '../../configs/configs.service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { TransportProvidersService } from '../../online-orders/transport-providers.service';
 
 describe('OrderCompleteComponent', () => {
   let component: OrderCompleteComponent;
@@ -26,10 +27,10 @@ describe('OrderCompleteComponent', () => {
     .overrideComponent(OrderCompleteComponent, {
       set: {
         providers: [
-          { provide: LookupsService, useClass: LookupsServiceSpy},
+          { provide: TransportProvidersService, useClass: TransportProvidersServiceSpy},
           { provide: MyWorkOrdersService, useClass: MyWorkOrdersServiceSpy },
           { provide: ConfigsService, useClass: ConfigsServiceSpy},
-          {provide: MessageService, useClass: MessageServiceSpy },
+          { provide: MessageService, useClass: MessageServiceSpy },
           { provide: ActivatedRoute, useValue: { 
             snapshot: {
               paramMap: {

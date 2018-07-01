@@ -5,7 +5,7 @@ import { Lookup } from "../../lookups/models/lookup";
 import { User } from "oidc-client";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
-import { ScheduleRule, TransportRule, TransportProvider } from "../../online-orders/shared/index";
+import { ScheduleRule, TransportRule, TransportProvider, CostRule } from "../../online-orders/shared/index";
 import { WorkAssignment } from "../models/work-assignment";
 import { Subject } from "rxjs/Subject";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
@@ -183,13 +183,23 @@ export class ScheduleRulesServiceSpy {
 export class TransportRulesServiceSpy {
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
-      () => Observable.of(new Array<TransportRule>())
+      () => Observable.of([
+        new TransportRule({
+          id: 1, 
+          zipcodes: ['12345'],
+          costRules: [new CostRule({
+            minWorker: 0,
+            maxWorker: 10,
+            cost: 10
+          })]
+        })
+      ])
     );
 }
 
 export class TransportProvidersServiceSpy {
   getTransportProviders = jasmine.createSpy('getTransportProviders')
     .and.callFake(
-      () => Observable.of(new Array<TransportProvider>())
+      () => Observable.of([new TransportProvider({id: 32, text: 'a text label'})])
     );
 }

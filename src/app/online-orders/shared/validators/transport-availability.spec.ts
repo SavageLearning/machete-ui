@@ -11,13 +11,8 @@ describe('TransportAvailability', () => {
     let tFunc: ValidatorFn;
     let today: Date;
     beforeEach(() => {
-        today = new Date();
-        fb = new FormBuilder();
-        fg = fb.group({
-          dateTimeofWork: today,
-          transportProviderID: 1
-        });
-        ctrl = fg.get('dateTimeofWork');
+      fb = new FormBuilder();
+
         
         tFunc = transportAvailabilityValidator( new Array<TransportProvider>(
           new TransportProvider({
@@ -37,10 +32,15 @@ describe('TransportAvailability', () => {
               new TransportProviderAvailability({day: 6, available: true})
             )
           })
-        ), ['foo']);    
+        ), ['dateTimeofWork']);    
     });
 
   it('should create an instance', () => {
+    fg = fb.group({
+      dateTimeofWork: moment().add(1, 'weeks').isoWeekday(2),
+      transportProviderID: 1
+    });
+    ctrl = fg.get('dateTimeofWork'); 
     const result = tFunc(ctrl);
     expect(result).toBeNull();
   });  
@@ -52,6 +52,6 @@ describe('TransportAvailability', () => {
 
     ctrl = fg.get('dateTimeofWork');
     const result = tFunc(ctrl);
-    expect(result.name).toBe('transport_van not available on Sunday.' );
+    expect(result.transportAvailability).toBe('transport_van not available on Sunday.' );
   });
 });
