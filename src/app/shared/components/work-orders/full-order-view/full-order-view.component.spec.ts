@@ -3,6 +3,8 @@ import { DataTableModule } from 'primeng/primeng';
 
 import { FullOrderViewComponent } from './full-order-view.component';
 import { WorkOrder } from '../../../../shared/models/work-order';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageServiceSpy } from '../../../testing';
 
 describe('FullOrderViewComponent', () => {
   let component: FullOrderViewComponent;
@@ -11,9 +13,15 @@ describe('FullOrderViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FullOrderViewComponent ],
-      imports: [DataTableModule]
-    })
-    .compileComponents();
+      imports: [DataTableModule],
+    }).overrideComponent(FullOrderViewComponent, {
+      set: {
+        providers: [
+          { provide: MessageService, useClass: MessageServiceSpy},
+        ]
+      }
+    });
+    
   }));
 
   beforeEach(() => {

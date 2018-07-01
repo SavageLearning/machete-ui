@@ -6,7 +6,7 @@ import { OnlineOrdersService } from '../online-orders.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { Employer } from '../../shared/models/employer';
 import { WorkOrderService } from './work-order.service';
-import { ScheduleRule, schedulingValidator, requiredValidator, TransportRule} from '../shared';
+import { ScheduleRule, schedulingValidator, requiredValidator, TransportRule, TransportProviderAvailability, TransportProvider} from '../shared';
 import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { Router } from "@angular/router";
@@ -17,6 +17,8 @@ import { TransportRulesService } from '../transport-rules.service';
 import { phoneValidator } from '../../shared/validators/phone';
 import { regexValidator } from '../../shared/validators/regex';
 import { lengthValidator } from '../../shared/validators/length';
+import { TransportProvidersService } from '../transport-providers.service';
+import { transportAvailabilityValidator } from '../shared/validators/transport-availability';
 
 @Component({
   selector: 'app-work-order',
@@ -24,7 +26,7 @@ import { lengthValidator } from '../../shared/validators/length';
   styleUrls: ['./work-order.component.css']
 })
 export class WorkOrderComponent implements OnInit {
-  transportMethods: Lookup[];
+  transportMethods: TransportProvider[];
   transportMethodsDropDown: MySelectItem[];
   transportRules: TransportRule[];
   orderForm: FormGroup;
@@ -50,7 +52,7 @@ export class WorkOrderComponent implements OnInit {
     'description':  '',
     'englishRequired': '',
     'englishRequiredNote':  '',
-    'transportMethodID': ''
+    'transportProviderID': ''
   };
 
 
@@ -65,7 +67,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   constructor(
-    private lookupsService: LookupsService,
+    private transportProviderService: TransportProvidersService, 
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
     private configsService: ConfigsService,
@@ -86,7 +88,7 @@ export class WorkOrderComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     Observable.combineLatest(
-      this.lookupsService.getLookups(LCategory.TRANSPORT),
+      this.transportProviderService.getTransportProviders(),
       this.orderService.getStream(),
       this.schedulingRulesService.getScheduleRules(),
       this.transportRulesService.getTransportRules()
@@ -99,34 +101,48 @@ export class WorkOrderComponent implements OnInit {
       // map transport entries to dropdown
       let items = [new MySelectItem('Select transportion', null)];
       let transports = l.map(l =>
-        new MySelectItem(l.text_EN, String(l.id)));
+        new MySelectItem(l.text, String(l.id)));
       this.transportMethodsDropDown = items.concat(transports);       
       this.buildForm();
     });
   }
 
   buildForm(): void {
-    this.selectedTransport = this.order.transportMethodID;
+    this.selectedTransport = this.order.transportProviderID;
     this.orderForm = this.fb.group({
       'dateTimeofWork': [this.order.dateTimeofWork, [
         requiredValidator('Date & time is required.'),
-        schedulingValidator(this.schedulingRules)
+        schedulingValidator(this.schedulingRules),
+        transportAvailabilityValidator(this.transportMethods, ['transportProviderID'])
       ]],
       'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
-      'worksiteAddress1': [this.order.worksiteAddress1, [requiredValidator('Address is required'), lengthValidator(50, 'worksiteAddress1')]],
-      'worksiteAddress2': [this.order.worksiteAddress2, lengthValidator(50, 'worksiteAddress2'), ],
-      'city': [this.order.city, [requiredValidator('City is required.'), lengthValidator(50, 'city')]],
-      'state': [this.order.state, [requiredValidator('State is required.'), 
-      regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")]],
+      'worksiteAddress1': [this.order.worksiteAddress1, [
+        requiredValidator('Address is required'), 
+        lengthValidator(50)
+      ]],
+      'worksiteAddress2': [this.order.worksiteAddress2, lengthValidator(50), ],
+      'city': [this.order.city, [
+        requiredValidator('City is required.'), 
+        lengthValidator(50)
+      ]],
+      'state': [this.order.state, [
+        requiredValidator('State is required.'), 
+        regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")
+      ]],
       'zipcode': [this.order.zipcode, [
         requiredValidator('Zipcode is required.'),
         zipcodeValidator(this.transportRules)
       ]],
       'phone': [this.order.phone, phoneValidator('Phone is required in ###-###-#### format')],
-      'description': [this.order.description, [requiredValidator('Description is required'), lengthValidator(100, 'description')]],
+      'description': [this.order.description, [
+        requiredValidator('Description is required'), 
+        lengthValidator(100)]],
       'englishRequired': [this.order.englishRequired],
-      'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100, 'englishRequiredNote')],
-      'transportMethodID': [this.order.transportMethodID, requiredValidator('A transport method is required')]
+      'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100)],
+      'transportProviderID': [this.order.transportProviderID, [
+        requiredValidator('A transport method is required'), 
+        transportAvailabilityValidator(this.transportMethods, ['dateTimeofWork'])
+      ]]
     });
 
     this.orderForm.valueChanges
@@ -145,9 +161,9 @@ export class WorkOrderComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          if (this.showErrors == true){
-            console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
-          }
+          // if (this.showErrors == true){
+          //   console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+          // }
           this.formErrors[field] += control.errors[key] + ' ';
         }
       }
@@ -187,7 +203,7 @@ export class WorkOrderComponent implements OnInit {
       description: formModel.description,
       englishRequired: formModel.englishRequired,
       englishRequiredNote: formModel.englishRequiredNote,
-      transportMethodID: formModel.transportMethodID
+      transportProviderID: formModel.transportProviderID
     });
     return order;
   }

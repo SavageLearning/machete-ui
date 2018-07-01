@@ -63,23 +63,23 @@ export class EmployersComponent implements OnInit {
   buildForm(): void {
     this.employerForm = this.fb.group({
     //'id': [this.employer.id],
-    'address1': [this.employer.address1, [requiredValidator('Address is required'), lengthValidator(50, 'address1')]],
-    'address2': [this.employer.address2, lengthValidator(50, 'address2')],
+    'address1': [this.employer.address1, [requiredValidator('Address is required'), lengthValidator(50)]],
+    'address2': [this.employer.address2, lengthValidator(50)],
     'blogparticipate': [this.employer.blogparticipate],
     'business': [this.employer.business],
     'businessname': [this.employer.businessname],
     'cellphone': [this.employer.cellphone, phoneOrEmptyValidator('Cell is optional, but requires ###-###-#### format')],
-    'city': [this.employer.city, [requiredValidator('City is required'), lengthValidator(50, 'city')]],
+    'city': [this.employer.city, [requiredValidator('City is required'), lengthValidator(50)]],
     'email': [this.employer.email, requiredValidator('Email is required')],
     'fax': [this.employer.fax],
-    'name': [this.employer.name, [requiredValidator('Name is required'), lengthValidator(50, 'name')]],
+    'name': [this.employer.name, [requiredValidator('Name is required'), lengthValidator(50)]],
     'phone': [this.employer.phone, phoneValidator('Phone is required in ###-###-#### format')],
     'referredBy': [this.employer.referredBy],
     'referredByOther': [this.employer.referredByOther],
     'state': [this.employer.state, [
       requiredValidator('State is required'), 
       regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")]],
-    'zipcode': [this.employer.zipcode, [requiredValidator('zipcode is required'), lengthValidator(10, 'zipcode')]]
+    'zipcode': [this.employer.zipcode, [requiredValidator('zipcode is required'), lengthValidator(10)]]
     });
 
     this.employerForm.valueChanges

@@ -155,14 +155,14 @@
         </div>
         <div class="ui-g-12">
           <div class="ui-g-12 ui-md-4 ui-g-nopad">
-            <label for="transportMethodID">Transport method</label>
+            <label for="transportProviderID">Transport method</label>
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-              <p-dropdown id="transportMethodID" [(ngModel)]="selectedTransport" [options]="transportMethodsDropDown" formControlName="transportMethodID"
+              <p-dropdown id="transportProviderID" [(ngModel)]="selectedTransport" [options]="transportMethodsDropDown" formControlName="transportProviderID"
                           [autoWidth]="false"></p-dropdown>
               <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
-                  {{formErrors.transportMethodID}}
+                  {{formErrors.transportProviderID}}
               </div>
             </span>
           </div>

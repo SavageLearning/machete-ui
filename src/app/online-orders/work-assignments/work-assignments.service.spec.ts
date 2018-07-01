@@ -15,9 +15,10 @@ import { Observable } from 'rxjs/Observable';
 import { WorkOrder } from '../../shared/models/work-order';
 import { TransportRule, CostRule } from '../shared/index';
 import { AuthServiceSpy, EmployersServiceSpy, 
-  WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, TransportRulesServiceSpy
+  WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, TransportRulesServiceSpy, TransportProvidersServiceSpy
 } from '../../shared/testing';
 import { TransportRulesService } from '../transport-rules.service';
+import { TransportProvidersService } from '../transport-providers.service';
 
 describe('WorkAssignmentsService', () => {
   let service: WorkAssignmentsService;
@@ -33,7 +34,9 @@ describe('WorkAssignmentsService', () => {
         WorkOrderService,
         LookupsService,
         OnlineOrdersService,
-        TransportRulesService,
+        //TransportRulesService,
+        { provide: TransportRulesService, useClass: TransportRulesServiceSpy },
+        { provide: TransportProvidersService, useClass: TransportProvidersServiceSpy },
         { provide: EmployersService, useClass: EmployersServiceSpy },
         { provide: AuthService, useClass: AuthServiceSpy },
         
@@ -46,7 +49,7 @@ describe('WorkAssignmentsService', () => {
     sessionStorage.removeItem('machete.workassignments');
     spyOn(WorkOrderService.prototype, 'getStream')
       .and.returnValue(Observable.of(
-        new WorkOrder({transportMethodID: 32, zipcode: '12345'})));
+        new WorkOrder({transportProviderID: 32, zipcode: '12345'})));
 
     let transportRules = new Array<TransportRule>();
     let costRules = new Array<CostRule>();

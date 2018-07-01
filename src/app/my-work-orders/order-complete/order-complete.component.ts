@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MyWorkOrdersService } from '../my-work-orders.service';
 import { environment } from '../../../environments/environment';
 import { ConfigsService } from '../../configs/configs.service';
+import { TransportProvidersService } from '../../online-orders/transport-providers.service';
 
 @Component({
   selector: 'app-order-complete',
@@ -69,7 +70,7 @@ export class OrderCompleteComponent implements OnInit {
 
   constructor(
     private ordersService: MyWorkOrdersService,
-    private lookups: LookupsService,
+    private transportProviderService: TransportProvidersService,
     private route: ActivatedRoute,
     private router: Router,
     private configsService: ConfigsService
@@ -81,7 +82,7 @@ export class OrderCompleteComponent implements OnInit {
     console.log('order-complete.component:ngOnInit');
     const id = +this.route.snapshot.paramMap.get('id');
     Observable.combineLatest(
-      this.lookups.getLookups(LCategory.TRANSPORT),
+      this.transportProviderService.getTransportProviders(),
       this.ordersService.getOrder(id),
       this.configsService.getConfig('PayPalClientID'),
       this.configsService.getConfig('PayPalEnvironment')
@@ -95,7 +96,7 @@ export class OrderCompleteComponent implements OnInit {
         this.router.navigate(['/online-orders/order-not-found'])
         return;
       }
-      this.transportLabel = l.find(ll => ll.id == o.transportMethodID).text_EN;
+      this.transportLabel = l.find(ll => ll.id == o.transportProviderID).text;
       let wa = o.workAssignments;
       if (wa != null && wa.length > 0) {
         // sums up the transport  costs

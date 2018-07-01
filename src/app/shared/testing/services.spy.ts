@@ -5,7 +5,7 @@ import { Lookup } from "../../lookups/models/lookup";
 import { User } from "oidc-client";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
-import { ScheduleRule, TransportRule } from "../../online-orders/shared/index";
+import { ScheduleRule, TransportRule, TransportProvider, CostRule } from "../../online-orders/shared/index";
 import { WorkAssignment } from "../models/work-assignment";
 import { Subject } from "rxjs/Subject";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
@@ -30,7 +30,7 @@ export class LookupsServiceSpy {
 export class MyWorkOrdersServiceSpy {
   getOrder = jasmine.createSpy('getOrder')
     .and.callFake(
-      () => Observable.of(new WorkOrder({id: 1, transportMethodID: 32}))
+      () => Observable.of(new WorkOrder({id: 1, transportProviderID: 32}))
     );
 
 }
@@ -128,7 +128,7 @@ export class WorkOrderServiceSpy {
   getStream = jasmine.createSpy('getStream')
     .and.callFake(() => Observable.of( new WorkOrder({
       id: 1,
-      transportMethodID: 32
+      transportProviderID: 32
       }))
     );
 
@@ -156,7 +156,7 @@ export class OnlineOrdersServiceSpy {
       .and.callFake(
         () => Observable.of(new WorkOrder({
           id: 1,
-          transportMethodID: 32
+          transportProviderID: 32
         }))
       )
 }
@@ -169,6 +169,10 @@ export class ConfigsServiceSpy {
   
 }
 
+export class MessageServiceSpy {
+  add = jasmine.createSpy('add');
+}
+
 export class ScheduleRulesServiceSpy {
   getScheduleRules = jasmine.createSpy('getScheduleRules')
     .and.callFake(
@@ -179,6 +183,23 @@ export class ScheduleRulesServiceSpy {
 export class TransportRulesServiceSpy {
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
-      () => Observable.of(new Array<TransportRule>())
+      () => Observable.of([
+        new TransportRule({
+          id: 1, 
+          zipcodes: ['12345'],
+          costRules: [new CostRule({
+            minWorker: 0,
+            maxWorker: 10,
+            cost: 10
+          })]
+        })
+      ])
+    );
+}
+
+export class TransportProvidersServiceSpy {
+  getTransportProviders = jasmine.createSpy('getTransportProviders')
+    .and.callFake(
+      () => Observable.of([new TransportProvider({id: 32, text: 'a text label'})])
     );
 }

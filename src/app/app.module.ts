@@ -27,6 +27,7 @@ import { GlobalErrorHandler } from './shared/global-error-handler';
 import { LoggingService } from './shared/services/logging.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { GrowlModule } from 'primeng/primeng';
+import { TransportProvidersService } from './online-orders/transport-providers.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { GrowlModule } from 'primeng/primeng';
   providers: [
     AuthService,
     LoggingService,
+    TransportProvidersService,
     MessageService,
     {
       provide: HTTP_INTERCEPTORS,

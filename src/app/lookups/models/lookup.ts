@@ -26,7 +26,7 @@ export class Lookup extends Record<Lookup> {
   minHour: number;              // deprecated, moving to skill-rule
   fixedJob?: boolean;           // deprecated, moving to skill-rule
   sortorder: number;
-  typeOfWorkID: number;
+  typeOfWorkID: number;         // deprecated, moving to skill-rule
   speciality: boolean;          // deprecated, moving to skill-rule
   ltrCode: string;              // deprecated, moving to skill-rule
   emailTemplate: string;
