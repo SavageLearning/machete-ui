@@ -19,6 +19,7 @@ import { AuthServiceSpy, EmployersServiceSpy,
 } from '../../shared/testing';
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 describe('WorkAssignmentsService', () => {
   let service: WorkAssignmentsService;
@@ -34,6 +35,7 @@ describe('WorkAssignmentsService', () => {
         WorkOrderService,
         LookupsService,
         OnlineOrdersService,
+        MessageService,
         //TransportRulesService,
         { provide: TransportRulesService, useClass: TransportRulesServiceSpy },
         { provide: TransportProvidersService, useClass: TransportProvidersServiceSpy },
