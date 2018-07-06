@@ -12,6 +12,7 @@ import { WorkOrder } from "../../shared/models/work-order";
 import { Subject } from "rxjs";
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Injectable()
 export class WorkAssignmentsService {
@@ -27,7 +28,8 @@ export class WorkAssignmentsService {
     private onlineService: OnlineOrdersService,
     private orderService: WorkOrderService,
     private transportProviderService: TransportProvidersService, 
-    private transportRulesService: TransportRulesService
+    private transportRulesService: TransportRulesService,
+    private messageService: MessageService
   ) {
     console.log('.ctor');
     let data = sessionStorage.getItem(this.storageKey);
@@ -165,7 +167,12 @@ export class WorkAssignmentsService {
     const result = rules.find(f => f.zipcodes.includes(order.zipcode) || 
                                    f.zipcodes.includes("*"));
     if (result === null || result == undefined) {
-      throw new Error(`Zipcode ${order.zipcode} does not match any rule`);
+      this.messageService.add({
+        severity:'warn', 
+        summary:`Zipcode ${order.zipcode} out of range`, 
+        detail:`We do not provide service to ${order.zipcode}. You may still hire, if you are willing to pick up the worker.`
+      });      
+      return null;
     }
     return result; 
   }

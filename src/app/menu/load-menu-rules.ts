@@ -64,12 +64,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       icon: 'settings_application',
       routerLink: ['/configuration'],
       authorizedRoles: [
-        LRole.ADMIN,
-        LRole.CHECKIN,
-        LRole.MANAGER,
-        LRole.PHONEDESK,
-        LRole.TEACHER,
-        LRole.USER
+        LRole.ADMIN
       ],
       items: [
         new MenuRule({
