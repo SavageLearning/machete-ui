@@ -75,7 +75,7 @@ export class EmployersComponent implements OnInit {
     'name': [this.employer.name, [requiredValidator('Name is required'), lengthValidator(50)]],
     'phone': [this.employer.phone, phoneValidator('Phone is required in ###-###-#### format')],
     'referredBy': [this.employer.referredBy],
-    'referredByOther': [this.employer.referredByOther],
+    'referredByOther': [this.employer.referredByOther, lengthValidator(50)],
     'state': [this.employer.state, [
       requiredValidator('State is required'), 
       regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")]],
