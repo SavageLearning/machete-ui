@@ -95,7 +95,7 @@
         </ng-template>
       </p-column>
       <p-column field="hours" header="hours requested" [style]="{'padding':'.1em .875em'}"></p-column>
-      <p-column field="description" header="notes" [style]="{'padding':'.1em .875em'}" *ngIf="description != null"></p-column>
+      <p-column field="description" header="notes" [style]="{'padding':'.1em .875em'}" ></p-column>
       <p-column field="requiresHeavyLifting" header="Heavy lifting?" [style]="{'padding':'.1em .875em'}">
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
           <span>{{wa[col.field] ? 'Yes' : 'No'}}</span>

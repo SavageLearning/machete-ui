@@ -18,7 +18,7 @@ import { Router, NavigationEnd } from "@angular/router";
   ]
 })
 export class OnlineOrdersComponent implements OnInit {
-  private items: MenuItem[];
+  items: MenuItem[];
   activeIndex = 0;
   confirmation = false;
 
