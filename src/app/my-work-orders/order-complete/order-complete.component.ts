@@ -1,8 +1,9 @@
+
+import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { WorkOrder } from '../../shared/models/work-order';
 import { LookupsService } from '../../lookups/lookups.service';
 import { LCategory } from '../../lookups/models/lookup';
-import { Observable } from 'rxjs/Observable';
 import * as paypal from 'paypal-checkout';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyWorkOrdersService } from '../my-work-orders.service';
@@ -81,7 +82,7 @@ export class OrderCompleteComponent implements OnInit {
   ngOnInit() {
     console.log('order-complete.component:ngOnInit');
     const id = +this.route.snapshot.paramMap.get('id');
-    Observable.combineLatest(
+    observableCombineLatest(
       this.transportProviderService.getTransportProviders(),
       this.ordersService.getOrder(id),
       this.configsService.getConfig('PayPalClientID'),

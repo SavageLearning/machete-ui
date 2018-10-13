@@ -1,6 +1,9 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { ScheduleRule } from './shared/index';
 import { environment } from '../../environments/environment';
 
@@ -26,14 +29,14 @@ export class ScheduleRulesService {
 
   getScheduleRules(): Observable<ScheduleRule[]> {
     if (this.isNotStale()) {
-      return Observable.of(this.rules);
+      return observableOf(this.rules);
     }
 
-    return this.http.get(this.uriBase)
-      .map(res => {
+    return this.http.get(this.uriBase).pipe(
+      map(res => {
         this.rules = res['data'] as ScheduleRule[];
         this.rulesAge = Date.now();
         return res['data'] as ScheduleRule[];
-      });
+      }));
   }
 }

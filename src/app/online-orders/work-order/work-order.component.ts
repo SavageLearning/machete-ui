@@ -1,3 +1,5 @@
+
+import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorkOrder } from '../../shared/models/work-order';
@@ -10,7 +12,6 @@ import { ScheduleRule, schedulingValidator, requiredValidator, TransportRule, Tr
 import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { Router } from "@angular/router";
-import { Observable } from 'rxjs/Observable';
 import { ScheduleRulesService } from '../schedule-rules.service';
 import { zipcodeValidator } from '../shared/validators/zipcode';
 import { TransportRulesService } from '../transport-rules.service';
@@ -87,7 +88,7 @@ export class WorkOrderComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    Observable.combineLatest(
+    observableCombineLatest(
       this.transportProviderService.getTransportProviders(),
       this.orderService.getStream(),
       this.schedulingRulesService.getScheduleRules(),

@@ -66,3 +66,8 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
  */
 // import 'intl';  // Run `npm install --save intl`.
+
+// https://github.com/algolia/algoliasearch-client-javascript/issues/691
+(window as any).process = {
+    env: { DEBUG: undefined },
+  };

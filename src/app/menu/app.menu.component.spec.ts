@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AppMenuComponent, AppSubMenu } from './app.menu.component';
 import { AppComponent } from '../app.component';
 import { By }           from '@angular/platform-browser';

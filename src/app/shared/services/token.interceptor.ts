@@ -1,3 +1,5 @@
+
+import {mergeMap} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -6,7 +8,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { User } from 'oidc-client';
 import { Router } from '@angular/router';
 
@@ -20,8 +22,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let url = this.route.url;
-    return this.auth.getUser$()
-      .mergeMap((user: User) => {
+    return this.auth.getUser$().pipe(
+      mergeMap((user: User) => {
         if (user === null || user === undefined) {
           this.auth.redirectUrl = url;
           this.route.navigate(['/welcome']);
@@ -43,6 +45,6 @@ export class TokenInterceptor implements HttpInterceptor {
         });
         return next.handle(request);
 
-      });
+      }));
   }
 }

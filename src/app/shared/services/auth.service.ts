@@ -1,3 +1,7 @@
+
+import {of as observableOf, from as observableFrom} from 'rxjs';
+
+import {map, mergeMap} from 'rxjs/operators';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
@@ -33,13 +37,13 @@ export class AuthService {
     return this.redirectUrl;
   }
   isLoggedInObs(): Observable<boolean> {
-    return Observable.fromPromise(this.mgr.getUser()).map<User, boolean>((user) => {
+    return observableFrom(this.mgr.getUser()).pipe(map<User, boolean>((user) => {
       if (user && !user.expired) {
         return true;
       } else {
         return false;
       }
-    });
+    }));
   }
 
   clearState() {
@@ -50,31 +54,31 @@ export class AuthService {
 
 
   getUser$(): Observable<User> {
-    return Observable.fromPromise(this.mgr.getUser());
+    return observableFrom(this.mgr.getUser());
   }
 
   getUserRoles$(): Observable<string[]> {
-    return this.getUser$()
-      .mergeMap((user: User) => {
+    return this.getUser$().pipe(
+      mergeMap((user: User) => {
         console.log(user);
         if (user === null || user === undefined) {
-          return Observable.of(new Array<string>());
+          return observableOf(new Array<string>());
         } else {
-          return Observable.of(user.profile.role as string[]);
+          return observableOf(user.profile.role as string[]);
         }
-      });
+      }));
   }
 
   getUsername$(): Observable<string> {
-    return this.getUser$()
-      .mergeMap((user: User) => {
+    return this.getUser$().pipe(
+      mergeMap((user: User) => {
         // TODO: if user is null, disable menu
         if (user === null || user === undefined) {
-          return Observable.of(null);
+          return observableOf(null);
         } else {
-          return Observable.of(user.profile.preferred_username as string);
+          return observableOf(user.profile.preferred_username as string);
         }
-      });
+      }));
   }
 
   getUser() {
@@ -99,7 +103,7 @@ export class AuthService {
   }
 
   endSigninMainWindow(url?: string): Observable<User> {
-    return Observable.fromPromise(this.mgr.signinRedirectCallback(url));
+    return observableFrom(this.mgr.signinRedirectCallback(url));
   }
 
   startSignoutMainWindow() {

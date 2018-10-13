@@ -1,3 +1,5 @@
+
+import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -14,7 +16,6 @@ import { loadSkillRules } from '../shared/rules/load-skill-rules';
 import { TransportRulesService } from '../transport-rules.service';
 import { SkillRule } from '../shared/models/skill-rule';
 import { TransportProvidersService } from '../transport-providers.service';
-import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -60,7 +61,7 @@ export class WorkAssignmentsComponent implements OnInit {
     console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
 
-    this,this.combinedSource = Observable.combineLatest(
+    this,this.combinedSource = observableCombineLatest(
       this.transportRulesService.getTransportRules(),
       this.lookupsService.getLookups(LCategory.SKILL),
       this.transportProviderService.getTransportProviders());

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkAssignmentsComponent } from './work-assignments.component';
 import { WorkAssignmentsService } from './work-assignments.service';
 import { WorkAssignment } from '../../shared/models/work-assignment';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { LookupsService } from '../../lookups/lookups.service';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { DropdownModule, InputSwitchModule, DataTableModule } from 'primeng/primeng';

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthorizeComponent } from './authorize.component';
 import { AuthService } from '../../shared/index';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { UserManager, User } from 'oidc-client';
 import { EventEmitter } from '@angular/core';
 import { AuthServiceSpy } from '../../shared/testing';

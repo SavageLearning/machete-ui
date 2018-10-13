@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable,  BehaviorSubject } from 'rxjs';
 import {WorkOrder} from '../../shared/models/work-order';
 import { EmployersService} from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
-import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class WorkOrderService {

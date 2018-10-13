@@ -1,5 +1,6 @@
+
+import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
 import {} from 'jasmine';
-import { Observable } from "rxjs/Observable";
 import { Employer } from "../models/employer";
 import { Lookup } from "../../lookups/models/lookup";
 import { User } from "oidc-client";
@@ -7,30 +8,28 @@ import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
 import { ScheduleRule, TransportRule, TransportProvider, CostRule } from "../../online-orders/shared/index";
 import { WorkAssignment } from "../models/work-assignment";
-import { Subject } from "rxjs/Subject";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
-import { BehaviorSubject } from "rxjs";
 import { loadConfirms } from "../../online-orders/shared/rules/load-confirms";
 import { Config } from "../models/config";
 
 export class EmployersServiceSpy {
   getEmployer = jasmine.createSpy('getEmployer')
     .and.callFake(
-      () => Observable.of(new Employer())
+      () => observableOf(new Employer())
     );
 }
 
 export class LookupsServiceSpy {
   getLookups = jasmine.createSpy('getLookups')
     .and.callFake(
-      () => Observable.of([new Lookup({id: 32, text_EN: 'a text label'})])
+      () => observableOf([new Lookup({id: 32, text_EN: 'a text label'})])
     );
 }
 
 export class MyWorkOrdersServiceSpy {
   getOrder = jasmine.createSpy('getOrder')
     .and.callFake(
-      () => Observable.of(new WorkOrder({id: 1, transportProviderID: 32}))
+      () => observableOf(new WorkOrder({id: 1, transportProviderID: 32}))
     );
 
 }
@@ -61,14 +60,14 @@ export class AuthServiceSpy {
         expired: true,
         scopes: new Array<string>()
       } as User;
-      return Observable.of(user)}); // void response
+      return observableOf(user)}); // void response
   getUserEmitter = jasmine.createSpy('getUserEmitter')
     .and.callFake(() => new EventEmitter<User>());
   getUser = jasmine.createSpy('getUser');
 
   getUserRoles$ = jasmine.createSpy('getUserRoles$')
   .and.callFake(
-    () => Observable.of(new Array<string>())
+    () => observableOf(new Array<string>())
   );
 }
 
@@ -98,26 +97,26 @@ export class WorkAssignmentsServiceSpy {
     );
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
-      () => Observable.of(new Array<TransportRule>())
+      () => observableOf(new Array<TransportRule>())
     );
   compactRequests = jasmine.createSpy('compactRequests');
 
   getTransportRulesStream = jasmine.createSpy('getTransportRulesStream')
     .and.callFake(
-      () => Observable.of(new Array<TransportRule>())
+      () => observableOf(new Array<TransportRule>())
     );
   
   getTransportsStream = jasmine.createSpy('getTransportsStream')
     .and.callFake(
-      () => Observable.of(new Array<Lookup>())
+      () => observableOf(new Array<Lookup>())
     );
 
     getWorkOrderStream = jasmine.createSpy('getWorkOrderStream')
     .and.callFake(
-      () => Observable.of(new WorkOrder())
+      () => observableOf(new WorkOrder())
     );
   getStream = jasmine.createSpy('getStream')
-    .and.callFake(() => Observable.of([new WorkAssignment()]))
+    .and.callFake(() => observableOf([new WorkAssignment()]))
 }
 
 export class WorkOrderServiceSpy {
@@ -126,7 +125,7 @@ export class WorkOrderServiceSpy {
       () => new WorkOrder()
     );
   getStream = jasmine.createSpy('getStream')
-    .and.callFake(() => Observable.of( new WorkOrder({
+    .and.callFake(() => observableOf( new WorkOrder({
       id: 1,
       transportProviderID: 32
       }))
@@ -134,7 +133,7 @@ export class WorkOrderServiceSpy {
 
   loadFromProfile = jasmine.createSpy('loadFromProfile')
     .and.callFake(
-      () => Observable.of(new Employer())
+      () => observableOf(new Employer())
     );
 }
 export class OnlineOrdersServiceSpy {
@@ -144,17 +143,17 @@ export class OnlineOrdersServiceSpy {
     );
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
-      () => Observable.of(new Array<TransportRule>())
+      () => observableOf(new Array<TransportRule>())
     );
 
   getInitialConfirmedStream = jasmine.createSpy('getInitialConfirmedStream')
       .and.callFake(
-        () => Observable.of(loadConfirms())
+        () => observableOf(loadConfirms())
       );
 
   getOrderCompleteStream = jasmine.createSpy('getOrderCompleteStream')
       .and.callFake(
-        () => Observable.of(new WorkOrder({
+        () => observableOf(new WorkOrder({
           id: 1,
           transportProviderID: 32
         }))
@@ -164,7 +163,7 @@ export class OnlineOrdersServiceSpy {
 export class ConfigsServiceSpy {
   getConfig = jasmine.createSpy('')
     .and.callFake(
-      () => Observable.of(new Config())
+      () => observableOf(new Config())
     );
   
 }
@@ -176,14 +175,14 @@ export class MessageServiceSpy {
 export class ScheduleRulesServiceSpy {
   getScheduleRules = jasmine.createSpy('getScheduleRules')
     .and.callFake(
-      () => Observable.of(new Array<ScheduleRule>())
+      () => observableOf(new Array<ScheduleRule>())
     );
 }
 
 export class TransportRulesServiceSpy {
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
-      () => Observable.of([
+      () => observableOf([
         new TransportRule({
           id: 1, 
           zipcodes: ['12345'],
@@ -200,6 +199,6 @@ export class TransportRulesServiceSpy {
 export class TransportProvidersServiceSpy {
   getTransportProviders = jasmine.createSpy('getTransportProviders')
     .and.callFake(
-      () => Observable.of([new TransportProvider({id: 32, text: 'a text label'})])
+      () => observableOf([new TransportProvider({id: 32, text: 'a text label'})])
     );
 }
