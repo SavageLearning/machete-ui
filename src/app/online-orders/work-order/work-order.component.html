@@ -12,7 +12,7 @@
                             showTime="true"
                             formControlName="dateTimeofWork">
                 </p-calendar>
-                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+                <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.dateTimeofWork}}
                 </div>
                 </span>
@@ -26,7 +26,7 @@
                 <span class="md-inputfield">
                   <input class="ui-inputtext ng-dirty ng-invalid" formControlName="contactName" id="contactName"
                          type="text" pInputText/>
-                  <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+                  <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                     {{formErrors.contactName}}
                   </div>
                 </span>
@@ -40,7 +40,7 @@
                 <span class="md-inputfield">
                   <input class="ui-inputtext" formControlName="worksiteAddress1" id="worksiteAddress1" type="text"
                          pInputText/>
-                  <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+                  <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                     {{formErrors.worksiteAddress1}}
                   </div>
                 </span>
@@ -62,7 +62,7 @@
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
               <input class="ui-inputtext" formControlName="city" id="city" type="text" pInputText/>
-              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+              <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.city}}
               </div>
             </span>
@@ -75,7 +75,7 @@
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
               <input class="ui-inputtext" formControlName="state" id="state" type="text" pInputText/>
-              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+              <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.state}}
               </div>
             </span>
@@ -88,7 +88,7 @@
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
               <input class="ui-inputtext" formControlName="zipcode" id="zipcode" type="text" pInputText/>
-              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+              <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.zipcode}}
               </div>
             </span>
@@ -106,7 +106,7 @@
                 type="text" 
                 placeholder="123-456-7890"
                 pInputText />
-              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+              <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.phone}}
               </div>
             </span>
@@ -122,7 +122,7 @@
             <span class="md-inputfield">
               <textarea rows="5" pInputTextarea autoResize="autoResize" class="ui-inputtextarea"
                         formControlName="description" id="description" type="text"></textarea>
-              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+              <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.description}}
               </div>
             </span>
@@ -147,7 +147,7 @@
               <span class="md-inputfield">
                   <textarea rows="5" pInputTextarea autoResize="autoResize" class="ui-inputtextarea"
                             formControlName="englishRequiredNote" id="englishRequiredNote" type="text"></textarea>
-                  <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+                  <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                       {{formErrors.englishRequiredNote}}
                   </div>
                 </span>
@@ -161,7 +161,7 @@
             <span class="md-inputfield">
               <p-dropdown id="transportProviderID" [(ngModel)]="selectedTransport" [options]="transportMethodsDropDown" formControlName="transportProviderID"
                           [autoWidth]="false"></p-dropdown>
-              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+              <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.transportProviderID}}
               </div>
             </span>
