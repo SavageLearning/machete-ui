@@ -51,5 +51,5 @@ describe('ExportsService', () => {
       req.flush({data: testdata});
       httpMock.verify();
     }
-  ))
+  )
 });
