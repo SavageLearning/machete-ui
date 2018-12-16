@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { OnlineOrdersService } from '../online-orders.service';
 import { EmployersService } from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
@@ -14,8 +16,8 @@ export class ProfileGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean> {
-    return this.employersService.fetchEmployer()
-      .map((em: Employer) => {
+    return this.employersService.fetchEmployer().pipe(
+      map((em: Employer) => {
         console.log('canActivate->getEmployer:', em)
         let exists = em ? true : false;
         if (!exists)
@@ -24,6 +26,6 @@ export class ProfileGuard implements CanActivate {
         }
         console.log('canActivate:', exists)
         return exists;
-        });
+        }));
   }
 }

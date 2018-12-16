@@ -1,12 +1,14 @@
+
+import {of as observableOf,  Observable ,  BehaviorSubject, Subject } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { Employer } from '../shared/models/employer';
 import { AuthService } from '../shared/index';
 import {  User } from 'oidc-client';
 import { HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class EmployersService {
@@ -19,16 +21,16 @@ export class EmployersService {
 
   fetchEmployer(): Observable<Employer> {
     let uri = environment.dataUrl + '/api/employer/profile';    
-    return this.http.get(uri)
-      .map(data => {
+    return this.http.get(uri).pipe(
+      map(data => {
         this.setEmployer(data['data'] as Employer);
         return data['data'] as Employer;
-      })
-      .catch(error => {
+      }),
+      catchError(error => {
         this.setEmployer(null);
         console.log('error from getEmployer');
-        return Observable.of(null);
-      });
+        return observableOf(null);
+      }),);
   }
   getEmployer(): Observable<Employer> {
     return this.employerSource.asObservable();
@@ -45,10 +47,10 @@ export class EmployersService {
     // create or update 
     return this.http.put(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
-      }).map(
+      }).pipe(map(
         data => {
           this.setEmployer(data['data'] as Employer);
           return data['data'];
-        });
+        }));
   }
 }

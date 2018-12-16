@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="ui-g-12 ui-g-nopad">
-          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!requestForm.controls['skillId'].valid && showErrors">
+          <div class="ui-message ui-message-error ui-corner-all" *ngIf="!requestForm.controls['skillId'].valid && showErrors">
             {{formErrors.skillId}}
           </div>
         </div>
@@ -36,7 +36,7 @@
               <label for="wage">Hourly rate</label>
           </div>
           <div id="wage" class="ui-g-6 ui-md-8 ui-g-nopad">
-            {{this.selectedSkill.wage | currency:'USD':'true'}}
+            {{this.selectedSkill.wage | currency:'USD'}}
           </div>
         </div>
         <div class="ui-g-12" *ngIf="this.selectedSkill.minHour != null">
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="ui-g-12 ui-g-nopad">
-          <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!requestForm.controls['hours'].valid && showErrors">
+          <div class="ui-message ui-message-error ui-corner-all" *ngIf="!requestForm.controls['hours'].valid && showErrors">
             {{formErrors.hours}}
           </div>
         </div>
@@ -95,7 +95,7 @@
         </ng-template>
       </p-column>
       <p-column field="hours" header="hours requested" [style]="{'padding':'.1em .875em'}"></p-column>
-      <p-column field="description" header="notes" [style]="{'padding':'.1em .875em'}" *ngIf="description != null"></p-column>
+      <p-column field="description" header="notes" [style]="{'padding':'.1em .875em'}" ></p-column>
       <p-column field="requiresHeavyLifting" header="Heavy lifting?" [style]="{'padding':'.1em .875em'}">
         <ng-template let-col let-wa="rowData" let-ri="rowIndex" pTemplate="body">
           <span>{{wa[col.field] ? 'Yes' : 'No'}}</span>

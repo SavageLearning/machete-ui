@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {DialogModule, CalendarModule, DataTableModule, TabViewModule, DropdownModule} from 'primeng/primeng';
 import {ReportsComponent} from './reports.component';
@@ -8,16 +10,15 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
 import { ReportsService } from './reports.service';
 import { Report } from './models/report';
-import { Observable } from 'rxjs/Observable';
 
 class ReportsServiceSpy {
   getReportList = jasmine.createSpy('getReportList')
     .and.callFake(
-      () => Observable.of( new Array<Report>())
+      () => observableOf( new Array<Report>())
     );
   getReportData = jasmine.createSpy('')
     .and.callFake(
-      () => Observable.of(new Array<any>())
+      () => observableOf(new Array<any>())
     );
 }
 

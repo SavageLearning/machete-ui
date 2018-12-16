@@ -1,15 +1,14 @@
+
+import {zip as observableZip, of as observableOf, combineLatest as observableCombineLatest, Observable, BehaviorSubject,  Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {WorkAssignment} from '../../shared/models/work-assignment';
-import {Observable} from 'rxjs/Observable';
 
 import { OnlineOrdersService } from '../online-orders.service';
 import { TransportRule, CostRule, TransportProvider } from '../shared/index';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { WorkOrderService } from '../work-order/work-order.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../../shared/models/work-order";
-import { Subject } from "rxjs";
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -38,7 +37,7 @@ export class WorkAssignmentsService {
       let requests: WorkAssignment[] = JSON.parse(data);
       this.requests = requests;
     }
-    this.combinedSource = Observable.combineLatest(
+    this.combinedSource = observableCombineLatest(
       this.transportRulesService.getTransportRules(),
       this.transportProviderService.getTransportProviders(),
       this.orderService.getStream());
@@ -57,7 +56,7 @@ export class WorkAssignmentsService {
   }
 
   getStream(): Observable<WorkAssignment[]> {
-    return Observable.of(this.requests);
+    return observableOf(this.requests);
   }
   
   getAll(): WorkAssignment[] {
@@ -65,7 +64,7 @@ export class WorkAssignmentsService {
   }
 
   save(request: WorkAssignment) {
-    Observable.zip(
+    observableZip(
       this.transportRulesService.getTransportRules(),
       this.transportProviderService.getTransportProviders(),
       this.orderService.getStream(),

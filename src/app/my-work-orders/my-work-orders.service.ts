@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { WorkOrder } from '../shared/models/work-order';
 import { HttpHeaders } from '@angular/common/http';
 @Injectable()
@@ -12,8 +14,8 @@ export class MyWorkOrdersService {
   getOrders(): Observable<WorkOrder[]> {
     let uri = environment.dataUrl + '/api/onlineorders';
 
-    return this.http.get(uri)
-      .map(o => o['data'] as WorkOrder[]);
+    return this.http.get(uri).pipe(
+      map(o => o['data'] as WorkOrder[]));
   }
 
   getOrder(id: number): Observable<WorkOrder> {
@@ -22,7 +24,7 @@ export class MyWorkOrdersService {
 
     return this.http.get<WorkOrder>(url, {
       headers: postHeaders
-    }).map(
+    }).pipe(map(
       (data) => {
         let wo = data['data'];
         console.log('getOrder received:', wo);
@@ -31,7 +33,7 @@ export class MyWorkOrdersService {
         // TODO error
         console.error('online-orders.getOrder returned', err);
       }
-    );
+    ));
   }
 
   executePaypal(orderID: number, payerID: string, paymentID: string, token: string): Observable<any> {
@@ -44,9 +46,9 @@ export class MyWorkOrdersService {
         paymentID: paymentID,
         paymentToken: token
       }), 
-      { headers: postHeaders })
-      .map(data => {
+      { headers: postHeaders }).pipe(
+      map(data => {
         return data;
-      });
+      }));
   }
 }

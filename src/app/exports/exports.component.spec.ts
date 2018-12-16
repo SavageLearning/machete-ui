@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import {
   ButtonModule, DropdownModule, DataTableModule, SharedModule, ChartModule,
@@ -10,14 +12,13 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ExportsOptionsComponent } from './exports-options.component';
 import { HttpClient } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Report } from '../reports/models/report';
 import { Export } from './models/export';
 
 class ExportsServiceSpy {
   getExportsList = jasmine.createSpy('getExportsList')
     .and.callFake(
-      () => Observable.of(new Array<Export>())
+      () => observableOf(new Array<Export>())
     );
 }
 

@@ -1,9 +1,11 @@
+
+import {of as observableOf, Observable,  BehaviorSubject, Subject } from 'rxjs';
+
+import {first, mergeMap, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import { Lookup, LCategory } from './models/lookup';
 import {environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subject } from 'rxjs';
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
@@ -56,7 +58,7 @@ export class LookupsService {
         this.lookupsSource.next(this.lookups);
         this.storeLookups();
 
-        return Observable.of(res['data'] as Lookup[]);
+        return observableOf(res['data'] as Lookup[]);
       });
   }
 
@@ -68,16 +70,16 @@ export class LookupsService {
   }
 
   getLookups(category: LCategory): Observable<Lookup[]> {
-    return this.lookups$
-      .map(res => {
+    return this.lookups$.pipe(
+      map(res => {
         console.log('getlookups', res);
         return res.filter(l => l.category == category);
-      });
+      }));
   }
 
   getLookup(id: number): Observable<Lookup> {
-    return this.lookups$
-      .mergeMap(a => a.filter(ll => ll.id == id))
-      .first();
+    return this.lookups$.pipe(
+      mergeMap(a => a.filter(ll => ll.id == id)),
+      first(),);
   }
 }

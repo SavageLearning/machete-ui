@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WorkOrderComponent } from './work-order.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { WorkOrderService } from './work-order.service';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';

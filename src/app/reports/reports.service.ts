@@ -1,10 +1,12 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {Http, Headers, Request, RequestMethod, RequestOptions} from '@angular/http';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
+
+
 import { Report } from './models/report';
 import { SearchOptions } from './models/search-options';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -23,15 +25,15 @@ export class ReportsService {
       uri = uri + '?' + params;
     }
     console.log('getReportData: ' + uri);
-    return this.http.get(uri)
-              .map(res => res['data'] as any);
+    return this.http.get(uri).pipe(
+              map(res => res['data'] as any));
   }
 
   public getReportList(): Observable<Report[]> {
     let uri = environment.dataUrl + '/api/reports';
     console.log('getReportList: ', uri);
-    return this.http.get(uri)
-      .map(o => o['data'] as Report[]);
+    return this.http.get(uri).pipe(
+      map(o => o['data'] as Report[]));
   }
 
   public encodeData(data: any): string {

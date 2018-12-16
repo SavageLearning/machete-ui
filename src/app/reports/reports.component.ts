@@ -4,7 +4,7 @@ import {SearchOptions } from './models/search-options';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
 import {DataTable, SelectItem} from 'primeng/primeng';
 import {Report} from './models/report';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {SearchInputs} from './models/search-inputs';
 import {Column} from './models/column';
 import { MySelectItem } from '../shared/models/my-select-item';

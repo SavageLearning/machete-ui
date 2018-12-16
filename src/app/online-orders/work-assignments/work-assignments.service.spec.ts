@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { TestBed, inject } from '@angular/core/testing';
 import { WorkAssignmentsService } from './work-assignments.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -11,7 +13,6 @@ import { AuthService } from '../../shared/index';
 import { Http, HttpModule } from '@angular/http';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
-import { Observable } from 'rxjs/Observable';
 import { WorkOrder } from '../../shared/models/work-order';
 import { TransportRule, CostRule } from '../shared/index';
 import { AuthServiceSpy, EmployersServiceSpy, 
@@ -50,7 +51,7 @@ describe('WorkAssignmentsService', () => {
     });
     sessionStorage.removeItem('machete.workassignments');
     spyOn(WorkOrderService.prototype, 'getStream')
-      .and.returnValue(Observable.of(
+      .and.returnValue(observableOf(
         new WorkOrder({transportProviderID: 32, zipcode: '12345'})));
 
     let transportRules = new Array<TransportRule>();
@@ -65,10 +66,10 @@ describe('WorkAssignmentsService', () => {
     let transports = new Array<Lookup>();
     transports.push(new Lookup({id: 32, key: 'transport_van' }));
     spyOn(LookupsService.prototype, 'getLookups')
-      .and.returnValue(Observable.of(transports));
+      .and.returnValue(observableOf(transports));
 
     spyOn(TransportRulesService.prototype, 'getTransportRules')
-      .and.returnValue(Observable.of(transportRules));
+      .and.returnValue(observableOf(transportRules));
 
     service = TestBed.get(WorkAssignmentsService);
     httpMock = TestBed.get(HttpTestingController);

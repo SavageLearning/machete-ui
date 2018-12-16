@@ -6,7 +6,7 @@ import { OnlineOrdersService } from "./online-orders.service";
 import { OnlineOrdersServiceSpy, RouterSpy } from "../shared/testing";
 import { Router } from "@angular/router";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 describe('OnlineOrdersComponent', () => {
   let component: OnlineOrdersComponent;

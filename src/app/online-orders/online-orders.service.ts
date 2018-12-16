@@ -1,6 +1,7 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
 import { WorkOrder } from '../shared/models/work-order';
 import { HttpClient } from '@angular/common/http';
 import { WorkOrderService } from './work-order/work-order.service';
@@ -9,7 +10,6 @@ import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { ScheduleRule, TransportRule } from './shared';
-import { BehaviorSubject } from "rxjs";
 import { Confirm } from "./shared/models/confirm";
 import { loadConfirms } from "./shared/rules/load-confirms";
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
@@ -96,10 +96,10 @@ export class OnlineOrdersService {
 
     return this.http.post<WorkOrder>(url, JSON.stringify(order), {
       headers: postHeaders
-      }).map(
+      }).pipe(map(
       (data) => {
         return data['data'] as WorkOrder;
       }
-    );
+    ));
   }
 }

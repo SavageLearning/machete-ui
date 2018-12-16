@@ -1,8 +1,10 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
+
+
 import {Headers, Response, RequestOptions, ResponseContentType, Http} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
 import {SearchOptions} from '../reports/models/search-options';
@@ -16,16 +18,16 @@ export class ExportsService {
   getExportsList(): Observable<Export[]> {
 
     console.log('getExportList: ', this.uriBase);
-    return this.http.get(this.uriBase)
-      .map(res => res['data'] as Export[]);
+    return this.http.get(this.uriBase).pipe(
+      map(res => res['data'] as Export[]));
   }
 
   getColumns(tableName: string): Observable<ExportColumn[]> {
 
     let uri = this.uriBase + '/' + tableName.toLowerCase();
     console.log('getColumns ', uri);
-    return this.http.get(uri)
-      .map(res => res['data'] as ExportColumn[]);
+    return this.http.get(uri).pipe(
+      map(res => res['data'] as ExportColumn[]));
   }
 
   getExport(tableName: string, o: SearchOptions): Observable<Response> {
@@ -38,10 +40,10 @@ export class ExportsService {
     console.log('getExport: ', params);
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;
-    return this.http.get(uri)
-      .map((res: Response) => {
+    return this.http.get(uri).pipe(
+      map((res: Response) => {
         return res;
-    });
+    }));
   }
 
   public encodeData(data: any): string {
