@@ -1,14 +1,17 @@
 import { schedulingValidator } from './scheduling';
-import { AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
+import { AbstractControl, ValidatorFn, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ScheduleRule } from '..';
+import * as moment from 'moment/moment';
 
 describe('ScheduleRule', () => {
-    let ctrl: FormControl;
+    let ctrl: AbstractControl;
     let tFunc: ValidatorFn;
+    let fb: FormBuilder;
+    let fg: FormGroup;
     let today: Date;
     beforeEach(() => {
-        ctrl = new FormControl();
+        fb = new FormBuilder(); 
         today = new Date();
         tFunc = schedulingValidator(new Array<ScheduleRule>(
           new ScheduleRule({
@@ -27,13 +30,28 @@ describe('ScheduleRule', () => {
     });
 
   it('should create an instance', () => {
+    const date: Date = moment().startOf('day').add(1, 'weeks').isoWeekday(2).toDate();
+    const time: string = moment(0).format('HH:mm').toString();
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });
+    ctrl = fg.get('dateOfWork'); 
     const result = tFunc(ctrl);
     expect(result).toBeNull();
   });
 
   it('should reject time in the past', () => {
-    let anHourAgo = today.valueOf() - (3600 * 1000);
-    ctrl.setValue((new Date(anHourAgo)).toLocaleString());
+    const date: Date = moment().startOf('day').toDate();
+    const time: string = moment().subtract(1, 'hour').format('HH:mm').toString(); 
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });
+    
+    ctrl = fg.get('dateOfWork'); 
     // act
     const result = tFunc(ctrl);
     // 
@@ -52,9 +70,14 @@ describe('ScheduleRule', () => {
   });
 
   it('should reject time 2 hours before start time', () => {
-    var utc = today.valueOf() + (7200 * 1000);
-    var date = new Date(utc);
-    ctrl.setValue(new Date(utc));
+    const date: Date = moment().startOf('day').toDate();
+    const time: string = moment().add(2, 'hour').format('HH:mm').toString(); 
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });  
+    ctrl = fg.get('dateOfWork'); 
     // act
     const result = tFunc(ctrl);
     // 
