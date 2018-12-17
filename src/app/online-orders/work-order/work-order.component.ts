@@ -32,6 +32,8 @@ export class WorkOrderComponent implements OnInit {
   transportRules: TransportRule[];
   orderForm: FormGroup;
   order: WorkOrder = new WorkOrder();
+  dateOfWork: Date;
+  timeOfWork: string;
   errorMessage: string;
   showErrors = false;
   newOrder = true;
@@ -42,7 +44,8 @@ export class WorkOrderComponent implements OnInit {
   selectedTransport: number = 0;
   storageKey = 'machete.work-order.component';
   formErrors = {
-    'dateTimeofWork': '',
+    'dateOfWork': '',
+    'timeOfWork': '',
     'contactName':  '',
     'worksiteAddress1':  '',
     'worksiteAddress2':  '',
@@ -111,11 +114,16 @@ export class WorkOrderComponent implements OnInit {
   buildForm(): void {
     this.selectedTransport = this.order.transportProviderID;
     this.orderForm = this.fb.group({
-      'dateTimeofWork': [this.order.dateTimeofWork, [
+      'dateOfWork': [this.dateOfWork, [
         requiredValidator('Date & time is required.'),
         schedulingValidator(this.schedulingRules),
         transportAvailabilityValidator(this.transportMethods, ['transportProviderID'])
       ]],
+      'timeOfWork': [this.timeOfWork, [
+        requiredValidator('Date & time is required.'),
+        schedulingValidator(this.schedulingRules),
+        transportAvailabilityValidator(this.transportMethods, ['transportProviderID'])
+      ]],      
       'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
       'worksiteAddress1': [this.order.worksiteAddress1, [
         requiredValidator('Address is required'), 
@@ -142,7 +150,7 @@ export class WorkOrderComponent implements OnInit {
       'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100)],
       'transportProviderID': [this.order.transportProviderID, [
         requiredValidator('A transport method is required'), 
-        transportAvailabilityValidator(this.transportMethods, ['dateTimeofWork'])
+        transportAvailabilityValidator(this.transportMethods, ['dateOfWork'])
       ]]
     });
 
@@ -190,10 +198,11 @@ export class WorkOrderComponent implements OnInit {
 
   prepareOrderForSave(): WorkOrder {
     const formModel = this.orderForm.value;
-
+    const timeInMS = (Number(formModel.timeOfWork.split(':')[0])*3600+Number(formModel.timeOfWork.split(':')[1])*60)*1000;
+   
     const order = new WorkOrder({
       id: 0,
-      dateTimeofWork: formModel.dateTimeofWork,
+      dateTimeofWork: new Date(formModel.dateOfWork.getTime() + timeInMS),
       contactName: formModel.contactName,
       worksiteAddress1: formModel.worksiteAddress1,
       worksiteAddress2: formModel.worksiteAddress2,

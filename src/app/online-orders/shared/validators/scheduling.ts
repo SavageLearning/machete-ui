@@ -8,7 +8,13 @@ export function schedulingValidator(rules: ScheduleRule[]): ValidatorFn {
     if (control.value == null) {
         return null;
     }
-    const requestTime = new Date(control.value);
+    if (control.parent == null) return null;
+    const dateOfWork: Date  = control.parent.get('dateOfWork').value;
+    const timeOfWork: string = control.parent.get('timeOfWork').value;
+    if (!dateOfWork || !timeOfWork ) return null;
+
+    const timeInMS = (Number(timeOfWork.split(':')[0])*3600+Number(timeOfWork.split(':')[1])*60)*1000;
+    const requestTime = new Date(dateOfWork.getTime() + timeInMS);
     const orderTime = new Date();
     const today = new Date(orderTime.toDateString());
     const leadInSecs = requestTime.valueOf() - orderTime.valueOf();

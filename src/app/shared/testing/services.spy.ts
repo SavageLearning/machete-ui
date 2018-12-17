@@ -6,7 +6,7 @@ import { Lookup } from "../../lookups/models/lookup";
 import { User } from "oidc-client";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
-import { ScheduleRule, TransportRule, TransportProvider, CostRule } from "../../online-orders/shared/index";
+import { ScheduleRule, TransportRule, TransportProvider, CostRule, TransportProviderAvailability } from "../../online-orders/shared/index";
 import { WorkAssignment } from "../models/work-assignment";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
 import { loadConfirms } from "../../online-orders/shared/rules/load-confirms";
@@ -199,6 +199,18 @@ export class TransportRulesServiceSpy {
 export class TransportProvidersServiceSpy {
   getTransportProviders = jasmine.createSpy('getTransportProviders')
     .and.callFake(
-      () => observableOf([new TransportProvider({id: 32, text: 'a text label'})])
+      () => observableOf([new TransportProvider({
+        id: 32, 
+        text: 'a text label',
+        availabilityRules: new Array<TransportProviderAvailability>(
+          new TransportProviderAvailability({day: 0, available: false}),
+          new TransportProviderAvailability({day: 1, available: true}),
+          new TransportProviderAvailability({day: 2, available: true}),
+          new TransportProviderAvailability({day: 3, available: true}),
+          new TransportProviderAvailability({day: 4, available: true}),
+          new TransportProviderAvailability({day: 5, available: true}),
+          new TransportProviderAvailability({day: 6, available: true})
+        )
+      })])
     );
 }

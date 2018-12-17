@@ -4,16 +4,31 @@
       <div class="ui-g-12 ui-md-6 ui-g-nopad">
         <div class="ui-g-12 ui-g-nopad">
           <div class="ui-g-12 ui-md-4  ui-g-nopad">
-            <label for="dateTimeofWork">Time needed</label>
+            <label for="dateOfWork">Date needed</label>
           </div>
           <div class="ui-g-12 ui-md-8  ui-g-nopad">
                 <span class="md-inputfield">
-                <p-calendar id="dateTimeofWork"
-                            showTime="true"
-                            formControlName="dateTimeofWork">
+                <p-calendar id="dateOfWork"
+                            formControlName="dateOfWork">
                 </p-calendar>
                 <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
-                  {{formErrors.dateTimeofWork}}
+                  {{formErrors.dateOfWork}}
+                </div>
+                </span>
+          </div>
+          <div class="ui-g-12 ui-md-4  ui-g-nopad">
+            <label for="timeOfWork">Time needed</label>
+          </div>
+          <div class="ui-g-12 ui-md-8  ui-g-nopad">
+                <span class="md-inputfield">
+                <p-calendar id="timeOfWork"
+                            showTime="true"
+                            [timeOnly]="true"
+                            dataType="string"
+                            formControlName="timeOfWork">
+                </p-calendar>
+                <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
+                  {{formErrors.timeOfWork}}
                 </div>
                 </span>
           </div>

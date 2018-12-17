@@ -32,25 +32,29 @@ describe('TransportAvailability', () => {
               new TransportProviderAvailability({day: 6, available: true})
             )
           })
-        ), ['dateTimeofWork']);    
+        ), ['dateOfWork']);    
     });
 
   it('should create an instance', () => {
+    const date: string = moment().add(1, 'weeks').isoWeekday(2).format('MM/DD/YYYY').toString();
+    const time: string = moment(0).format('HH:mm').toString();
     fg = fb.group({
-      dateTimeofWork: moment().add(1, 'weeks').isoWeekday(2),
+      dateOfWork: date,
+      timeOfWork: time,
       transportProviderID: 1
     });
-    ctrl = fg.get('dateTimeofWork'); 
+    ctrl = fg.get('dateOfWork'); 
     const result = tFunc(ctrl);
     expect(result).toBeNull();
   });  
   it('should not show van on Sunday', () => {
     fg = fb.group({
-      dateTimeofWork: moment().add(1, 'weeks').isoWeekday(0),
+      dateOfWork: moment().add(1, 'weeks').isoWeekday(0).format('MM/DD/YYYY').toString(),
+      timeOfWork: moment(0).format('HH:mm').toString(),
       transportProviderID: 1
     });
 
-    ctrl = fg.get('dateTimeofWork');
+    ctrl = fg.get('dateOfWork');
     const result = tFunc(ctrl);
     expect(result.transportAvailability).toBe('transport_van not available on Sunday.' );
   });
