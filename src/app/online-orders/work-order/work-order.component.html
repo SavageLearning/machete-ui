@@ -9,7 +9,6 @@
           <div class="ui-g-12 ui-md-8  ui-g-nopad">
                 <span class="md-inputfield">
                 <p-calendar id="dateOfWork"
-                            showTime="false"
                             formControlName="dateOfWork">
                 </p-calendar>
                 <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
@@ -26,6 +25,7 @@
                             showTime="true"
                             [timeOnly]="true"
                             dataType="string"
+                            [stepMinute]="15"
                             formControlName="timeOfWork">
                 </p-calendar>
                 <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
@@ -150,7 +150,7 @@
               <label for="englishRequired">Do you need an English-speaking worker?</label>
             </div>
             <div class="ui-g-4 ui-md-2 ui-g-nopad">
-              <p-toggleButton [(ngModel)]="engReqToggle" id="englishRequired" formControlName="englishRequired"></p-toggleButton>
+              <p-toggleButton id="englishRequired" formControlName="englishRequired"></p-toggleButton>
             </div>
           </div>
 
@@ -175,7 +175,7 @@
           </div>
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-              <p-dropdown id="transportProviderID" [(ngModel)]="selectedTransport" [options]="transportMethodsDropDown" formControlName="transportProviderID"
+              <p-dropdown id="transportProviderID" [options]="transportMethodsDropDown" formControlName="transportProviderID"
                           [autoWidth]="false"></p-dropdown>
               <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.valid && showErrors">
                   {{formErrors.transportProviderID}}
