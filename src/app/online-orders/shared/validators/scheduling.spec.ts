@@ -1,4 +1,4 @@
-import { schedulingValidator } from './scheduling';
+import { schedulingDayValidator } from './scheduling';
 import { AbstractControl, ValidatorFn, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ScheduleRule } from '..';
@@ -13,7 +13,7 @@ describe('ScheduleRule', () => {
     beforeEach(() => {
         fb = new FormBuilder(); 
         today = new Date();
-        tFunc = schedulingValidator(new Array<ScheduleRule>(
+        tFunc = schedulingDayValidator(new Array<ScheduleRule>(
           new ScheduleRule({
             day: today.getDay(),
             leadHours: 48,
