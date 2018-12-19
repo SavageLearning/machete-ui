@@ -1,8 +1,7 @@
 import { schedulingDayValidator } from './scheduling';
-import { AbstractControl, ValidatorFn, FormControl, FormBuilder, FormGroup } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractControl, ValidatorFn, FormBuilder, FormGroup } from '@angular/forms';
 import { ScheduleRule } from '..';
-import * as moment from 'moment/moment';
+import { DateTime } from 'luxon';
 
 describe('ScheduleRule', () => {
     let ctrl: AbstractControl;
@@ -30,8 +29,8 @@ describe('ScheduleRule', () => {
     });
 
   it('should create an instance', () => {
-    const date: Date = moment().startOf('day').add(1, 'weeks').isoWeekday(2).toDate();
-    const time: string = moment(0).format('HH:mm').toString();
+    const date: Date = DateTime.local().startOf('day').plus({ weeks: 1 }).toJSDate();
+    const time: string = DateTime.fromObject(0).toFormat('HH:mm');
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,
@@ -43,8 +42,8 @@ describe('ScheduleRule', () => {
   });
 
   it('should reject time in the past', () => {
-    const date: Date = moment().startOf('day').toDate();
-    const time: string = moment().subtract(1, 'hour').format('HH:mm').toString(); 
+    const date: Date = DateTime.local().startOf('day').toJSDate();
+    const time: string = DateTime.local().minus({hours: 1}).toFormat('HH:mm'); 
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,
@@ -59,10 +58,17 @@ describe('ScheduleRule', () => {
   });
 
   it('should reject time 1 sec before start time', () => {
-    //var utc = today.toJSON().slice(0,10).replace(/-/g,'/');
-    var utc = today.valueOf() + (1 * 1000);
-    var date = new Date(utc);
-    ctrl.setValue(new Date(utc));
+    const date: Date = DateTime.local().plus({secs: 1}).toJSDate();
+    const time: string = DateTime.local().minus({hours: 1}).toFormat('HH:mm'); 
+
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });
+
+    ctrl = fg.get('dateOfWork'); 
+    ctrl.setValue(date);
     // act
     const result = tFunc(ctrl);
     // 
@@ -70,8 +76,8 @@ describe('ScheduleRule', () => {
   });
 
   it('should reject time 2 hours before start time', () => {
-    const date: Date = moment().startOf('day').toDate();
-    const time: string = moment().add(2, 'hour').format('HH:mm').toString(); 
+    const date: Date = DateTime.local().startOf('day').toJSDate();
+    const time: string = DateTime.local().plus({hours: 2}).toFormat('HH:mm'); 
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,
@@ -83,6 +89,4 @@ describe('ScheduleRule', () => {
     // 
     expect(result['scheduling']).toBe('Lead time of 1 days required.');
   });
-
-  
 });
