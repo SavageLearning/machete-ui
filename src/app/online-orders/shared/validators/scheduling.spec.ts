@@ -1,16 +1,18 @@
-import { schedulingValidator } from './scheduling';
-import { AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { schedulingDayValidator } from './scheduling';
+import { AbstractControl, ValidatorFn, FormBuilder, FormGroup } from '@angular/forms';
 import { ScheduleRule } from '..';
+import { DateTime } from 'luxon';
 
 describe('ScheduleRule', () => {
-    let ctrl: FormControl;
+    let ctrl: AbstractControl;
     let tFunc: ValidatorFn;
+    let fb: FormBuilder;
+    let fg: FormGroup;
     let today: Date;
     beforeEach(() => {
-        ctrl = new FormControl();
+        fb = new FormBuilder(); 
         today = new Date();
-        tFunc = schedulingValidator(new Array<ScheduleRule>(
+        tFunc = schedulingDayValidator(new Array<ScheduleRule>(
           new ScheduleRule({
             day: today.getDay(),
             leadHours: 48,
@@ -27,13 +29,28 @@ describe('ScheduleRule', () => {
     });
 
   it('should create an instance', () => {
+    const date: Date = DateTime.local().startOf('day').plus({ weeks: 1 }).toJSDate();
+    const time: string = DateTime.fromObject(0).toFormat('HH:mm');
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });
+    ctrl = fg.get('dateOfWork'); 
     const result = tFunc(ctrl);
     expect(result).toBeNull();
   });
 
   it('should reject time in the past', () => {
-    let anHourAgo = today.valueOf() - (3600 * 1000);
-    ctrl.setValue((new Date(anHourAgo)).toLocaleString());
+    const date: Date = DateTime.local().startOf('day').toJSDate();
+    const time: string = DateTime.local().minus({hours: 1}).toFormat('HH:mm'); 
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });
+    
+    ctrl = fg.get('dateOfWork'); 
     // act
     const result = tFunc(ctrl);
     // 
@@ -41,10 +58,17 @@ describe('ScheduleRule', () => {
   });
 
   it('should reject time 1 sec before start time', () => {
-    //var utc = today.toJSON().slice(0,10).replace(/-/g,'/');
-    var utc = today.valueOf() + (1 * 1000);
-    var date = new Date(utc);
-    ctrl.setValue(new Date(utc));
+    const date: Date = DateTime.local().plus({secs: 1}).toJSDate();
+    const time: string = DateTime.local().minus({hours: 1}).toFormat('HH:mm'); 
+
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });
+
+    ctrl = fg.get('dateOfWork'); 
+    ctrl.setValue(date);
     // act
     const result = tFunc(ctrl);
     // 
@@ -52,14 +76,17 @@ describe('ScheduleRule', () => {
   });
 
   it('should reject time 2 hours before start time', () => {
-    var utc = today.valueOf() + (7200 * 1000);
-    var date = new Date(utc);
-    ctrl.setValue(new Date(utc));
+    const date: Date = DateTime.local().startOf('day').toJSDate();
+    const time: string = DateTime.local().plus({hours: 2}).toFormat('HH:mm'); 
+    fg = fb.group({
+      dateOfWork: date,
+      timeOfWork: time,
+      transportProviderID: 1
+    });  
+    ctrl = fg.get('dateOfWork'); 
     // act
     const result = tFunc(ctrl);
     // 
     expect(result['scheduling']).toBe('Lead time of 1 days required.');
   });
-
-  
 });
