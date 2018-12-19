@@ -70,7 +70,7 @@ export class EmployersComponent implements OnInit {
     'businessname': [this.employer.businessname],
     'cellphone': [this.employer.cellphone, phoneOrEmptyValidator('Cell is optional, but requires ###-###-#### format')],
     'city': [this.employer.city, [requiredValidator('City is required'), lengthValidator(50)]],
-    'email': [this.employer.email, requiredValidator('Email is required')],
+    'email': [{value: this.employer.email, disabled: true}, requiredValidator('Email is required')],
     'fax': [this.employer.fax],
     'name': [this.employer.name, [requiredValidator('Name is required'), lengthValidator(50)]],
     'phone': [this.employer.phone, phoneValidator('Phone is required in ###-###-#### format')],
