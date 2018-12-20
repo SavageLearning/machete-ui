@@ -8,7 +8,7 @@
     "start-prod": "ng serve --host 0.0.0.0 --configuration prod",
     "start-local-iis-dev": "ng serve --host 0.0.0.0 --configuration local-iis-dev",
     "build": "ng build",
-    "build-prod": "ng build --output-path ..\\Machete.Web\\Content\\bundles --deploy-url /Content/bundles/ --configuration prod",
+    "build-prod": "ng build --output-path ..\\Machete.Web\\Content\\bundles --deploy-url /Content/bundles/ --configuration production",
     "build-cloud-test": "ng build --output-path ..\\Machete.Web\\Content\\bundles --deploy-url /Content/bundles/ --configuration cloud-test",
     "build-mvc-embedded": "ng build --output-path ..\\Machete.Web\\Content\\bundles --deploy-url /Content/bundles/ --configuration mvc-embedded",
     "test": "ng test",
