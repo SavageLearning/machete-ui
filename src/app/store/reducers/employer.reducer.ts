@@ -36,6 +36,12 @@ export function reducer(
         ...state,
         employer: action.payload
       };
+        //
+    case actions.EmployerActionTypes.UpdateEmployer_Success:
+      return {
+        ...state,
+        employer: action.payload
+      };
     default:
       return state;
   }

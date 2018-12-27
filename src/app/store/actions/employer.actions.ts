@@ -7,7 +7,7 @@ export enum EmployerActionTypes {
   CreateEmployer = '[Employer] Create Employer',
   CreateEmployer_Success = '[Employer] Create Employer SUCCESS',
   UpdateEmployer = '[Employer] Update Employer',
-  UpdateEmployerSuccess = '[Employer] Update Employer SUCCESS'
+  UpdateEmployer_Success = '[Employer] Update Employer SUCCESS'
 }
 
 export class LoadProfile implements Action {
@@ -32,12 +32,12 @@ export class CreateEmployerSuccess implements Action {
 }
 
 export class UpdateEmployer implements Action {
-  readonly type = EmployerActionTypes.CreateEmployer;
+  readonly type = EmployerActionTypes.UpdateEmployer;
   constructor(public payload: Employer) {}
 }
 
 export class UpdateEmployerSuccess implements Action {
-  readonly type = EmployerActionTypes.CreateEmployer_Success;
+  readonly type = EmployerActionTypes.UpdateEmployer_Success;
   constructor(public payload: Employer) {}
 }
 

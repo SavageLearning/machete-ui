@@ -49,12 +49,6 @@ export class EmployersComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    // this.employersService.getEmployer()
-    //   .subscribe(
-    //     data => {
-    //       this.employer = data || new Employer();
-    //       this.buildForm();
-    //     });
     this.store.dispatch(new employerActions.LoadProfile());
     this.store.select(fromRoot.getEmployer)
       .subscribe(
@@ -122,6 +116,8 @@ export class EmployersComponent implements OnInit {
     this.showErrors = false;
     const formModel = this.employerForm.value;
     // this.employersService.save(formModel)
+    this.store.dispatch(new employerActions.UpdateEmployer(formModel));
+    // this.store.select(fromRoot.getEmployer)
     //   .subscribe(
     //     data => {
     //       console.log('employerService.save returned:', data);

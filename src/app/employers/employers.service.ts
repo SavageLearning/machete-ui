@@ -47,10 +47,12 @@ export class EmployersService {
     // create or update 
     return this.http.put(uri, JSON.stringify(employer), {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
-      }).pipe(map(
-        data => {
-          this.setEmployer(data['data'] as Employer);
-          return data['data'];
-        }));
+      })
+    .pipe(map(
+      data => {
+        //this.setEmployer(data['data'] as Employer);
+        return data['data'];
+      }))
+      ;
   }
 }
