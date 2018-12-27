@@ -28,6 +28,11 @@ import { LoggingService } from './shared/services/logging.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { GrowlModule } from 'primeng/primeng';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store/reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { EmployerEffects } from './store/effects/employer.effects';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +56,10 @@ import { TransportProvidersService } from './online-orders/transport-providers.s
     MyWorkOrdersModule,
     EmployersModule,
     AppRoutingModule,
-    GrowlModule
+    GrowlModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([EmployerEffects])
   ],
   providers: [
     AuthService,
