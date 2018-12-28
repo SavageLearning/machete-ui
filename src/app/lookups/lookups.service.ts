@@ -1,6 +1,4 @@
-
 import {of as observableOf, Observable,  BehaviorSubject, Subject } from 'rxjs';
-
 import {first, mergeMap, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Lookup, LCategory } from './models/lookup';

@@ -5,8 +5,9 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '../../shared/index';
 import { HttpModule } from '@angular/http';
-import { AuthServiceSpy, EmployersServiceSpy } from '../../shared/testing';
+import { AuthServiceSpy } from '../../shared/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import * as fromRoot from '../../store/reducers';
 
 describe('WorkOrderService', () => {
   let service: WorkOrderService;
@@ -21,7 +22,7 @@ describe('WorkOrderService', () => {
         {provide: AuthService, useClass: AuthServiceSpy }
         ],
       imports: [
-        StoreModule.forRoot({}),
+        StoreModule.forRoot({...fromRoot.reducers}),
         HttpModule,
         HttpClientTestingModule
       ]

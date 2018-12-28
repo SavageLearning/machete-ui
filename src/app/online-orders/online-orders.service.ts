@@ -1,18 +1,14 @@
 
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { WorkOrder } from '../shared/models/work-order';
 import { HttpClient } from '@angular/common/http';
-import { WorkOrderService } from './work-order/work-order.service';
-import { WorkAssignment } from '../shared/models/work-assignment';
 import { environment } from '../../environments/environment';
-import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import { ScheduleRule, TransportRule } from './shared';
 import { Confirm } from "./shared/models/confirm";
 import { loadConfirms } from "./shared/rules/load-confirms";
-import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 
 @Injectable()
 export class OnlineOrdersService {
@@ -25,8 +21,7 @@ export class OnlineOrdersService {
   workOrderConfirmKey = this.storageKey + '.workorderconfirm';
   workAssignmentConfirmKey = this.storageKey + '.workassignmentsconfirm';
   constructor(
-    private http: HttpClient,
-    private orderService: WorkOrderService,
+    private http: HttpClient
   ) {
     console.log('.ctor');
     // this loads static data from a file. will replace later.

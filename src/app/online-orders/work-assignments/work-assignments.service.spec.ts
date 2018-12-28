@@ -1,4 +1,3 @@
-
 import {of as observableOf } from 'rxjs';
 import { TestBed, inject } from '@angular/core/testing';
 import { WorkAssignmentsService } from './work-assignments.service';
@@ -6,25 +5,24 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../../environments/environment';
 import { WorkAssignment } from '../../shared/models/work-assignment';
-import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { AuthService } from '../../shared/index';
 import { HttpModule } from '@angular/http';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import { WorkOrder } from '../../shared/models/work-order';
 import { TransportRule, CostRule } from '../shared/index';
-import { AuthServiceSpy, EmployersServiceSpy, 
-  TransportRulesServiceSpy, TransportProvidersServiceSpy
-} from '../../shared/testing';
+import { TransportRulesServiceSpy, TransportProvidersServiceSpy} from '../../shared/testing';
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fromRoot from '../../store/reducers';
 
 describe('WorkAssignmentsService', () => {
   let service: WorkAssignmentsService;
   let httpMock: HttpTestingController;
   let baseref: string  = environment.dataUrl;
+  let store: Store<any>;
 
   beforeEach(async() => {
     TestBed.configureTestingModule({
@@ -33,17 +31,14 @@ describe('WorkAssignmentsService', () => {
         // this method of testing instantiates real objects then spies on the methods below
         WorkAssignmentsService,
         WorkOrderService,
-        LookupsService,
-        OnlineOrdersService,
         MessageService,
         { provide: TransportRulesService, useClass: TransportRulesServiceSpy },
         { provide: TransportProvidersService, useClass: TransportProvidersServiceSpy },
-        { provide: AuthService, useClass: AuthServiceSpy },
-        
       ],
       imports: [
         HttpModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        StoreModule.forRoot({          ...fromRoot.reducers}),
       ]
     });
     sessionStorage.removeItem('machete.workassignments');
@@ -70,7 +65,9 @@ describe('WorkAssignmentsService', () => {
 
     service = TestBed.get(WorkAssignmentsService);
     httpMock = TestBed.get(HttpTestingController);
+    store = TestBed.get(Store);
 
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should be created', inject([WorkAssignmentsService], (service: WorkAssignmentsService) => {

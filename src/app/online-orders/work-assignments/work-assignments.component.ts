@@ -2,17 +2,15 @@
 import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import {WorkAssignment} from '../../shared/models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
-import { WorkOrderService } from '../work-order/work-order.service';
 import { TransportRule, requiredValidator, TransportProvider } from '../shared';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { hoursValidator } from '../shared/validators/hours';
-import { loadSkillRules } from '../shared/rules/load-skill-rules';
 import { TransportRulesService } from '../transport-rules.service';
 import { SkillRule } from '../shared/models/skill-rule';
 import { TransportProvidersService } from '../transport-providers.service';
@@ -47,9 +45,9 @@ export class WorkAssignmentsComponent implements OnInit {
   };
 
   constructor(
+    private waService: WorkAssignmentsService,
     private lookupsService: LookupsService,
     private transportProviderService: TransportProvidersService,
-    private waService: WorkAssignmentsService,
     private onlineService: OnlineOrdersService,
     private transportRulesService: TransportRulesService,
     private router: Router,

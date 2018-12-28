@@ -1,11 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { LookupsService } from './lookups.service';
 import { environment } from '../../environments/environment';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Lookup, LCategory } from './models/lookup';
-import { Observable } from 'rxjs';
 
 describe('LookupsService', () => {
   let service: LookupsService;
