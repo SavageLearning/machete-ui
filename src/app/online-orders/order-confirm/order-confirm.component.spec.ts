@@ -32,7 +32,7 @@ describe('OrderConfirmComponent', () => {
           { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
           { provide: OnlineOrdersService, useClass: OnlineOrdersServiceSpy },
           { provide: TransportProvidersService, useClass: TransportProvidersServiceSpy},
-          {provide: MessageService, useClass: MessageServiceSpy },
+          { provide: MessageService, useClass: MessageServiceSpy },
           { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy},
           { provide: Router, useClass: RouterSpy }
           

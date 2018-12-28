@@ -1,5 +1,3 @@
-import { WorkAssignment } from '../shared/models/work-assignment';
-import { OnlineOrdersService } from './online-orders.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OnlineOrdersComponent } from './online-orders.component';
@@ -11,8 +9,6 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { AuthGuardService } from '../shared/services/auth-guard.service';
 import { WorkOrderGuard } from './guards/work-order.guard';
 import { WorkOrderService } from './work-order/work-order.service';
-import { EmployersService } from '../employers/employers.service';
-import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
 import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';

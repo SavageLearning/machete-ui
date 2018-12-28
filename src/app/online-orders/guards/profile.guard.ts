@@ -3,20 +3,20 @@ import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { OnlineOrdersService } from '../online-orders.service';
-import { EmployersService } from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../store/reducers';
 
 @Injectable()
 export class ProfileGuard implements CanActivate {
 
-  constructor(private employersService: EmployersService, private router: Router) {
+  constructor(private store: Store<fromRoot.State>, private router: Router) {
     console.log('.ctor');
 
   }
 
   canActivate(): Observable<boolean> {
-    return this.employersService.fetchEmployer().pipe(
+    return this.store.select(fromRoot.getEmployer).pipe(
       map((em: Employer) => {
         console.log('canActivate->getEmployer:', em)
         let exists = em ? true : false;

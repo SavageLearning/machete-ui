@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployersService } from './employers.service';
 import { Employer } from '../shared/models/employer';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LookupsService } from '../lookups/lookups.service';
 import { MySelectItem } from '../shared/models/my-select-item';
 import { Router } from '@angular/router';
-//import { phoneValidator } from '../shared/validators/phone';
 import { requiredValidator } from '../online-orders/shared/index';
 import { phoneValidator, phoneOrEmptyValidator } from '../shared/validators/phone';
 import { regexValidator } from '../shared/validators/regex';
 import { lengthValidator } from '../shared/validators/length';
-
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../store/reducers';
+import * as employerActions from '../store/actions/employer.actions';
 
 @Component({
   selector: 'app-employers',
@@ -43,21 +42,20 @@ export class EmployersComponent implements OnInit {
   };
 
   constructor(
-    private employersService: EmployersService,
-    private lookupsService: LookupsService,
-     private fb: FormBuilder,
-     private router: Router
+    private store: Store<fromRoot.State>,
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.buildForm();
-    this.employersService.getEmployer()
+    this.store.dispatch(new employerActions.LoadProfile());
+    this.store.select(fromRoot.getEmployer)
       .subscribe(
         data => {
           this.employer = data || new Employer();
           this.buildForm();
         });
-
   }
 
   buildForm(): void {
@@ -117,13 +115,15 @@ export class EmployersComponent implements OnInit {
     console.log('saveEmployer: form status valid');
     this.showErrors = false;
     const formModel = this.employerForm.value;
-    this.employersService.save(formModel)
-      .subscribe(
-        data => {
-          console.log('employerService.save returned:', data);
-          this.router.navigate(['/online-orders/introduction']);
-        }
-      );
+    // this.employersService.save(formModel)
+    this.store.dispatch(new employerActions.UpdateEmployer(formModel));
+    // this.store.select(fromRoot.getEmployer)
+    //   .subscribe(
+    //     data => {
+    //       console.log('employerService.save returned:', data);
+    //       this.router.navigate(['/online-orders/introduction']);
+    //     }
+    //   );
   }
 
   
