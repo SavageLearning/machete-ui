@@ -1,7 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from './shared/services/auth.service';
 import { AuthGuardService } from './shared/services/auth-guard.service';
 import { PageNotFoundComponent }    from './not-found.component';
 
@@ -10,7 +9,6 @@ import { UnauthorizedComponent, WelcomeComponent,
   AuthorizeComponent, DashboardComponent} from './auth/';
 
 import { RegisterComponent } from './auth/register/register.component';
-import { EmployersService } from './employers/employers.service';
 
 const appRoutes: Routes = [
   {
@@ -65,7 +63,6 @@ const appRoutes: Routes = [
   providers: [
     // here because used in router guards
     AuthGuardService,
-    EmployersService,
     SelectivePreloadingStrategy
   ]
 })

@@ -1,5 +1,5 @@
 
-import {of as observableOf,  Observable } from 'rxjs';
+import {of as observableOf } from 'rxjs';
 import { TestBed, inject } from '@angular/core/testing';
 import { WorkAssignmentsService } from './work-assignments.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -8,15 +8,14 @@ import { environment } from '../../../environments/environment';
 import { WorkAssignment } from '../../shared/models/work-assignment';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { EmployersService } from '../../employers/employers.service';
 import { AuthService } from '../../shared/index';
-import { Http, HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup } from '../../lookups/models/lookup';
 import { WorkOrder } from '../../shared/models/work-order';
 import { TransportRule, CostRule } from '../shared/index';
 import { AuthServiceSpy, EmployersServiceSpy, 
-  WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, TransportRulesServiceSpy, TransportProvidersServiceSpy
+  TransportRulesServiceSpy, TransportProvidersServiceSpy
 } from '../../shared/testing';
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';
@@ -37,10 +36,8 @@ describe('WorkAssignmentsService', () => {
         LookupsService,
         OnlineOrdersService,
         MessageService,
-        //TransportRulesService,
         { provide: TransportRulesService, useClass: TransportRulesServiceSpy },
         { provide: TransportProvidersService, useClass: TransportProvidersServiceSpy },
-        { provide: EmployersService, useClass: EmployersServiceSpy },
         { provide: AuthService, useClass: AuthServiceSpy },
         
       ],

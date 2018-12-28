@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Observable,  BehaviorSubject } from 'rxjs';
 import {WorkOrder} from '../../shared/models/work-order';
-import { EmployersService} from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../store/reducers';
 
 @Injectable()
 export class WorkOrderService {
@@ -11,7 +12,7 @@ export class WorkOrderService {
   //order$ = this.orderSource.asObservable();
 
   storageKey = 'machete.workorder';
-  constructor(private employerService: EmployersService) {
+  constructor(private store: Store<fromRoot.State>) {
     let data = sessionStorage.getItem(this.storageKey);
     let order = new WorkOrder(JSON.parse(data));
     // check that data's not null first
@@ -22,7 +23,7 @@ export class WorkOrderService {
       this.orderSource.next(this.order);
     } else {
       console.log('.ctor->Create work order from employer');
-      this.employerService.getEmployer()
+      this.store.select(fromRoot.getEmployer)
         .subscribe(data => {
           // loading employer data as the defaults for
           // the new workorder
