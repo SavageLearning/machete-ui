@@ -6,10 +6,10 @@
 export const environment = {
   name: 'local-iis-dev',
   production: false,
-  dataUrl: 'http://localhost:63374',
-  authUrl: 'https://localhost:63374/id',
+  dataUrl: 'http://localhost:4213',
+  authUrl: 'https://localhost:4213/id',
   oidc_client_settings: {
-    authority: 'https://localhost:63374/id',
+    authority: 'https://localhost:4213/id',
     client_id: 'machete-ui-local',
     redirect_uri: 'http://localhost:4200/authorize',
     post_logout_redirect_uri: 'http://localhost:4200',
