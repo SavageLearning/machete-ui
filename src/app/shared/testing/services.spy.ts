@@ -3,7 +3,7 @@ import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject } from 'rx
 import {} from 'jasmine';
 import { Employer } from "../models/employer";
 import { Lookup } from "../../lookups/models/lookup";
-import { User } from "oidc-client";
+import { User, UserProfile } from "../../shared/services/user-manager";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
 import { ScheduleRule, TransportRule, TransportProvider, CostRule, TransportProviderAvailability } from "../../online-orders/shared/index";
@@ -11,6 +11,7 @@ import { WorkAssignment } from "../models/work-assignment";
 import { Router, NavigationEnd, UrlTree } from "@angular/router";
 import { loadConfirms } from "../../online-orders/shared/rules/load-confirms";
 import { Config } from "../models/config";
+import { Profile } from 'selenium-webdriver/firefox';
 
 export class EmployersServiceSpy {
   getEmployer = jasmine.createSpy('getEmployer')
@@ -52,7 +53,7 @@ export class AuthServiceSpy {
         access_token: '',
         token_type: '',
         scope: '',
-        profile: '',
+        profile: new UserProfile(),
         expires_at: 0,
         state: '',
 

@@ -40,7 +40,6 @@
     "moment": "^2.22.2",
     "nanoscroller": "0.8.7",
     "npm": "^6.5.0",
-    "oidc-client": "^1.4.1",
     "path": "^0.12.7",
     "paypal-checkout": "^4.0.223",
     "primeng": "^6.1.7",

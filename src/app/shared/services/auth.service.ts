@@ -1,19 +1,18 @@
 
-import {of as observableOf, from as observableFrom} from 'rxjs';
+import { of as observableOf, from as observableFrom } from 'rxjs';
 
 import {map, mergeMap} from 'rxjs/operators';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { UserManager, User } from 'oidc-client';
+import { UserManager, User } from './user-manager';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
-
 @Injectable()
 export class AuthService {
-  mgr: UserManager = new UserManager(environment.oidc_client_settings);
+  mgr: UserManager = new UserManager();
   userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
   currentUser: User;
   loggedIn = false;

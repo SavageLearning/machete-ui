@@ -1,12 +1,12 @@
-import {Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef} from '@angular/core';
-import {trigger, state, style, transition, animate} from '@angular/animations';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {MenuItem} from 'primeng/primeng';
-import {AppComponent} from '../app.component';
+import { Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/primeng';
+import { AppComponent } from '../app.component';
 import { loadMenuRules } from './load-menu-rules';
 import { AuthService } from '../shared/index';
-import { User } from 'oidc-client';
+import { User } from '../shared/services/user-manager';
 import { MenuRule } from './menu-rule';
 
 @Component({

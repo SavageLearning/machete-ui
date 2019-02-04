@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { User } from 'oidc-client';
+import { User } from './user-manager';
 import { Router } from '@angular/router';
 
 @Injectable()
