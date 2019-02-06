@@ -12,16 +12,14 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
-  mgr: UserManager = new UserManager();
   userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
   currentUser: User;
   loggedIn = false;
   redirectUrl: string;
   authHeaders: Headers;
 
-  // TODO:
-  // need async way to call for auth password, then send intercept on its way
-  constructor(private http: Http, private router: Router) {
+  // TODO need async way to call for auth password, then send intercept on its way
+  constructor(private http: Http, private router: Router, private mgr: UserManager) {
   }
   getUserEmitter(): EventEmitter<User> {
     return this.userLoadedEvent;
@@ -37,11 +35,7 @@ export class AuthService {
   }
   isLoggedInObs(): Observable<boolean> {
     return observableFrom(this.mgr.getUser()).pipe(map<User, boolean>((user) => {
-      if (user && !user.expired) {
-        return true;
-      } else {
-        return false;
-      }
+      return user && !user.expired;
     }));
   }
 
@@ -49,35 +43,6 @@ export class AuthService {
     this.mgr.clearStaleState().then(function () {
       console.log('auth.service.clearStateState success');
     });
-  }
-
-
-  getUser$(): Observable<User> {
-    return observableFrom(this.mgr.getUser());
-  }
-
-  getUserRoles$(): Observable<string[]> {
-    return this.getUser$().pipe(
-      mergeMap((user: User) => {
-        console.log(user);
-        if (user === null || user === undefined) {
-          return observableOf(new Array<string>());
-        } else {
-          return observableOf(user.profile.role as string[]);
-        }
-      }));
-  }
-
-  getUsername$(): Observable<string> {
-    return this.getUser$().pipe(
-      mergeMap((user: User) => {
-        // TODO: if user is null, disable menu
-        if (user === null || user === undefined) {
-          return observableOf(null);
-        } else {
-          return observableOf(user.profile.preferred_username as string);
-        }
-      }));
   }
 
   getUser() {
@@ -107,10 +72,17 @@ export class AuthService {
 
   startSignoutMainWindow() {
     this.mgr.getUser().then(user => {
-      return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
-        console.log('signed out', resp);
-      });
+      if (user.isLoggedIn) {
+        return this.mgr.signoutRedirect(user);
+      }
+      console.log("Not logged in!");
     });
+
+  //   this.mgr.getUser().then(user => {
+  //     return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
+  //       console.log('signed out', resp);
+  //     });
+  //   });
   };
 
   endSignoutMainWindow() {

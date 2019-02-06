@@ -1,9 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/primeng';
-import { AppComponent } from '../app.component';
 import { AuthService } from '../shared/index';
 import { User } from '../shared/services/user-manager';
 
@@ -24,25 +20,21 @@ import { User } from '../shared/services/user-manager';
     ]
 })
 export class InlineProfileComponent implements OnInit {
-    user: string;
+    username: string;
+    active: boolean;
+
     constructor(private auth: AuthService) {
 
     }
-    active: boolean;
 
     ngOnInit() {
         this.auth.getUserEmitter()
             .subscribe(
                 (user: User) => {
-                    if (user === null || user === undefined) {
-                        this.user = '<logged out>';
-                        return;
-                    }
-                    if (user.profile == null || user.profile.preferred_username == null) {
-                        this.user = 'profile missing';
-                    } else {
-                        this.user = user.profile.preferred_username;
-                    }
+                  if (!user) { this.username = 'user missing'; return; }
+                  if (!user.profile) { this.username = 'profile missing'; return; }
+                  if (!user.profile.preferred_username) { this.username = 'Not logged in'; return; }
+                  this.username = user.profile.preferred_username;
                 }
             );
     }
@@ -52,7 +44,9 @@ export class InlineProfileComponent implements OnInit {
         event.preventDefault();
     }
 
-    startSignoutMainWindow() {
-        this.auth.startSignoutMainWindow();
-      }
+    startSignoutMainWindow(e) {
+      e.preventDefault();
+
+      this.auth.startSignoutMainWindow();
+    }
 }

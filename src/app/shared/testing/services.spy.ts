@@ -48,9 +48,7 @@ export class AuthServiceSpy {
       // TODO: Implement a better stub of the User interface
       // https://stackoverflow.com/questions/37027776/how-to-stub-a-typescript-interface-type-definition
       let user = {
-        id_token: '',
         session_state: '',
-        access_token: '',
         token_type: '',
         scope: '',
         profile: new UserProfile(),

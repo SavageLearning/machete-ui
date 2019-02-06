@@ -17,7 +17,6 @@ import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
 
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
-import { TokenInterceptor } from './shared/services/token.interceptor';
 import { OnlineOrdersModule } from './online-orders/online-orders.module';
 import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
@@ -28,6 +27,7 @@ import { LoggingService } from './shared/services/logging.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { GrowlModule } from 'primeng/primeng';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
+import { UserManager } from './shared/services/user-manager';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,15 +54,10 @@ import { TransportProvidersService } from './online-orders/transport-providers.s
     GrowlModule
   ],
   providers: [
-    AuthService,
+    AuthService, UserManager,
     LoggingService,
     TransportProvidersService,
     MessageService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
     {
       provide: ErrorHandler, 
       useClass: GlobalErrorHandler

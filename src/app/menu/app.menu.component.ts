@@ -35,14 +35,11 @@ export class AppMenuComponent implements OnInit {
         this.auth.getUserEmitter()
             .subscribe(
                 (user: User) => {
-                    if (user == null) {
+                    if (user.isLoggedIn) {
+                      this.model = loadMenuRules(user.profile['role'])
+                      console.log('here');
                         return new Array<MenuRule>();
                     }
-                    let roles = user.profile['role'];
-                    if (typeof roles === 'string') {
-                        roles = [roles];
-                    }
-                    this.model = loadMenuRules(roles)
                 }
             );
         this.auth.getUser();

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-authorize',
   templateUrl: './authorize.component.html',
@@ -20,9 +19,9 @@ export class AuthorizeComponent implements OnInit {
         let rtr = this.router;
         //console.log('endSigninMainWindow.user: ', user);
         this.auth.getUserEmitter().emit(user);
-          if (user.state && user.profile.role == "Hirer" && user.state == "/welcome") {
+          if (user.state && user.profile.role.includes("Hirer") && user.state == "/welcome") {
             rtr.navigate(['/online-orders/introduction']);
-            return; 
+            return;
           }
           if (user.state) {
             rtr.navigate([user.state]);

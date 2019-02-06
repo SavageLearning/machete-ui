@@ -23,11 +23,12 @@ export class WelcomeComponent implements OnInit {
   }
 
   login() {
+    console.log('login()');
     this.authService.startSigninMainWindow();
   }
 
+  // DEPRECATED
   register() {
     this.router.navigate(['/register']);
   }
-
 }

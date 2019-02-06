@@ -14,13 +14,13 @@ export class ConfigsService {
   constructor(private http: HttpClient) {
   }
 
+  // TODO simplify
   isStale(): boolean {
     if (this.configsAge > Date.now() - 36000) {
         return false;
     }
     return true;
   }
-
   isNotStale(): boolean {
     return !this.isStale();
   }
@@ -33,6 +33,7 @@ export class ConfigsService {
     console.log('getAllConfigs: ' + this.uriBase);
     return this.http.get(this.uriBase).pipe(
       map(res => {
+        //console.log(res); // <~ outputs a configuration object
         this.configs = res['data'] as Config[];
         this.configsAge = Date.now();
         return res['data'] as Config[];
@@ -48,6 +49,6 @@ export class ConfigsService {
   getConfig(key: string): Observable<Config> {
     return this.getAllConfigs().pipe(
     mergeMap(a => a.filter(ll => ll.key == key)),
-    first(),);
+    first(), );
   }
 }
