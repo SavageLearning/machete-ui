@@ -77,12 +77,6 @@ export class AuthService {
       }
       console.log("Not logged in!");
     });
-
-  //   this.mgr.getUser().then(user => {
-  //     return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
-  //       console.log('signed out', resp);
-  //     });
-  //   });
   };
 
   endSignoutMainWindow() {
