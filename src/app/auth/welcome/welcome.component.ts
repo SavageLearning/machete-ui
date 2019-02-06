@@ -23,7 +23,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   login() {
-    console.log('login()');
     this.authService.startSigninMainWindow();
   }
 

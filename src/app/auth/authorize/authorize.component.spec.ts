@@ -4,7 +4,7 @@ import { AuthorizeComponent } from './authorize.component';
 import { AuthService } from '../../shared/index';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserManager, User } from 'oidc-client';
+import { UserManager, User } from '../../shared/services/user-manager';
 import { EventEmitter } from '@angular/core';
 import { AuthServiceSpy } from '../../shared/testing';
 

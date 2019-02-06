@@ -60,8 +60,8 @@ export class AuthService {
     });
   }
 
-  startSigninMainWindow() {
-    this.mgr.signinRedirect({ data: this.redirectUrl }).then(function () {
+  startSigninMainWindow() { // redirect to /V2/authorize, instead of coming back to welcome
+    this.mgr.signinRedirect(environment.oidc_client_settings.redirect_uri).then(function () {
       console.log('signinRedirect done');
     });
   }

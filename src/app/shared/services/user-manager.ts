@@ -28,12 +28,21 @@ export class UserManager {
       return new Promise((res) => { res(); })
     }
 
-    signinRedirect(args) {
-      return new Promise((res) => { res(); })
+    signinRedirect(uri) {
+      return new Promise((res) => {
+        window.location.href = environment.oidc_client_settings.redirect_uri + '?redirect_uri=' + uri; // TODO Router
+        res();
+      })
     }
 
-    signinRedirectCallback(args): Promise<User> {
-      return new Promise((res) => { res(); })
+    signinRedirectCallback(uri): Promise<User> {
+      return new Promise ((resolve, reject) =>
+        this.getUser().then(user => {
+          if (user.isLoggedIn) window.location.href = uri;
+          else window.location.href = environment.authUrl + "/login?redirect_uri=" + uri;
+          resolve(this._user);
+        })
+      );
     }
 
     signoutRedirect(user: User) {
