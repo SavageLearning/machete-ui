@@ -19,17 +19,18 @@ export class AuthorizeComponent implements OnInit {
         let rtr = this.router;
         //console.log('endSigninMainWindow.user: ', user);
         this.auth.getUserEmitter().emit(user);
-          if (user.state && user.profile.role.includes("Hirer") && user.state == "/welcome") {
+
+        if (user.state && user.profile.role.includes("Hirer") && user.state == "/welcome") {
             rtr.navigate(['/online-orders/introduction']);
             return;
-          }
-          if (user.state) {
+        }
+        if (user.state) {
             rtr.navigate([user.state]);
-          }
-        },
-        err => {
+        }
+      },
+      err => {
           console.error('endSigninMainWindow returned: ', err);
-        });
+      });
   }
 
 

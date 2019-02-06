@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 // this should go away; it was a mock of the OIDC client,
 // all methods here should be combined with their calling
@@ -11,8 +11,7 @@ export class UserManager {
   _uriBase = environment.dataUrl + '/id/logoff';
   _user: User;
 
-    constructor(private http: HttpClient) { }
-
+    constructor(private http: HttpClient, private router: Router) { }
 
     clearStaleState() {
       return new Promise((res) => { res(); })
@@ -38,14 +37,16 @@ export class UserManager {
     }
 
     signoutRedirect(user: User) {
-      return this.http.get(this._uriBase).subscribe(response => {
-          if (response['status'] === 200) {
-            this._user.isLoggedIn = false;
-          }
-          console.log("signoutRedirect: ", response);
-          // TODO use rtr
-          window.location.href = response['data'];
-        });
+      return this.http.get(this._uriBase, { observe: 'response' }).subscribe(response => {
+        console.log("signoutRedirect: ", response);
+
+        if (response.status === 200) {
+          console.log('here: ', response.body['data']);
+          this._user.isLoggedIn = false;
+          window.location.href = response.body['data']; // moving on; struggled with Router for like 1.5 hrs.; TODO figure out router
+          return;
+        } // TODO and what if it's not?
+      });
     }
 
     signoutRedirectCallback() {
@@ -67,6 +68,6 @@ export class User {
 }
 
 export class UserProfile {
-  role: string[];
-  preferred_username: string;
+  role: Array<string> = new Array<string>();
+  preferred_username: string = '';
 }

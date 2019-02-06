@@ -72,10 +72,10 @@ export class AuthService {
 
   startSignoutMainWindow() {
     this.mgr.getUser().then(user => {
+      console.log(user);
       if (user.isLoggedIn) {
         return this.mgr.signoutRedirect(user);
-      }
-      console.log("Not logged in!");
+      } else console.log("Not logged in!");
     });
   };
 
