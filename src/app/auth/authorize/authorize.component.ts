@@ -12,18 +12,23 @@ export class AuthorizeComponent implements OnInit {
 
   constructor(private auth: AuthService, private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit() { // TODO _still_ cannot get router shit to work
-    this.auth.endSigninMainWindow(environment.authUrl + '/login')//this.route.snapshot.paramMap.get('redirect_uri'))
-      .subscribe(user => {
+  ngOnInit() {
+    this.auth.endSigninMainWindow().subscribe(user => {
         // copy to local variable? https://github.com/Microsoft/TypeScript/wiki/%27this%27-in-TypeScript
         let rtr = this.router;
-        console.log('endSigninMainWindow.user: ', user);
+
         this.auth.getUserEmitter().emit(user);
 
-        // if (user.state && user.profile.role.includes("Hirer") && user.state == "/welcome") {
+        console.log('authorized user: ', user);
+        console.log('user.state: ', user.state); // not working, empty
+
+        // get them out of the loop
+        //if (user.state === window.location.href) user.state = '/welcome';
+        // if (user.profile.role.includes("Hirer") && user.state == "/welcome") {
         //     rtr.navigate(['/online-orders/introduction']);
         //     return;
         // }
+
         // if (user.state) {
         //     rtr.navigate([user.state]);
         // }
@@ -32,6 +37,5 @@ export class AuthorizeComponent implements OnInit {
           console.error('endSigninMainWindow returned: ', err);
       });
   }
-
 
 }

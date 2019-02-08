@@ -67,6 +67,7 @@ export class AuthService {
   }
 
   endSigninMainWindow(url?: string): Observable<User> {
+    if (!url) { url = 'https://localhost:4213/V2/authorize' } // TODO Chaim pls
     return observableFrom(this.mgr.signinRedirectCallback(url));
   }
 
@@ -85,5 +86,3 @@ export class AuthService {
     });
   };
 }
-
-
