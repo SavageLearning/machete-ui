@@ -7,7 +7,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Employer } from '../shared/models/employer';
 import { AuthService } from '../shared/index';
-import { User } from '../shared/services/user-manager';
+import { User } from '../shared/models/user';
 import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()

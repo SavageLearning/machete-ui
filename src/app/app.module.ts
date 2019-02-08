@@ -27,7 +27,7 @@ import { LoggingService } from './shared/services/logging.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { GrowlModule } from 'primeng/primeng';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
-import { UserManager } from './shared/services/user-manager';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +54,7 @@ import { UserManager } from './shared/services/user-manager';
     GrowlModule
   ],
   providers: [
-    AuthService, UserManager,
+    AuthService,
     LoggingService,
     TransportProvidersService,
     MessageService,
@@ -62,7 +62,6 @@ import { UserManager } from './shared/services/user-manager';
       provide: ErrorHandler, 
       useClass: GlobalErrorHandler
     }
-
   ],
   bootstrap: [AppComponent]
 })

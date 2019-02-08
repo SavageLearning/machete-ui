@@ -1,88 +1,119 @@
-
-import { of as observableOf, from as observableFrom } from 'rxjs';
-
-import {map, mergeMap} from 'rxjs/operators';
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-
-import { UserManager, User } from './user-manager';
 import { environment } from '../../../environments/environment';
+import { EventEmitter, Injectable } from '@angular/core';
+import { from as observableFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable} from 'rxjs/Rx';
+import { User } from '../models/user';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
   userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
-  currentUser: User;
-  loggedIn = false;
+  _user: User;
+  _uriBase: string = environment.dataUrl;
   redirectUrl: string;
-  authHeaders: Headers;
 
-  // TODO need async way to call for auth password, then send intercept on its way
-  constructor(private http: Http, private router: Router, private mgr: UserManager) {
+  constructor(private http: HttpClient, private router: Router) {
   }
+
+  getUser(): Promise<User> {
+    return new Promise((resolve) => {
+      if (!this._user) this._user = new User();
+      resolve(this._user);
+    });
+  }
+
   getUserEmitter(): EventEmitter<User> {
     return this.userLoadedEvent;
   }
 
   setRedirectUrl(url: string) {
     this.redirectUrl = url;
-    console.log(`auth.service.setRedirectUrl.url: ${this.redirectUrl}`);
+    console.log(`auth.service.setRedirectUrl: ${this.redirectUrl}`);
   }
 
-  getRedirectUrl(): string {
-    return this.redirectUrl;
-  }
   isLoggedInObs(): Observable<boolean> {
-    return observableFrom(this.mgr.getUser()).pipe(map<User, boolean>((user) => {
+    return observableFrom(this.getUser()).pipe(map<User, boolean>((user) => {
       return user && !user.expired;
     }));
   }
 
   clearState() {
-    this.mgr.clearStaleState().then(function () {
-      console.log('auth.service.clearStateState success');
-    });
+    this._user = null;
   }
 
-  getUser() {
-    this.mgr.getUser().then((user) => {
-      this.currentUser = user;
-      //console.log('auth.service.getUser returned: ' + JSON.stringify(user));
+  getUserLegacy() {
+    this.getUser().then((user) => {
+      console.log('auth.service.getUserLegacy returned: ', user);
       this.getUserEmitter().emit(user);
     });
   }
 
   removeUser() {
-    this.mgr.removeUser().then(() => {
-      this.getUserEmitter().emit(null);
-      console.log('auth.service.removeUser: user removed');
-    });
+    this.getUserEmitter().emit(null);
+    console.log('auth.service.removeUser: user removed');
   }
 
-  startSigninMainWindow() { // redirect to /V2/authorize, instead of coming back to welcome
-    this.mgr.signinRedirect(environment.oidc_client_settings.redirect_uri).then(function () {
-      console.log('signinRedirect done');
-    });
+  startSigninMainWindow() {
+    window.location.href = environment.dataUrl + '/id/login?redirect_uri=' + environment.oidc_client_settings.redirect_uri; // TODO Router
+    console.log('signinRedirect done');
   }
 
   endSigninMainWindow(url?: string): Observable<User> {
-    if (!url) { url = 'https://localhost:4213/V2/authorize' } // TODO Chaim pls
-    return observableFrom(this.mgr.signinRedirectCallback(url));
+    if (!url) { url = environment.oidc_client_settings.redirect_uri; }
+    return observableFrom(new Promise((resolve, reject) => // TODO just make an observable
+      this.getUser().then(user => {
+        console.log('begin signinRedirectCallback: ', user);
+        if (user.expired) {
+          console.log('user not logged in.');
+
+          this.http.get(this._uriBase + '/id/authorize', { observe: 'response' })
+            .subscribe(
+              response => {
+                //console.log('end signinRedirectCallback: ', response);
+                if (response.status === 200) {
+                  user.expired = false;
+                  user.state = url;
+                  user.profile.preferred_username = 'fake name';
+                  console.log('end signinRedirectCallback: ', user);
+                  resolve(user);
+                }
+              },
+              error => {
+                console.log('signinRedirectCallback: ', error);
+                if (error.status === 401) {
+                  user.expired = true;
+                  reject(user);
+                }
+              }
+            );
+          //window.location.href = environment.authUrl + "/login?redirect_uri=" + uri;
+        } else {
+          user.state = url;
+          resolve(user);
+        }
+      })
+    ));
   }
 
   startSignoutMainWindow() {
-    this.mgr.getUser().then(user => {
-      console.log(user);
-      if (user.isLoggedIn) {
-        return this.mgr.signoutRedirect(user);
-      } else console.log("Not logged in!");
-    });
-  };
+    this.getUser().then(user => { // todo observable/subscribe
+      console.log('startSignoutMainWindow user: ', user);
+      if (!user.expired) {
+        return this.http.get(this._uriBase + '/id/logoff', {observe: 'response'}).subscribe(response => {
+          console.log("signoutRedirect: ", response);
 
-  endSignoutMainWindow() {
-    this.mgr.signoutRedirectCallback().then(function (resp) {
-      console.log('signed out', resp);
+          if (response.status === 200) {
+            console.log('here: ', response.body['data']);
+            user.expired = true;
+            window.location.href = response.body['data']; // moving on; TODO figure out router
+            return;
+          }
+        }, error => {
+          console.log('Error in signoutRedirect: ', error);
+        });
+      } else console.log("Not logged in!");
     });
   };
 }

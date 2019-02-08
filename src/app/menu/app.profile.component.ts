@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { AuthService } from '../shared/index';
-import { User } from '../shared/services/user-manager';
+import { User } from '../shared/models/user';
 
 @Component({
     selector: 'inline-profile',
@@ -28,15 +28,16 @@ export class InlineProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.auth.getUserEmitter()
-            .subscribe(
-                (user: User) => {
-                  if (!user) { this.username = 'user missing'; return; }
-                  if (!user.profile) { this.username = 'profile missing'; return; }
-                  if (!user.profile.preferred_username) { this.username = 'Not logged in'; return; }
-                  this.username = user.profile.preferred_username;
-                }
-            );
+      this.auth.getUserEmitter()
+        .subscribe(
+          (user: User) => {
+            console.log('app.profile.component.ngOnInit user: ', user);
+            if (!user) { this.username = 'user missing'; return; }
+            if (!user.profile) { this.username = 'profile missing'; return; }
+            if (!user.profile.preferred_username) { this.username = 'Not logged in'; return; }
+            this.username = user.profile.preferred_username;
+          }
+        );
     }
 
     onClick(event) {

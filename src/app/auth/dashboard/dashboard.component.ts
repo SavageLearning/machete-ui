@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
     this.authService.clearState();
   }
   getUser() {
-    this.authService.getUser();
+    this.authService.getUserLegacy();
   }
   removeUser() {
     this.authService.removeUser();

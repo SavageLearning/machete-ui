@@ -3,7 +3,7 @@ import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject } from 'rx
 import {} from 'jasmine';
 import { Employer } from "../models/employer";
 import { Lookup } from "../../lookups/models/lookup";
-import { User, UserProfile } from "../../shared/services/user-manager";
+import { User, UserProfile } from "../models/user";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
 import { ScheduleRule, TransportRule, TransportProvider, CostRule, TransportProviderAvailability } from "../../online-orders/shared/index";
