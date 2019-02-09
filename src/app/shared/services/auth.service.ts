@@ -66,16 +66,22 @@ export class AuthService {
       this.getUser().then(user => {
         console.log('begin signinRedirectCallback: ', user);
         if (user.expired) {
-          console.log('user not logged in.');
-
-          this.http.get(this._uriBase + '/id/authorize', { observe: 'response' })
+          console.log('user not logged in; attempting to authenticate...');
+          let authorizeUri = this._uriBase + '/id/authorize?redirect_uri=' + url /*+ '&nonce=' + nonce*/;
+          this.http.get(authorizeUri, { observe: 'response' }) // this is bad; it might not return before the outside observable completes
             .subscribe(
               response => {
-                //console.log('end signinRedirectCallback: ', response);
+                console.log('signinRedirectCallback response: ', response);
                 if (response.status === 200) {
                   user.expired = false;
-                  user.state = url;
-                  user.profile.preferred_username = 'fake name';
+                  user.state = url; // todo there may be no need to pass this around
+
+                  let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
+                  console.log('claims: ', claims);
+
+                  user.profile.roles = claims['role'];
+                  user.profile.preferred_username = claims['preferredUserName'];
+
                   console.log('end signinRedirectCallback: ', user);
                   resolve(user);
                 }

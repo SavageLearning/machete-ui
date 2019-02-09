@@ -23,15 +23,15 @@ export class AuthorizeComponent implements OnInit {
       console.log('authorized user: ', user);
       console.log('user.state: ', user.state); // not working, empty
 
-      // get them out of the loop
-      //if (user.state === window.location.href) user.state = '/welcome';
+      // get them out of the partial loop (it doesn't matter, but the interface is better)
+      if (user.state === window.location.href) user.state = '/welcome';
       // if (user.profile.role.includes("Hirer") && user.state == "/welcome") {
       //     rtr.navigate(['/online-orders/introduction']);
       //     return;
       // }
 
       // if (user.state) {
-      //     rtr.navigate([user.state]);
+           rtr.navigate([user.state]);
       // }
     },
     err => {
