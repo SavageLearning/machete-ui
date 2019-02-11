@@ -20,9 +20,9 @@ export class DashboardComponent implements OnInit {
         this._user = user;
       });
   }
-  clearState() {
-    this.authService.clearState();
-  }
+  // clearState() {
+  //   this.authService.clearState();
+  // }
   getUser() {
     this.authService.getUserLegacy();
   }
