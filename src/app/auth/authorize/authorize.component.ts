@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthorizeComponent implements OnInit {
 
-  constructor(private auth: AuthService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private auth: AuthService, /*private route: ActivatedRoute,*/ private router: Router) { }
 
   ngOnInit() {
     // copy to local variable; https://github.com/Microsoft/TypeScript/wiki/%27this%27-in-TypeScript

@@ -32,17 +32,17 @@ export class AppMenuComponent implements OnInit {
         }
 
     ngOnInit() {
-        this.auth.getUserEmitter()
-            .subscribe(
-                (user: User) => {
-                    if (!user.expired) {
-                      console.log('app.menu.component: user is logged in: ', user);
-                      this.model = loadMenuRules(user.profile.roles)
-                      return new Array<MenuRule>();
-                    }
-                }
-            );
-        this.auth.getUserLegacy();
+      this.auth.getUserEmitter()
+        .subscribe(
+          (user: User) => {
+            if (!user.expired) {
+              console.log('app.menu.component: user is logged in: ', user);
+              this.model = loadMenuRules(user.profile.roles);
+              return new Array<MenuRule>();
+            }
+          }
+        );
+      //this.auth.getUserLegacy(); // not defined!?
     }
 }
 

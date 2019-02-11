@@ -14,7 +14,7 @@ export class AuthService {
   _uriBase: string = environment.dataUrl;
   redirectUrl: string;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
   }
 
   getUser(): Promise<User> {
@@ -39,9 +39,9 @@ export class AuthService {
     }));
   }
 
-  clearState() {
-    this._user = null;
-  }
+  // clearState() {
+  //   this._user = null;
+  // }
 
   getUserLegacy() {
     this.getUser().then((user) => {
