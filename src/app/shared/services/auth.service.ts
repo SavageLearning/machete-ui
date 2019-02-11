@@ -1,11 +1,10 @@
 import { environment } from '../../../environments/environment';
 import { EventEmitter, Injectable } from '@angular/core';
-import { from as observableFrom } from 'rxjs';
+import { from as observableFrom, of as observableOf } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { User } from '../models/user';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +16,7 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
+  // TODO: Shouldthis be using userLoadedEvent?
   getUser(): Promise<User> {
     return new Promise((resolve) => {
       if (!this._user) this._user = new User();

@@ -11,7 +11,6 @@ export class DashboardComponent implements OnInit {
   loadedUserSub: any;
 
   constructor(private authService: AuthService) {
-
   }
 
   ngOnInit() {

@@ -9,17 +9,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit {
+
   welcome: string;
+  isLoggedIn: boolean;
+
   constructor(private cfgService: ConfigsService,
     private authService: AuthService,
     private router: Router) { }
 
   ngOnInit() {
-    this.cfgService.getConfig('WorkCenterDescription_EN')
-      .subscribe(
+    this.cfgService.getConfig('WorkCenterDescription_EN').subscribe(
         data => this.welcome = data.value,
         error => console.error('welcome.component.OnInit:' + error)
       );
+    this.authService.isLoggedInObs().subscribe(
+      value => this.isLoggedIn = value,
+      error => console.error('welcome.component.OnInit::isLoggedIn: ', error)
+    );
   }
 
   login() {
