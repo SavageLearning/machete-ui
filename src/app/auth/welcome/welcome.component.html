@@ -1,3 +1,3 @@
 <div [innerHTML]="welcome">
 </div>
-<button pButton type="button" (click)="login()" label="Login">Sign in</button>
+<button pButton type="button" (click)="login()" label="Login" *ngIf="!isLoggedIn">Sign in</button>
