@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
     "start-prod": "ng serve --host 0.0.0.0 --configuration prod",
-    "start-local-iis-dev": "ng serve --host 0.0.0.0 --ssl true --configuration local-iis-dev",
+    "start-local-dev": "ng serve --host 0.0.0.0 --ssl true --ssl-cert ./ssl/server.crt --ssl-key ./ssl/server.key --configuration local-iis-dev",
     "build": "ng build",
     "build-prod": "ng build --output-path ../Machete.Web/Content/bundles --deploy-url /Content/bundles/ --configuration production",
     "build-cloud-test": "ng build --output-path ../Machete.Web/Content/bundles --deploy-url /Content/bundles/ --configuration cloud-test",
