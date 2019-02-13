@@ -68,7 +68,9 @@ export class AuthService {
         if (user.expired) {
           console.log('user not logged in; attempting to authenticate...');
           let authorizeUri = this._uriBase + '/id/authorize?redirect_uri=' + url /*+ '&nonce=' + nonce*/;
-          this.http.get(authorizeUri, { observe: 'response' }) // this is bad; it might not return before the outside observable completes
+          // https://angular.io/api/http/RequestOptions#withCredentials
+          // https://stackoverflow.com/a/54680185/2496266
+          this.http.get(authorizeUri, { observe: 'response', withCredentials: true }) // this is bad; it might not return before the outside observable completes
             .subscribe(
               response => {
                 console.log('signinRedirectCallback response: ', response);
