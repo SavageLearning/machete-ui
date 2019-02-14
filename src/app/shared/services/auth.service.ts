@@ -56,7 +56,7 @@ export class AuthService {
       this.getUser().then(user => {
         if (user.expired) {
           console.log('user not logged in; attempting to authenticate...');
-          let authorizeUri = this._uriBase + '/id/authorize?redirect_uri=' + url;
+          let authorizeUri = this._uriBase + '/id/authorize';
           // https://angular.io/api/http/RequestOptions#withCredentials
           // https://stackoverflow.com/a/54680185/2496266
           this.http.get(authorizeUri, { observe: 'response', withCredentials: true }) // this is bad; it might not return before the outside observable completes
