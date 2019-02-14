@@ -20,9 +20,6 @@ export class AuthorizeComponent implements OnInit {
     this.auth.endSigninMainWindow().subscribe(user => {
       this.auth.getUserEmitter().emit(user);
 
-      console.log('authorized user: ', user);
-      console.log('user.state: ', user.state); // not working, empty
-
       // get them out of the partial loop (it doesn't matter, but the interface is better)
       if (user.state === window.location.href) user.state = '/welcome';
       // if (user.profile.role.includes("Hirer") && user.state == "/welcome") {
@@ -36,6 +33,9 @@ export class AuthorizeComponent implements OnInit {
     },
     err => {
       console.error('redirecting to login; endSigninMainWindow returned: ', err);
+      //user.expired = true;
+      //user.state = '/welcome';
+      this.auth.removeUser();
       rtr.navigate(['/welcome']);
     });
   }

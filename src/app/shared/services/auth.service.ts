@@ -16,14 +16,7 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  getUser(): Promise<User> {
-    return new Promise((resolve) => {
-      if (!this._user) this._user = new User();
-      resolve(this._user);
-    });
-  }
-
-  getUserSync(): User {
+  getUser(): User {
     if (!this._user) this._user = new User();
     return this._user;
   }
@@ -34,11 +27,10 @@ export class AuthService {
 
   setRedirectUrl(url: string) {
     this.redirectUrl = url;
-    console.log(`auth.service.setRedirectUrl: ${this.redirectUrl}`);
   }
 
   isLoggedInObs(): Observable<boolean> {
-    return observableOf(this.getUserSync()).pipe(map<User, boolean>((user) => {
+    return observableOf(this.getUser()).pipe(map<User, boolean>((user) => {
       return user && !user.expired;
     }));
   }
@@ -52,41 +44,48 @@ export class AuthService {
   }
 
   endSigninMainWindow(url?: string): Observable<User> {
-    return observableFrom(new Promise((resolve, reject) => {
-      this.getUser().then(user => {
-        if (user.expired) {
-          console.log('user not logged in; attempting to authenticate...');
-          let authorizeUri = this._uriBase + '/id/authorize';
-          // https://angular.io/api/http/RequestOptions#withCredentials
-          // https://stackoverflow.com/a/54680185/2496266
-          this.http.get(authorizeUri, { observe: 'response', withCredentials: true }) // this is bad; it might not return before the outside observable completes
-            .subscribe(
-              response => {
-                user.expired = false;
-                user.state = url ? url : environment.oidc_client_settings.redirect_uri; // todo there may be no need to pass this around
+    let user = this.getUser();
+    let authorizeUri = this._uriBase + '/id/authorize';
+    let redirectUri = url ? url : environment.oidc_client_settings.redirect_uri;
 
-                let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
+    if (!user.expired) {
+      user.state = url;
+      return Observable.of(user);
+    } else {
+      console.log('user not logged in; attempting to authenticate...');
+      // https://angular.io/api/http/RequestOptions#withCredentials
+      // https://stackoverflow.com/a/54680185/2496266
+      return this.http.get(authorizeUri, { observe: 'response', withCredentials: true }).map(response => {
+        let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
 
-                user.profile.roles = claims['role'];
-                user.profile.preferred_username = claims['preferredUserName'];
+        user.profile.roles = claims['role'];
+        user.profile.preferred_username = claims['preferredUserName'];
+        user.expired = false;
+        user.state = redirectUri;
 
-                resolve(user);
-              },
-              error => {
-                user.expired = true;
-                reject(user);
-              }
-            );
-        } else {
-          user.state = url;
-          resolve(user);
-        }
-      })
-    }));
+        return user;
+      });
+    }
+  }
+
+  endSignin(user, redirectUri, authorizeUri): User {
+    this.http.get(authorizeUri, { observe: 'response', withCredentials: true }).subscribe(response => {
+      user.expired = false;
+      user.state = redirectUri; // todo there may be no need to pass this around
+
+      let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
+
+      user.profile.roles = claims['role'];
+      user.profile.preferred_username = claims['preferredUserName'];
+    }, error => {
+      user.expired = true;
+      user.state = '/welcome';
+    });
+    return user;
   }
 
   startSignoutMainWindow() {
-    let user = this.getUserSync();
+    let user = this.getUser();
     if (!user.expired) {
       return this.http.get(this._uriBase + '/id/logoff', {observe: 'response'}).subscribe(response => {
         user.expired = true;
