@@ -24,7 +24,6 @@ export class InlineProfileComponent implements OnInit {
     active: boolean;
 
     constructor(private auth: AuthService) {
-
     }
 
     ngOnInit() {

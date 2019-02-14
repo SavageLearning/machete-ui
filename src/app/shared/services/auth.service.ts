@@ -16,12 +16,16 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  // TODO: Shouldthis be using userLoadedEvent?
   getUser(): Promise<User> {
     return new Promise((resolve) => {
       if (!this._user) this._user = new User();
       resolve(this._user);
     });
+  }
+
+  getUserSync(): User {
+    if (!this._user) this._user = new User();
+    return this._user;
   }
 
   getUserEmitter(): EventEmitter<User> {
@@ -34,94 +38,63 @@ export class AuthService {
   }
 
   isLoggedInObs(): Observable<boolean> {
-    return observableFrom(this.getUser()).pipe(map<User, boolean>((user) => {
+    return observableOf(this.getUserSync()).pipe(map<User, boolean>((user) => {
       return user && !user.expired;
     }));
   }
 
-  // clearState() {
-  //   this._user = null;
-  // }
-
-  getUserLegacy() {
-    this.getUser().then((user) => {
-      console.log('auth.service.getUserLegacy returned: ', user);
-      this.getUserEmitter().emit(user);
-    });
-  }
-
   removeUser() {
     this.getUserEmitter().emit(null);
-    console.log('auth.service.removeUser: user removed');
   }
 
   startSigninMainWindow() {
     window.location.href = environment.dataUrl + '/id/login?redirect_uri=' + environment.oidc_client_settings.redirect_uri; // TODO Router
-    console.log('signinRedirect done');
   }
 
   endSigninMainWindow(url?: string): Observable<User> {
-    if (!url) { url = environment.oidc_client_settings.redirect_uri; }
-    return observableFrom(new Promise((resolve, reject) => // TODO just make an observable
+    return observableFrom(new Promise((resolve, reject) => {
       this.getUser().then(user => {
-        console.log('begin signinRedirectCallback: ', user);
         if (user.expired) {
           console.log('user not logged in; attempting to authenticate...');
-          let authorizeUri = this._uriBase + '/id/authorize?redirect_uri=' + url /*+ '&nonce=' + nonce*/;
+          let authorizeUri = this._uriBase + '/id/authorize?redirect_uri=' + url;
           // https://angular.io/api/http/RequestOptions#withCredentials
           // https://stackoverflow.com/a/54680185/2496266
           this.http.get(authorizeUri, { observe: 'response', withCredentials: true }) // this is bad; it might not return before the outside observable completes
             .subscribe(
               response => {
-                console.log('signinRedirectCallback response: ', response);
-                if (response.status === 200) {
-                  user.expired = false;
-                  user.state = url; // todo there may be no need to pass this around
+                user.expired = false;
+                user.state = url ? url : environment.oidc_client_settings.redirect_uri; // todo there may be no need to pass this around
 
-                  let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
-                  console.log('claims: ', claims);
+                let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
 
-                  user.profile.roles = claims['role'];
-                  user.profile.preferred_username = claims['preferredUserName'];
+                user.profile.roles = claims['role'];
+                user.profile.preferred_username = claims['preferredUserName'];
 
-                  console.log('end signinRedirectCallback: ', user);
-                  resolve(user);
-                }
+                resolve(user);
               },
               error => {
-                console.log('signinRedirectCallback: ', error);
-                if (error.status === 401) {
-                  user.expired = true;
-                  reject(user);
-                }
+                user.expired = true;
+                reject(user);
               }
             );
-          //window.location.href = environment.authUrl + "/login?redirect_uri=" + uri;
         } else {
           user.state = url;
           resolve(user);
         }
       })
-    ));
+    }));
   }
 
   startSignoutMainWindow() {
-    this.getUser().then(user => { // todo observable/subscribe
-      console.log('startSignoutMainWindow user: ', user);
-      if (!user.expired) {
-        return this.http.get(this._uriBase + '/id/logoff', {observe: 'response'}).subscribe(response => {
-          console.log("signoutRedirect: ", response);
-
-          if (response.status === 200) {
-            console.log('here: ', response.body['data']);
-            user.expired = true;
-            window.location.href = response.body['data']; // moving on; TODO figure out router
-            return;
-          }
-        }, error => {
-          console.log('Error in signoutRedirect: ', error);
-        });
-      } else console.log("Not logged in!");
-    });
-  };
+    let user = this.getUserSync();
+    if (!user.expired) {
+      return this.http.get(this._uriBase + '/id/logoff', {observe: 'response'}).subscribe(response => {
+        user.expired = true;
+        user.state = '/welcome';
+        return;
+      }, error => {
+        console.log('Error in signoutRedirect: ', error);
+      });
+    } else console.log("Not logged in!");
+  }
 }

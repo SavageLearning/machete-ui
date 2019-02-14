@@ -42,7 +42,6 @@ export class AppMenuComponent implements OnInit {
             }
           }
         );
-      //this.auth.getUserLegacy(); // not defined!?
     }
 }
 
