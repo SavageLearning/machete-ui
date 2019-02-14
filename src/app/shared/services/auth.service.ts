@@ -68,22 +68,6 @@ export class AuthService {
     }
   }
 
-  endSignin(user, redirectUri, authorizeUri): User {
-    this.http.get(authorizeUri, { observe: 'response', withCredentials: true }).subscribe(response => {
-      user.expired = false;
-      user.state = redirectUri; // todo there may be no need to pass this around
-
-      let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
-
-      user.profile.roles = claims['role'];
-      user.profile.preferred_username = claims['preferredUserName'];
-    }, error => {
-      user.expired = true;
-      user.state = '/welcome';
-    });
-    return user;
-  }
-
   startSignoutMainWindow() {
     let user = this.getUser();
     if (!user.expired) {
