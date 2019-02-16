@@ -1,6 +1,5 @@
 import { environment } from '../../../environments/environment';
 import { EventEmitter, Injectable } from '@angular/core';
-import { from as observableFrom, of as observableOf } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/Rx';
@@ -30,7 +29,7 @@ export class AuthService {
   }
 
   isLoggedInObs(): Observable<boolean> {
-    return observableOf(this.getUser()).pipe(map<User, boolean>((user) => {
+    return Observable.of(this.getUser()).pipe(map<User, boolean>((user) => {
       return user && !user.expired;
     }));
   }
@@ -71,7 +70,7 @@ export class AuthService {
   startSignoutMainWindow() {
     let user = this.getUser();
     if (!user.expired) {
-      return this.http.get(this._uriBase + '/id/logoff', {observe: 'response'}).subscribe(response => {
+      return this.http.get(this._uriBase + '/id/logoff', { observe: 'response', withCredentials: true }).subscribe(response => {
         user.expired = true;
         user.state = '/welcome';
         return;

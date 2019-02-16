@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authorize',
@@ -11,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthorizeComponent implements OnInit {
 
-  constructor(private auth: AuthService, /*private route: ActivatedRoute,*/ private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     // copy to local variable; https://github.com/Microsoft/TypeScript/wiki/%27this%27-in-TypeScript
@@ -22,14 +20,13 @@ export class AuthorizeComponent implements OnInit {
 
       // get them out of the partial loop (it doesn't matter, but the interface is better)
       if (user.state === window.location.href) user.state = '/welcome';
-      // if (user.profile.role.includes("Hirer") && user.state == "/welcome") {
-      //     rtr.navigate(['/online-orders/introduction']);
-      //     return;
-      // }
 
-      // if (user.state) {
-           rtr.navigate([user.state]);
-      // }
+      if (user.profile.roles.includes("Hirer") && user.state == "/welcome") {
+          rtr.navigate(['/online-orders/introduction']);
+          return;
+      }
+
+      rtr.navigate([user.state]);
     },
     err => {
       console.error('redirecting to login; endSigninMainWindow returned: ', err);

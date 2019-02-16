@@ -1,11 +1,12 @@
 
-import {of as observableOf, Observable,  BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
-import {first, mergeMap, map} from 'rxjs/operators';
+import { first, mergeMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Lookup, LCategory } from './models/lookup';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+
 @Injectable()
 export class LookupsService {
   uriBase = environment.dataUrl + '/api/lookups';
@@ -51,14 +52,14 @@ export class LookupsService {
     // }
     // TODO: set timer for refresh
     console.log('getLookups: ', this.uriBase);
-    this.http.get(this.uriBase)
+    this.http.get(this.uriBase, { withCredentials: true })
       .subscribe(res => {
         this.lookups = res['data'] as Lookup[];
         this.lookupsAge = Date.now();
         this.lookupsSource.next(this.lookups);
         this.storeLookups();
 
-        return observableOf(res['data'] as Lookup[]);
+        return Observable.of(res['data'] as Lookup[]);
       });
   }
 
@@ -80,6 +81,6 @@ export class LookupsService {
   getLookup(id: number): Observable<Lookup> {
     return this.lookups$.pipe(
       mergeMap(a => a.filter(ll => ll.id == id)),
-      first(),);
+      first(),); // TODO is this a mistake or are we passing undefined?
   }
 }

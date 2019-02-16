@@ -1,14 +1,12 @@
 
-import {of as observableOf,  Observable ,  BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
-import {catchError, map} from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Employer } from '../shared/models/employer';
 import { AuthService } from '../shared/index';
-import { User } from '../shared/models/user';
-import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class EmployersService {
@@ -21,7 +19,7 @@ export class EmployersService {
 
   fetchEmployer(): Observable<Employer> {
     let uri = environment.dataUrl + '/api/employer/profile';    
-    return this.http.get(uri).pipe(
+    return this.http.get(uri, { withCredentials: true }).pipe(
       map(data => {
         this.setEmployer(data['data'] as Employer);
         return data['data'] as Employer;
@@ -29,8 +27,8 @@ export class EmployersService {
       catchError(error => {
         this.setEmployer(null);
         console.log('error from getEmployer');
-        return observableOf(null);
-      }),);
+        return Observable.of(null);
+      }),); // TODO is this last 'undefined' bit intentional?
   }
   getEmployer(): Observable<Employer> {
     return this.employerSource.asObservable();
@@ -42,15 +40,15 @@ export class EmployersService {
 
   save(employer: Employer): Observable<Employer> {
     let uri = environment.dataUrl + '/api/employer/profile';
-    let method: Function;
+
     console.log('save:', uri, employer);
-    // create or update 
-    return this.http.put(uri, JSON.stringify(employer), {
-      headers: new HttpHeaders().set('Content-Type', 'application/json')
-      }).pipe(map(
-        data => {
-          this.setEmployer(data['data'] as Employer);
-          return data['data'];
-        }));
+    let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    // create or update
+    return this.http.put(uri, JSON.stringify(employer), { headers: httpHeaders, withCredentials: true }).pipe(
+      map(data => {
+        this.setEmployer(data['data'] as Employer);
+        return data['data'];
+      })
+    );
   }
 }

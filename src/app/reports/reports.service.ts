@@ -1,13 +1,10 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import {Http, Headers, Request, RequestMethod, RequestOptions} from '@angular/http';
-
 
 import { Report } from './models/report';
 import { SearchOptions } from './models/search-options';
-import {Observable} from 'rxjs';
-import {SimpleAggregateRow} from './models/simple-aggregate-row';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -25,14 +22,14 @@ export class ReportsService {
       uri = uri + '?' + params;
     }
     console.log('getReportData: ' + uri);
-    return this.http.get(uri).pipe(
+    return this.http.get(uri, { withCredentials: true }).pipe(
               map(res => res['data'] as any));
   }
 
   public getReportList(): Observable<Report[]> {
     let uri = environment.dataUrl + '/api/reports';
     console.log('getReportList: ', uri);
-    return this.http.get(uri).pipe(
+    return this.http.get(uri, { withCredentials: true }).pipe(
       map(o => o['data'] as Report[]));
   }
 
