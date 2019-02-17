@@ -30,6 +30,6 @@ import {ReportsRoutingModule } from './reports-routing.module';
 })
 export class ReportsModule {
   constructor() {
-    console.log('.ctor');
+    console.log('.ctor: ReportsModule');
   }
 }

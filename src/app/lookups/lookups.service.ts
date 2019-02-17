@@ -21,7 +21,7 @@ export class LookupsService {
 
 
   constructor(private http: HttpClient) {
-    console.log('.ctor');
+    console.log('.ctor: LookupsService');
     let data = sessionStorage.getItem(this.storageKey);
     this.lookupsAge = Number(sessionStorage.getItem(this.storageKey + '.age'));
 

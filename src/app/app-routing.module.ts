@@ -71,6 +71,6 @@ const appRoutes: Routes = [
 })
 export class AppRoutingModule {
   constructor() {
-    console.log('.ctor');
+    console.log('.ctor: AppRoutingModule');
   }
 }

@@ -68,7 +68,7 @@ import { TransportProvidersService } from './online-orders/transport-providers.s
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    console.log('.ctor');
+    console.log('.ctor: AppModule');
   }
 
 }

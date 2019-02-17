@@ -21,6 +21,6 @@ import { InputTextModule, ButtonModule, DropdownModule, KeyFilterModule } from '
 export class EmployersModule {
   // Diagnostic only: inspect router configuration
   constructor() {
-    console.log('.ctor');
+    console.log('.ctor: EmployersModule');
   }
 }

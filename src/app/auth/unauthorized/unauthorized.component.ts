@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { AuthService } from '../../shared/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-unauthorized',
@@ -8,16 +7,14 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['unauthorized.component.scss']
 })
 export class UnauthorizedComponent implements OnInit {
-  //, private location:Location
-  constructor(private location: Location, private auth: AuthService) {
 
+  constructor() {
   }
 
   ngOnInit() {
   }
 
   login() {
-    this.auth.startSigninMainWindow();
+    window.location.href = environment.dataUrl + '/id/login?redirect_uri=' + environment.oidc_client_settings.redirect_uri;
   }
-
 }

@@ -6,7 +6,6 @@ import { MenuItem } from 'primeng/primeng';
 import { AppComponent } from '../app.component';
 import { loadMenuRules } from './load-menu-rules';
 import { AuthService } from '../shared/index';
-import { User } from '../shared/models/user';
 import { MenuRule } from './menu-rule';
 
 @Component({
@@ -26,22 +25,19 @@ export class AppMenuComponent implements OnInit {
     model: any[];
 
     constructor(
-        @Inject(forwardRef(() => AppComponent)) public app: AppComponent,
-        private auth: AuthService) {
-          console.log('.ctor: app menu component');
-        }
+      @Inject(forwardRef(() => AppComponent)) public app: AppComponent,
+      private auth: AuthService
+    ) {
+      console.log('.ctor: AppMenuComponent');
+    }
 
     ngOnInit() {
-      this.auth.getUserEmitter()
-        .subscribe(
-          (user: User) => {
-            if (!user.expired) {
-              console.log('app.menu.component: user is logged in: ', user);
-              this.model = loadMenuRules(user.profile.roles);
-              return new Array<MenuRule>();
-            }
-          }
-        );
+      this.auth.authenticate().subscribe(user => {
+        this.model = loadMenuRules(user.profile.roles);
+        return new Array<MenuRule>();
+      }, unauthorized => {
+        console.log('Not signed in: ', unauthorized);
+      });
     }
 }
 
@@ -88,8 +84,8 @@ export class AppSubMenu {
         //execute command
         if (item.command) {
             item.command({
-               originalEvent: event,
-                item: item
+              originalEvent: event,
+              item: item
             });
         }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-authorize',
@@ -15,20 +16,19 @@ export class AuthorizeComponent implements OnInit {
     // copy to local variable; https://github.com/Microsoft/TypeScript/wiki/%27this%27-in-TypeScript
     let rtr = this.router;
 
-    this.auth.endSigninMainWindow().subscribe(user => {
-      this.auth.getUserEmitter().emit(user);
+    this.auth.authenticate().subscribe(user => {
+      user.state = user.state ? user.state : environment.oidc_client_settings.redirect_uri;
 
-      // get them out of the partial loop (it doesn't matter, but the interface is better)
+      // get out of the auth loop (it doesn't matter, but it's a better experience)
       if (user.state === window.location.href) user.state = '/welcome';
 
       if (user.profile.roles.includes("Hirer") && user.state == "/welcome") {
-          rtr.navigate(['/online-orders/introduction']);
-          return;
+        rtr.navigate(['/online-orders/introduction']);
+        return;
+      } else {
+        rtr.navigate([user.state]);
       }
-
-      rtr.navigate([user.state]);
-    },
-    err => {
+    }, err => {
       console.error('redirecting to login; endSigninMainWindow returned: ', err);
       //user.expired = true;
       //user.state = '/welcome';

@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { AuthService } from '../shared/index';
 import { User } from '../shared/models/user';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'inline-profile',
@@ -23,30 +24,34 @@ export class InlineProfileComponent implements OnInit {
     username: string;
     active: boolean;
 
-    constructor(private auth: AuthService) {
+    constructor(
+      private auth: AuthService,
+      private router: Router
+    ) {
+      console.log(".ctor: InlineProfileComponent");
     }
 
     ngOnInit() {
-      this.auth.getUserEmitter()
-        .subscribe(
-          (user: User) => {
-            console.log('app.profile.component.ngOnInit user: ', user);
-            if (!user) { this.username = 'user missing'; return; }
-            if (!user.profile) { this.username = 'profile missing'; return; }
-            if (!user.profile.preferred_username) { this.username = 'Not logged in'; return; }
-            this.username = user.profile.preferred_username;
-          }
-        );
+      this.auth.authenticate().subscribe(user => {
+        this.username = user.profile.preferred_username;
+      }, error => {
+        console.log('InlineProfileComponent: ', error);
+        this.username = 'Not logged in!';
+      });
     }
 
     onClick(event) {
-        this.active = !this.active;
-        event.preventDefault();
+      this.active = !this.active;
+      event.preventDefault();
     }
 
-    startSignoutMainWindow(e) {
-      e.preventDefault();
-
-      this.auth.startSignoutMainWindow();
+    startSignoutMainWindow() {
+      let rtr = this.router;
+      this.auth.signoutUser().subscribe(response => {
+        console.log('signout success: ', response);
+        rtr.navigate(['authorize']);
+      }, error => {
+        console.log('Error in signoutRedirect: ', error);
+      });
     }
 }
