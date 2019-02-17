@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { UseExistingWebDriver } from 'protractor/built/driverProviders';
-import { User } from 'src/app/shared/models/user';
+import { User } from '../../shared/models/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
-  authenticate() { // TODO untested
+  authenticate() {
     this.authService.authenticate().subscribe(user => { this._user = user; });
   }
 
