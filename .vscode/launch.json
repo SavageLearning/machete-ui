@@ -6,7 +6,11 @@
           "request": "launch",
           "name": "Launch Chrome against localhost",
           "url": "https://localhost:4200",
-          "webRoot": "${workspaceRoot}"
+          "webRoot": "${workspaceRoot}",
+          "skipFiles": [
+            "${workspaceRoot}/node_modules/**/*",
+            "${workspaceRoot}/**/*.html"
+          ]
         },
         {
           "type": "chrome",

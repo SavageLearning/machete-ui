@@ -45,8 +45,8 @@ export class EmployersComponent implements OnInit {
   constructor(
     private employersService: EmployersService,
     private lookupsService: LookupsService,
-     private fb: FormBuilder,
-     private router: Router
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit() {
