@@ -11,6 +11,9 @@ import { environment } from '../../../environments/environment';
 })
 export class WelcomeComponent implements OnInit {
 
+  facebookAppId: string;
+  googleClientId: string;
+  macheteSessionId: string;
   welcome: string;
   isLoggedIn: boolean;
 
@@ -19,8 +22,14 @@ export class WelcomeComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.cfgService.getConfig('WorkCenterDescription_EN').subscribe(
-      data => this.welcome = data.value,
+    this.cfgService.getAllConfigs().subscribe(
+      data => {
+        //console.log('configs: ', data) // TODO this was 2am madness, this isn't great JS
+        this.welcome = data.find(config => config.key === 'WorkCenterDescription_EN').value;
+        this.facebookAppId = data.find(config => config.key === 'FacebookAppId').value;
+        this.googleClientId = data.find(config => config.key === 'GoogleClientId').value;
+        this.macheteSessionId = data.find(config => config.key === 'OAuthStateParameter').value;
+      },
       error => console.error('welcome.component.OnInit:' + error)
     );
     this.authService.authenticate().subscribe(value => {
@@ -33,7 +42,12 @@ export class WelcomeComponent implements OnInit {
 
   // https://stackoverflow.com/a/49437170/2496266
   login() {
-    window.location.href = environment.dataUrl + '/id/login?redirect_uri=' + environment.oidc_client_settings.redirect_uri;
+    window.location.href = environment.dataUrl
+                         + '/id/login?redirect_uri='
+                         + environment.oidc_client_settings.redirect_uri + '&'
+                         + 'app_id=' + this.facebookAppId + '&'
+                         + 'client_id=' + this.googleClientId + '&'
+                         + 'state=' + this.macheteSessionId;
   }
 
   // DEPRECATED
