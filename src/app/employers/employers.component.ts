@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployersService } from './employers.service';
 import { Employer } from '../shared/models/employer';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LookupsService } from '../lookups/lookups.service';
-import { MySelectItem } from '../shared/models/my-select-item';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { YesNoSelectItem } from '../shared/models/my-select-item';
 import { Router } from '@angular/router';
 //import { phoneValidator } from '../shared/validators/phone';
 import { requiredValidator } from '../online-orders/shared/index';
@@ -22,8 +21,7 @@ export class EmployersComponent implements OnInit {
   employer: Employer = new Employer();
   employerForm: FormGroup;
   showErrors = false;
-  yesNoDropDown = [new MySelectItem('no', 'false'),
-    new MySelectItem('yes', 'true')];
+  yesNoDropDown = [new YesNoSelectItem('no', false), new YesNoSelectItem('yes', true)];
   formErrors = {
     'address1': '',
     'address2': '',
