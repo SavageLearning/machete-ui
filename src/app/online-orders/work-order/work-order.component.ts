@@ -6,7 +6,6 @@ import { WorkOrder } from '../../shared/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderService } from './work-order.service';
 import { ScheduleRule, schedulingDayValidator, requiredValidator, TransportRule, TransportProvider, schedulingTimeValidator } from '../shared';
-import { ConfigsService } from '../../configs/configs.service';
 import { MySelectItem, YesNoSelectItem } from '../../shared/models/my-select-item';
 import { Router } from "@angular/router";
 import { ScheduleRulesService } from '../schedule-rules.service';
@@ -72,7 +71,6 @@ export class WorkOrderComponent implements OnInit {
     private transportProviderService: TransportProvidersService,
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
-    private configsService: ConfigsService,
     private schedulingRulesService: ScheduleRulesService,
     private transportRulesService: TransportRulesService,
     private router: Router,
@@ -138,7 +136,6 @@ export class WorkOrderComponent implements OnInit {
       'englishRequiredNote': [this.workOrder.englishRequiredNote, lengthValidator(100)],
       'transportProviderID': [this.workOrder.transportProviderID, [requiredValidator('A transport method is required')]]
     });
-    // .value.englishRequired:null
 
     this.orderForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
@@ -196,7 +193,7 @@ export class WorkOrderComponent implements OnInit {
     this.showErrors = false;
 
     const order = this.prepareOrderForSave();
-    this.orderService.save(order); // englishRequired: null
+    this.orderService.save(order);
     this.onlineService.setWorkorderConfirm(true);
     this.newOrder = false;
     this.router.navigate(['/online-orders/work-assignments']);
@@ -222,6 +219,7 @@ export class WorkOrderComponent implements OnInit {
       englishRequiredNote: formModel.englishRequiredNote,
       transportProviderID: formModel.transportProviderID
     });
-    return order; // englishRequired null
+    order.englishRequired = formModel.englishRequired; // TypeScript pls
+    return order;
   }
 }
