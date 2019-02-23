@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   }
 
   authenticate() {
-    this.authService.authenticate().subscribe(user => { this._user = user; });
+    this.authService.authorize().subscribe(user => { this._user = user; });
   }
 
   signoutUser() {

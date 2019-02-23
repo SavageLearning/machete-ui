@@ -16,6 +16,7 @@ export class WelcomeComponent implements OnInit {
   macheteSessionId: string;
   welcome: string;
   isLoggedIn: boolean;
+  userState: string;
 
   constructor(private cfgService: ConfigsService,
     private authService: AuthService,
@@ -32,8 +33,9 @@ export class WelcomeComponent implements OnInit {
       },
       error => console.error('welcome.component.OnInit:' + error)
     );
-    this.authService.authenticate().subscribe(value => {
-      this.isLoggedIn = !value.expired;
+    this.authService.authorize().subscribe(user => {
+      this.isLoggedIn = !user.expired;
+      this.userState = user.state ? user.state : '/welcome';
     }, error => {
       console.log('welcome component: error; ', error);
       this.isLoggedIn = false; 

@@ -14,7 +14,7 @@ export class AuthGuardService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
       //console.log(state);
-      return this.authService.authenticate().pipe(map(user => {
+      return this.authService.authorize().pipe(map(user => {
         if (user.expired) {
           this.authService.setRedirectRoute(state.url);
           this.router.navigate(['unauthorized']);

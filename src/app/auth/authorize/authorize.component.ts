@@ -15,7 +15,7 @@ export class AuthorizeComponent implements OnInit {
     // copy to local; https://github.com/Microsoft/TypeScript/wiki/%27this%27-in-TypeScript
     let rtr = this.router;
 
-    this.auth.authenticate().subscribe(user => {
+    this.auth.authorize().subscribe(user => {
       user.state = user.state ? user.state : '/welcome';
 
       // get out of the auth loop (no hanging 'authorize works!')

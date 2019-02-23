@@ -127,8 +127,8 @@
           </div>
           <div class="ui-g-12  ui-md-8 ui-g-nopad">
             <span class="md-inputfield">
-              <p-dropdown id="business" [options]="yesNoDropDown" formControlName="business"
-                [autoWidth]="false"></p-dropdown>
+              <p-dropdown id="business" [options]="yesNoDropDown" formControlName="business" [autoWidth]="false">
+              </p-dropdown>
               <div class="ui-message ui-message-error ui-corner-all" *ngIf="!employerForm.valid && showErrors">
                 {{formErrors.business}}
               </div>

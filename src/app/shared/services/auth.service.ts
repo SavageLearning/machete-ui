@@ -20,8 +20,8 @@ export class AuthService {
     return Observable.of(this._user);
   }
 
-  /** Checks against the API to see if a user is authenticated. From the perspective of the API, this is an authorization check; this method does not log a user in. */
-  authenticate(): Observable<User> {
+  /** Checks against the API to see if a user is authenticated. This method does not log a user in. */
+  authorize(): Observable<User> {
     return this.getUser().flatMap(user => {
       if (!user.expired) {
         return Observable.of(user);
@@ -32,7 +32,8 @@ export class AuthService {
         return this.http.get(environment.dataUrl + '/id/authorize', { observe: 'response', withCredentials: true })
           .map(response => {
             let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
-            user.profile.roles = claims['role'];
+            // JSON.parse will return a string if there's only one member, so:
+            user.profile.roles = user.profile.roles.concat(claims['role']);
             user.profile.preferred_username = claims['preferredUserName'];
             user.expired = false;
       
@@ -68,7 +69,7 @@ export class AuthService {
    * 
    * could otherwise be made. */
   isLoggedIn(): Observable<boolean> {
-    return this.authenticate().pipe(map(user => {
+    return this.authorize().pipe(map(user => {
       return !user.expired;
     }));
   }

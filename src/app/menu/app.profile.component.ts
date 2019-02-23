@@ -32,7 +32,7 @@ export class InlineProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.auth.authenticate().subscribe(user => {
+      this.auth.authorize().subscribe(user => {
         this.username = user.profile.preferred_username;
       }, error => {
         console.log('InlineProfileComponent: ', error);

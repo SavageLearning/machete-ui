@@ -44,8 +44,7 @@ export class EmployersComponent implements OnInit {
 
   constructor(
     private employersService: EmployersService,
-    private lookupsService: LookupsService,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private router: Router
   ) { }
 
@@ -57,11 +56,10 @@ export class EmployersComponent implements OnInit {
           this.employer = data || new Employer();
           this.buildForm();
         });
-
   }
 
   buildForm(): void {
-    this.employerForm = this.fb.group({
+    this.employerForm = this.formBuilder.group({
     //'id': [this.employer.id],
     'address1': [this.employer.address1, [requiredValidator('Address is required'), lengthValidator(50)]],
     'address2': [this.employer.address2, lengthValidator(50)],
@@ -125,7 +123,4 @@ export class EmployersComponent implements OnInit {
         }
       );
   }
-
-  
-
 }

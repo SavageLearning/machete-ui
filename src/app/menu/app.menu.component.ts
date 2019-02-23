@@ -32,7 +32,7 @@ export class AppMenuComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.auth.authenticate().subscribe(user => {
+      this.auth.authorize().subscribe(user => {
         this.model = loadMenuRules(user.profile.roles);
         return new Array<MenuRule>();
       }, unauthorized => {
