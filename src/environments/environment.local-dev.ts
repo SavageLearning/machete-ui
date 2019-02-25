@@ -4,18 +4,19 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  name: 'local-iis-dev',
+  name: 'local-dev',
   production: false,
+  paypalID: '',
   dataUrl: 'https://localhost:4213',
   authUrl: 'https://localhost:4213/id',
   oidc_client_settings: {
     authority: 'https://localhost:4213/id',
     client_id: 'machete-ui-local',
-    redirect_uri: 'https://localhost:4200/authorize',
-    post_logout_redirect_uri: 'https://localhost:4200',
+    redirect_uri: 'https://localhost:4213/V2/authorize',
+    post_logout_redirect_uri: 'https://localhost:4213/V2',
     response_type: 'id_token token',
     scope: 'openid email roles api profile',
-    silent_redirect_uri: 'https://localhost:4200/silent-renew.html',
+    silent_redirect_uri: 'https://localhost:4213/V2/silent-renew.html',
     automaticSilentRenew: true,
     accessTokenExpiringNotificationTime: 4,
     // silentRequestTimeout:10000,

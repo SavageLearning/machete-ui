@@ -100,11 +100,11 @@
                 }
               ]
             },
-            "local-iis-dev": {
+            "local-dev": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local-iis-dev.ts"
+                  "with": "src/environments/environment.local-dev.ts"
                 }
               ]
             },
@@ -134,8 +134,8 @@
             "cloud-test": {
               "browserTarget": "machete-ui:build:cloud-test"
             },
-            "local-iis-dev": {
-              "browserTarget": "machete-ui:build:local-iis-dev"
+            "local-dev": {
+              "browserTarget": "machete-ui:build:local-dev"
             },
             "mvc-embedded": {
               "browserTarget": "machete-ui:build:mvc-embedded"
