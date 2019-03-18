@@ -46,7 +46,8 @@ export class WelcomeComponent implements OnInit {
   login() {
     window.location.href = environment.dataUrl
                          + '/id/login?redirect_uri='
-                         + environment.oidc_client_settings.redirect_uri + '&'
+                         + environment.dataUrl
+                         + environment.redirect_uri + '&' // should include above...
                          + 'app_id=' + this.facebookAppId + '&'
                          + 'client_id=' + this.googleClientId + '&'
                          + 'state=' + this.macheteSessionId;

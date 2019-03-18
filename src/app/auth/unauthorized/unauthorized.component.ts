@@ -18,6 +18,5 @@ export class UnauthorizedComponent implements OnInit {
   login() {
     let rtr = this.router;
     rtr.navigate(['/authorize']);
-    //window.location.href = environment.dataUrl + '/id/login?redirect_uri=' + environment.oidc_client_settings.redirect_uri;
   }
 }

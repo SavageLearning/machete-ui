@@ -58,11 +58,11 @@
             ]
           },
           "configurations": {
-            "testing": {
+            "test": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.testing.ts"
+                  "with": "src/environments/environment.test.ts"
                 }
               ]
             },
@@ -107,15 +107,6 @@
                   "with": "src/environments/environment.local-dev.ts"
                 }
               ]
-            },
-            "mvc-embedded": {
-
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.mvc-embedded.ts"
-                }
-              ]
             }
           }
         },
@@ -125,20 +116,17 @@
             "browserTarget": "machete-ui:build"
           },
           "configurations": {
-            "testing": {
-              "browserTarget": "machete-ui:build:testing"
+            "test": {
+              "browserTarget": "machete-ui:build:test"
             },
             "production": {
               "browserTarget": "machete-ui:build:production"
             },
-            "cloud-test": {
-              "browserTarget": "machete-ui:build:cloud-test"
-            },
             "local-dev": {
               "browserTarget": "machete-ui:build:local-dev"
             },
-            "mvc-embedded": {
-              "browserTarget": "machete-ui:build:mvc-embedded"
+            "local-dev-ssl": {
+              "browserTarget": "machete-ui:build:local-dev-ssl"
             }
           }
         },

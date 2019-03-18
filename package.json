@@ -5,14 +5,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --ssl true --ssl-cert ./ssl/server.crt --ssl-key ./ssl/server.key",
-    "start-prod": "ng serve --host 0.0.0.0 --configuration prod",
+    "start-test": "ng serve --host 0.0.0.0 --configuration test",
+    "start-prod": "ng serve --host 0.0.0.0 --configuration production",
     "start-local-dev": "ng serve --host 0.0.0.0 --configuration local-dev",
     "start-local-dev-ssl": "ng serve --host 0.0.0.0 --ssl true --ssl-cert ./ssl/server.crt --ssl-key ./ssl/server.key --configuration local-dev",
     "build": "ng build",
-    "build-prod": "ng build --output-path ../Machete.Web/Content/bundles --deploy-url /Content/bundles/ --configuration production",
-    "build-cloud-test": "ng build --output-path ../Machete.Web/Content/bundles --deploy-url /Content/bundles/ --configuration cloud-test",
+    "build-test": "ng build --configuration production",
+    "build-prod": "ng build --configuration production",
     "build-local-dev": "ng build --configuration local-dev",
-    "build-local-dev-ssl": "ng build --configuration local-dev-ssl",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

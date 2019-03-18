@@ -1,7 +1,7 @@
 export const environment = {
-  name: 'dev',
+  name: 'test',
   production: false,
   dataUrl: '',
   client_id: 'machete-ui-local',
-  redirect_uri: '/authorize',
+  redirect_uri: '/V2/authorize',
 };
