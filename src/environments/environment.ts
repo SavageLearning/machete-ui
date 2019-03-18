@@ -1,7 +1,7 @@
 export const environment = {
   name: 'dev',
   production: false,
-  dataUrl: '',
+  dataUrl: window.location.protocol + '//' + window.location.host,
   client_id: 'machete-ui-local',
   redirect_uri: '/authorize',
 };
