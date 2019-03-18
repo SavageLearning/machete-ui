@@ -5,7 +5,7 @@
           "type": "chrome",
           "request": "launch",
           "name": "Launch Chrome against localhost",
-          "url": "https://localhost:4200",
+          "url": "http://localhost:4200",
           "webRoot": "${workspaceRoot}",
           "skipFiles": [
             "${workspaceRoot}/node_modules/**/*",
@@ -16,7 +16,7 @@
           "type": "chrome",
           "request": "launch",
           "name": "Launch Chrome against localhost (parent project)",
-          "url": "https://localhost:4213",
+          "url": "http://localhost:4213",
           "webRoot": "${workspaceRoot}"
         },
         {
