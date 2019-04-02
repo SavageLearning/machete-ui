@@ -163,14 +163,24 @@
           </div>
         </div>
 
-        <div class="ui-g-12">
-            <div class="ui-g-8 ui-md-10 ui-g-nopad">
-              <label for="englishRequired">Do you need an English-speaking worker?</label>
-            </div>
-            <div class="ui-g-4 ui-md-2 ui-g-nopad">
-              <p-toggleButton id="englishRequired" formControlName="englishRequired"></p-toggleButton>
-            </div>
+        <div class="ui-g-12"> 
+          <div class="ui-g-7 ui-md-9 ui-g-nopad">
+            <label for="englishRequired">Do you need an English-speaking worker?</label>
           </div>
+          <div class="ui-g-5 ui-md-3 ui-g-nopad">
+            <span class="md-inputfield">
+              <p-dropdown
+                  id="englishRequired"
+                  [options]="yesNoDropDown"
+                  formControlName="englishRequired"
+                  [autoWidth]="false">
+              </p-dropdown>
+              <div class="ui-message ui-message-error ui-corner-all" *ngIf="!orderForm.controls['englishRequired'] && showErrors">
+                {{formErrors.englishRequired}}
+              </div>
+            </span>
+          </div>
+        </div>
 
 
         <div class="ui-g-12" *ngIf="engReqToggle">

@@ -20,5 +20,3 @@ export enum TransportType {
     transport_bus,
     transport_pickup
 }
-
-

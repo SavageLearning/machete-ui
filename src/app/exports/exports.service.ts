@@ -1,15 +1,16 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-
-import {Headers, Response, RequestOptions, ResponseContentType, Http} from '@angular/http';
-import {Observable} from 'rxjs';
+// TODO @angular/http should be deprecated, need to find @angular/common/http equivalents
+import { Headers, Response, RequestOptions, ResponseContentType } from '@angular/http';
+import { Observable } from 'rxjs';
 import { Export } from './models/export';
-import {ExportColumn} from './models/export-column';
-import {SearchOptions} from '../reports/models/search-options';
-import {environment} from '../../environments/environment';
+import { ExportColumn } from './models/export-column';
+import { SearchOptions } from '../reports/models/search-options';
+import { environment} from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+
 @Injectable()
 export class ExportsService {
   uriBase = environment.dataUrl + '/api/exports';
@@ -18,7 +19,7 @@ export class ExportsService {
   getExportsList(): Observable<Export[]> {
 
     console.log('getExportList: ', this.uriBase);
-    return this.http.get(this.uriBase).pipe(
+    return this.http.get(this.uriBase, { withCredentials: true }).pipe(
       map(res => res['data'] as Export[]));
   }
 
@@ -26,11 +27,12 @@ export class ExportsService {
 
     let uri = this.uriBase + '/' + tableName.toLowerCase();
     console.log('getColumns ', uri);
-    return this.http.get(uri).pipe(
+    return this.http.get(uri, { withCredentials: true }).pipe(
       map(res => res['data'] as ExportColumn[]));
   }
 
   getExport(tableName: string, o: SearchOptions): Observable<Response> {
+    // TODO it appears we don't use these options?
     let headers = new Headers({ 'Content-Type': 'application/text' });
     let options = new RequestOptions({
       headers: headers,
@@ -40,7 +42,7 @@ export class ExportsService {
     console.log('getExport: ', params);
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;
-    return this.http.get(uri).pipe(
+    return this.http.get(uri, { withCredentials: true }).pipe(
       map((res: Response) => {
         return res;
     }));

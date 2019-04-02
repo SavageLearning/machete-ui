@@ -5,7 +5,7 @@ export class Employer extends Record<Employer> {
   address1: string;
   address2: string;
   blogparticipate?: boolean;
-  business: boolean;
+  business: boolean = false;
   businessname: string;
   cellphone: string;
   city: string;

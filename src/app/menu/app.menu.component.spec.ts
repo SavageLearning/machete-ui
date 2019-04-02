@@ -8,7 +8,6 @@ import { DebugElement, EventEmitter } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { loadMenuRules } from './load-menu-rules';
 import { AuthService } from '../shared/index';
-import { User } from 'oidc-client';
 import { AuthServiceSpy } from '../shared/testing';
 
 class AppComponentSpy {

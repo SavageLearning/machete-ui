@@ -1,7 +1,7 @@
 
-import {of as observableOf,  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -30,10 +30,10 @@ export class TransportProvidersService {
   getTransportProviders(): Observable<TransportProvider[]> {
     if (this.isNotStale()) {
       console.log('returning cache', this.providersAge);
-      return observableOf(this.providers);
+      return Observable.of(this.providers);
     }
 
-    return this.http.get(this.uriBase).pipe(
+    return this.http.get(this.uriBase, { withCredentials: true }).pipe(
       map(res => {
         this.providers = res['data'] as TransportProvider[];
         this.providersAge = Date.now();

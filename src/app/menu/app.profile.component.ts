@@ -1,11 +1,8 @@
-import {Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef} from '@angular/core';
-import {trigger, state, transition, style, animate} from '@angular/animations';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {MenuItem} from 'primeng/primeng';
-import {AppComponent} from '../app.component';
+import { Component, OnInit } from '@angular/core';
+import { trigger, state, transition, style, animate } from '@angular/animations';
 import { AuthService } from '../shared/index';
-import { User } from 'oidc-client';
+import { User } from '../shared/models/user';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'inline-profile',
@@ -24,35 +21,37 @@ import { User } from 'oidc-client';
     ]
 })
 export class InlineProfileComponent implements OnInit {
-    user: string;
-    constructor(private auth: AuthService) {
-
-    }
+    username: string;
     active: boolean;
 
+    constructor(
+      private auth: AuthService,
+      private router: Router
+    ) {
+      console.log(".ctor: InlineProfileComponent");
+    }
+
     ngOnInit() {
-        this.auth.getUserEmitter()
-            .subscribe(
-                (user: User) => {
-                    if (user === null || user === undefined) {
-                        this.user = '<logged out>';
-                        return;
-                    }
-                    if (user.profile == null || user.profile.preferred_username == null) {
-                        this.user = 'profile missing';
-                    } else {
-                        this.user = user.profile.preferred_username;
-                    }
-                }
-            );
+      this.auth.authorize().subscribe(user => {
+        this.username = user.profile.preferred_username;
+      }, error => {
+        console.log('InlineProfileComponent: ', error);
+        this.username = 'Not logged in!';
+      });
     }
 
     onClick(event) {
-        this.active = !this.active;
-        event.preventDefault();
+      this.active = !this.active;
+      event.preventDefault();
     }
 
     startSignoutMainWindow() {
-        this.auth.startSignoutMainWindow();
-      }
+      let rtr = this.router;
+      this.auth.signoutUser().subscribe(response => {
+        console.log('signout success: ', response);
+        rtr.navigate(['authorize']);
+      }, error => {
+        console.log('Error in signoutRedirect: ', error);
+      });
+    }
 }

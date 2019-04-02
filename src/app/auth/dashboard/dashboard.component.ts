@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
+import { UseExistingWebDriver } from 'protractor/built/driverProviders';
+import { User } from '../../shared/models/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,44 +9,31 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  _user: any;
-  loadedUserSub: any;
+
+  _user: User;
 
   constructor(private authService: AuthService) {
-
   }
 
   ngOnInit() {
-    this.loadedUserSub = this.authService.getUserEmitter()
-      .subscribe(user => {
-        this._user = user;
-      });
   }
-  clearState() {
-    this.authService.clearState();
+
+  authenticate() {
+    this.authService.authorize().subscribe(user => { this._user = user; });
   }
-  getUser() {
-    this.authService.getUser();
+
+  signoutUser() {
+    this.authService.signoutUser().subscribe(response => response);
   }
+
   removeUser() {
     this.authService.removeUser();
   }
-  startSigninMainWindow() {
-    this.authService.startSigninMainWindow();
-  }
-  endSigninMainWindow() {
-    this.authService.endSigninMainWindow();
-  }
-  startSignoutMainWindow() {
-    this.authService.startSignoutMainWindow();
-  }
-  endSignoutMainWindow() {
-    this.authService.endSigninMainWindow();
+
+  verifyLogin() {
+    this.authService.isLoggedIn().subscribe(response => response);
   }
 
   ngOnDestroy() {
-    if (this.loadedUserSub.unsubscribe()) {
-      this.loadedUserSub.unsubscribe();
-    }
   }
 }

@@ -6,8 +6,7 @@ import { WorkOrder } from '../../shared/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderService } from './work-order.service';
 import { ScheduleRule, schedulingDayValidator, requiredValidator, TransportRule, TransportProvider, schedulingTimeValidator } from '../shared';
-import { ConfigsService } from '../../configs/configs.service';
-import { MySelectItem } from '../../shared/models/my-select-item';
+import { MySelectItem, YesNoSelectItem } from '../../shared/models/my-select-item';
 import { Router } from "@angular/router";
 import { ScheduleRulesService } from '../schedule-rules.service';
 import { zipcodeValidator } from '../shared/validators/zipcode';
@@ -29,7 +28,7 @@ export class WorkOrderComponent implements OnInit {
   transportMethodsDropDown: MySelectItem[];
   transportRules: TransportRule[];
   orderForm: FormGroup;
-  order: WorkOrder = new WorkOrder();
+  workOrder: WorkOrder = new WorkOrder();
   dateOfWork: Date;
   timeOfWork: string;
   errorMessage: string;
@@ -38,7 +37,7 @@ export class WorkOrderComponent implements OnInit {
   schedulingRules: ScheduleRule[];
   displayTransportCosts = false;
   displayUserGuide = true;
-  engReqToggle = false;
+  yesNoDropDown = [new YesNoSelectItem('no', false), new YesNoSelectItem('yes', true)];
   selectedTransport: number = 0;
   storageKey = 'machete.work-order.component';
   formErrors = {
@@ -72,7 +71,6 @@ export class WorkOrderComponent implements OnInit {
     private transportProviderService: TransportProvidersService,
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
-    private configsService: ConfigsService,
     private schedulingRulesService: ScheduleRulesService,
     private transportRulesService: TransportRulesService,
     private router: Router,
@@ -88,27 +86,25 @@ export class WorkOrderComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    observableCombineLatest(
+    observableCombineLatest( // observables from these services:
       this.transportProviderService.getTransportProviders(),
       this.orderService.getStream(),
       this.schedulingRulesService.getScheduleRules(),
       this.transportRulesService.getTransportRules()
-    ).subscribe(([l, o, s, t]) => {
-      this.order = o;
-      if (o.dateTimeofWork) {
-        this.dateOfWork = this.getDateOnly(o.dateTimeofWork);
-        this.timeOfWork = this.getTime(o.dateTimeofWork);
+    ).subscribe(([transportProviders, workOrder, schedulingRules, transportRules]) => { // (order must match above)
+      this.workOrder = workOrder;
+      if (workOrder.dateTimeofWork) {
+        this.dateOfWork = this.getDateOnly(workOrder.dateTimeofWork);
+        this.timeOfWork = this.getTime(workOrder.dateTimeofWork);
       }
-      this.engReqToggle = o.englishRequired;
-      this.transportMethods = l;
-      this.schedulingRules = s;
-      this.transportRules = t;
+      this.transportMethods = transportProviders;
+      this.schedulingRules = schedulingRules;
+      this.transportRules = transportRules;
       // map transport entries to dropdown
       let items = [new MySelectItem('Select transportion', null)];
-      let transports = l.map(l =>
-        new MySelectItem(l.text, String(l.id)));
+      let transports = transportProviders.map(l => new MySelectItem(l.text, String(l.id)));
       this.transportMethodsDropDown = items.concat(transports);
-      this.buildForm();
+      this.buildForm(); // bind the properties of the UI
     });
   }
 
@@ -121,24 +117,24 @@ export class WorkOrderComponent implements OnInit {
   }
 
   buildForm(): void {
-    this.selectedTransport = this.order.transportProviderID;
+    this.selectedTransport = this.workOrder.transportProviderID;
     this.orderForm = this.fb.group({
       'dateOfWork': [this.dateOfWork, requiredValidator('Date & time is required.')],
       'timeOfWork': [this.timeOfWork, requiredValidator('Date & time is required.')],
-      'contactName': [this.order.contactName, requiredValidator('Contact name is required')],
-      'worksiteAddress1': [this.order.worksiteAddress1, [requiredValidator('Address is required'), lengthValidator(50)]],
-      'worksiteAddress2': [this.order.worksiteAddress2, lengthValidator(50)],
-      'city': [this.order.city, [requiredValidator('City is required.'), lengthValidator(50)]],
-      'state': [this.order.state, [
+      'contactName': [this.workOrder.contactName, requiredValidator('Contact name is required')],
+      'worksiteAddress1': [this.workOrder.worksiteAddress1, [requiredValidator('Address is required'), lengthValidator(50)]],
+      'worksiteAddress2': [this.workOrder.worksiteAddress2, lengthValidator(50)],
+      'city': [this.workOrder.city, [requiredValidator('City is required.'), lengthValidator(50)]],
+      'state': [this.workOrder.state, [
         requiredValidator('State is required.'),
         regexValidator(new RegExp(/^[a-zA-Z]{2,2}$/), 'state', "State must be two letters")
       ]],
-      'zipcode': [this.order.zipcode, [requiredValidator('Zipcode is required.')]],
-      'phone': [this.order.phone, phoneValidator('Phone is required in ###-###-#### format')],
-      'description': [this.order.description, [requiredValidator('Description is required'), lengthValidator(100)]],
-      'englishRequired': [this.order.englishRequired],
-      'englishRequiredNote': [this.order.englishRequiredNote, lengthValidator(100)],
-      'transportProviderID': [this.order.transportProviderID, [requiredValidator('A transport method is required')]]
+      'zipcode': [this.workOrder.zipcode, [requiredValidator('Zipcode is required.')]],
+      'phone': [this.workOrder.phone, phoneValidator('Phone is required in ###-###-#### format')],
+      'description': [this.workOrder.description, [requiredValidator('Description is required'), lengthValidator(100)]],
+      'englishRequired': [this.workOrder.englishRequired],
+      'englishRequiredNote': [this.workOrder.englishRequiredNote, lengthValidator(100)],
+      'transportProviderID': [this.workOrder.transportProviderID, [requiredValidator('A transport method is required')]]
     });
 
     this.orderForm.valueChanges
@@ -167,7 +163,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   save() {
-    // shimming in ValidatorFn outside of form control
+    // shimming in ValidatorFn outside of form control // englishRequired: "true"
     let dateCtrl = this.orderForm.get('dateOfWork');
     let dateError = schedulingDayValidator(this.schedulingRules)(dateCtrl);
     let dateError2 = transportAvailabilityValidator(this.transportMethods, ['transportProviderID', 'timeOfWork'])(dateCtrl);
@@ -223,6 +219,7 @@ export class WorkOrderComponent implements OnInit {
       englishRequiredNote: formModel.englishRequiredNote,
       transportProviderID: formModel.transportProviderID
     });
+    order.englishRequired = formModel.englishRequired; // TypeScript pls
     return order;
   }
 }

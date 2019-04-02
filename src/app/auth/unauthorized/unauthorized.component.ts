@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { AuthService } from '../../shared/services/auth.service';
+import { Router } from '@angular/router';
+//import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-unauthorized',
@@ -8,16 +8,15 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['unauthorized.component.scss']
 })
 export class UnauthorizedComponent implements OnInit {
-  //, private location:Location
-  constructor(private location: Location, private auth: AuthService) {
 
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
   }
 
   login() {
-    this.auth.startSigninMainWindow();
+    let rtr = this.router;
+    rtr.navigate(['/authorize']);
   }
-
 }

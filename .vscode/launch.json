@@ -1,24 +1,34 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
         {
-            "type": "chrome",
-            "request": "attach",
-            "name": "Attach Karma Chrome",
-            "address": "localhost",
-            "port": 9333,
-            "pathMapping": {
-                "/": "${workspaceRoot}/",
-                "/base/": "${workspaceRoot}/"
-            }
+          "type": "chrome",
+          "request": "launch",
+          "name": "Launch Chrome against localhost",
+          "url": "http://localhost:4200",
+          "webRoot": "${workspaceRoot}",
+          "skipFiles": [
+            "${workspaceRoot}/node_modules/**/*",
+            "${workspaceRoot}/**/*.html"
+          ]
         },
         {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceRoot}"
+          "type": "chrome",
+          "request": "launch",
+          "name": "Launch Chrome against localhost (parent project)",
+          "url": "http://localhost:4213",
+          "webRoot": "${workspaceRoot}"
+        },
+        {
+          "type": "chrome",
+          "request": "attach",
+          "name": "Attach Karma Chrome",
+          "address": "localhost",
+          "port": 9333,
+          "pathMapping": {
+              "/": "${workspaceRoot}/",
+              "/base/": "${workspaceRoot}/"
+          }
         },
         {
             "type": "chrome",

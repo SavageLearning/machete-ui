@@ -8,16 +8,15 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppMenuComponent, AppSubMenu }  from './menu/app.menu.component';
-import { AppTopBar}  from './app.topbar.component';
-import { AppFooter}  from './app.footer.component';
-import { InlineProfileComponent}  from './menu/app.profile.component';
+import { AppTopBar }  from './app.topbar.component';
+import { AppFooter }  from './app.footer.component';
+import { InlineProfileComponent }  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
 
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
-import { TokenInterceptor } from './shared/services/token.interceptor';
 import { OnlineOrdersModule } from './online-orders/online-orders.module';
 import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
@@ -28,6 +27,7 @@ import { LoggingService } from './shared/services/logging.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { GrowlModule } from 'primeng/primeng';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,22 +59,16 @@ import { TransportProvidersService } from './online-orders/transport-providers.s
     TransportProvidersService,
     MessageService,
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
-    {
       provide: ErrorHandler, 
       useClass: GlobalErrorHandler
     }
-
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    console.log('.ctor');
+    console.log('.ctor: AppModule');
   }
 
 }

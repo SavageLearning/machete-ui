@@ -1,5 +1,5 @@
 
-import {of as observableOf,  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WelcomeComponent } from './welcome.component';
 import { ConfigsService } from '../../configs/configs.service';
@@ -14,7 +14,7 @@ class ConfigsServiceSpy {
       () => {
         let configs = new Array<Config>();
         configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
-        return observableOf(configs);
+        return Observable.of(configs);
       }
     );
 }

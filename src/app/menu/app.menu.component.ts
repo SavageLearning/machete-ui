@@ -1,12 +1,11 @@
-import {Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef} from '@angular/core';
-import {trigger, state, style, transition, animate} from '@angular/animations';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {MenuItem} from 'primeng/primeng';
-import {AppComponent} from '../app.component';
+import { Component, Input, OnInit, EventEmitter, ViewChild, Inject, forwardRef } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/primeng';
+import { AppComponent } from '../app.component';
 import { loadMenuRules } from './load-menu-rules';
 import { AuthService } from '../shared/index';
-import { User } from 'oidc-client';
 import { MenuRule } from './menu-rule';
 
 @Component({
@@ -26,26 +25,19 @@ export class AppMenuComponent implements OnInit {
     model: any[];
 
     constructor(
-        @Inject(forwardRef(() => AppComponent)) public app: AppComponent,
-        private auth: AuthService) {
-            console.log('.ctor');
-        }
+      @Inject(forwardRef(() => AppComponent)) public app: AppComponent,
+      private auth: AuthService
+    ) {
+      console.log('.ctor: AppMenuComponent');
+    }
 
     ngOnInit() {
-        this.auth.getUserEmitter()
-            .subscribe(
-                (user: User) => {
-                    if (user == null) {
-                        return new Array<MenuRule>();
-                    }
-                    let roles = user.profile['role'];
-                    if (typeof roles === 'string') {
-                        roles = [roles];
-                    }
-                    this.model = loadMenuRules(roles)
-                }
-            );
-        this.auth.getUser();
+      this.auth.authorize().subscribe(user => {
+        this.model = loadMenuRules(user.profile.roles);
+        return new Array<MenuRule>();
+      }, unauthorized => {
+        console.log('Not signed in: ', unauthorized);
+      });
     }
 }
 
@@ -92,8 +84,8 @@ export class AppSubMenu {
         //execute command
         if (item.command) {
             item.command({
-               originalEvent: event,
-                item: item
+              originalEvent: event,
+              item: item
             });
         }
 

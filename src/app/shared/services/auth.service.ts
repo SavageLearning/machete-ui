@@ -1,124 +1,86 @@
-
-import {of as observableOf, from as observableFrom} from 'rxjs';
-
-import {map, mergeMap} from 'rxjs/operators';
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-
-import { UserManager, User } from 'oidc-client';
 import { environment } from '../../../environments/environment';
-import { Router } from '@angular/router';
-
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs/Rx';
+import { User } from '../models/user';
 
 @Injectable()
 export class AuthService {
-  mgr: UserManager = new UserManager(environment.oidc_client_settings);
-  userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
-  currentUser: User;
-  loggedIn = false;
-  redirectUrl: string;
-  authHeaders: Headers;
 
-  // TODO:
-  // need async way to call for auth password, then send intercept on its way
-  constructor(private http: Http, private router: Router) {
-  }
-  getUserEmitter(): EventEmitter<User> {
-    return this.userLoadedEvent;
+  private _user: User;
+  _redirectRoute: string = '';
+
+  constructor(private http: HttpClient) {
   }
 
-  setRedirectUrl(url: string) {
-    this.redirectUrl = url;
-    console.log(`auth.service.setRedirectUrl.url: ${this.redirectUrl}`);
+  /** Returns an Observable stream of the _user field. */
+  private getUser(): Observable<User> {
+    if (!this._user) this._user = new User();
+    return Observable.of(this._user);
   }
 
-  getRedirectUrl(): string {
-    return this.redirectUrl;
-  }
-  isLoggedInObs(): Observable<boolean> {
-    return observableFrom(this.mgr.getUser()).pipe(map<User, boolean>((user) => {
-      if (user && !user.expired) {
-        return true;
-      } else {
-        return false;
+  /** Checks against the API to see if a user is authenticated. This method does not log a user in. */
+  authorize(): Observable<User> {
+    return this.getUser().flatMap(user => {
+      if (!user.expired) {
+        return Observable.of(user);
+      } else {        
+        console.log('user expired; attempting to authenticate...');
+        // https://angular.io/api/http/RequestOptions#withCredentials
+        // https://stackoverflow.com/a/54680185/2496266
+        return this.http.get(environment.dataUrl + '/id/authorize', { observe: 'response', withCredentials: true })
+          .map(response => {
+            let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
+            // JSON.parse will return a string if there's only one member, so:
+            user.profile.roles = user.profile.roles.concat(claims['role']);
+            user.profile.preferred_username = claims['preferredUserName'];
+            user.expired = false;
+      
+            console.log('...success!');
+            this._user = user;
+
+            return user;
+          });
       }
+    });
+  }
+
+  /** Logs out the user. Returns an observable of the user being signed out, unless the user is already signed out, in which case it throws an exception. */
+  signoutUser(): Observable<User> {
+    return this.getUser().flatMap(user => {
+      if (!user.expired) {
+        return this.http.get(environment.dataUrl + '/id/logoff', { observe: 'response', withCredentials: true })
+          .pipe(map(() => {
+            user.expired = true;
+            user.state = '/welcome';
+            return user;
+          }));
+      } else {
+        return Observable.throw('Not logged in!');
+      }
+    });
+  }
+
+  /** Returns an Observable stream indicating whether a user is still
+   *  logged in. Can be used wherever a check vs.
+   * 
+   *  `authService.authenticate().subscribe(func => !func.expired)`
+   * 
+   * could otherwise be made. */
+  isLoggedIn(): Observable<boolean> {
+    return this.authorize().pipe(map(user => {
+      return !user.expired;
     }));
   }
 
-  clearState() {
-    this.mgr.clearStaleState().then(function () {
-      console.log('auth.service.clearStateState success');
-    });
+  /** Deprecated. Set the redirect route for an unauthorized user. Going forward, should be part of the expired user's state. Synchronous method. */
+  setRedirectRoute(route: string) {
+    this._redirectRoute = route;
   }
 
-
-  getUser$(): Observable<User> {
-    return observableFrom(this.mgr.getUser());
-  }
-
-  getUserRoles$(): Observable<string[]> {
-    return this.getUser$().pipe(
-      mergeMap((user: User) => {
-        console.log(user);
-        if (user === null || user === undefined) {
-          return observableOf(new Array<string>());
-        } else {
-          return observableOf(user.profile.role as string[]);
-        }
-      }));
-  }
-
-  getUsername$(): Observable<string> {
-    return this.getUser$().pipe(
-      mergeMap((user: User) => {
-        // TODO: if user is null, disable menu
-        if (user === null || user === undefined) {
-          return observableOf(null);
-        } else {
-          return observableOf(user.profile.preferred_username as string);
-        }
-      }));
-  }
-
-  getUser() {
-    this.mgr.getUser().then((user) => {
-      this.currentUser = user;
-      //console.log('auth.service.getUser returned: ' + JSON.stringify(user));
-      this.getUserEmitter().emit(user);
-    });
-  }
-
+  /** Deprecated. Dereference the user state. This probably means there has been an error. This method runs synchronously. */
   removeUser() {
-    this.mgr.removeUser().then(() => {
-      this.getUserEmitter().emit(null);
-      console.log('auth.service.removeUser: user removed');
-    });
+    this._user = null;
   }
-
-  startSigninMainWindow() {
-    this.mgr.signinRedirect({ data: this.redirectUrl }).then(function () {
-      console.log('signinRedirect done');
-    });
-  }
-
-  endSigninMainWindow(url?: string): Observable<User> {
-    return observableFrom(this.mgr.signinRedirectCallback(url));
-  }
-
-  startSignoutMainWindow() {
-    this.mgr.getUser().then(user => {
-      return this.mgr.signoutRedirect({ id_token_hint: user.id_token }).then(resp => {
-        console.log('signed out', resp);
-      });
-    });
-  };
-
-  endSignoutMainWindow() {
-    this.mgr.signoutRedirectCallback().then(function (resp) {
-      console.log('signed out', resp);
-    });
-  };
 }
-
-

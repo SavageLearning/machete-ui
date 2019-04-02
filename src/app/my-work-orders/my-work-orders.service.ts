@@ -1,11 +1,11 @@
 
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { WorkOrder } from '../shared/models/work-order';
-import { HttpHeaders } from '@angular/common/http';
+
 @Injectable()
 export class MyWorkOrdersService {
 
@@ -14,7 +14,7 @@ export class MyWorkOrdersService {
   getOrders(): Observable<WorkOrder[]> {
     let uri = environment.dataUrl + '/api/onlineorders';
 
-    return this.http.get(uri).pipe(
+    return this.http.get(uri, { withCredentials: true }).pipe(
       map(o => o['data'] as WorkOrder[]));
   }
 
@@ -22,9 +22,7 @@ export class MyWorkOrdersService {
     let url = environment.dataUrl + '/api/onlineorders/' + id;
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.get<WorkOrder>(url, {
-      headers: postHeaders
-    }).pipe(map(
+    return this.http.get<WorkOrder>(url, { headers: postHeaders, withCredentials: true }).pipe(map(
       (data) => {
         let wo = data['data'];
         console.log('getOrder received:', wo);
@@ -37,18 +35,19 @@ export class MyWorkOrdersService {
   }
 
   executePaypal(orderID: number, payerID: string, paymentID: string, token: string): Observable<any> {
+
     let url = environment.dataUrl + '/api/onlineorders/' + orderID + '/paypalexecute';
     let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    let jsonModel = JSON.stringify({
+      payerID: payerID,
+      paymentID: paymentID,
+      paymentToken: token
+    });
 
-    return this.http.post<any>(url, 
-      JSON.stringify({
-        payerID: payerID,
-        paymentID: paymentID,
-        paymentToken: token
-      }), 
-      { headers: postHeaders }).pipe(
+    return this.http.post<any>(url, jsonModel, { headers: postHeaders, withCredentials: true }).pipe(
       map(data => {
         return data;
-      }));
+      })
+    );
   }
 }

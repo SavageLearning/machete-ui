@@ -12,7 +12,7 @@ export class WorkOrder extends Record<WorkOrder> {
   description: string;
   // disclosureAgreement?: boolean;
   // employerID: number;
-  englishRequired: boolean;
+  englishRequired: boolean = false;
   englishRequiredNote: string;
   // onlineSource: boolean;
   // paperOrderNum?: number;
@@ -41,18 +41,12 @@ export class WorkOrder extends Record<WorkOrder> {
   isNotEmpty(): boolean {
     return !this.isEmpty();
   }
-  isEmpty(): boolean {    
-    // for (var key in this) {
-    //   if (this[key] !== null && this[key] != "")
-    //     console.log('Not empty: ', this[key]);
-    //     return false;
-    // }
+  isEmpty(): boolean {
     for(var key in this) {
       if(this.hasOwnProperty(key))
       console.log('Not empty: ', this[key]);
-
-          return false;
-  }
+      return false;
+    }
   return true;
 
   }

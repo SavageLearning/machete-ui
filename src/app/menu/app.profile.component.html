@@ -1,7 +1,7 @@
 <div class="profile" [ngClass]="{'profile-expanded':active}">
     <div class="profile-image"></div>
     <a href="#" (click)="onClick($event)">
-        <span class="profile-name">{{this.user}}</span>
+        <span class="profile-name">{{this.username}}</span>
         <i class="material-icons">keyboard_arrow_down</i>
     </a>
 </div>
@@ -14,7 +14,7 @@
         </a>
     </li> -->
     <li role="menuitem">
-        <a href="#" (click)="startSignoutMainWindow()" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
+        <a href="#" (click)="startSignoutMainWindow($event)" class="ripplelink" [attr.tabindex]="!active ? '-1' : null">
             <i class="material-icons">power_settings_new</i>
             <span>Logout</span>
         </a>
