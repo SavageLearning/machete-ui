@@ -12,7 +12,6 @@ import { HttpClient } from '@angular/common/http';
 export class ReportsService {
   constructor(private http: HttpClient) {}
   getReportData(reportName: string, o: SearchOptions): Observable<any[]> {
-    // TODO throw exception if report is not populated
     const params = this.encodeData(o);
     let uri = environment.dataUrl + '/api/reports';
     if (reportName) {

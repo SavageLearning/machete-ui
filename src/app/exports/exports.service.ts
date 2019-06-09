@@ -31,7 +31,7 @@ export class ExportsService {
       map(res => res['data'] as ExportColumn[]));
   }
 
-  getExport(tableName: string, o: SearchOptions): Observable<Response> {
+  getExport(tableName: string, o: SearchOptions): Observable<Blob> {
     // TODO it appears we don't use these options?
     let headers = new Headers({ 'Content-Type': 'application/text' });
     let options = new RequestOptions({
@@ -42,8 +42,8 @@ export class ExportsService {
     console.log('getExport: ', params);
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;
-    return this.http.get(uri, { withCredentials: true }).pipe(
-      map((res: Response) => {
+    return this.http.get(uri, { responseType: 'blob', withCredentials: true }).pipe(
+      map((res: any) => {
         return res;
     }));
   }

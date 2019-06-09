@@ -32,13 +32,17 @@ export class ReportsComponent implements OnInit {
   inputs: SearchInputs;
 
   constructor(private reportsService: ReportsService) {
+    let now = new Date();
+    let aYearAgo = new Date();
+    aYearAgo.setFullYear(now.getFullYear() - 1);
+
     this.o = new SearchOptions();
     this.selectedReport = new Report();
     this.selectedReportID = 'DispatchesByJob';
     // this.title = 'loading';
     // this.description = 'loading...';
-    this.o.beginDate = '1/1/2016';
-    this.o.endDate = '1/1/2017';
+    this.o.endDate = now.toLocaleDateString();
+    this.o.beginDate = aYearAgo.toLocaleDateString();
     this.reportsDropDown = [];
     this.reportsDropDown.push({label: 'Select Report', value: null});
     this.inputs = new SearchInputs();
