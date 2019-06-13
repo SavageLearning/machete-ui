@@ -59,7 +59,7 @@ import { TransportProvidersService } from './online-orders/transport-providers.s
     TransportProvidersService,
     MessageService,
     {
-      provide: ErrorHandler, 
+      provide: ErrorHandler,
       useClass: GlobalErrorHandler
     }
   ],

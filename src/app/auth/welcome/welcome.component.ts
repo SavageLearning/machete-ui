@@ -25,7 +25,7 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
     this.cfgService.getAllConfigs().subscribe(
       data => {
-        //console.log('configs: ', data) // TODO this was 2am madness, this isn't great JS
+        console.log('configs: ', data) // TODO this was 2am madness, this isn't great JS
         this.welcome = data.find(config => config.key === 'WorkCenterDescription_EN').value;
         this.facebookAppId = data.find(config => config.key === 'FacebookAppId').value;
         this.googleClientId = data.find(config => config.key === 'GoogleClientId').value;

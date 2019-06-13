@@ -17,14 +17,12 @@ export class ExportsService {
   constructor(private http: HttpClient) {
   }
   getExportsList(): Observable<Export[]> {
-
     console.log('getExportList: ', this.uriBase);
     return this.http.get(this.uriBase, { withCredentials: true }).pipe(
       map(res => res['data'] as Export[]));
   }
 
   getColumns(tableName: string): Observable<ExportColumn[]> {
-
     let uri = this.uriBase + '/' + tableName.toLowerCase();
     console.log('getColumns ', uri);
     return this.http.get(uri, { withCredentials: true }).pipe(

@@ -29,7 +29,7 @@ describe('AppMenuComponent', () => {
     .overrideComponent(AppMenuComponent, {
       set: {
         providers: [
-          {provide: AppComponent, useClass: AppComponentSpy},
+          { provide: AppComponent, useClass: AppComponentSpy },
           { provide: AuthService, useClass: AuthServiceSpy }
         ]
       }

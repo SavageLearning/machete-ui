@@ -205,8 +205,7 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "machete-ui:serve"
+            "protractorConfig": "./protractor.conf.js"
           }
         },
         "lint": {
