@@ -162,7 +162,7 @@ export class WorkAssignmentsComponent implements OnInit {
 
   // loads an existing item into the form fields
   editRequest(request: WorkAssignment) {
-    this.requestForm.controls['id'].setValue(request.id);
+    this.requestForm.controls['id'].setValue(request.ID);
     this.requestForm.controls['skillId'].setValue(request.skillId);
     this.requestForm.controls['skill'].setValue(request.skill);
     this.requestForm.controls['hours'].setValue(request.hours);
@@ -194,7 +194,7 @@ export class WorkAssignmentsComponent implements OnInit {
     const formModel = this.requestForm.value;
 
     const saveRequest: WorkAssignment = {
-      id: formModel.id || 0,
+      ID: formModel.ID || 0,
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,

@@ -13,8 +13,8 @@ export class WorkAssignment extends Record<WorkAssignment>
   transportCost: number;
 
   static sort(a: WorkAssignment, b: WorkAssignment) {
-    if (a.id < b.id) { return -1; }
-    if (a.id > b.id) { return 1; }
+    if (a.ID < b.ID) { return -1; }
+    if (a.ID > b.ID) { return 1; }
     return 0;
   }
 }

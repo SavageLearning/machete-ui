@@ -76,8 +76,8 @@ export class WorkAssignmentsService {
   }
    
   _save(request: WorkAssignment) {
-    if (request.id === 0) {
-      request.id = this.getNextRequestId();
+    if (request.ID === 0) {
+      request.ID = this.getNextRequestId();
     }
 
     const index = this.findSelectedRequestIndex(request);
@@ -97,7 +97,7 @@ export class WorkAssignmentsService {
     if (sorted.length === 0) {
       return 1;
     } else {
-      return sorted[sorted.length - 1].id + 1;
+      return sorted[sorted.length - 1].ID + 1;
     }
   }
 
@@ -122,7 +122,7 @@ export class WorkAssignmentsService {
   }
 
   findSelectedRequestIndex(request: WorkAssignment): number {
-    return this.requests.findIndex(a => a.id === request.id);
+    return this.requests.findIndex(a => a.ID === request.ID);
   }
 
   compactRequests() {
@@ -134,7 +134,7 @@ export class WorkAssignmentsService {
     }
     for (let i in this.requests) {
       let newid = Number(i);
-      this.requests[newid].id = newid + 1;
+      this.requests[newid].ID = newid + 1;
       this.requests[newid].transportCost = 
         this.calculateTransportCost(newid + 1, rule);
         console.log('completed compactRequest');

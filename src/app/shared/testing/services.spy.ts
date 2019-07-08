@@ -30,7 +30,7 @@ export class LookupsServiceSpy {
 export class MyWorkOrdersServiceSpy {
   getOrder = jasmine.createSpy('getOrder')
     .and.callFake(
-      () => observableOf(new WorkOrder({id: 1, transportProviderID: 32}))
+      () => observableOf(new WorkOrder({ID: 1, transportProviderID: 32}))
     );
 
 }
@@ -128,7 +128,7 @@ export class WorkOrderServiceSpy {
     );
   getStream = jasmine.createSpy('getStream')
     .and.callFake(() => observableOf( new WorkOrder({
-      id: 1,
+      ID: 1,
       transportProviderID: 32
       }))
     );
@@ -156,7 +156,7 @@ export class OnlineOrdersServiceSpy {
   getOrderCompleteStream = jasmine.createSpy('getOrderCompleteStream')
       .and.callFake(
         () => observableOf(new WorkOrder({
-          id: 1,
+          ID: 1,
           transportProviderID: 32
         }))
       )

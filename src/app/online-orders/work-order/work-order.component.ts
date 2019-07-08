@@ -205,7 +205,7 @@ export class WorkOrderComponent implements OnInit {
     const timeInMS = (Number(formModel.timeOfWork.split(':')[0]) * 3600 + Number(formModel.timeOfWork.split(':')[1]) * 60) * 1000;
     const combinedTime = DateTime.fromJSDate(formModel.dateOfWork).plus(timeInMS).toJSDate();
     const order = new WorkOrder({
-      id: 0,
+      ID: 0,
       dateTimeofWork: combinedTime,
       contactName: formModel.contactName,
       worksiteAddress1: formModel.worksiteAddress1,
