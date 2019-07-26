@@ -1,5 +1,5 @@
 export class Record<T> {
-  ID: number;
+  id: number;
   public constructor(init?: Partial<T>) {
     Object.assign(this, init);
   }

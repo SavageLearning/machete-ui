@@ -52,11 +52,11 @@ export class OrderCompleteComponent implements OnInit {
     onAuthorize: (data, actions) => {
       console.log('Payment was successful!', data, actions);
       // TODO: add confirmation notice/spinner
-      this.ordersService.executePaypal(this.order.ID, data['payerID'], data['paymentID'], data['paymentToken'])
+      this.ordersService.executePaypal(this.order.id, data['payerID'], data['paymentID'], data['paymentToken'])
         .subscribe(
           data => {
             console.log('execute paypal returned:', data);
-            this.ordersService.getOrder(this.order.ID)
+            this.ordersService.getOrder(this.order.id)
               .subscribe(foo => this.order = foo);
           },
           error => console.error('execute paypal errored:', error));

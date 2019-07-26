@@ -68,7 +68,7 @@ export class OrderConfirmComponent implements OnInit {
     this.onlineService.createOrder(this.order)
       .subscribe(
         (data) => {
-          if (data.ID == null)
+          if (data.id == null)
           {
             console.error('workorder doesn\'t have an ID');
             return;
@@ -76,7 +76,7 @@ export class OrderConfirmComponent implements OnInit {
           this.onlineService.clearState();
           this.ordersService.clearState();
           this.assignmentService.clearState();
-          this.router.navigate(['/my-work-orders/' + data.ID]);
+          this.router.navigate(['/my-work-orders/' + data.id]);
 
         }
       );

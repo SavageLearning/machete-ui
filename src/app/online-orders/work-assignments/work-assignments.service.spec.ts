@@ -81,7 +81,7 @@ describe('WorkAssignmentsService', () => {
   }));
 
   it('should save a record to sessions storage', () => {
-    let wa = new WorkAssignment({ID: 123});
+    let wa = new WorkAssignment({id: 123});
     service.save(wa);
     let data = sessionStorage.getItem(service.storageKey);
     let result = JSON.parse(data);
@@ -89,32 +89,32 @@ describe('WorkAssignmentsService', () => {
   });
 
   it('should getAll a record', () => {
-    let wa = new WorkAssignment({ID: 123});
+    let wa = new WorkAssignment({id: 123});
     service.save(wa);
     let result = service.getAll();
-    expect(result[0].ID).toBe(1, 'expected record just created to be id=1');
+    expect(result[0].id).toBe(1, 'expected record just created to be id=1');
   });
 
   it('should delete a record', () => {
-    service.save(new WorkAssignment({ID: 1}));
-    service.save(new WorkAssignment({ID: 2}));
-    service.save(new WorkAssignment({ID: 3}));
-    service.delete(<WorkAssignment>{ID: 2});
+    service.save(new WorkAssignment({id: 1}));
+    service.save(new WorkAssignment({id: 2}));
+    service.save(new WorkAssignment({id: 3}));
+    service.delete(<WorkAssignment>{id: 2});
     let result = service.getAll();
-    expect(result.find(f => f.ID === 1)).toBeTruthy('expected to find record id=1');
-    expect(result.find(f => f.ID === 2)).toBeTruthy('expected to find record id=2');
-    expect(result.find(f => f.ID === 3)).toBeFalsy('expected to NOT find record id=3');
+    expect(result.find(f => f.id === 1)).toBeTruthy('expected to find record id=1');
+    expect(result.find(f => f.id === 2)).toBeTruthy('expected to find record id=2');
+    expect(result.find(f => f.id === 3)).toBeFalsy('expected to NOT find record id=3');
   });
 
   it('should compact and order ids', () => {
-    service.save(new WorkAssignment({ID: 1}));
-    service.save(new WorkAssignment({ID: 3}));
-    service.save(new WorkAssignment({ID: 4}));
+    service.save(new WorkAssignment({id: 1}));
+    service.save(new WorkAssignment({id: 3}));
+    service.save(new WorkAssignment({id: 4}));
     service.compactRequests();
     let result = service.getAll();
-    expect(result.find(f => f.ID === 1)).toBeTruthy('expected to find record id=1');
-    expect(result.find(f => f.ID === 2)).toBeTruthy('expected to find record id=2');
-    expect(result.find(f => f.ID === 3)).toBeTruthy('expected to find record id=3');
+    expect(result.find(f => f.id === 1)).toBeTruthy('expected to find record id=1');
+    expect(result.find(f => f.id === 2)).toBeTruthy('expected to find record id=2');
+    expect(result.find(f => f.id === 3)).toBeTruthy('expected to find record id=3');
   });
 
 });
