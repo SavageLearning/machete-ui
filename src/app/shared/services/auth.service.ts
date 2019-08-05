@@ -16,7 +16,7 @@ export class AuthService {
 
   /** Returns an Observable stream of the _user field. */
   private getUser(): Observable<User> {
-    if (!this._user) this._user = new User();
+    if (!this._user) { this._user = new User(); }
     return Observable.of(this._user);
   }
 
@@ -25,7 +25,7 @@ export class AuthService {
     return this.getUser().flatMap(user => {
       if (!user.expired) {
         return Observable.of(user);
-      } else {        
+      } else {
         console.log('user expired; attempting to authenticate...');
         // https://angular.io/api/http/RequestOptions#withCredentials
         // https://stackoverflow.com/a/54680185/2496266
@@ -36,7 +36,7 @@ export class AuthService {
             user.profile.roles = user.profile.roles.concat(claims['role']);
             user.profile.preferred_username = claims['preferredUserName'];
             user.expired = false;
-      
+
             console.log('...success!');
             this._user = user;
 

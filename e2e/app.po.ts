@@ -2,7 +2,7 @@ import { browser, element, by } from 'protractor';
 
 export class MacheteUiPage {
   navigateTo() {
-    return browser.get('/');
+    return browser.get('/V2/welcome');
   }
 
   getParagraphText() {

@@ -37,19 +37,20 @@ describe('ReportsService', () => {
   }));
 
   it('should get object from getReportData when no parameters present',
-    () => {
+    (done) => {
     const o = new SearchOptions();
     service.getReportData('1', o)
       .subscribe
       (res => {
         expect(typeof res).toEqual('object', 'Get w/o query doesn\'t return an object');
       });
-    let req = httpMock.expectOne('https://test-api.machetessl.org/api/reports/1');
+    let req = httpMock.expectOne('http://localhost:9876/api/reports/1'); // 'https://test-api.machetessl.org/api/reports/1');
     httpMock.verify();
+    done();
   });
 
   it('should get array from getReportData when parameters present',
-    () => {
+    (done) => {
     const o = new SearchOptions();
     o.beginDate = '1/1/2016';
     o.endDate = '1/1/2017';
@@ -58,9 +59,10 @@ describe('ReportsService', () => {
         expect(rows.length).toBe(18, 'expected 18 rows');
       });
 
-    let req = httpMock.expectOne('https://test-api.machetessl.org/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
-    httpMock.verify();
-
+      //let req = httpMock.expectOne('https://test-api.machetessl.org/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
+      let req = httpMock.expectOne('http://localhost:9876/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
+      httpMock.verify();
+      done();
   });
 
   // it('should get array from getList',

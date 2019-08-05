@@ -69,10 +69,8 @@ export class ExportsComponent implements OnInit {
     console.log(this.form.value);
     this.exportsService.getExport(this.selectedExportName, data)
       .subscribe(
-        (res: Response) => {
-          this.downloadFile(res['_body'],
-          this.getFilename(res.headers.get('content-disposition')),
-          res['_body'].type);
+        (res: Blob) => {
+            saveAs(res, this.selectedExportName + '.xlsx')
         },
         error => {
           this.errorMessage = <any>error;

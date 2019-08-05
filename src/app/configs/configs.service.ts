@@ -44,7 +44,6 @@ export class ConfigsService {
   }
 
   getConfigs(category: CCategory): Observable<Config[]> {
-
     return this.getAllConfigs().pipe(
       map(res => res.filter(l => l.category == category)));
   }

@@ -10,13 +10,23 @@ import { AuthServiceSpy, RouterSpy } from '../../shared/testing';
 
 class ConfigsServiceSpy {
   getConfig = jasmine.createSpy('getConfig')
-    .and.callFake(
-      () => {
-        let configs = new Array<Config>();
-        configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
-        return Observable.of(configs);
-      }
-    );
+    .and.callFake(() => { return this.mockConfigs() });
+  getAllConfigs = jasmine.createSpy('getAllConfigs')
+    .and.callFake(() => {
+      // let configs = new Array<Config>();
+      // configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
+      // return Observable.of(configs);
+      return this.mockConfigs();
+    });
+
+  mockConfigs(): Observable<Config[]> {
+      let configs = new Array<Config>();
+      configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
+      configs.push(new Config({key: 'FacebookAppId', value: 'foo'}));
+      configs.push(new Config({key: 'GoogleClientId', value: 'foo'}));
+      configs.push(new Config({key: 'OAuthStateParameter', value: 'foo'}));
+      return Observable.of(configs);
+  }
 }
 
 describe('WelcomeComponent', () => {

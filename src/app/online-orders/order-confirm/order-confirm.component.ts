@@ -77,7 +77,7 @@ export class OrderConfirmComponent implements OnInit {
           this.ordersService.clearState();
           this.assignmentService.clearState();
           this.router.navigate(['/my-work-orders/' + data.id]);
-          
+
         }
       );
   }

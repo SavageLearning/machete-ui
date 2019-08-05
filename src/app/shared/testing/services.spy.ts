@@ -38,11 +38,11 @@ export class MyWorkOrdersServiceSpy {
 export class ActivatedRouteSpy {
   get = jasmine.createSpy('snapshot')
     .and.callThrough();
-  
 }
+
 export class AuthServiceSpy {
   startSigninMainWindow = jasmine.createSpy('startSigninMainWindow');
-  
+
   endSigninMainWindow = jasmine.createSpy('endSigninMainWindow')
     .and.callFake(() => {
       // TODO: Implement a better stub of the User interface
@@ -68,11 +68,14 @@ export class AuthServiceSpy {
   .and.callFake(
     () => observableOf(new Array<string>())
   );
+
+  authorize = jasmine.createSpy('authorize')
+    .and.callFake(() => observableOf(new User()));
 }
 
 export class RouterSpy {
-  public ne = new NavigationEnd(0, 
-    'http://localhost:4200/login', 
+  public ne = new NavigationEnd(0,
+    'http://localhost:4200/login',
     'http://localhost:4200/login');
   public events = new Observable(observer => {
     observer.next(this.ne);
@@ -164,7 +167,6 @@ export class ConfigsServiceSpy {
     .and.callFake(
       () => observableOf(new Config())
     );
-  
 }
 
 export class MessageServiceSpy {

@@ -20,11 +20,13 @@ export class FullOrderViewComponent implements OnChanges {
    }
 
     ngOnChanges() {
-    
-    if (this.showPayPal && this.transportCost > 0 && this.order.ppState != 'approved') {
-        this.messageService.add({severity:'warn', summary:'Please pay with PayPal', detail:'Your order has been confirmed. Please pay transport costs by PayPal.'});
+      if (this.showPayPal && this.transportCost > 0 && this.order.ppState != 'created') {
+        const detail = 'Your order has been confirmed. Please pay transport costs by PayPal.';
+        this.messageService.add({severity: 'warn', summary: 'Please pay with PayPal', detail: detail});
+      } else {
+        
+      }
     }
-  }
 
 }
 

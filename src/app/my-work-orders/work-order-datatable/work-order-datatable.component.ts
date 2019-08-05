@@ -25,6 +25,7 @@ export class WorkOrderDatatableComponent implements OnInit {
 
   viewOrder(order: WorkOrder)
   {
+    console.log(order);
     this.router.navigate([`/my-work-orders/${order.id}`]);
   }
 }

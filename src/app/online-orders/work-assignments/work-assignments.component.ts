@@ -194,7 +194,7 @@ export class WorkAssignmentsComponent implements OnInit {
     const formModel = this.requestForm.value;
 
     const saveRequest: WorkAssignment = {
-      id: formModel.id || 0,
+      id: formModel.ID || 0,
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,

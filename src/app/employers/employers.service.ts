@@ -43,6 +43,10 @@ export class EmployersService {
 
     console.log('save:', uri, employer);
     let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+
+    // hack to get out the door; SavageLearning/Machete#425
+    employer.referredBy = 25;
+
     // create or update
     return this.http.put(uri, JSON.stringify(employer), { headers: httpHeaders, withCredentials: true }).pipe(
       map(data => {

@@ -85,7 +85,7 @@ describe('WorkAssignmentsService', () => {
     service.save(wa);
     let data = sessionStorage.getItem(service.storageKey);
     let result = JSON.parse(data);
-    expect(result[0].id).toBe(1, 'expected record just created to be id=1 in storage');
+    expect(result[0].ID).toBe(1, 'expected record just created to be id=1 in storage');
   });
 
   it('should getAll a record', () => {
