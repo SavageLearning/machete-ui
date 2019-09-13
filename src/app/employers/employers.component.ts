@@ -143,7 +143,8 @@ export class EmployersComponent implements OnInit {
       this.showErrors = true;
       return;
     }
-    console.log("saveEmployer: form status valid");
+    console.log('saveEmployer: form status valid');
+    this.saveDisabled = true;
     this.showErrors = false;
     const formModel = this.employerForm.value as Employer;
     this.employersService.save(formModel).subscribe((data) => {
@@ -152,5 +153,6 @@ export class EmployersComponent implements OnInit {
         .navigate(["/online-orders/introduction"])
         .catch((e) => console.error(e));
     });
+          this.saveDisabled = false;
   }
 }
