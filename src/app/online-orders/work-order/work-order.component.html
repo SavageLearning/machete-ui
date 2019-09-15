@@ -9,6 +9,8 @@
           <div class="ui-g-12 ui-md-8 ui-g-nopad">
               <span class="md-inputfield">
                 <p-calendar id="dateOfWork"
+                            [minDate]="minOrderDate"
+                            [showIcon]="true"
                             formControlName="dateOfWork">
                 </p-calendar>
               </span>
@@ -27,7 +29,9 @@
                             showTime="true"
                             [timeOnly]="true"
                             dataType="string"
-                            [stepMinute]="15"
+                            [stepMinute]="30"
+                            showIcon="true"
+                            icon="pi pi-pencil"
                             formControlName="timeOfWork">
                 </p-calendar>
               </span>
