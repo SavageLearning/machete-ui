@@ -113,7 +113,8 @@ export class WorkOrderComponent implements OnInit {
     this.minOrderDate.setDate(this.minOrderDate.getDate() + 1);
 
     this.defaultOrderTime = new Date();
-    this.defaultOrderTime.setHours(9,0);
+    this.defaultOrderTime.getDate();
+    this.defaultOrderTime.setHours(9, 0).toString();
   }
 
   getDateOnly(date: Date): Date {
