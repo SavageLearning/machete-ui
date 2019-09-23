@@ -19,12 +19,12 @@ before_install:
   - npm i -g npm@5.5.1
 
 install:
+  - npm install -g @angular/cli
+  - npm install -g karma
   - npm install
+  - npm run build-local-dev
+# TODO: npm run build-prod instead
 
-#before_script:
-#- npm install -g @angular/cli
-#- npm install -g karma
-#- npm install
-#- ng build
-
-#script: ng test --watch=false
+# travis auto-runs test... which times out
+script:
+  - ng test --watch=false
