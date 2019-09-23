@@ -18,10 +18,10 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - npm i -g npm@5.5.1
 
-before_script:
-- npm install -g @angular/cli
-- npm install -g karma
-- npm install
-- ng build
+#before_script:
+#- npm install -g @angular/cli
+#- npm install -g karma
+#- npm install
+#- ng build
 
-script: ng test --watch=false
+#script: ng test --watch=false
