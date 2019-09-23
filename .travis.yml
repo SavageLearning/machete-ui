@@ -17,6 +17,7 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - npm i -g npm@5.5.1
+  - npm i npm
 
 #before_script:
 #- npm install -g @angular/cli
