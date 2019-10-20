@@ -41,21 +41,21 @@ describe('ScheduleRule', () => {
     expect(result).toBeNull();
   });
 
-  it('should reject time in the past', () => {
-    const date: Date = DateTime.local().startOf('day').toJSDate();
-    const time: string = DateTime.local().minus({hours: 1}).toFormat('HH:mm'); 
-    fg = fb.group({
-      dateOfWork: date,
-      timeOfWork: time,
-      transportProviderID: 1
-    });
+  // it('should reject time in the sameday', () => {
+  //   const date: Date = DateTime.local().startOf('day').plus({ days: 1 }).toJSDate();
+  //   const time: string = DateTime.local().minus({hours: 1}).toFormat('HH:mm'); 
+  //   fg = fb.group({
+  //     dateOfWork: date,
+  //     timeOfWork: time,
+  //     transportProviderID: 1
+  //   });
     
-    ctrl = fg.get('dateOfWork'); 
-    // act
-    const result = tFunc(ctrl);
-    // 
-    expect(result['scheduling']).toBe('Date cannot be in the past.');
-  });
+  //   ctrl = fg.get('dateOfWork'); 
+  //   // act
+  //   const result = tFunc(ctrl);
+  //   // 
+  //   expect(result['scheduling']).toBe('Date cannot be in the past.');
+  // });
 
   it('should reject time 1 sec before start time', () => {
     const date: Date = DateTime.local().plus({secs: 1}).toJSDate();

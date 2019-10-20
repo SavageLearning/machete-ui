@@ -8,6 +8,15 @@ import { WorkOrder } from '../shared/models/work-order';
 
 @Injectable()
 export class MyWorkOrdersService {
+  apiDate: Date;
+  date: number;
+  fullYear: number;
+  month: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  milliseconds: number;
+  utcFomattedDate: Date;
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +24,14 @@ export class MyWorkOrdersService {
     let uri = environment.dataUrl + '/api/onlineorders';
 
     return this.http.get(uri, { withCredentials: true }).pipe(
-      map(o => o['data'] as WorkOrder[]));
+      map(o => {
+        let wo = o['data'];
+        wo.map(x => {
+          x.dateTimeofWork = this.toUTC(x.dateTimeofWork);
+        });
+        return wo as WorkOrder[]
+      }
+      ));
   }
 
   getOrder(id: number): Observable<WorkOrder> {
@@ -26,6 +42,7 @@ export class MyWorkOrdersService {
       (data) => {
         let wo = data['data'];
         console.log('getOrder received:', wo);
+        wo.dateTimeofWork = this.toUTC(wo.dateTimeofWork);
         return wo as WorkOrder;
       }, (err: HttpErrorResponse) => {
         // TODO error
@@ -49,5 +66,27 @@ export class MyWorkOrdersService {
         return data;
       })
     );
+  }
+
+  //datetime returned by API has no Zone information, so it has to forced into a UTC zoned date
+  toUTC(woDateTimeOfWork: Date): Date {
+    this.apiDate = new Date(woDateTimeOfWork);
+    this.date = this.apiDate.getDate();
+    this.fullYear = this.apiDate.getFullYear();
+    this.month = this.apiDate.getMonth();
+    this.hours = this.apiDate.getHours();
+    this.minutes = this.apiDate.getMinutes();
+    this.seconds = this.apiDate.getSeconds();
+    this.milliseconds = this.apiDate.getMilliseconds();
+
+    this.apiDate.setUTCFullYear(this.fullYear);
+    this.apiDate.setUTCMonth(this.month);
+    this.apiDate.setUTCDate(this.date);
+    this.apiDate.setUTCHours(this.hours);
+    this.apiDate.setUTCMinutes(this.minutes);
+    this.apiDate.setUTCMilliseconds(this.milliseconds);
+
+    console.log(`UTC WO Date Time with TZ ${this.apiDate}`)
+    return this.apiDate;
   }
 }
