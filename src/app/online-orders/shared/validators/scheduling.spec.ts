@@ -76,17 +76,17 @@ describe('ScheduleRule', () => {
   });
 
   it('should reject time 2 hours before start time', () => {
-    const date: Date = DateTime.local().startOf('day').toJSDate();
-    const time: string = DateTime.local().plus({hours: 2}).toFormat('HH:mm'); 
+    const date: Date = DateTime.local().toJSDate();
+    const time: string = DateTime.local().plus({hours: 2}).toFormat('HH:mm');
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,
       transportProviderID: 1
-    });  
-    ctrl = fg.get('dateOfWork'); 
+    });
+    ctrl = fg.get('dateOfWork');
     // act
     const result = tFunc(ctrl);
-    // 
+    //
     expect(result['scheduling']).toBe('Lead time of 1 days required.');
   });
 });
