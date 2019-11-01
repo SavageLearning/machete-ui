@@ -31,6 +31,8 @@ export class WorkOrderComponent implements OnInit {
   workOrder: WorkOrder = new WorkOrder();
   dateOfWork: Date;
   timeOfWork: string;
+  minOrderDate: Date;
+  defaultOrderTime: Date;
   errorMessage: string;
   showErrors = false;
   newOrder = true;
@@ -101,11 +103,18 @@ export class WorkOrderComponent implements OnInit {
       this.schedulingRules = schedulingRules;
       this.transportRules = transportRules;
       // map transport entries to dropdown
-      let items = [new MySelectItem('Select transportion', null)];
+      let items = [new MySelectItem('Select transportation method', null)];
       let transports = transportProviders.map(l => new MySelectItem(l.text, String(l.id)));
       this.transportMethodsDropDown = items.concat(transports);
       this.buildForm(); // bind the properties of the UI
     });
+
+    this.minOrderDate = new Date();
+    this.minOrderDate.setDate(this.minOrderDate.getDate() + 1);
+
+    this.defaultOrderTime = new Date();
+    this.defaultOrderTime.getDate();
+    this.defaultOrderTime.setHours(9, 0).toString();
   }
 
   getDateOnly(date: Date): Date {

@@ -3,7 +3,7 @@
   <table>
     <tr *ngFor="let item of confirmChoices">
       <td class="ui-g-1">
-        <input type="checkbox" [(ngModel)]="item.confirmed" (ngModelChange)="checkConfirm()">         
+        <p-checkbox [(ngModel)]="item.confirmed" binary="true" (ngModelChange)="checkConfirm()"></p-checkbox>     
       </td>
       <td class="ui-g-11">
         {{item.description}}

@@ -18,10 +18,13 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - npm i -g npm@5.5.1
 
-before_script:
-- npm install -g @angular/cli
-- npm install -g karma
-- npm install
-- ng build
+install:
+  - npm install -g @angular/cli
+  - npm install -g karma
+  - npm install
+  - npm run build-local-dev
+# TODO: npm run build-prod instead
 
-script: ng test --watch=false
+# travis auto-runs test... which times out
+script:
+  - ng test --watch=false
