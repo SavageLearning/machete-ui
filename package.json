@@ -41,7 +41,7 @@
     "luxon": "^1.8.2",
     "moment": "^2.22.2",
     "nanoscroller": "0.8.7",
-    "npm": "^6.10.0",
+    "npm": "^6.13.4",
     "path": "^0.12.7",
     "paypal-checkout": "^4.0.223",
     "primeicons": "^2.0.0",
