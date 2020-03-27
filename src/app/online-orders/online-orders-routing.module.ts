@@ -17,6 +17,7 @@ import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
 import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 import { ProfileGuard } from './guards/profile.guard';
+import { WelcomeComponent } from '../auth';
 
 const onlineOrderRoutes: Routes = [
   {
@@ -27,11 +28,11 @@ const onlineOrderRoutes: Routes = [
     children: [
       {
         path: 'introduction',
-        component: IntroductionComponent,
+        component: WelcomeComponent,
       },
       {
         path: 'intro-confirm',
-        component: IntroConfirmComponent,
+        component: WelcomeComponent,
       },
       {
         path: 'work-order',
