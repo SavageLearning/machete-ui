@@ -11,6 +11,8 @@ import { UnauthorizedComponent, WelcomeComponent,
 
 import { RegisterComponent } from './auth/register/register.component';
 import { EmployersService } from './employers/employers.service';
+import {DialogModule} from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
 
 const appRoutes: Routes = [
   {
@@ -57,7 +59,9 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       { preloadingStrategy: SelectivePreloadingStrategy }
-    )
+    ),
+    DialogModule,
+    ButtonModule
   ],
   exports: [
     RouterModule
