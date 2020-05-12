@@ -17,15 +17,10 @@ export class WelcomeComponent implements OnInit {
   welcome: string;
   isLoggedIn: boolean;
   userState: string;
-  /// for overlay that shuts down GUI access to the app
-  macheteOutage: boolean;
-  outageMessage: string;
 
   constructor(private cfgService: ConfigsService,
     private authService: AuthService,
-    private router: Router) {
-      this.setMacheteOutage();
-    }
+    private router: Router) { }
 
   ngOnInit() {
     this.cfgService.getAllConfigs().subscribe(
@@ -56,14 +51,6 @@ export class WelcomeComponent implements OnInit {
                          + 'app_id=' + this.facebookAppId + '&'
                          + 'client_id=' + this.googleClientId + '&'
                          + 'state=' + this.macheteSessionId;
-  }
-
-  setMacheteOutage() {
-    this.macheteOutage = true;
-    this.outageMessage = `Day Workers Center will be closed
-    during the Governor\'s Stay at Home Order.
-    We will update this information as soon as
-    we receive notice that we may resume this service.`;
   }
 
   // DEPRECATED

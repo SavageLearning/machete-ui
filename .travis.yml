@@ -28,3 +28,4 @@ install:
 # travis auto-runs test... which times out
 script:
   - ng test --watch=false
+  - ng build-prod
