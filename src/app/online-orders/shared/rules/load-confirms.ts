@@ -49,6 +49,15 @@ export function loadConfirms(): Array<Confirm> {
       her or him.`,
       confirmed: false
     }),
+    new Confirm({
+      name: 'covid-19',
+      description: `I certify that no one in my household have symptoms of COVID-19, such as dry cough, 
+      fever, and loss of smell and taste, or has been in close contact with someone who does, no one 
+      in my household has tested positive for COVID-19, no one in my household been in close contact 
+      with someone who has tested positive for COVID-19.
+      `,
+      confirmed: false
+    })
     
   ];
 }
