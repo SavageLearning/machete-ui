@@ -11,7 +11,7 @@ import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../../shared/models/work-order";
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageService } from 'primeng/api';
 
 @Injectable()
 export class WorkAssignmentsService {
