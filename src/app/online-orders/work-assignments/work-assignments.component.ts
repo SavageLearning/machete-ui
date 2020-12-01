@@ -34,7 +34,7 @@ export class WorkAssignmentsComponent implements OnInit {
   newRequest = true;
   requestForm: FormGroup;
   showErrors = false;
-  hasRequests= false;
+  hasRequests = false;
   transportRules: TransportRule[];
   private combinedSource: Observable<[TransportRule[], Lookup[], TransportProvider[]]>;
   formErrors = {
@@ -61,10 +61,10 @@ export class WorkAssignmentsComponent implements OnInit {
     console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
 
-    this,this.combinedSource = observableCombineLatest(
+    this.combinedSource = observableCombineLatest([
       this.transportRulesService.getTransportRules(),
       this.lookupsService.getLookups(LCategory.SKILL),
-      this.transportProviderService.getTransportProviders());
+      this.transportProviderService.getTransportProviders()]);
 
     const subscribed = this.combinedSource.subscribe(
       values => {
@@ -177,7 +177,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.newRequest = true;
-    if (this.requestList == null || this.requestList.length == 0) {
+    if (this.requestList == null || this.requestList.length === 0) {
       this.onlineService.setWorkAssignmentsConfirm(false);
     }
     this.setHasRequests();
@@ -229,6 +229,6 @@ export class WorkAssignmentsComponent implements OnInit {
 
   finalize() {
     this.router.navigate(['/online-orders/order-confirm']);
-    
+
   }
 }

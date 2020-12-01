@@ -1,15 +1,17 @@
 
-import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
+import {combineLatest, Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrder } from '../../shared/models/work-order';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { LookupsService } from "../../lookups/lookups.service";
-import { LCategory } from "../../lookups/models/lookup";
-import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
+import { LookupsService } from '../../lookups/lookups.service';
+import { LCategory } from '../../lookups/models/lookup';
+import { WorkAssignmentsService } from '../work-assignments/work-assignments.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TransportProvidersService } from '../transport-providers.service';
+import { TransportProvider } from '../shared';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-confirm',
@@ -31,12 +33,12 @@ export class OrderConfirmComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {    
-    observableCombineLatest(
-      this.transportProviderService.getTransportProviders(),
-      this.ordersService.getStream(),
-      this.assignmentService.getStream()
-    ).subscribe(([l, o, wa]) => {
+  ngOnInit() {
+    const l$ = this.transportProviderService.getTransportProviders();
+    const o$ = this.ordersService.getStream();
+    const wa$ = this.assignmentService.getStream();
+
+    combineLatest([l$, o$, wa$]).subscribe(([l, o, wa]) => {
       console.log('ngOnInit->combineLatest.subscribe', l, o, wa);
       this.order = o;
       if (o.transportProviderID > 0)
@@ -52,7 +54,7 @@ export class OrderConfirmComponent implements OnInit {
         // sums up the labor costs
         this.laborCost = 
           wa.map(wa => wa.hourlyWage * wa.hours)
-            .reduce((a, b) => a + b);      
+            .reduce((a, b) => a + b);
       } else {
         this.workerCount = 0;
         this.transportCost = 0;
