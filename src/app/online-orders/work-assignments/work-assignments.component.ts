@@ -45,6 +45,7 @@ export class WorkAssignmentsComponent implements OnInit {
     'requiresHeavyLifting': '',
     'hourlyWage': ''
   };
+  inputSliderVal: number;
 
   constructor(
     private lookupsService: LookupsService,
@@ -107,6 +108,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestList = this.waService.getAll();
     this.setHasRequests();
     this.buildForm();
+    this.inputSliderVal = Number(this.requestForm.controls['hours']);
   }
 
   buildForm(): void {
