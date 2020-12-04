@@ -21,6 +21,9 @@ import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { MessageService } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FieldsetModule } from 'primeng/fieldset';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
@@ -29,8 +32,7 @@ import { TransportRulesService } from './transport-rules.service';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
 import { ProfileGuard } from './guards/profile.guard';
-import { BannerGuard } from './guards/banner.guard';
-import { ConfigsService } from '../configs/configs.service';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   imports: [
@@ -50,6 +52,10 @@ import { ConfigsService } from '../configs/configs.service';
     OnlineOrdersRoutingModule,
     WorkOrdersModule,
     CardModule,
+    LayoutModule,
+    InputTextModule,
+    InputTextareaModule,
+    FieldsetModule
   ],
   declarations: [
     IntroductionComponent,
