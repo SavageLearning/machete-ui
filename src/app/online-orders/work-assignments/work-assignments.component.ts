@@ -1,6 +1,5 @@
-
 import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {WorkAssignment} from '../../shared/models/work-assignment';
@@ -19,28 +18,22 @@ import { TransportProvidersService } from '../transport-providers.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SkillsComponent } from './skills/skills.component';
 import { MessageService } from 'primeng/api';
+
+enum MessageTypes {
+  ToastSkillSelection = 'ToastSkillSelection',
+  SuccessSkillSaved = 'SuccessSkillSaved'
+}
+
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
   styleUrls: ['./work-assignments.component.css']
 })
 export class WorkAssignmentsComponent implements OnInit, OnDestroy {
-  skills: Lookup[]; // Lookups from Lookups Service
-  transports: TransportProvider[];
-  skillsDropDown: MySelectItem[];
-  skillsToDisplay: Lookup[]
-  skillsRules: SkillRule[];
-  selectedSkill: Lookup = new Lookup();
-  requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
-  request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
-  selectedRequest: WorkAssignment;
+  // public properties
+  activeTabIndex: number = 0;
+  eMessages = MessageTypes;
   errorMessage: string;
-  newRequest = true;
-  requestForm: FormGroup;
-  showErrors = false;
-  hasRequests = false;
-  transportRules: TransportRule[];
-  private combinedSource: Observable<[TransportRule[], Lookup[], TransportProvider[]]>;
   formErrors = {
     'skillId': '',
     'skill': '',
@@ -49,8 +42,23 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     'requiresHeavyLifting': '',
     'hourlyWage': ''
   };
-  inputSliderVal: number;
+  hasRequests = false;
+  newRequest = true;
   ref: DynamicDialogRef;
+  request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
+  requestForm: FormGroup;
+  requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
+  selectedRequest: WorkAssignment;
+  selectedSkill: Lookup = new Lookup();
+  showErrors = false;
+  skillsDropDown: MySelectItem[];
+  skills: Lookup[]; // Lookups from Lookups Service
+  skillsRules: SkillRule[];
+  transportRules: TransportRule[];
+  transports: TransportProvider[];
+
+  // private fields
+  private combinedSource: Observable<[TransportRule[], Lookup[], TransportProvider[]]>;
 
   constructor(
     private lookupsService: LookupsService,
@@ -81,10 +89,6 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
         this.transportRules = rules;
         //
         this.skills = skills;
-        this.skillsToDisplay = skills.filter(l =>
-          l.category === 'skill'
-        );
-        console.table(this.skillsToDisplay);
         this.skillsDropDown = skills.map(l =>
           new MySelectItem(l.text_EN, String(l.id)));
         this.skillsRules = skills.map(l => new SkillRule(l));
@@ -119,9 +123,9 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.requestList = this.waService.getAll();
     this.setHasRequests();
     this.buildForm();
-    this.inputSliderVal = Number(this.requestForm.controls['hours']);
   }
 
+  // public methods
   buildForm(): void {
     this.requestForm = this.fb.group({
       'id': '',
@@ -174,26 +178,51 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.requestForm.controls['hourlyWage'].setValue(skill.wage);
   }
 
-  show() {
+  clearSelectedSkill() {
+    var props = Object.getOwnPropertyNames(this.selectedSkill);
+    for (var i = 0; i < props.length; i++) {
+      delete this.selectedSkill[props[i]];
+    }
+  }
+
+  onAddJobsToRequest() {
+    this.activeTabIndex = 1;
+  }
+
+  onAddMoreJobs() {
+    this.activeTabIndex = 0;
+    this.clearMessages(this.eMessages.SuccessSkillSaved);
+    this.clearSelectedSkill();
+    this.requestForm.reset();
+    this.buildForm();
+  }
+
+  onShowSkillsCart() {
     this.ref = this.dialogService.open(SkillsComponent, {
-      data: this.skillsToDisplay,
+      data: this.skills,
       header: 'Choose a Skill',
       width: '100%',
       contentStyle: {'overflow': 'auto'},
       baseZIndex: 10000
     });
 
+    // called from the child component (skills)
     this.ref.onClose.subscribe((skill: Lookup) => {
       if (skill) {
-          this.messageServ.add({
-            life: 10000,
-            key: 'bc',
-            severity: 'info',
-            summary: `${skill.text_EN} selected`,
-            detail: 'Choose additional details below to continue'
-          });
+        this.selectSkill(skill.id);
+        this.messageServ.add({
+          life: 4000,
+          key: this.eMessages.ToastSkillSelection,
+          severity: 'success',
+          summary: `${skill.text_EN} selected`,
+          detail: 'Choose additional details to continue'
+        });
       }
     });
+  }
+
+  clearMessages(key: MessageTypes) {
+    this.messageServ.clear(key);
   }
 
   ngOnDestroy() {
@@ -204,6 +233,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
 
   // loads an existing item into the form fields
   editRequest(request: WorkAssignment) {
+    this.activeTabIndex = 0;
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
     this.requestForm.controls['skill'].setValue(request.skill);
@@ -211,6 +241,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.requestForm.controls['description'].setValue(request.description);
     this.requestForm.controls['requiresHeavyLifting'].setValue(request.requiresHeavyLifting);
     this.requestForm.controls['hourlyWage'].setValue(request.hourlyWage);
+    this.selectSkill(request.skillId);
     this.newRequest = false;
   }
 
@@ -233,10 +264,10 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
       return;
     }
     this.showErrors = false;
-    const formModel = this.requestForm.value;
+    const formModel: WorkAssignment = this.requestForm.value;
 
     const saveRequest: WorkAssignment = {
-      id: formModel.ID || 0,
+      id: formModel.id || 0,
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,
@@ -246,7 +277,22 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
       transportCost: 0
     };
 
+    this.clearMessages(this.eMessages.SuccessSkillSaved);
     this.waService.save(saveRequest);
+    if (!this.newRequest) { //save message
+      this.messageServ.add({
+        severity: 'success',
+        key: this.eMessages.SuccessSkillSaved,
+        summary: `Job saved!`
+      });
+    } else { //create message
+      this.messageServ.add({
+        severity: 'success',
+        key: this.eMessages.SuccessSkillSaved,
+        summary: `Success!`,
+        detail: `Job added successfully to your resquest. See details below`
+      });
+    }
     this.onlineService.setWorkAssignmentsConfirm(true);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
