@@ -18,7 +18,7 @@ export class EmployersService {
    }
 
   fetchEmployer(): Observable<Employer> {
-    let uri = environment.dataUrl + '/api/employer/profile';    
+    let uri = environment.dataUrl + '/api/employer/profile';
     return this.http.get(uri, { withCredentials: true }).pipe(
       map(data => {
         this.setEmployer(data['data'] as Employer);
