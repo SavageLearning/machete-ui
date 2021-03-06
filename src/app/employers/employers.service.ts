@@ -11,7 +11,7 @@ import { AuthService } from '../shared/index';
 @Injectable()
 export class EmployersService {
   private employerSource: BehaviorSubject<Employer>;
-  uri = environment.dataUrl + '/api/employers/profile';
+  private uri: string = environment.dataUrl + '/api/employers/profile';
   constructor(private http: HttpClient, private auth: AuthService) {
     console.log('.ctor: EmployersService');
     this.employerSource = new BehaviorSubject<Employer>(null);
