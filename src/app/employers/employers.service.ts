@@ -11,6 +11,7 @@ import { AuthService } from '../shared/index';
 @Injectable()
 export class EmployersService {
   private employerSource: BehaviorSubject<Employer>;
+  private uri: string = environment.dataUrl + '/api/employers/profile';
   constructor(private http: HttpClient, private auth: AuthService) {
     console.log('.ctor: EmployersService');
     this.employerSource = new BehaviorSubject<Employer>(null);
@@ -18,8 +19,7 @@ export class EmployersService {
    }
 
   fetchEmployer(): Observable<Employer> {
-    let uri = environment.dataUrl + '/api/employer/profile';    
-    return this.http.get(uri, { withCredentials: true }).pipe(
+    return this.http.get(this.uri, { withCredentials: true }).pipe(
       map(data => {
         this.setEmployer(data['data'] as Employer);
         return data['data'] as Employer;
@@ -39,16 +39,15 @@ export class EmployersService {
   }
 
   save(employer: Employer): Observable<Employer> {
-    let uri = environment.dataUrl + '/api/employer/profile';
 
-    console.log('save:', uri, employer);
+    console.log('save:', this.uri, employer);
     let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
     // hack to get out the door; SavageLearning/Machete#425
     employer.referredBy = 25;
 
     // create or update
-    return this.http.put(uri, JSON.stringify(employer), { headers: httpHeaders, withCredentials: true }).pipe(
+    return this.http.put(this.uri, JSON.stringify(employer), { headers: httpHeaders, withCredentials: true }).pipe(
       map(data => {
         this.setEmployer(data['data'] as Employer);
         return data['data'];
