@@ -4,10 +4,8 @@ import { Injectable } from '@angular/core';
 import {WorkAssignment} from '../../shared/models/work-assignment';
 
 import { OnlineOrdersService } from '../online-orders.service';
-import { TransportRule, CostRule, TransportProvider } from '../shared/index';
+import { TransportRule, TransportProvider } from '../shared/index';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { Lookup, LCategory } from '../../lookups/models/lookup';
-import { LookupsService } from '../../lookups/lookups.service';
 import { WorkOrder } from "../../shared/models/work-order";
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';

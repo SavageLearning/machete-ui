@@ -1,15 +1,14 @@
 
-import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
+import {combineLatest as observableCombineLatest } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrder } from '../../shared/models/work-order';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { LookupsService } from "../../lookups/lookups.service";
-import { LCategory } from "../../lookups/models/lookup";
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TransportProvidersService } from '../transport-providers.service';
+import { MessageService } from 'primeng/components/common/messageservice';
+
 
 @Component({
   selector: 'app-order-confirm',
@@ -28,6 +27,7 @@ export class OrderConfirmComponent implements OnInit {
     private onlineService: OnlineOrdersService,
     private transportProviderService: TransportProvidersService,
     private assignmentService: WorkAssignmentsService,
+    private messageService: MessageService,
     private router: Router
   ) { }
 
@@ -77,7 +77,13 @@ export class OrderConfirmComponent implements OnInit {
           this.ordersService.clearState();
           this.assignmentService.clearState();
           this.router.navigate(['/my-work-orders/' + data.id]);
-
+        },
+        error => {
+          this.messageService.add({
+            severity:'error', 
+            summary:`Machete server returned an error`, 
+            detail: error
+          });   
         }
       );
   }
