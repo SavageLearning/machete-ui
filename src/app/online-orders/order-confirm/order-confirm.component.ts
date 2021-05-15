@@ -8,6 +8,7 @@ import { WorkAssignmentsService } from "../work-assignments/work-assignments.ser
 import { Router } from '@angular/router';
 import { TransportProvidersService } from '../transport-providers.service';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -78,11 +79,11 @@ export class OrderConfirmComponent implements OnInit {
           this.assignmentService.clearState();
           this.router.navigate(['/my-work-orders/' + data.id]);
         },
-        error => {
+        (errorRes: HttpErrorResponse) => {
           this.messageService.add({
             severity:'error', 
             summary:`Machete server returned an error`, 
-            detail: error
+            detail: JSON.stringify(errorRes.error)
           });   
         }
       );

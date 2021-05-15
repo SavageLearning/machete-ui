@@ -11,6 +11,7 @@ export class WorkAssignment extends Record<WorkAssignment>
   requiresHeavyLifting = false;
   hourlyWage: number;
   transportCost: number;
+  days: number;
 
   static sort(a: WorkAssignment, b: WorkAssignment) {
     if (a.id < b.id) { return -1; }

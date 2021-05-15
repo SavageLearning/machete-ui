@@ -16,6 +16,7 @@ import { loadSkillRules } from '../shared/rules/load-skill-rules';
 import { TransportRulesService } from '../transport-rules.service';
 import { SkillRule } from '../shared/models/skill-rule';
 import { TransportProvidersService } from '../transport-providers.service';
+import { lengthValidator } from '../../shared/validators/length';
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
@@ -115,7 +116,7 @@ export class WorkAssignmentsComponent implements OnInit {
       'skillId': ['', requiredValidator('Please select the type of work to be performed.')],
       'skill': [''],
       'hours': ['', hoursValidator(this.skillsRules, this.skills, 'skillId', 'hours')],
-      'description': [''],
+      'description': ['', lengthValidator(1000)], // !! Todo: should be provided by API
       'requiresHeavyLifting': [false],
       'hourlyWage': ['']
     });
@@ -194,14 +195,15 @@ export class WorkAssignmentsComponent implements OnInit {
     const formModel = this.requestForm.value;
 
     const saveRequest: WorkAssignment = {
-      id: formModel.ID || 0,
+      id: formModel.id || 0,
       skillId: formModel.skillId,
       skill: formModel.skill,
       hours: formModel.hours,
       description: formModel.description,
       requiresHeavyLifting: formModel.requiresHeavyLifting,
       hourlyWage: formModel.hourlyWage,
-      transportCost: 0
+      transportCost: 0,
+      days: 1// We currently only support 1 day on employer portal
     };
 
     this.waService.save(saveRequest);
