@@ -79,6 +79,11 @@
             <textarea rows="3" class="ui-inputtext" formControlName="description" id="description" type="text" pInputText></textarea>
           </div>
         </div>
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-message ui-message-error ui-corner-all" *ngIf="!requestForm.controls['description'].valid && showErrors">
+            {{formErrors.description}}
+          </div>
+        </div>
     
       </div>
       <div class="ui-g-12">
