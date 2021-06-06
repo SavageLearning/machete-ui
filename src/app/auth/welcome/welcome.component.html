@@ -1,3 +1,28 @@
 <div [innerHTML]="welcome">
 </div>
 <button pButton type="button" (click)="login()" label="Login" *ngIf="!isLoggedIn"></button>
+
+<p-dialog 
+    *ngIf="macheteOutage"
+    [(visible)]="macheteOutage" 
+    [modal]="true" 
+    [maximizable]="true" 
+    [baseZIndex]="10000"
+    [responsive]="true" 
+    [width]="350" 
+    [minWidth]="200" 
+    [minY]="70" 
+    [closable]="false">
+    <p-header>
+        Online Hiring Temporarily Out of Service
+    </p-header>
+    {{outageMessage}}
+    <p-footer>
+        <a href="https://www.casa-latina.org" target="_blank">
+            <button class="ui-button-warning" pButton type="button" (click)="display=true" label="Return to Casa Latina Website">
+            </button>
+        </a>
+    </p-footer>
+
+
+</p-dialog>
