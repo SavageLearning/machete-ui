@@ -18,13 +18,14 @@ import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 import { ProfileGuard } from './guards/profile.guard';
 import { WelcomeComponent } from '../auth';
+import { BannerGuard } from './guards/banner.guard';
 
 const onlineOrderRoutes: Routes = [
   {
     path: 'online-orders',
     component: OnlineOrdersComponent,
     //canLoad: [AuthGuardService],
-    canActivate: [AuthGuardService, ProfileGuard],
+    canActivate: [AuthGuardService, ProfileGuard, BannerGuard],
     children: [
       {
         path: 'introduction',

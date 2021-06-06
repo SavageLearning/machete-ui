@@ -17,6 +17,8 @@ import { TransportRulesService } from './transport-rules.service';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
 import { ProfileGuard } from './guards/profile.guard';
+import { BannerGuard } from './guards/banner.guard';
+import { ConfigsService } from '../configs/configs.service';
 
 @NgModule({
   imports: [
@@ -48,7 +50,9 @@ import { ProfileGuard } from './guards/profile.guard';
     OnlineOrdersService,
     ScheduleRulesService,
     TransportRulesService,
-    ProfileGuard
+    ConfigsService,
+    ProfileGuard,
+    BannerGuard
   ]
 })
 export class OnlineOrdersModule { }
