@@ -14,8 +14,6 @@ import { EmployersService } from './employers/employers.service';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 
-import {ButtonModule} from 'primeng/button';
-
 const appRoutes: Routes = [
   {
     path: '',

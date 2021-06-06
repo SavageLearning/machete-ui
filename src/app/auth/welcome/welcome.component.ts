@@ -23,9 +23,7 @@ export class WelcomeComponent implements OnInit {
 
   constructor(private cfgService: ConfigsService,
     private authService: AuthService,
-    private router: Router) {
-      this.setMacheteOutage();
-    }
+    private router: Router) {    }
 
   ngOnInit() {
     this.cfgService.getAllConfigs().subscribe(
@@ -35,6 +33,8 @@ export class WelcomeComponent implements OnInit {
         this.facebookAppId = data.find(config => config.key === 'FacebookAppId').value;
         this.googleClientId = data.find(config => config.key === 'GoogleClientId').value;
         this.macheteSessionId = data.find(config => config.key === 'OAuthStateParameter').value;
+        this.macheteOutage = data.find(config => config.key === 'DisableOnlineOrders').value === 'TRUE';
+        this.outageMessage = data.find(config => config.key === 'DisableOnlineOrdersBanner').value;
       },
       error => console.error('welcome.component.OnInit:' + error)
     );
@@ -58,13 +58,6 @@ export class WelcomeComponent implements OnInit {
                          + 'state=' + this.macheteSessionId;
   }
 
-  setMacheteOutage() {
-    this.macheteOutage = true;
-    this.outageMessage = `Day Workers Center will be closed
-    during the Governor\'s Stay at Home Order.
-    We will update this information as soon as
-    we receive notice that we may resume this service.`;
-  }
 
   // DEPRECATED
   register() {
