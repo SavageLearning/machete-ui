@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ButtonModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/button';
 import { OnlineOrdersService } from '../online-orders.service';
 import { Router } from '@angular/router';
-import { Confirm } from "../shared/models/confirm";
+import { Confirm } from '../shared/models/confirm';
 
 @Component({
   selector: 'app-intro-confirm',
@@ -25,7 +25,7 @@ export class IntroConfirmComponent implements OnInit {
         this.confirmChoices = confirmed;
         this.confirmStatus = this.confirmChoices
             .map(a => a.confirmed)
-            .reduce((a,b) => a && b );
+            .reduce((a, b) => a && b );
       }
     );
   }
@@ -33,9 +33,9 @@ export class IntroConfirmComponent implements OnInit {
   checkConfirm(event: Event) {
     let result =  this.confirmChoices
                             .map(a => a.confirmed)
-                            .reduce((a,b) => a && b );
+                            .reduce((a, b) => a && b );
     this.confirmStatus = result;
-    this.onlineService.setInitialConfirm(this.confirmChoices);                            
+    this.onlineService.setInitialConfirm(this.confirmChoices);
   }
 
   nextStep() {

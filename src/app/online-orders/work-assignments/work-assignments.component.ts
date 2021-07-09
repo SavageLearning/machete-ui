@@ -1,6 +1,6 @@
-
+/* eslint-disable @typescript-eslint/naming-convention */
 import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {WorkAssignment} from '../../shared/models/work-assignment';
@@ -17,35 +17,51 @@ import { TransportRulesService } from '../transport-rules.service';
 import { SkillRule } from '../shared/models/skill-rule';
 import { TransportProvidersService } from '../transport-providers.service';
 import { lengthValidator } from '../../shared/validators/length';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
+import { SkillsComponent } from './skills/skills.component';
+
+enum MessageTypes {
+  ToastSkillSelection = 'ToastSkillSelection',
+  SuccessSkillSaved = 'SuccessSkillSaved'
+}
+
+
 @Component({
   selector: 'app-work-assignments',
   templateUrl: './work-assignments.component.html',
   styleUrls: ['./work-assignments.component.css']
 })
-export class WorkAssignmentsComponent implements OnInit {
-  skills: Lookup[]; // Lookups from Lookups Service
-  transports: TransportProvider[];
-  skillsDropDown: MySelectItem[];
-  skillsRules: SkillRule[];
-  selectedSkill: Lookup = new Lookup();
-  requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
-  request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
-  selectedRequest: WorkAssignment;
+export class WorkAssignmentsComponent implements OnInit, OnDestroy {
+  // public properties
+  activeTabIndex = 0;
+  eMessages = MessageTypes;
   errorMessage: string;
-  newRequest = true;
-  requestForm: FormGroup;
-  showErrors = false;
-  hasRequests= false;
-  transportRules: TransportRule[];
-  private combinedSource: Observable<[TransportRule[], Lookup[], TransportProvider[]]>;
   formErrors = {
-    'skillId': '',
-    'skill': '',
-    'hours': '',
-    'description': '',
-    'requiresHeavyLifting': '',
-    'hourlyWage': ''
+    skillId: '',
+    skill: '',
+    hours: '',
+    description: '',
+    requiresHeavyLifting: '',
+    hourlyWage: ''
   };
+  hasRequests = false;
+  newRequest = true;
+  ref: DynamicDialogRef;
+  request: WorkAssignment = new WorkAssignment(); // composed by UI to make/edit a request
+  requestForm: FormGroup;
+  requestList: WorkAssignment[] = new Array<WorkAssignment>(); // list built by user in UI
+  selectedRequest: WorkAssignment;
+  selectedSkill: Lookup = new Lookup();
+  showErrors = false;
+  skillsDropDown: MySelectItem[];
+  skills: Lookup[]; // Lookups from Lookups Service
+  skillsRules: SkillRule[];
+  transportRules: TransportRule[];
+  transports: TransportProvider[];
+
+  // private fields
+  private combinedSource: Observable<[TransportRule[], Lookup[], TransportProvider[]]>;
 
   constructor(
     private lookupsService: LookupsService,
@@ -54,7 +70,9 @@ export class WorkAssignmentsComponent implements OnInit {
     private onlineService: OnlineOrdersService,
     private transportRulesService: TransportRulesService,
     private router: Router,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    public dialogService: DialogService,
+    private messageServ: MessageService) {
       console.log('.ctor');
   }
 
@@ -62,10 +80,10 @@ export class WorkAssignmentsComponent implements OnInit {
     console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
 
-    this,this.combinedSource = observableCombineLatest(
+    this.combinedSource = observableCombineLatest([
       this.transportRulesService.getTransportRules(),
       this.lookupsService.getLookups(LCategory.SKILL),
-      this.transportProviderService.getTransportProviders());
+      this.transportProviderService.getTransportProviders()]);
 
     const subscribed = this.combinedSource.subscribe(
       values => {
@@ -110,6 +128,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.buildForm();
   }
 
+  // public methods
   buildForm(): void {
     this.requestForm = this.fb.group({
       'id': '',
@@ -153,16 +172,65 @@ export class WorkAssignmentsComponent implements OnInit {
   selectSkill(skillId: number) {
     console.log('selectSkill.skillId:' + String(skillId));
     const skill = this.skills.filter(f => f.id === Number(skillId)).shift();
-    if (skill === null || skill === undefined) {
+    if (skill == null || skill === undefined) {
       throw new Error('Can\'t find selected skill in component\'s list');
     }
     this.selectedSkill = skill;
+    this.requestForm.controls['skillId'].setValue(skill.id);
     this.requestForm.controls['skill'].setValue(skill.text_EN);
     this.requestForm.controls['hourlyWage'].setValue(skill.wage);
   }
 
+  onAddJobsToRequest() {
+    this.activeTabIndex = 1;
+  }
+
+  onAddMoreJobs() {
+    this.activeTabIndex = 0;
+    this.clearMessages(this.eMessages.SuccessSkillSaved);
+    this.requestForm.reset();
+    this.selectedSkill = new Lookup();
+    this.buildForm();
+    this.newRequest = true;
+  }
+
+  onShowSkillsCart() {
+    this.ref = this.dialogService.open(SkillsComponent, {
+      data: this.skills,
+      header: 'Choose a Skill',
+      width: '100%',
+      contentStyle: {overflow: 'auto'},
+      baseZIndex: 10000
+    });
+
+    // called from the child component (skills)
+    this.ref.onClose.subscribe((skill: Lookup) => {
+      if (skill) {
+        this.selectSkill(skill.id);
+        this.messageServ.add({
+          life: 4000,
+          key: this.eMessages.ToastSkillSelection,
+          severity: 'success',
+          summary: `${skill.text_EN} selected`,
+          detail: 'Choose additional details to continue'
+        });
+      }
+    });
+  }
+
+  clearMessages(key: MessageTypes) {
+    this.messageServ.clear(key);
+  }
+
+  ngOnDestroy() {
+    if (this.ref) {
+        this.ref.close();
+    }
+  }
+
   // loads an existing item into the form fields
   editRequest(request: WorkAssignment) {
+    this.activeTabIndex = 0;
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
     this.requestForm.controls['skill'].setValue(request.skill);
@@ -170,6 +238,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestForm.controls['description'].setValue(request.description);
     this.requestForm.controls['requiresHeavyLifting'].setValue(request.requiresHeavyLifting);
     this.requestForm.controls['hourlyWage'].setValue(request.hourlyWage);
+    this.selectSkill(request.skillId);
     this.newRequest = false;
   }
 
@@ -178,7 +247,7 @@ export class WorkAssignmentsComponent implements OnInit {
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
     this.newRequest = true;
-    if (this.requestList == null || this.requestList.length == 0) {
+    if (this.requestList == null || this.requestList.length === 0) {
       this.onlineService.setWorkAssignmentsConfirm(false);
     }
     this.setHasRequests();
@@ -192,7 +261,7 @@ export class WorkAssignmentsComponent implements OnInit {
       return;
     }
     this.showErrors = false;
-    const formModel = this.requestForm.value;
+    const formModel: WorkAssignment = this.requestForm.value;
 
     const saveRequest: WorkAssignment = {
       id: formModel.id || 0,
@@ -206,7 +275,22 @@ export class WorkAssignmentsComponent implements OnInit {
       days: 1// We currently only support 1 day on employer portal
     };
 
+    this.clearMessages(this.eMessages.SuccessSkillSaved);
     this.waService.save(saveRequest);
+    if (!this.newRequest) { //save message
+      this.messageServ.add({
+        severity: 'success',
+        key: this.eMessages.SuccessSkillSaved,
+        summary: `Job saved!`
+      });
+    } else { //create message
+      this.messageServ.add({
+        severity: 'success',
+        key: this.eMessages.SuccessSkillSaved,
+        summary: `Success!`,
+        detail: `Job added successfully to your resquest. See details below`
+      });
+    }
     this.onlineService.setWorkAssignmentsConfirm(true);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
@@ -231,6 +315,6 @@ export class WorkAssignmentsComponent implements OnInit {
 
   finalize() {
     this.router.navigate(['/online-orders/order-confirm']);
-    
+
   }
 }

@@ -1,4 +1,4 @@
-import { async, TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { ExportsService } from './exports.service';
 import {ExportsOptionsComponent} from './exports-options.component';
@@ -17,8 +17,8 @@ describe('ExportsService', () => {
         HttpClientTestingModule
       ]
     });
-    service = TestBed.get(ExportsService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.inject(ExportsService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should ...', inject([ExportsService], (service1: ExportsService) => {

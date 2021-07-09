@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { TransportRulesService } from './transport-rules.service';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
@@ -12,14 +12,14 @@ describe('TransportRulesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        TransportRulesService        
+        TransportRulesService
       ],
       imports: [
-        HttpModule,
-        HttpClientTestingModule        
+        HttpClientModule,
+        HttpClientTestingModule
       ]
     }).compileComponents();
-    httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', inject([TransportRulesService], (service: TransportRulesService) => {

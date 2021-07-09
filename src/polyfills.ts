@@ -41,7 +41,7 @@
 
 
 /** Evergreen browsers require these. **/
-import 'core-js/es6/reflect';
+// import 'core-js/es6/reflect';
 
 
 /** ALL Firefox browsers require the following to support `@angular/animation`. **/
@@ -68,5 +68,6 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 // https://github.com/algolia/algoliasearch-client-javascript/issues/691
 (window as any).process = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     env: { DEBUG: undefined },
   };

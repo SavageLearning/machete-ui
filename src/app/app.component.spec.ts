@@ -1,28 +1,28 @@
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {TestBed, async} from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {AppTopBar} from './app.topbar.component';
+import {AppTopBarComponent} from './app.topbar.component';
 import {InlineProfileComponent} from './menu/app.profile.component';
-import {AppMenuComponent, AppSubMenu} from './menu/app.menu.component';
-import {AppFooter} from './app.footer.component';
+import {AppMenuComponent, AppSubMenuComponent} from './menu/app.menu.component';
+import {AppFooterComponent} from './app.footer.component';
 import {AppRoutingModule} from './app-routing.module';
 import {PageNotFoundComponent} from './not-found.component';
 import {APP_BASE_HREF} from '@angular/common';
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { AuthService } from './shared/index';
 import { AuthServiceSpy } from './shared/testing';
-import { GrowlModule } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
         AppMenuComponent,
-        AppSubMenu,
-        AppTopBar,
-        AppFooter,
+        AppSubMenuComponent,
+        AppTopBarComponent,
+        AppFooterComponent,
         InlineProfileComponent,
         PageNotFoundComponent,
         AuthorizeComponent
@@ -31,7 +31,7 @@ describe('AppComponent', () => {
       imports: [
         AppRoutingModule,
         NoopAnimationsModule,
-        GrowlModule
+        ToastModule
       ],
       providers: [
         {provide: APP_BASE_HREF, useValue: '/'},
@@ -41,7 +41,7 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
 
-  it('should create the app', async(() => {
+  it('should create the app', waitForAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();

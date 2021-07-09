@@ -19,9 +19,8 @@ export class ProfileGuard implements CanActivate {
       map((em: Employer) => {
         console.log('canActivate->getEmployer:', em)
         let exists = em ? true : false;
-        if (!exists)
-        {
-          this.router.navigate(['/employers']);   
+        if (!exists) {
+          this.router.navigate(['/employers']);
         }
         console.log('canActivate:', exists)
         return exists;

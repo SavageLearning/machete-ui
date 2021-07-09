@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ReportsService} from './reports.service';
 import {SearchOptions } from './models/search-options';
 import {SimpleAggregateRow} from './models/simple-aggregate-row';
-import {DataTable, SelectItem} from 'primeng/primeng';
+import { Table } from 'primeng/table';
+import { SelectItem } from 'primeng/api';
 import {Report} from './models/report';
 import {Observable} from 'rxjs';
 import {SearchInputs} from './models/search-inputs';
@@ -30,6 +31,9 @@ export class ReportsComponent implements OnInit {
   displayDialog = false;
   cols: Column[];
   inputs: SearchInputs;
+  sqlStringRowCount: number;
+  showSqlSyntaxHelp = false;
+  collapseSyntaxFeedback = true;
 
   constructor(private reportsService: ReportsService) {
     let now = new Date();
@@ -53,6 +57,12 @@ export class ReportsComponent implements OnInit {
     this.displayDescription = true;
   }
 
+  copyInputMessage(inputElement) {
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
+  }
+
   updateDescription() {
     if (this.reportList.length === 0) {
       return;
@@ -62,7 +72,8 @@ export class ReportsComponent implements OnInit {
     this.title = this.selectedReport.title || this.selectedReport.commonName;
     this.name = this.selectedReport.name;
     this.cols = this.selectedReport.columns.filter(a => a.visible === true);
-    this.inputs = <SearchInputs>this.selectedReport.inputs;
+    this.inputs = this.selectedReport.inputs as SearchInputs;
+    this.sqlStringRowCount = this.selectedReport.sqlquery.match(/^/gm).length; // count the number of line breaks in string
   }
 
   ngOnInit() {
@@ -73,7 +84,7 @@ export class ReportsComponent implements OnInit {
         this.reportsDropDown = listData.map(r => new MySelectItem(r.commonName, r.name) as SelectItem);
         this.getView();
       },
-      error => this.errorMessage = <any>error,
+      error => this.errorMessage = error as any,
       () => console.log('ngOnInit onCompleted'));
 
   }
@@ -84,7 +95,7 @@ export class ReportsComponent implements OnInit {
           this.viewData = data;
           this.updateDescription();
         },
-        error => this.errorMessage = <any>error,
+        error => this.errorMessage = error as any,
         () => console.log('getView onCompleted'));
   }
   // getList() {
@@ -92,7 +103,7 @@ export class ReportsComponent implements OnInit {
   //   console.log('getList called');
   // }
 
-  getExport(dt: DataTable) {
+  getExport(dt: Table) {
     dt.exportFilename = this.name + '_' + this.o.beginDate.toString() + '_to_' + this.o.endDate.toString();
     dt.exportCSV();
   }

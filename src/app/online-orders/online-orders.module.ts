@@ -7,9 +7,30 @@ import { WorkOrderComponent } from './work-order/work-order.component';
 import { WorkAssignmentsComponent } from './work-assignments/work-assignments.component';
 import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { OnlineOrdersRoutingModule } from './online-orders-routing.module';
-import { StepsModule, CalendarModule, DropdownModule,
-          DataTableModule, InputSwitchModule, MessagesModule,
-          DialogModule, CheckboxModule, ToggleButtonModule } from 'primeng/primeng';
+
+import { StepsModule } from 'primeng/steps';
+
+import { CalendarModule } from 'primeng/calendar';
+import { CardModule } from 'primeng/card';
+import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { DialogModule } from 'primeng/dialog';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputMaskModule } from 'primeng/inputmask';
+import { DataViewModule } from 'primeng/dataview';
+import { TabViewModule } from 'primeng/tabview';
+import { FieldsetModule } from 'primeng/fieldset';
+import { DialogService, DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OnlineOrdersService } from './online-orders.service';
 import { ScheduleRulesService } from './schedule-rules.service';
@@ -17,8 +38,8 @@ import { TransportRulesService } from './transport-rules.service';
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
 import { ProfileGuard } from './guards/profile.guard';
-import { BannerGuard } from './guards/banner.guard';
-import { ConfigsService } from '../configs/configs.service';
+import { LayoutModule } from '@angular/cdk/layout';
+import { SkillsComponent } from './work-assignments/skills/skills.component';
 
 @NgModule({
   imports: [
@@ -28,14 +49,26 @@ import { ConfigsService } from '../configs/configs.service';
     CalendarModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTableModule,
+    TableModule,
     InputSwitchModule,
     MessagesModule,
+    MessageModule,
     DialogModule,
     CheckboxModule,
     ToggleButtonModule,
     OnlineOrdersRoutingModule,
-    WorkOrdersModule
+    WorkOrdersModule,
+    CardModule,
+    LayoutModule,
+    InputTextModule,
+    InputTextareaModule,
+    InputNumberModule,
+    InputMaskModule,
+    DataViewModule,
+    ToastModule,
+    DynamicDialogModule,
+    TabViewModule,
+    FieldsetModule
   ],
   declarations: [
     IntroductionComponent,
@@ -44,7 +77,8 @@ import { ConfigsService } from '../configs/configs.service';
     WorkOrderComponent,
     WorkAssignmentsComponent,
     OrderConfirmComponent,
-    OrderNotFoundComponent
+    OrderNotFoundComponent,
+    SkillsComponent
   ],
   providers: [
     OnlineOrdersService,
@@ -52,7 +86,12 @@ import { ConfigsService } from '../configs/configs.service';
     TransportRulesService,
     ConfigsService,
     ProfileGuard,
-    BannerGuard
+    BannerGuard,
+    MessageService, //PrimeNG Service
+    ProfileGuard,
+    DialogService,
+    DynamicDialogRef,
+    DynamicDialogConfig
   ]
 })
 export class OnlineOrdersModule { }

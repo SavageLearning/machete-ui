@@ -7,7 +7,7 @@ import { WorkOrderService } from '../work-order/work-order.service';
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 import { Router } from '@angular/router';
 import { TransportProvidersService } from '../transport-providers.service';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
@@ -32,28 +32,27 @@ export class OrderConfirmComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {    
-    observableCombineLatest(
-      this.transportProviderService.getTransportProviders(),
-      this.ordersService.getStream(),
-      this.assignmentService.getStream()
-    ).subscribe(([l, o, wa]) => {
+  ngOnInit() {
+    const l$ = this.transportProviderService.getTransportProviders();
+    const o$ = this.ordersService.getStream();
+    const wa$ = this.assignmentService.getStream();
+
+    observableCombineLatest([l$, o$, wa$]).subscribe(([l, o, wa]) => {
       console.log('ngOnInit->combineLatest.subscribe', l, o, wa);
       this.order = o;
-      if (o.transportProviderID > 0)
-      {
-        this.transportLabel = l.find(ll => ll.id == o.transportProviderID).text;
+      if (o.transportProviderID > 0) {
+        this.transportLabel = l.find(ll => ll.id === Number(o.transportProviderID)).text;
         }
       if (wa != null && wa.length > 0) {
         // sums up the transport  costs
-        this.transportCost = 
-          wa.map(wa => wa.transportCost)
+        this.transportCost =
+          wa.map(waItem => waItem.transportCost)
             .reduce((a, b) => a + b);
         this.workerCount = wa.length;
         // sums up the labor costs
-        this.laborCost = 
-          wa.map(wa => wa.hourlyWage * wa.hours)
-            .reduce((a, b) => a + b);      
+        this.laborCost =
+          wa.map(waItem => waItem.hourlyWage * waItem.hours)
+            .reduce((a, b) => a + b);
       } else {
         this.workerCount = 0;
         this.transportCost = 0;
@@ -69,8 +68,7 @@ export class OrderConfirmComponent implements OnInit {
     this.onlineService.createOrder(this.order)
       .subscribe(
         (data) => {
-          if (data.id == null)
-          {
+          if (data.id == null) {
             console.error('workorder doesn\'t have an ID');
             return;
           }

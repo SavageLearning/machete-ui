@@ -1,6 +1,8 @@
-<div class="card">
-  <div>
-    <h2>About Casa Latina</h2>
+<p-card>
+  <ng-template pTemplate="title">
+    About Casa Latina
+  </ng-template>
+  <ng-template pTemplate="content">
     <p>
       Casa Latina connects Latino immigrant workers with individuals and
       businesses looking for temporary labor. Our workers are skilled and
@@ -21,7 +23,28 @@
       If you still have questions about hiring a worker, please call us at
       206.956.0779 x3.
     </p>
-  </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="p-grid p-nogutter p-justify-end">
+      <span class="p-mr-2">
+        <button
+          (click)="onClick()"
+          label="Next"
+          icon="pi pi-chevron-right"
+          iconPos="right"
+          styleClass="p-mr-2"
+          pButton
+        ></button>
+      </span>
+      <button
+        (click)="onClear()"
+        label="Start over"
+        icon="pi pi-undo"
+        iconPos="right"
+        pButton
+      ></button>
+    </div>
+  </ng-template>
 
   <div>
     <button
@@ -39,7 +62,6 @@
       icon="pi pi-undo"
     ></button>
   </div>
-</div>
 <p-dialog 
     *ngIf="macheteOutage"
     [(visible)]="outageVisible" 
@@ -63,3 +85,4 @@
     </p-footer>
 </p-dialog>
 
+</p-card>

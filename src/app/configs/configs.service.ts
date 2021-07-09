@@ -1,5 +1,5 @@
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { first, mergeMap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -28,7 +28,7 @@ export class ConfigsService {
 
   getAllConfigs(): Observable<Config[]> {
     if (this.isNotStale()) {
-      return Observable.of(this.configs);
+      return of(this.configs);
     }
 
     console.log('getAllConfigs: ' + this.uriBase);
@@ -45,12 +45,12 @@ export class ConfigsService {
 
   getConfigs(category: CCategory): Observable<Config[]> {
     return this.getAllConfigs().pipe(
-      map(res => res.filter(l => l.category == category)));
+      map(res => res.filter(l => l.category === category)));
   }
 
   getConfig(key: string): Observable<Config> {
     return this.getAllConfigs().pipe(
-    mergeMap(a => a.filter(ll => ll.key == key)),
+    mergeMap(a => a.filter(ll => ll.key === key)),
     first(), );
   }
 }

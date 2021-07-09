@@ -8,8 +8,8 @@ import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
 import { AuthService } from '../shared/index';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
-import { HttpModule } from '@angular/http';
-import { WorkOrderServiceSpy, EmployersServiceSpy, AuthServiceSpy, WorkAssignmentsServiceSpy } from "../shared/testing";
+import { HttpClientModule } from '@angular/common/http';
+import { WorkOrderServiceSpy, EmployersServiceSpy, AuthServiceSpy, WorkAssignmentsServiceSpy } from '../shared/testing';
 
 describe('OnlineOrdersService', () => {
   let service: OnlineOrdersService;
@@ -26,12 +26,12 @@ describe('OnlineOrdersService', () => {
         { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy }
       ],
       imports: [
-        HttpModule,
+        HttpClientModule,
         HttpClientTestingModule
       ]
     }).compileComponents();
-    service = TestBed.get(OnlineOrdersService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.inject(OnlineOrdersService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should ...', inject([OnlineOrdersService], (service1: OnlineOrdersService) => {

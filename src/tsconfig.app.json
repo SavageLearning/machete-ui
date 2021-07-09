@@ -1,4 +1,5 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "downlevelIteration": true,
     "sourceMap": true,
@@ -12,7 +13,7 @@
     ],
     "outDir": "../out-tsc/app",
     "target": "es2015",
-    "module": "esnext",
+    "module": "es2020",
     "baseUrl": "",
     "types": ["node"],
     "typeRoots": [
@@ -22,5 +23,12 @@
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
-  ]
+  ],
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "angularCompilerOptions": {
+    "enableIvy": true
+  }
 }

@@ -7,14 +7,16 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // import { HttpClientModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { AppComponent } from './app.component';
-import { AppMenuComponent, AppSubMenu }  from './menu/app.menu.component';
-import { AppTopBar }  from './app.topbar.component';
-import { AppFooter }  from './app.footer.component';
+import { AppMenuComponent, AppSubMenuComponent }  from './menu/app.menu.component';
+import { AppTopBarComponent }  from './app.topbar.component';
+import { AppFooterComponent }  from './app.footer.component';
 import { InlineProfileComponent }  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
+
+import { ToastModule } from 'primeng/toast';
 
 import { AuthorizeComponent } from './auth/authorize/authorize.component';
 import { OnlineOrdersModule } from './online-orders/online-orders.module';
@@ -22,19 +24,20 @@ import { ReportsModule } from './reports/reports.module';
 import { ExportsModule } from './exports/exports.module';
 import { MyWorkOrdersModule } from './my-work-orders/my-work-orders.module';
 import { EmployersModule } from './employers/employers.module';
+import { WorkersModule } from './workers/workers.module';
 import { GlobalErrorHandler } from './shared/global-error-handler';
 import { LoggingService } from './shared/services/logging.service';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { GrowlModule } from 'primeng/primeng';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
+import { HighlightModule, HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppMenuComponent,
-    AppSubMenu,
-    AppTopBar,
-    AppFooter,
+    AppSubMenuComponent,
+    AppTopBarComponent,
+    AppFooterComponent,
     InlineProfileComponent,
     PageNotFoundComponent,
     AuthorizeComponent
@@ -49,17 +52,24 @@ import { TransportProvidersService } from './online-orders/transport-providers.s
     ExportsModule,
     MyWorkOrdersModule,
     EmployersModule,
+    WorkersModule,
     AppRoutingModule,
-    GrowlModule
+    HighlightModule,
+    ToastModule,
+    MonacoEditorModule.forRoot() // use forRoot() in main app module only.
   ],
   providers: [
     AuthService,
     LoggingService,
     TransportProvidersService,
-    MessageService,
     {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers
+        languages: {
+          sql: () => import('highlight.js/lib/languages/sql')}
+      }
     }
   ],
   bootstrap: [AppComponent]
