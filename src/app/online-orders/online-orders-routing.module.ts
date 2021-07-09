@@ -11,12 +11,12 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { AuthGuardService } from '../shared/services/auth-guard.service';
 import { WorkOrderGuard } from './guards/work-order.guard';
 import { WorkOrderService } from './work-order/work-order.service';
-import { EmployersService } from '../employers/employers.service';
-import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkAssignmentsGuard } from "./guards/work-assignments.guard";
 import { OrderConfirmGuard } from "./guards/order-confirm.guard";
 import { OrderNotFoundComponent } from './order-not-found/order-not-found.component';
 import { ProfileGuard } from './guards/profile.guard';
+import { WelcomeComponent } from '../auth';
+import { BannerGuard } from './guards/banner.guard';
 
 const onlineOrderRoutes: Routes = [
   {
@@ -32,21 +32,22 @@ const onlineOrderRoutes: Routes = [
       {
         path: 'intro-confirm',
         component: IntroConfirmComponent,
+        canActivate: [BannerGuard]
       },
       {
         path: 'work-order',
         component: WorkOrderComponent,
-        canActivate: [WorkOrderGuard]
+        canActivate: [BannerGuard, WorkOrderGuard]
       },
       {
         path: 'work-assignments',
         component: WorkAssignmentsComponent,
-        canActivate: [WorkAssignmentsGuard]
+        canActivate: [BannerGuard, WorkAssignmentsGuard]
       },
       {
         path: 'order-confirm',
         component: OrderConfirmComponent,
-        canActivate: [OrderConfirmGuard]
+        canActivate: [BannerGuard, OrderConfirmGuard]
       },
 
       {

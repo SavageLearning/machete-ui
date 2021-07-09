@@ -3,7 +3,6 @@ import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { OnlineOrdersService } from '../online-orders.service';
 import { EmployersService } from '../../employers/employers.service';
 import { Employer } from '../../shared/models/employer';
 

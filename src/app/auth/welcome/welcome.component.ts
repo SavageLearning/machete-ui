@@ -17,10 +17,13 @@ export class WelcomeComponent implements OnInit {
   welcome: string;
   isLoggedIn: boolean;
   userState: string;
+  /// for overlay that shuts down GUI access to the app
+  macheteOutage: boolean;
+  outageMessage: string;
 
   constructor(private cfgService: ConfigsService,
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router) {    }
 
   ngOnInit() {
     this.cfgService.getAllConfigs().subscribe(
@@ -30,6 +33,8 @@ export class WelcomeComponent implements OnInit {
         this.facebookAppId = data.find(config => config.key === 'FacebookAppId').value;
         this.googleClientId = data.find(config => config.key === 'GoogleClientId').value;
         this.macheteSessionId = data.find(config => config.key === 'OAuthStateParameter').value;
+        this.macheteOutage = data.find(config => config.key === 'DisableOnlineOrders').value === 'TRUE';
+        this.outageMessage = data.find(config => config.key === 'DisableOnlineOrdersBanner').value;
       },
       error => console.error('welcome.component.OnInit:' + error)
     );
@@ -52,6 +57,7 @@ export class WelcomeComponent implements OnInit {
                          + 'client_id=' + this.googleClientId + '&'
                          + 'state=' + this.macheteSessionId;
   }
+
 
   // DEPRECATED
   register() {
