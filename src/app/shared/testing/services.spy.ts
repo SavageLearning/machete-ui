@@ -10,10 +10,13 @@ import { EventEmitter } from '@angular/core';
 import { WorkOrder } from '../../shared/models/work-order';
 import { ScheduleRule, TransportRule, TransportProvider, CostRule, TransportProviderAvailability } from '../../online-orders/shared/index';
 import { WorkAssignment } from '../models/work-assignment';
-import { Router, NavigationEnd, UrlTree } from '@angular/router';
+import { Router, NavigationEnd, UrlTree, convertToParamMap } from '@angular/router';
 import { loadConfirms } from '../../online-orders/shared/rules/load-confirms';
 import { Config } from '../models/config';
 import { Profile } from 'selenium-webdriver/firefox';
+import { ApiResponse } from '../../workers/models/api-response';
+import { ApiRequestParams } from '../../workers/models/api-request-params';
+import { Worker } from '../models/worker';
 
 export class EmployersServiceSpy {
   getEmployer = jasmine.createSpy('getEmployer')
@@ -23,9 +26,14 @@ export class EmployersServiceSpy {
 }
 
 export class LookupsServiceSpy {
+  fakeLookup = new Lookup({id: 32, text_EN: 'a text label'});
   getLookups = jasmine.createSpy('getLookups')
     .and.callFake(
-      () => observableOf([new Lookup({id: 32, text_EN: 'a text label'})])
+      () => observableOf([this.fakeLookup])
+    );
+  getLookup = jasmine.createSpy('getLookup')
+    .and.callFake(
+      () => observableOf(this.fakeLookup)
     );
 }
 
@@ -40,6 +48,14 @@ export class MyWorkOrdersServiceSpy {
 export class ActivatedRouteSpy {
   get = jasmine.createSpy('snapshot')
     .and.callThrough();
+}
+
+export const ActivatedRouteStub = {
+  snapshot: {
+    paramMap: convertToParamMap({
+      id: '1'
+    })
+  }
 }
 
 export class AuthServiceSpy {
@@ -216,4 +232,19 @@ export class TransportProvidersServiceSpy {
         )
       })])
     );
+}
+
+export class WorkerServiceSpy {
+  workers: Array<Worker> = new Array<Worker>(
+    new Worker({id: 1, firstname1: 'Pedro', lastname1: 'Navaja', dwccardnum: 10000})
+  );
+  apiRes: ApiResponse<Worker> = {
+    data: this.workers,
+    recordCount: (this.workers.length + 1),
+    pageNumber: 1,
+    pageSize: 10,
+    totalPages: 1,
+  };
+  constructor() {}
+  getWorkersInSkill = (id: number, requestParams: ApiRequestParams) => observableOf(this.apiRes)
 }
