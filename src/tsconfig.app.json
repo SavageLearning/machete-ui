@@ -1,5 +1,4 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
     "downlevelIteration": true,
     "sourceMap": true,
@@ -20,6 +19,9 @@
       "../node_modules/@types"
     ]
   },
+  "include": [
+    "src/**/*.d.ts",
+  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

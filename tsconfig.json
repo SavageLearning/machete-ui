@@ -1,4 +1,5 @@
 {
+  "extends": "./src/tsconfig.app.json",
   "compileOnSave": false,
   "compilerOptions": {
     "downlevelIteration": true,
@@ -19,5 +20,6 @@
     ],
     "module": "es2020",
     "baseUrl": "./"
-  }
+  },
+  "include": ["src/ **/.d.ts", "src/ **/*.ts"],
 }
