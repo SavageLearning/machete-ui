@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterSpy, WorkerServiceSpy } from '../../shared/testing';
+import { WorkersService } from '../workers.service';
 
 import { SkillsListComponent } from './skills-list.component';
 
@@ -8,8 +11,16 @@ describe('SkillsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SkillsListComponent ]
+      declarations: [ SkillsListComponent ],
     })
+    .overrideComponent(
+      SkillsListComponent,
+      {
+        set: {
+          providers: [
+            { provide: WorkersService, useClass: WorkerServiceSpy },
+            { provide: Router, useClass: RouterSpy },
+        ]}})
     .compileComponents();
   });
 

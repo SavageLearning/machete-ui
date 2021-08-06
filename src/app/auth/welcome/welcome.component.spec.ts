@@ -8,28 +8,7 @@ import { ConfigsService } from '../../configs/configs.service';
 import { Config } from '../../shared/models/config';
 import { AuthService } from '../../shared/index';
 import { Router } from '@angular/router';
-import { AuthServiceSpy, RouterSpy } from '../../shared/testing';
-
-class ConfigsServiceSpy {
-  getConfig = jasmine.createSpy('getConfig')
-    .and.callFake(() => { return this.mockConfigs() });
-  getAllConfigs = jasmine.createSpy('getAllConfigs')
-    .and.callFake(() =>
-      // let configs = new Array<Config>();
-      // configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
-      // return Observable.of(configs);
-       this.mockConfigs()
-    );
-
-  mockConfigs(): Observable<Config[]> {
-      let configs = new Array<Config>();
-      configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
-      configs.push(new Config({key: 'FacebookAppId', value: 'foo'}));
-      configs.push(new Config({key: 'GoogleClientId', value: 'foo'}));
-      configs.push(new Config({key: 'OAuthStateParameter', value: 'foo'}));
-      return of(configs);
-  }
-}
+import { AuthServiceSpy, ConfigsServiceSpy, getConfigsList, RouterSpy } from '../../shared/testing';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
@@ -59,5 +38,11 @@ describe('WelcomeComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have configs all configs', () => {
+    getConfigsList().map((conf) => {
+      expect(component.serverData).toContain(conf);
+    })
   });
 });

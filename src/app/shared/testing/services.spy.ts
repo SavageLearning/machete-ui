@@ -1,7 +1,7 @@
 /* eslint-disable brace-style */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
+import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject, of } from 'rxjs';
 import {} from 'jasmine';
 import { Employer } from '../models/employer';
 import { Lookup } from '../../lookups/models/lookup';
@@ -17,6 +17,7 @@ import { Profile } from 'selenium-webdriver/firefox';
 import { ApiResponse } from '../../workers/models/api-response';
 import { ApiRequestParams } from '../../workers/models/api-request-params';
 import { Worker } from '../models/worker';
+import { Skill } from '../models/skill';
 
 export class EmployersServiceSpy {
   getEmployer = jasmine.createSpy('getEmployer')
@@ -180,11 +181,26 @@ export class OnlineOrdersServiceSpy {
       )
 }
 
+export const getConfigsList = (): Config[] => {
+  const configs: Config[] = new Array<Config>();
+  configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
+  configs.push(new Config({key: 'FacebookAppId', value: 'foo'}));
+  configs.push(new Config({key: 'GoogleClientId', value: 'foo'}));
+  configs.push(new Config({key: 'OAuthStateParameter', value: 'foo'}));
+  configs.push(new Config({key: 'DisableOnlineOrders', value: 'false'}));
+  configs.push(new Config({key: 'DisableOnlineOrdersBanner', value: 'fakeVal'}));
+  return configs;
+}
+
 export class ConfigsServiceSpy {
-  getConfig = jasmine.createSpy('')
+  getConfig = (key: string) => jasmine.createSpy('getConfig')
     .and.callFake(
-      () => observableOf(new Config())
-    );
+      () => of(getConfigsList()[0])
+      );
+  getAllConfigs = jasmine.createSpy('getAllConfigs')
+    .and.callFake(
+      () => of(getConfigsList())
+      );
 }
 
 export class MessageServiceSpy {
@@ -247,4 +263,8 @@ export class WorkerServiceSpy {
   };
   constructor() {}
   getWorkersInSkill = (id: number, requestParams: ApiRequestParams) => observableOf(this.apiRes)
+  getSkills = jasmine.createSpy('getSkillsFromWorkers')
+    .and.callFake(() => of(new Array<Skill>(
+      new Skill({ id: 1 }) 
+    )));
 }
