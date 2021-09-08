@@ -1,7 +1,7 @@
 /* eslint-disable brace-style */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
+import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject, of } from 'rxjs';
 import {} from 'jasmine';
 import { Employer } from '../models/employer';
 import { Lookup } from '../../lookups/models/lookup';
@@ -10,10 +10,14 @@ import { EventEmitter } from '@angular/core';
 import { WorkOrder } from '../../shared/models/work-order';
 import { ScheduleRule, TransportRule, TransportProvider, CostRule, TransportProviderAvailability } from '../../online-orders/shared/index';
 import { WorkAssignment } from '../models/work-assignment';
-import { Router, NavigationEnd, UrlTree } from '@angular/router';
+import { Router, NavigationEnd, UrlTree, convertToParamMap } from '@angular/router';
 import { loadConfirms } from '../../online-orders/shared/rules/load-confirms';
 import { Config } from '../models/config';
 import { Profile } from 'selenium-webdriver/firefox';
+import { ApiResponse } from '../../workers/models/api-response';
+import { ApiRequestParams } from '../../workers/models/api-request-params';
+import { Worker } from '../models/worker';
+import { Skill } from '../models/skill';
 
 export class EmployersServiceSpy {
   getEmployer = jasmine.createSpy('getEmployer')
@@ -23,9 +27,14 @@ export class EmployersServiceSpy {
 }
 
 export class LookupsServiceSpy {
+  fakeLookup = new Lookup({id: 32, text_EN: 'a text label'});
   getLookups = jasmine.createSpy('getLookups')
     .and.callFake(
-      () => observableOf([new Lookup({id: 32, text_EN: 'a text label'})])
+      () => observableOf([this.fakeLookup])
+    );
+  getLookup = jasmine.createSpy('getLookup')
+    .and.callFake(
+      () => observableOf(this.fakeLookup)
     );
 }
 
@@ -40,6 +49,14 @@ export class MyWorkOrdersServiceSpy {
 export class ActivatedRouteSpy {
   get = jasmine.createSpy('snapshot')
     .and.callThrough();
+}
+
+export const ActivatedRouteStub = {
+  snapshot: {
+    paramMap: convertToParamMap({
+      id: '1'
+    })
+  }
 }
 
 export class AuthServiceSpy {
@@ -164,11 +181,26 @@ export class OnlineOrdersServiceSpy {
       )
 }
 
+export const getConfigsList = (): Config[] => {
+  const configs: Config[] = new Array<Config>();
+  configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
+  configs.push(new Config({key: 'FacebookAppId', value: 'foo'}));
+  configs.push(new Config({key: 'GoogleClientId', value: 'foo'}));
+  configs.push(new Config({key: 'OAuthStateParameter', value: 'foo'}));
+  configs.push(new Config({key: 'DisableOnlineOrders', value: 'false'}));
+  configs.push(new Config({key: 'DisableOnlineOrdersBanner', value: 'fakeVal'}));
+  return configs;
+}
+
 export class ConfigsServiceSpy {
-  getConfig = jasmine.createSpy('')
+  getConfig = (key: string) => jasmine.createSpy('getConfig')
     .and.callFake(
-      () => observableOf(new Config())
-    );
+      () => of(getConfigsList()[0])
+      );
+  getAllConfigs = jasmine.createSpy('getAllConfigs')
+    .and.callFake(
+      () => of(getConfigsList())
+      );
 }
 
 export class MessageServiceSpy {
@@ -216,4 +248,23 @@ export class TransportProvidersServiceSpy {
         )
       })])
     );
+}
+
+export class WorkerServiceSpy {
+  workers: Array<Worker> = new Array<Worker>(
+    new Worker({id: 1, firstname1: 'Pedro', lastname1: 'Navaja', dwccardnum: 10000})
+  );
+  apiRes: ApiResponse<Worker> = {
+    data: this.workers,
+    recordCount: (this.workers.length + 1),
+    pageNumber: 1,
+    pageSize: 10,
+    totalPages: 1,
+  };
+  constructor() {}
+  getWorkersInSkill = (id: number, requestParams: ApiRequestParams) => observableOf(this.apiRes)
+  getSkills = jasmine.createSpy('getSkillsFromWorkers')
+    .and.callFake(() => of(new Array<Skill>(
+      new Skill({ id: 1 }) 
+    )));
 }

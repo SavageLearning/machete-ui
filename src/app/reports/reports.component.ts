@@ -9,6 +9,8 @@ import {Observable} from 'rxjs';
 import {SearchInputs} from './models/search-inputs';
 import {Column} from './models/column';
 import { MySelectItem } from '../shared/models/my-select-item';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ReportsListComponent } from './reports-list/reports-list.component';
 
 @Component({
   selector: 'app-reports',
@@ -28,14 +30,15 @@ export class ReportsComponent implements OnInit {
   reportList: Report[];
   reportsDropDown: SelectItem[];
   displayDescription = false;
-  displayDialog = false;
   cols: Column[];
   inputs: SearchInputs;
   sqlStringRowCount: number;
   showSqlSyntaxHelp = false;
   collapseSyntaxFeedback = true;
+  ref: DynamicDialogRef;
 
-  constructor(private reportsService: ReportsService) {
+  constructor(private reportsService: ReportsService,
+    public dialogService: DialogService) {
     let now = new Date();
     let aYearAgo = new Date();
     aYearAgo.setFullYear(now.getFullYear() - 1);
@@ -52,15 +55,15 @@ export class ReportsComponent implements OnInit {
     this.inputs = new SearchInputs();
   }
 
+  // child component emits event
+  onDoneWithSql(sql: string) {
+    this.selectedReport.sqlquery = sql;
+    // console.log(this.selectedReport, 'this.selectedReport.sqlquery');
+  }
+
   showDescription() {
     this.updateDescription();
     this.displayDescription = true;
-  }
-
-  copyInputMessage(inputElement) {
-    inputElement.select();
-    document.execCommand('copy');
-    inputElement.setSelectionRange(0, 0);
   }
 
   updateDescription() {
@@ -106,5 +109,29 @@ export class ReportsComponent implements OnInit {
   getExport(dt: Table) {
     dt.exportFilename = this.name + '_' + this.o.beginDate.toString() + '_to_' + this.o.endDate.toString();
     dt.exportCSV();
+  }
+
+  save() {
+    
+    console.log(this.selectedReport);
+  }
+
+  onShowReportsList() {
+    this.ref = this.dialogService.open(ReportsListComponent, {
+      data: this.reportList,
+      header: 'Choose a Report',
+      width: '100%',
+      contentStyle: {overflow: 'auto'},
+      baseZIndex: 10000
+    });
+
+    // called from the child component (reports-List) emits the selected
+    // record on select
+    this.ref.onClose.subscribe((report: Report) => {
+      if (report) {
+        this.selectedReportID = report.name;
+        this.getView();
+      }
+    });
   }
 }

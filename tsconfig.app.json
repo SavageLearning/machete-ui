@@ -1,4 +1,7 @@
+
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "downlevelIteration": true,
     "sourceMap": true,
@@ -10,25 +13,22 @@
       "es2016",
       "dom"
     ],
-    "outDir": "../out-tsc/app",
+    "outDir": "./out-tsc/app",
     "target": "es2015",
     "module": "es2020",
-    "baseUrl": "",
+    "baseUrl": "./",
     "types": ["node"],
     "typeRoots": [
       "../node_modules/@types"
     ]
   },
-  "include": [
-    "src/**/*.d.ts",
-  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
   ],
   "files": [
-    "main.ts",
-    "polyfills.ts"
+    "src/main.ts",
+    "src/polyfills.ts"
   ],
   "angularCompilerOptions": {
     "enableIvy": true

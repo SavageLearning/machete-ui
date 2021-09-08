@@ -16,6 +16,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ReportsService } from './reports.service';
 import { Report } from './models/report';
 import { of } from 'rxjs';
+import { DialogService } from 'primeng/dynamicdialog';
 
 class ReportsServiceSpy {
   getReportList = jasmine.createSpy('getReportList')
@@ -27,6 +28,10 @@ class ReportsServiceSpy {
       () => of(new Array<any>())
     );
 }
+
+let dynamicDialogRefServiceSpy = jasmine.createSpy('dynamicDialogRefSpy')
+.and.callFake( () => {
+});
 
 describe('ReportsComponent', () => {
   let component: ReportsComponent;
@@ -56,7 +61,8 @@ describe('ReportsComponent', () => {
     .overrideComponent(ReportsComponent, {
       set: {
         providers: [
-          { provide: ReportsService, useClass: ReportsServiceSpy }
+          { provide: ReportsService, useClass: ReportsServiceSpy },
+          { provide: DialogService, useValue: dynamicDialogRefServiceSpy }
         ]
       }
     })

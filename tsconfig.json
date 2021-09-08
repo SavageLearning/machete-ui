@@ -18,6 +18,7 @@
       "dom"
     ],
     "module": "es2020",
-    "baseUrl": "./"
-  }
+    "baseUrl": "./",
+  },
+  "include": ["src/ **/.d.ts", "src/**/*.ts"],
 }

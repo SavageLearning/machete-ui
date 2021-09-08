@@ -46,22 +46,6 @@
     </div>
   </ng-template>
 
-  <div>
-    <button
-      pButton
-      type="button"
-      (click)="onClick()"
-      label="Next"
-      icon="pi pi-check"
-    ></button>
-    <button
-      pButton
-      type="button"
-      (click)="onClear()"
-      label="Start over"
-      icon="pi pi-undo"
-    ></button>
-  </div>
 <p-dialog 
     *ngIf="macheteOutage"
     [(visible)]="outageVisible" 

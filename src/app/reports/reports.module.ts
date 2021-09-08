@@ -17,17 +17,20 @@ import {CardModule} from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
-import { HighlightModule } from 'ngx-highlightjs';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
-import { PanelModule } from 'primeng/panel';
+import { MessagesModule } from 'primeng/messages';
+import { InplaceModule } from 'primeng/inplace';
+import { DividerModule } from 'primeng/divider';
 import { EditorComponent } from './editor/editor.component';
+import { ReportsListComponent } from './reports-list/reports-list.component';
 
 
 
 @NgModule({
   declarations: [
     ReportsComponent,
-    EditorComponent
+    EditorComponent,
+    ReportsListComponent
   ],
   imports: [
     CommonModule,
@@ -46,8 +49,9 @@ import { EditorComponent } from './editor/editor.component';
     TooltipModule,
     MenubarModule,
     InputTextModule,
-    HighlightModule,
-    PanelModule,
+    MessagesModule,
+    InplaceModule,
+    DividerModule,
     MonacoEditorModule.forRoot() // use forRoot() in main app module only.
   ],
   bootstrap: []

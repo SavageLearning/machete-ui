@@ -3,6 +3,7 @@ import { ConfigsService } from '../../configs/configs.service';
 import { AuthService } from '../../shared/index';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { Config } from '../../shared/models/config';
 
 @Component({
   selector: 'app-welcome',
@@ -20,6 +21,7 @@ export class WelcomeComponent implements OnInit {
   /// for overlay that shuts down GUI access to the app
   macheteOutage: boolean;
   outageMessage: string;
+  serverData: Config[];
 
   constructor(private cfgService: ConfigsService,
     private authService: AuthService,
@@ -28,6 +30,7 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
     this.cfgService.getAllConfigs().subscribe(
       data => {
+        this.serverData = data as Config[];
         console.log('configs: ', data) // TODO this was 2am madness, this isn't great JS
         this.welcome = data.find(config => config.key === 'WorkCenterDescription_EN').value;
         this.facebookAppId = data.find(config => config.key === 'FacebookAppId').value;
