@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { ReportsComponent } from "../reports.component";
+import { SqlEditorState } from "../report-detail/report-detail.component";
+
+export interface IEditorDetails {
+  sql?: string;
+  editorState: SqlEditorState;
+}
 
 @Component({
   selector: "app-editor",
@@ -7,21 +12,24 @@ import { ReportsComponent } from "../reports.component";
   styleUrls: ["./editor.component.scss"],
 })
 export class EditorComponent implements OnInit {
-  editorOptions = { theme: "visual-studio", language: "sql" };
+  editorOptions = { theme: "vs-dark", language: "sql" };
   editing: boolean = false;
 
   @Input() sql: string;
   @Output() editedSql = new EventEmitter<string>();
+  @Output() editorState = new EventEmitter<SqlEditorState>();
 
   constructor() {}
 
   doneWithSql(sql: string) {
     this.editing = false;
+    this.editorState.emit(SqlEditorState.CLOSED);
     this.editedSql.emit(sql);
   }
 
-  setEditMode() {
+  startEditSql() {
     this.editing = true;
+    this.editorState.emit(SqlEditorState.OPEN);
   }
 
   ngOnInit(): void {}
