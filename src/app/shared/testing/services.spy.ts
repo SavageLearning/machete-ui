@@ -268,3 +268,11 @@ export class WorkerServiceSpy {
       new Skill({ id: 1 }) 
     )));
 }
+
+export class ReportsServiceSpy {
+  // getReportData
+}
+
+export class MessagesServiceSpy {
+  
+}

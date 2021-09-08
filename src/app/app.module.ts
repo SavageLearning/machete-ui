@@ -29,6 +29,8 @@ import { GlobalErrorHandler } from './shared/global-error-handler';
 import { LoggingService } from './shared/services/logging.service';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MessagesComponent } from './shared/components/messages/messages.component';
+import { MessagesService } from './shared/components/messages/messages.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     AppFooterComponent,
     InlineProfileComponent,
     PageNotFoundComponent,
-    AuthorizeComponent
+    AuthorizeComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +63,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     AuthService,
     LoggingService,
     TransportProvidersService,
+    MessagesService
   ],
   bootstrap: [AppComponent]
 })

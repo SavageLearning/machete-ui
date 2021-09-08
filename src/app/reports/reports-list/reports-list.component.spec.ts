@@ -1,31 +1,45 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Report } from '../models/report';
 
 import { ReportsListComponent } from './reports-list.component';
+import { Router } from '@angular/router';
+import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
+import { RouterSpy } from 'src/app/shared/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { TabViewModule } from 'primeng/tabview';
+import { CalendarModule } from 'primeng/calendar';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { of } from 'rxjs';
+import { Report } from '../models/report';
 
 describe('ReportsListComponent', () => {
   let component: ReportsListComponent;
   let fixture: ComponentFixture<ReportsListComponent>;
-  let dialogServiceSpy = jasmine.createSpy('dialogServSpy')
-    .and.callFake( () => {
-    });
-  let dynamicDialogRefServiceSpy = jasmine.createSpy('dynamicDialogRefSpy')
-    .and.callFake( () => {
-    });
-  class DynamicDialogConfigSpy {
-    data: any = jasmine.createSpy('dynamicDialogConfigSpy')
-    .and.callFake( () => () => new Array<Report>(new Report()) );
+  const fakeService = {
+    reports$: of(new Array<Report>()),
+    getReportList: jasmine.createSpy('getReportList')
+      .and.callFake
   }
-  let dynamicDialogConfigSpy = new DynamicDialogConfigSpy();
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ReportsListComponent ],
-      imports: [],
+      imports: [
+        NoopAnimationsModule,
+        TableModule,
+        DropdownModule,
+        TabViewModule,
+        CalendarModule,
+        DialogModule,
+        FormsModule,
+        HttpClientModule,
+      ],
       providers: [
-        {provide: DialogService, value: dialogServiceSpy},
-        {provide: DynamicDialogRef, value: dynamicDialogRefServiceSpy},
-        {provide: DynamicDialogConfig, value: dynamicDialogConfigSpy}
+        {provide: Router, useClass: RouterSpy},
+        {provide: ReportsStoreService, value: fakeService}
       ]
     })
     .compileComponents();

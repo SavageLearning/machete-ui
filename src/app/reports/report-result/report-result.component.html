@@ -1,0 +1,49 @@
+<!-- ********Report Results************ -->
+<ng-container *ngIf="!!!viewData || !!!cols">
+  <p-messages severity="info">
+    <ng-template pTemplate>
+      <div class="p-ml-2">No Data</div>
+    </ng-template>
+  </p-messages>
+</ng-container>
+
+<div>
+  <p-table
+    #dt
+    [value]="viewData"
+    sortField="value"
+    sortOrder="-1"
+    sortMode="single"
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    [columns]="cols"
+    [resizableColumns]="true"
+    >
+    <ng-template pTemplate="caption">
+      <!-- Responsive container` -->
+      <div class="p-d-flex p-flex-column p-flex-md-row p-jc-between">
+        <div class="p-mb-2 p-mr-2">
+          <button type="button" pButton icon="pi pi-download" iconPos="left" label="CSV" (click)="getExport(dt)"></button>
+        </div>
+        <div class="p-mb-2 p-mr-2">
+          <input class="p-ml-auto" type="text" placeholder="Global search" width="200">
+        </div>
+      </div>
+
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+          <th pSortableColumn="{{col.header}}" pResizableColumn *ngFor="let col of cols">
+              {{col.header}}
+          </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-viewData let-columns="cols">
+      <tr>
+          <td style="min-width:200px" *ngFor="let col of cols">
+                  {{viewData[col.field]}}
+          </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  DialogService,
-  DynamicDialogConfig,
-  DynamicDialogRef,
-} from "primeng/dynamicdialog";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
 import { Report } from "../models/report";
+import { SimpleAggregateRow } from "../models/simple-aggregate-row";
+import { ReportsService } from "../reports.service";
 
 @Component({
   selector: "app-reports-list",
@@ -13,19 +13,20 @@ import { Report } from "../models/report";
 })
 export class ReportsListComponent implements OnInit {
   selectedReport: Report;
-  reports: Report[];
+  reportList$: Observable<Report[]>;
 
   constructor(
-    public dialogService: DialogService,
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig
+    private router: Router,
+    private store: ReportsStoreService
   ) {}
 
-  ngOnInit(): void {
-    this.reports = this.config.data;
+  onRowSelect(e: any) {
+    console.log(e);
+    this.router.navigate([`/reports/view/${this.selectedReport.name}`]);
   }
 
-  onRowSelect(event) {
-    this.ref.close(event.data);
+  ngOnInit() {
+    // view subscribes and unsubscribes via the async pipe
+    this.reportList$ = this.store.reports$;
   }
 }
