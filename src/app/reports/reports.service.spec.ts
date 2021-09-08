@@ -1,5 +1,5 @@
-import { async, TestBed, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { TestBed, inject, waitForAsync } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { ReportsService } from './reports.service';
 import { SearchOptions } from './models/search-options';
 import {Report} from './models/report';
@@ -9,13 +9,18 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+import { RouterSpy } from '../shared/testing';
 
 describe('ReportsService', () => {
   let service: ReportsService;
   let httpMock: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ReportsService  ],
+      providers: [
+        ReportsService,
+        {provide: Router, useClass: RouterSpy}
+        ],
       imports: [
         HttpClientTestingModule
       ]

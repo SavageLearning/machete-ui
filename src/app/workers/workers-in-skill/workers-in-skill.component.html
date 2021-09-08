@@ -1,0 +1,61 @@
+<p-card
+    header="Workers in skill: {{skill?.text_EN | titlecase}}"
+    styleClass="p-shadow-5">
+
+    <!-- Called by the specialty header button -->
+    <!-- <p-dialog header="Help" [(visible)]="display">
+        Click on the button to the left to see a list of the
+        workers that have this skill as a specialty.
+    </p-dialog> -->
+
+    <p-table
+        #dt
+        [value]="workers"
+        [resizableColumns]="true"
+        columnResizeMode="expand"
+        [responsive]="true"
+        class="c-highlight-header"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-lg"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [lazy]="true"
+        (onLazyLoad)="loadNextPage($event)"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="workersInSkillRes?.pageSize"
+        [totalRecords]="workersInSkillRes?.recordCount"
+        [rowsPerPageOptions]="[10,25,50]"
+        [showCurrentPageReport]="true"
+    >
+        <ng-template pTemplate="caption">
+             <!-- Table toolbar -->
+             <div class="card p-d-flex p-flex-column p-flex-md-row p-ai-start p-jc-between c-bg-surface-c p-shadow-5">
+                <div>
+                    <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input
+                            #input
+                            pInputText
+                            type="text"
+                            placeholder="Search keyword"
+                            style="max-width: 220px;"
+                        />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of cols" pResizableColumn pSortableColumn="{{col.field}}"> {{col.header}} <p-sortIcon field="{{col.field}}"></p-sortIcon></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr>
+                <td *ngFor="let col of cols">
+                  <span class="p-column-title">{{col.header}}</span>
+                  <span *ngIf="col.dateFormat !== null">{{rowData[col.field] | date:col.dateFormat}}</span>
+                  <span *ngIf="col.dateFormat == null">{{rowData[col.field]}}</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ExportsService} from './exports.service';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
-import {Response} from '@angular/http';
+import {HttpResponse} from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import * as contentDisposition from 'content-disposition';
@@ -19,7 +19,7 @@ export class ExportsComponent implements OnInit {
   exportsDropDown: MySelectItem[];
   errorMessage: string;
   selectedColumns: ExportColumn[];
-  selectedExportName: string;
+  selectedExportName: MySelectItem;
   selectedDateFilter: string;
   selectedStartDate: string;
   selectedEndDate: string;
@@ -37,12 +37,13 @@ export class ExportsComponent implements OnInit {
         this.exportsDropDown = listData.map(r =>
           new MySelectItem(r.name, r.name));
       },
-      error => this.errorMessage = <any>error,
+      error => this.errorMessage = error as any,
       () => console.log('ngOnInit onCompleted'));
   }
 
   getColumns() {
-    this.exportsService.getColumns(this.selectedExportName)
+    console.log(this.selectedColumns);
+    this.exportsService.getColumns(this.selectedExportName.value)
       .subscribe(
         data => {
           this.selectedColumns = data;
@@ -55,7 +56,7 @@ export class ExportsComponent implements OnInit {
           });
           this.form = new FormGroup(group);
         },
-        error => this.errorMessage = <any>error,
+        error => this.errorMessage = error as any,
         () => console.log('getColumns completed')
       );
   }
@@ -67,13 +68,13 @@ export class ExportsComponent implements OnInit {
       filterField: this.selectedDateFilter
     }, this.form.value);
     console.log(this.form.value);
-    this.exportsService.getExport(this.selectedExportName, data)
+    this.exportsService.getExport(this.selectedExportName.value, data)
       .subscribe(
         (res: Blob) => {
-            saveAs(res, this.selectedExportName + '.xlsx')
+            saveAs(res, this.selectedExportName.value + '.xlsx')
         },
         error => {
-          this.errorMessage = <any>error;
+          this.errorMessage = error as any;
         },
       () => console.log('onSubmit.getExport completed'));
   }

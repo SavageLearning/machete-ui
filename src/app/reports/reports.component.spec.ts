@@ -1,31 +1,43 @@
 
 import { Observable } from 'rxjs';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DialogModule, CalendarModule, DataTableModule, TabViewModule, DropdownModule } from 'primeng/primeng';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ReportsService } from './reports.service';
 import { Report } from './models/report';
+import { of } from 'rxjs';
+import { DialogService } from 'primeng/dynamicdialog';
 
 class ReportsServiceSpy {
   getReportList = jasmine.createSpy('getReportList')
     .and.callFake(
-      () => Observable.of(new Array<Report>())
+      () => of(new Array<Report>())
     );
   getReportData = jasmine.createSpy('')
     .and.callFake(
-      () => Observable.of(new Array<any>())
+      () => of(new Array<any>())
     );
 }
+
+let dynamicDialogRefServiceSpy = jasmine.createSpy('dynamicDialogRefSpy')
+.and.callFake( () => {
+});
 
 describe('ReportsComponent', () => {
   let component: ReportsComponent;
   let fixture: ComponentFixture<ReportsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       declarations: [
@@ -33,13 +45,13 @@ describe('ReportsComponent', () => {
       ],
       imports: [
         NoopAnimationsModule,
-        DataTableModule,
+        TableModule,
         DropdownModule,
         TabViewModule,
         CalendarModule,
         DialogModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
       ],
       providers: [
         HttpClient,
@@ -49,7 +61,8 @@ describe('ReportsComponent', () => {
     .overrideComponent(ReportsComponent, {
       set: {
         providers: [
-          { provide: ReportsService, useClass: ReportsServiceSpy }
+          { provide: ReportsService, useClass: ReportsServiceSpy },
+          { provide: DialogService, useValue: dynamicDialogRefServiceSpy }
         ]
       }
     })

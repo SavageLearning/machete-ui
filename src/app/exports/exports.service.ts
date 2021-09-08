@@ -1,9 +1,10 @@
+/* eslint-disable arrow-body-style */
 
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 // TODO @angular/http should be deprecated, need to find @angular/common/http equivalents
-import { Headers, Response, RequestOptions, ResponseContentType } from '@angular/http';
+import { HttpHeaders, HttpResponse, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Export } from './models/export';
 import { ExportColumn } from './models/export-column';
@@ -30,17 +31,12 @@ export class ExportsService {
   }
 
   getExport(tableName: string, o: SearchOptions): Observable<Blob> {
-    // TODO it appears we don't use these options?
-    let headers = new Headers({ 'Content-Type': 'application/text' });
-    let options = new RequestOptions({
-      headers: headers,
-      responseType: ResponseContentType.Blob
-    });
     let params = this.encodeData(o);
     console.log('getExport: ', params);
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;
     return this.http.get(uri, { responseType: 'blob', withCredentials: true }).pipe(
+      // eslint-disable-next-line arrow-body-style
       map((res: any) => {
         return res;
     }));

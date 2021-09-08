@@ -1,7 +1,7 @@
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { LoggingService } from './index';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
@@ -17,21 +17,21 @@ handleError(error) {
     const url = location instanceof PathLocationStrategy
       ? location.path() : '';
 
-    let shortMsg: string = 'unknown error: ' + error.toString();;
+    let shortMsg: string = 'unknown error: ' + error.toString();
     if (error instanceof HttpErrorResponse) {
       shortMsg = `${error.status} ${error.statusText}`;
 
-    } 
+    }
     // I think this is a bluebird promise error, but i dunno
     if (error.rejection && error.rejection instanceof HttpErrorResponse) {
-      shortMsg = (error.rejection.status && error.rejection.statusText) ? 
+      shortMsg = (error.rejection.status && error.rejection.statusText) ?
       `${error.rejection.status} ${error.rejection.statusText}` : 'Unknown error';
     }
-      
+
     // log on the server
-    msgService.add({severity:'error', summary: shortMsg});
-    loggingService.log(message, location );
+    msgService.add({ severity: 'error', summary: shortMsg });
+    loggingService.log(message, location.path() );
     throw error;
   }
-  
+
 }

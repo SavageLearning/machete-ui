@@ -1,39 +1,20 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable brace-style */
 
-import { Observable } from 'rxjs';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WelcomeComponent } from './welcome.component';
 import { ConfigsService } from '../../configs/configs.service';
 import { Config } from '../../shared/models/config';
 import { AuthService } from '../../shared/index';
 import { Router } from '@angular/router';
-import { AuthServiceSpy, RouterSpy } from '../../shared/testing';
-
-class ConfigsServiceSpy {
-  getConfig = jasmine.createSpy('getConfig')
-    .and.callFake(() => { return this.mockConfigs() });
-  getAllConfigs = jasmine.createSpy('getAllConfigs')
-    .and.callFake(() => {
-      // let configs = new Array<Config>();
-      // configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
-      // return Observable.of(configs);
-      return this.mockConfigs();
-    });
-
-  mockConfigs(): Observable<Config[]> {
-      let configs = new Array<Config>();
-      configs.push(new Config({key: 'WorkCenterDescription_EN', value: 'foo'}));
-      configs.push(new Config({key: 'FacebookAppId', value: 'foo'}));
-      configs.push(new Config({key: 'GoogleClientId', value: 'foo'}));
-      configs.push(new Config({key: 'OAuthStateParameter', value: 'foo'}));
-      return Observable.of(configs);
-  }
-}
+import { AuthServiceSpy, ConfigsServiceSpy, getConfigsList, RouterSpy } from '../../shared/testing';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
   let fixture: ComponentFixture<WelcomeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WelcomeComponent ]
     })
@@ -57,5 +38,11 @@ describe('WelcomeComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have configs all configs', () => {
+    getConfigsList().map((conf) => {
+      expect(component.serverData).toContain(conf);
+    })
   });
 });

@@ -11,10 +11,20 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "primeng/primeng",
+              "primeng/components/common/messageservice",
+              "rxjs/Rx",
+              "file-saver",
+              "paypal-checkout",
+              "chart.js",
+              "content-disposition"
+            ],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
@@ -38,14 +48,21 @@
                 "glob": "**/*.js",
                 "input": "src/scripts",
                 "output": "/"
-              }
+              },
+              { "glob": "**/*", "input": "node_modules/monaco-editor", "output": "assets/monaco-editor" }     
             ],
             "styles": [
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/fullcalendar/dist/fullcalendar.min.css",
+              "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css",
               "node_modules/nanoscroller/bin/css/nanoscroller.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeng/resources/themes/mdc-light-indigo/theme.css",
+              "node_modules/primeflex/primeflex.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/@fullcalendar/core/main.min.css",
+              "node_modules/@fullcalendar/daygrid/main.min.css",
+              "node_modules/@fullcalendar/timegrid/main.min.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -54,9 +71,15 @@
               "src/assets/layout/js/ripple.js",
               "node_modules/moment/moment.js",
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js",
-              "node_modules/quill/dist/quill.js"
-            ]
+              "node_modules/quill/dist/quill.min.js"
+            ],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "test": {
@@ -71,11 +94,8 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": true,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": true,
               "buildOptimizer": true,
               "fileReplacements": [
                 {
@@ -88,11 +108,9 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": true,
               "buildOptimizer": true,
               "fileReplacements": [
                 {
@@ -109,7 +127,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -143,19 +162,17 @@
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
               "src/assets/layout/js/ripple.js",
               "node_modules/moment/moment.js",
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js",
               "node_modules/quill/dist/quill.js"
             ],
             "styles": [
               "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/fullcalendar/dist/fullcalendar.min.css",
               "node_modules/quill/dist/quill.snow.css",
               "node_modules/nanoscroller/bin/css/nanoscroller.css",
               "src/styles.scss"
@@ -187,13 +204,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": []
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
@@ -225,7 +241,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "style": "css"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

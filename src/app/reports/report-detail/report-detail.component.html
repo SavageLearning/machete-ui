@@ -1,0 +1,104 @@
+<app-record-control
+  *ngIf="!loadingRecord"
+  [recordId]="report.id"
+  (deleteRecordE)="onChildRecordControlDelete($event)">
+</app-record-control>
+<!-- *******Report view/edit form -->
+<ng-container  *ngIf="!loadingRecord">
+  <p-card styleClass="p-card-shadow p-mb-5" header="{{report.commonName}} - Definition"> 
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-input-filled">
+        <label for="name">Unique Name</label>
+        <input pInputText id="name" [(ngModel)]="report.name" disabled="true" />
+      </div>
+      <div class="p-field p-col-12 p-input-filled">
+        <label for="commonName">Common name</label>
+        <input pInputText id="commonName" [(ngModel)]="report.commonName" />
+      </div>
+      <div class="p-field p-col-12 p-input-filled">
+        <label for="description">Description</label>
+        <input pInputText id="description" [(ngModel)]="report.description" />
+      </div>
+      <div class="p-field p-col-6 p-input-filled">
+        <label>Report Filter Options</label>
+        <app-report-detail-filters-select [inputs]="report.inputs"></app-report-detail-filters-select>
+      </div>
+      <div class="p-col-12 p-mb-6">
+        <label for="sqlquery" class="p-mb-6">SQL Query</label>
+        <app-editor
+          [sql]="report.sqlquery"
+          (editedSql)="onDoneWithSql($event)"
+          (editorState)="onStartEditSql($event)"
+          >
+        </app-editor>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="p-d-flex">
+        <button pButton pRipple icon="pi pi-save" 
+          (click)="save()" label="Save Report Definition" 
+          class="p-mb-6 p-mt-2 p-button-raised p-ml-auto"
+          [disabled]="disableSave()"
+          >
+        </button>
+      </div>
+    </ng-template>
+  </p-card>
+
+
+  <!-- **********Report Filters ******* -->
+  <p-card styleClass="p-card-shadow p-mb-5" header="Report Filters">
+
+    <div class="p-fluid p-formgrid p-grid">   
+      <div *ngIf="report.inputs.memberNumber === true" class="p-field p-col-12 p-md-12 p-lg-4 p-input-filled">
+        <label>Member number</label>
+        <p-inputMask #im="ngModel" [(ngModel)]="o.memberNumber" mask="99999" [required]="report.inputs.memberNumber"></p-inputMask>
+        <div *ngIf="im.invalid" class="alert">
+          <div *ngIf="im.errors?.required" class="">
+            <p-message severity="error" text="Member Number is required."></p-message>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="report.inputs.beginDate === true" class="p-field p-col-12 p-md-12 p-lg-4 p-input-filled">
+        <label for="start-date-cal">Start date</label>
+        <p-calendar
+          id="start-date-cal"
+          placeholder="Start date"
+          [(ngModel)]="o.beginDate"
+          [showIcon]="true" dataType="string"
+          [yearNavigator]="true"
+          [yearRange]="calYearRange"
+          >
+        </p-calendar>
+      </div>
+      <div *ngIf="report.inputs.endDate === true" class="p-field p-col-12 p-md-12 p-lg-4 p-input-filled">
+        <label for="end-date-cal">End date</label>
+        <p-calendar
+          id="end-date-cal"
+          placeholder="End date"
+          [(ngModel)]="o.endDate"
+          [showIcon]="true"
+          dataType="string"
+          [yearNavigator]="true"
+          [yearRange]="calYearRange"
+          >
+        </p-calendar>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <!-- Responsive container -->
+      <div class="p-d-flex p-flex-column p-flex-md-row">
+        <div class="p-mb-2 p-mr-2 p-ml-auto">
+          <button pButton pRipple class="p-button-raised" icon="pi pi-refresh"
+            tooltipPosition="bottom" label="Run Report" (click)="getReportData()"
+            >
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+
+</ng-container>
+
+<!-- Data is passed to a dumb component as it is received -->
+<app-report-result [viewData]="viewData$ | async" [cols]="report?.columns" ></app-report-result>

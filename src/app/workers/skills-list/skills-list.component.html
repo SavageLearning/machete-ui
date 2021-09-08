@@ -1,0 +1,104 @@
+<p-card
+    header="Skills"
+    styleClass="p-mt-2 p-shadow-5">
+    
+    <!-- Called by the specialty header button -->
+    <p-dialog header="Help" [(visible)]="display">
+        Click on the button to the left to see a list of the
+        workers that have this skill as a specialty.
+    </p-dialog>
+
+    <p-table
+        #dt
+        [value]="skills"
+        [responsive]="true"
+        class="c-highlight-header"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+        [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['text_EN','subcategory','speciality','ltrCode','skillDescriptionEn']"
+    >
+        <ng-template pTemplate="caption">
+             <!-- Table toolbar -->
+             <div class="card p-d-flex p-flex-column p-flex-md-row p-ai-start p-jc-between c-bg-surface-c p-shadow-5">
+                <div>
+                    <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input
+                            pInputText
+                            type="text"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Search keyword"
+                            style="max-width: 220px;"
+                        />
+                    </span>
+                </div>
+                <div class="p-d-flex p-flex-column p-flex-md-row p-md-ai-center p-jc-start">
+                    <p-toggleButton 
+                        [(ngModel)]="specialtyFilterOn"
+                        (onChange)="dt.filter($event.checked ? true : null, 'speciality', 'equals')"
+                        [onLabel]="filterSepecialtyOpt.labelOn"
+                        [offLabel]="filterSepecialtyOpt.labelOff"
+                        [onIcon]="filterSepecialtyOpt.iconOn" 
+                        [offIcon]="filterSepecialtyOpt.iconOff">
+                    </p-toggleButton>
+                    <p-toggleButton 
+                        [(ngModel)]="activeFilterOn"
+                        (onChange)="dt.filter($event.checked ? true : null, 'active', 'equals')"
+                        [onLabel]="filterActiveOpt.labelOn"
+                        [offLabel]="filterActiveOpt.labelOff"
+                        [onIcon]="filterActiveOpt.iconOn" 
+                        [offIcon]="filterActiveOpt.iconOff">
+                    </p-toggleButton>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="text_EN">Skill <p-sortIcon field="text_EN"></p-sortIcon></th>
+                <th pSortableColumn="subcategory">Category <p-sortIcon field="subcategory"></p-sortIcon></th>
+                <th pSortableColumn="speciality">Specialty <p-sortIcon field="speciality"></p-sortIcon></th>
+                <th pSortableColumn="ltrCode">Code <p-sortIcon field="ltrCode"></p-sortIcon></th>
+                <th pSortableColumn="skillDescriptionEn">Description <p-sortIcon field="skillDescriptionEn"></p-sortIcon></th>
+                <th pSortableColumn="active">Active <p-sortIcon field="active"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr>
+                <td>
+                    <span class="p-column-title">Skill</span>
+                    {{rowData.text_EN}}
+                </td>
+                <td>
+                    <span class="p-column-title">Category</span>
+                    {{rowData.subcategory}}
+                </td>
+                <td>
+                    <div class="p-d-flex p-jc-start p-ai-start p-ai-md-center">
+                        <span class="p-column-title">Specialty</span>
+                        <span class="p-pr-2" *ngIf="!rowData.speciality">{{rowData.speciality}}</span>
+                        <span *ngIf="rowData.speciality">
+                            <p-button (click)="navigateToWorkersInSKill(rowData.ID)" icon="pi pi-external-link" iconPos="right" label="{{rowData.speciality}}"></p-button>
+                            <p-button styleClass="p-button-help" (click)="showHelpDialog()" icon="pi pi-question-circle"></p-button>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <span class="p-column-title">Code</span>
+                    <span class="p-badge p-badge-lg p-badge-info" *ngIf="rowData.ltrCode">{{rowData.ltrCode}}</span>
+                </td>               
+                <td>
+                    <span class="p-column-title">Description</span>
+                    {{rowData.skillDescriptionEn}}
+                </td>                
+                <td>
+                    <span class="p-column-title">Active?</span>
+                    {{rowData.active}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+</p-card>

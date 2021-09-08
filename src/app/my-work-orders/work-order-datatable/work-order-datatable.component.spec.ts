@@ -1,15 +1,15 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WorkOrderDatatableComponent } from './work-order-datatable.component';
 import { WorkOrder } from '../../shared/models/work-order';
 import { MyWorkOrdersService } from '../my-work-orders.service';
-import { DataTableModule } from 'primeng/primeng';
+import { TableModule } from 'primeng/table';
 import { TransportRulesService } from '../../online-orders/transport-rules.service';
 import { TransportRulesServiceSpy, RouterSpy } from '../../shared/testing/services.spy';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MomentModule } from 'angular2-moment/moment.module';
+import { MomentModule } from 'ngx-moment';
 import { Router } from '@angular/router';
 class WorkOrdersServiceSpy {
   getOrders = jasmine.createSpy('getOrders')
@@ -21,19 +21,19 @@ describe('WorkOrderDatatableComponent', () => {
   let component: WorkOrderDatatableComponent;
   let fixture: ComponentFixture<WorkOrderDatatableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WorkOrderDatatableComponent ],
       imports: [
-        DataTableModule,
-        MomentModule        
+        TableModule,
+        MomentModule
       ]
     })
     .overrideComponent(WorkOrderDatatableComponent, {
       set: {
         providers: [
           { provide: MyWorkOrdersService, useClass: WorkOrdersServiceSpy },
-          { provide: Router, useClass: RouterSpy } 
+          { provide: Router, useClass: RouterSpy }
         ]
       }
     })

@@ -1,5 +1,7 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
+    "downlevelIteration": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -9,9 +11,9 @@
       "es2016",
       "dom"
     ],
-    "outDir": "../out-tsc/spec",
-    "module": "commonjs",
-    "target": "es6",
+    "outDir": "./out-tsc/spec",
+    "module": "es2020",
+    "target": "es2015",
     "baseUrl": "",
     "types": [
       "jasmine",
@@ -22,10 +24,11 @@
     ]
   },
   "files": [
-    "test.ts",
-    "polyfills.ts"
+    "src/test.ts",
+    "src/polyfills.ts"
   ],
   "include": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "src/ **/.d.ts", "src/ **/*.ts"
   ]
 }
