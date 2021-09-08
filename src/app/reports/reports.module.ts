@@ -11,7 +11,6 @@ import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import {ReportsRoutingModule } from './reports-routing.module';
 import {CardModule} from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
@@ -19,10 +18,17 @@ import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MessagesModule } from 'primeng/messages';
-import { InplaceModule } from 'primeng/inplace';
-import { DividerModule } from 'primeng/divider';
+import { MessageModule } from 'primeng/message';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ToastModule } from 'primeng/toast';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputMaskModule } from 'primeng/inputmask';
 import { EditorComponent } from './editor/editor.component';
 import { ReportsListComponent } from './reports-list/reports-list.component';
+import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { ReportDetailFiltersSelectComponent } from './report-detail/report-detail-filters-select.component';
+import { RecordControlModule } from '../shared/components/record-control/record-control.module';
+import { ReportResultComponent } from 'src/app/reports/report-result/report-result.component';
 
 
 
@@ -30,7 +36,10 @@ import { ReportsListComponent } from './reports-list/reports-list.component';
   declarations: [
     ReportsComponent,
     EditorComponent,
-    ReportsListComponent
+    ReportsListComponent,
+    ReportDetailComponent,
+    ReportDetailFiltersSelectComponent,
+    ReportResultComponent,
   ],
   imports: [
     CommonModule,
@@ -50,8 +59,12 @@ import { ReportsListComponent } from './reports-list/reports-list.component';
     MenubarModule,
     InputTextModule,
     MessagesModule,
-    InplaceModule,
-    DividerModule,
+    MessageModule,
+    OverlayPanelModule,
+    ToastModule,
+    InputMaskModule,
+    CheckboxModule,
+    RecordControlModule,
     MonacoEditorModule.forRoot() // use forRoot() in main app module only.
   ],
   bootstrap: []

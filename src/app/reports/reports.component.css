@@ -6,3 +6,7 @@
   font-family: 'Source Code Pro', monospace;
   color: #223f44;
 }
+
+:host ::ng-deep .p-menuitem-link-active {
+  background: var(--blue-300);
+}

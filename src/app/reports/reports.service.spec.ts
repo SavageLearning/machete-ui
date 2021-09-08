@@ -9,13 +9,18 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+import { RouterSpy } from '../shared/testing';
 
 describe('ReportsService', () => {
   let service: ReportsService;
   let httpMock: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ReportsService  ],
+      providers: [
+        ReportsService,
+        {provide: Router, useClass: RouterSpy}
+        ],
       imports: [
         HttpClientTestingModule
       ]
