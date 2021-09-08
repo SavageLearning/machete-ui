@@ -1,0 +1,36 @@
+
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "outDir": "./out-tsc/app",
+    "target": "es2015",
+    "module": "es2020",
+    "baseUrl": "./",
+    "types": ["node"],
+    "typeRoots": [
+      "../node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ],
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+  "angularCompilerOptions": {
+    "enableIvy": true
+  }
+}
