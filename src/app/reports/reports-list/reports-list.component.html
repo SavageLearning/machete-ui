@@ -1,7 +1,7 @@
 <p-table #dt 
-  [value]="reports" 
+  [value]="(reportList$ | async)" 
   [paginator]="true" 
-  [rows]="4" 
+  [rows]="10" 
   [responsive]="true"
   styleClass="p-datatable-striped"
   [globalFilterFields]="['commonName','description','category','dateCreated', 'dateUpdated']"
