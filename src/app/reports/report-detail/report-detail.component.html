@@ -1,7 +1,8 @@
 <app-record-control
   *ngIf="!loadingRecord"
   [recordId]="report.id"
-  (deleteRecordE)="onChildRecordControlDelete($event)">
+  [confirmActionData]="deleteConfirmActionData"
+  (newRecordE)="onChildRecordControlCreate($event)">
 </app-record-control>
 <!-- *******Report view/edit form -->
 <ng-container  *ngIf="!loadingRecord">
@@ -18,6 +19,10 @@
       <div class="p-field p-col-12 p-input-filled">
         <label for="description">Description</label>
         <input pInputText id="description" [(ngModel)]="report.description" />
+      </div>
+      <div class="p-field p-col-12 p-input-filled">
+        <label for="cateogry">Category</label>
+        <input pInputText id="category" [(ngModel)]="report.category" />
       </div>
       <div class="p-field p-col-6 p-input-filled">
         <label>Report Filter Options</label>
@@ -45,6 +50,12 @@
     </ng-template>
   </p-card>
 
+  <!-- report create -->
+  <app-report-create
+    [showForm]="displayCreateForm"
+    (createdRecordEvent)="onNewRecord($event)"
+    >
+  </app-report-create>
 
   <!-- **********Report Filters ******* -->
   <p-card styleClass="p-card-shadow p-mb-5" header="Report Filters">
@@ -101,4 +112,11 @@
 </ng-container>
 
 <!-- Data is passed to a dumb component as it is received -->
-<app-report-result [viewData]="viewData$ | async" [cols]="report?.columns" ></app-report-result>
+<ng-container *ngIf="!!report?.columns">
+  <app-report-result
+    [viewData]="viewData$ | async"
+    [cols]="report?.columns"
+    [exportFileName]="this.exportFileName"
+    >
+  </app-report-result>
+</ng-container>

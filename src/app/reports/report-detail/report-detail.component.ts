@@ -7,6 +7,8 @@ import { ReportsService } from "../reports.service";
 import { Table } from "primeng/table";
 import { Observable } from "rxjs";
 import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { takeWhile } from "rxjs/operators";
+import { IConfirmActionData } from "src/app/shared/components/record-control/record-control.component";
 
 export enum SqlEditorState {
   OPEN = "OPEN",
@@ -26,13 +28,17 @@ export class SqlReportError {
 export class ReportDetailComponent implements OnInit, OnDestroy {
   routeReportID: string;
   report?: Report = null;
+  reportCreate?: Report = new Report();
   o: SearchOptions;
   viewData$: Observable<SimpleAggregateRow[]>;
   loadingRecord: boolean = true;
   sqlEditorState: SqlEditorState = SqlEditorState.CLOSED;
   validate: string;
   calYearRange: string;
-  originalReportName: string;
+  displayCreateForm: boolean = false;
+  deleteConfirmActionData: IConfirmActionData;
+  saving: boolean = false;
+  private alive = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +48,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
 
   getReportDefinition() {
     let report$ = this.store.getReport(this.routeReportID);
-    report$.subscribe(
+    report$.pipe(takeWhile(() => this.alive)).subscribe(
       (data) => {
         this.report = data as Report;
         this.loadingRecord = false;
@@ -51,6 +57,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
   }
 
   getReportData() {
+    // no need to unsubscribe as it uses async pipe
     this.viewData$ = this.reportsService.getReportData(this.report.name.toString(), this.o);
   }
 
@@ -62,26 +69,31 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     this.sqlEditorState = sqlEditorState;
   }
 
-  disableSave = (): boolean => this.sqlEditorState !== SqlEditorState.CLOSED;
-
-  getExport(dt: Table) {
-    dt.exportFilename =
-      this.report.name +
-      "_" +
-      this.o.beginDate.toString() +
-      "_to_" +
-      this.o.endDate.toString();
-    dt.exportCSV({options: [{selectionOnly: false}]});
+  disableSave = (): boolean => this.sqlEditorState !== SqlEditorState.CLOSED
+    || this.saving;
+  
+  get exportFileName() {
+    return `${this.report.name}${this.o.beginDate}${this.o.endDate}`;
   }
 
   save() {
-    this.store.update(this.report).subscribe(res => this.report = res);
+    this.saving = true;
+    this.store.update(this.report).subscribe(res => {
+      this.report = res;
+      this.saving = false;
+    });
   }
 
-  onChildRecordControlDelete(id: number) {
-    this.reportsService
-      .delete(this.report.id == id ? this.report.name : '', 'reports')
-      .subscribe();
+  onChildRecordControlCreate(createFromEvent: boolean) {
+    // this triggers child component to display create form
+    this.displayCreateForm = createFromEvent;
+  }
+
+  /*
+  * Child component creates record and passes new record from API here
+  */
+  onNewRecord($event: Report) {
+    this.report = $event;
   }
 
   ngOnInit(): void {
@@ -98,11 +110,24 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
 
     // load data
     this.routeReportID = this.route.snapshot.paramMap.get("id");
-    this.getReportDefinition();    
+    this.getReportDefinition();
+
+    // set delete confirm action
+    this.deleteConfirmActionData = {
+      message: `Are you sure you want to delete?`,
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.store
+        .delete(this.report.name, 'reports')
+        .pipe(takeWhile(() => this.alive))
+        .subscribe(succcess => this.report = new Report());
+      }      
+    }
   }
 
   ngOnDestroy(): void {
-    // !! todo unsubscribe
+    this.alive = false;
   }
 
 }

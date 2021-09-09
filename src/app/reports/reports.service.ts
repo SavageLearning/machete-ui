@@ -39,19 +39,5 @@ export class ReportsService {
     return Object.keys(data).map((key) => [key, data[key]].map(encodeURIComponent).join('=')).join('&');
   }
 
-  public delete(name: string, navigateOnSuccess: string): Observable<any> {
-    const uri = environment.dataUrl + '/api/reports';
-    return this.http.delete(`${uri}/${name}`, { withCredentials: true }).pipe(
-      catchError(err => {
-        this.appMessages.showErrors({errors: err});
-        console.log(err);
-        return throwError(err);
-      }),
-      tap(data => {
-        this.appMessages.showSuccess({ label: "Success", message: "Record Deleted" });
-        this.router.navigate([`/${navigateOnSuccess}`])
-      })
-    );
-  }
 }
 

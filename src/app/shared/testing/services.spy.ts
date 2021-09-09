@@ -276,3 +276,7 @@ export class ReportsServiceSpy {
 export class MessagesServiceSpy {
   
 }
+
+export class ReportsStoreServiceSpy {
+
+}

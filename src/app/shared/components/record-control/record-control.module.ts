@@ -4,6 +4,7 @@ import { RecordControlComponent } from './record-control.component';
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 
 
@@ -15,7 +16,8 @@ import { ButtonModule } from 'primeng/button';
     CommonModule,
     CardModule,
     ToolbarModule,
-    ButtonModule
+    ButtonModule,
+    ConfirmDialogModule
   ],
   exports: [
     RecordControlComponent
