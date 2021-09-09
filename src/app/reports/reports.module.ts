@@ -29,6 +29,7 @@ import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { ReportDetailFiltersSelectComponent } from './report-detail/report-detail-filters-select.component';
 import { RecordControlModule } from '../shared/components/record-control/record-control.module';
 import { ReportResultComponent } from 'src/app/reports/report-result/report-result.component';
+import { ReportCreateComponent } from './report-create/report-create.component';
 
 
 
@@ -40,6 +41,7 @@ import { ReportResultComponent } from 'src/app/reports/report-result/report-resu
     ReportDetailComponent,
     ReportDetailFiltersSelectComponent,
     ReportResultComponent,
+    ReportCreateComponent,
   ],
   imports: [
     CommonModule,

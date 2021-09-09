@@ -67,10 +67,52 @@ export class ReportsStoreService {
         storeAsValues.sort((a, b) => a.id - b.id);
         this.reportsSubject.next(storeAsValues);
 
-        this.appMessages.showSuccess({label: "Success", message: "Record Saved"});
-        this.router.navigate([`reports/view/${updatedDbRecord.name}`])
+        this.onModifySuccess('Success', 'Record Saved!', `reports/view/${updatedDbRecord.name}`)
       })
     );
+  }
+
+  public create(report: Report): Observable<Report> {
+    const uri = environment.dataUrl + '/api/reports';
+    return this.http.post(`${uri}`, report, { withCredentials: true }).pipe(
+      map(o => o['data'] as Report),
+      catchError(err => {
+        this.appMessages.showErrors(err);
+        console.log(err);
+        return throwError(err);
+      }),
+      tap((createdDbRecord: Report) => {
+        const storeAsValues = this.reportsSubject.getValue();
+        storeAsValues.push(createdDbRecord);
+        storeAsValues.sort((a, b) => a.id - b.id);
+        this.reportsSubject.next(storeAsValues);
+
+        this.onModifySuccess('Success', 'Record Created!', `reports/view/${createdDbRecord.name}`);
+      })
+    );
+  }
+
+  public delete(name: string, navigateOnSuccess: string): Observable<any> {
+    const uri = environment.dataUrl + '/api/reports';
+    return this.http.delete(`${uri}/${name}`, { withCredentials: true }).pipe(
+      catchError(err => {
+        this.appMessages.showErrors({errors: err});
+        console.log(err);
+        return throwError(err);
+      }),
+      tap(data => {
+        const storeAsValues = this.reportsSubject.getValue();
+        const storeReportIndex = storeAsValues.findIndex(x => x.name == name);
+        storeAsValues.splice(storeReportIndex, 1);
+        this.reportsSubject.next(storeAsValues);
+        this.onModifySuccess('Success', 'Record Deleted!', navigateOnSuccess);
+      })
+    );
+  }
+
+  private onModifySuccess(label: string, message: string, navigateTo: string): void {
+    this.appMessages.showSuccess({label: label, message: message});
+    this.router.navigate([navigateTo])
   }
 
   public getReport(id: string) {
