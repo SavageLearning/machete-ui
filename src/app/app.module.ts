@@ -63,7 +63,6 @@ import { MessagesService } from './shared/components/messages/messages.service';
     AuthService,
     LoggingService,
     TransportProvidersService,
-    MessagesService
   ],
   bootstrap: [AppComponent]
 })

@@ -91,16 +91,18 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
         })
       ]
     }),
-    new MenuRule({
-      id: 14,
-      label: 'Workers',
-      icon: 'assignment_ind',
-      routerLink: ['/workers'],
-      authorizedRoles: [
-        LRole.ADMIN,
-        LRole.MANAGER
-      ]
-    }),
+    // Hide unfinished work
+    // !! TODO finish the workers in list feature
+    // new MenuRule({
+    //   id: 14,
+    //   label: 'Workers',
+    //   icon: 'assignment_ind',
+    //   routerLink: ['/workers'],
+    //   authorizedRoles: [
+    //     LRole.ADMIN,
+    //     LRole.MANAGER
+    //   ]
+    // }),
   ];
   // lambda-fu
   if (authList == null || authList === undefined) {

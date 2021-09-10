@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional, SkipSelf } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, concatMap, filter, map, shareReplay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -9,16 +9,17 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/partition';
 import 'rxjs/add/observable/merge';
 
-@Injectable({
-  providedIn: "root",
-})
 /**
- * A singleton RXJS Data store.
+ * A singleton RXJS BehaviorSubject Machete Data store.
  * Returns the same list of records regardless of
- * how many times the observable us consumned until the data is mutaded
+ * how many times the observable is consumned until the data is mutaded
  *
  * @class ReportsStoreService
  */
+@Injectable({
+  providedIn: "root",
+})
+
 export class ReportsStoreService {
   private reportsSubject = new BehaviorSubject<Report[]>([]);
   public reports$: Observable<Report[]> = this.reportsSubject as Observable<Report[]>;
@@ -26,8 +27,14 @@ export class ReportsStoreService {
   constructor(
     private http: HttpClient,
     private appMessages: MessagesService,
-    private router: Router
+    private router: Router,
+    @Optional() @SkipSelf() parentModule?: ReportsStoreService
     ) {
+      // enforce app singleton pattern
+      if (parentModule) {
+        throw new Error(
+          'Machete dev error:ReportsStoreService is already loaded. Additional imports not needed');
+      }
     this.getReportList();
   }
 
