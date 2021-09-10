@@ -12,6 +12,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
+              "safe-buffer",
+              "path",
               "lodash",
               "primeng/primeng",
               "primeng/components/common/messageservice",
