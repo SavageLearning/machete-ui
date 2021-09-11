@@ -13,7 +13,6 @@ import { AppFooterComponent }  from './app.footer.component';
 import { InlineProfileComponent }  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
-import { environment } from '../environments/environment';
 import { AuthService} from './shared/services/auth.service';
 
 import { ToastModule } from 'primeng/toast';
@@ -30,7 +29,6 @@ import { LoggingService } from './shared/services/logging.service';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MessagesComponent } from './shared/components/messages/messages.component';
-import { MessagesService } from './shared/components/messages/messages.service';
 
 @NgModule({
   declarations: [

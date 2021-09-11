@@ -15,6 +15,12 @@ import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
 
 const appRoutes: Routes = [
+  // lazy loaded feature modules
+  {
+    path: 'configuration',
+    loadChildren: () => import('src/app/configs/configs.module').then(m => m.ConfigsModule)
+  },
+  // auth
   {
     path: '',
     redirectTo: '/welcome',

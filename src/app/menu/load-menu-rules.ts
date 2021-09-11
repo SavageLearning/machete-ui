@@ -68,25 +68,25 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
         LRole.ADMIN
       ],
       items: [
-        new MenuRule({
-          id: 11,
-          label: 'Auth diagnostics',
-          icon: 'perm_identity',
-          routerLink: ['/dashboard'],
-          authorizedRoles: [
-            LRole.ADMIN,
-            LRole.CHECKIN,
-            LRole.MANAGER,
-            LRole.PHONEDESK,
-            LRole.TEACHER,
-            LRole.USER
-          ]
-        }),
+        // new MenuRule({
+        //   id: 11,
+        //   label: 'Auth diagnostics',
+        //   icon: 'perm_identity',
+        //   routerLink: ['/dashboard'],
+        //   authorizedRoles: [
+        //     LRole.ADMIN,
+        //     LRole.CHECKIN,
+        //     LRole.MANAGER,
+        //     LRole.PHONEDESK,
+        //     LRole.TEACHER,
+        //     LRole.USER
+        //   ]
+        // }),
         new MenuRule({
           id: 13,
           label: 'Transport Providers',
           icon: 'airport_shuttle',
-          routerLink: ['/transport-providers'],
+          routerLink: ['configuration/transport-providers'],
           authorizedRoles: [LRole.ADMIN]
         })
       ]

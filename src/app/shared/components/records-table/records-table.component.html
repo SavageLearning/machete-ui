@@ -1,0 +1,42 @@
+<!-- ********Reusable Table************ -->
+
+<div *ngIf="!!values" style="width: 100%;overflow:auto; height: flex;">
+  <p-table
+    #dt
+    [value]="values"
+    [paginator]="true"
+    [rows]="10"
+    styleClass="p-datatable-striped p-datatable-sm p-datatable-gridlines"
+    [globalFilterFields]="cols"
+    selectionMode="single"
+    [(selection)]="record"
+    (onRowSelect)="onRowSelect($event)"
+    >
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex">
+          <span class="p-input-icon-left p-ml-auto p-input-filled">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+          </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+          <th style="width: auto; min-width: auto;" pSortableColumn="{{col.field}}" *ngFor="let col of cols">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-viewData let-columns="cols">
+      <tr  [pSelectableRow]="viewData">
+          <td class="p-text-light" style="width: auto;" *ngFor="let col of cols">
+                  <!-- {{viewData[col.field]}} -->
+                  <span *ngIf="col.dateFormat !== null">{{viewData[col.field] | date:col.dateFormat}}</span>
+                  <span *ngIf="col.dateFormat == null">{{viewData[col.field]}}</span>
+          </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

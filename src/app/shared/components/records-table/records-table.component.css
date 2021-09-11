@@ -1,0 +1,3 @@
+:host ::ng-deep .p-datatable table {
+  width: auto !important;
+}
