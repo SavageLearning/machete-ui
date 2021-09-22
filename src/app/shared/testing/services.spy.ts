@@ -18,6 +18,7 @@ import { ApiResponse } from '../../workers/models/api-response';
 import { ApiRequestParams } from '../../workers/models/api-request-params';
 import { Worker } from '../models/worker';
 import { Skill } from '../models/skill';
+import { Report } from 'src/app/reports/models/report';
 
 export class EmployersServiceSpy {
   getEmployer = jasmine.createSpy('getEmployer')
@@ -278,5 +279,8 @@ export class MessagesServiceSpy {
 }
 
 export class ReportsStoreServiceSpy {
-
+  reports$ = of(new Array<Report>(
+    new Report({commonName: 'test'}),
+    new Report({commonName: 'more'})
+    ));
 }

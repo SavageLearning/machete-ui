@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReportsListComponent } from './reports-list.component';
 import { Router } from '@angular/router';
 import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
-import { RouterSpy } from 'src/app/shared/testing';
+import { ReportsStoreServiceSpy, RouterSpy } from 'src/app/shared/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -12,17 +12,11 @@ import { CalendarModule } from 'primeng/calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import { of } from 'rxjs';
-import { Report } from '../models/report';
+import { By } from '@angular/platform-browser';
 
 describe('ReportsListComponent', () => {
   let component: ReportsListComponent;
   let fixture: ComponentFixture<ReportsListComponent>;
-  const fakeService = {
-    reports$: of(new Array<Report>()),
-    getReportList: jasmine.createSpy('getReportList')
-      .and.callFake
-  }
   
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -39,7 +33,7 @@ describe('ReportsListComponent', () => {
       ],
       providers: [
         {provide: Router, useClass: RouterSpy},
-        {provide: ReportsStoreService, value: fakeService}
+        {provide: ReportsStoreService, useClass: ReportsStoreServiceSpy}
       ]
     })
     .compileComponents();
@@ -51,7 +45,18 @@ describe('ReportsListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create and display report list', () => {
     expect(component).toBeTruthy();
+    let tableRows = fixture.nativeElement.querySelectorAll('tr');
+
+    expect(tableRows.length).toBe(3);
+    let headerRow = tableRows[0];
+
+    let firstHeading = fixture.nativeElement.querySelectorAll('th');
+    expect(firstHeading[0].innerHTML).toContain('Name');
+
+    let firstDataCell = fixture.nativeElement.querySelectorAll('td');
+    expect(firstDataCell[0].innerHTML).toContain('Test');
+    expect(firstDataCell[5].innerHTML).toContain('More');
   });
 });
