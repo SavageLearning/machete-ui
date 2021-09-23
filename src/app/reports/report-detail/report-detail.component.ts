@@ -81,7 +81,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     this.store.update(this.report).subscribe(res => {
       this.report = res;
       this.saving = false;
-    });
+    }, err => this.saving = false);
   }
 
   onChildRecordControlCreate(createFromEvent: boolean) {

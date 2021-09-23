@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfigsService } from '../../configs/configs.service';
-import { AuthService } from '../../shared/index';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ConfigsService } from '../configs/configs.service';
+import { AuthService } from '../shared/index';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { Config } from '../../shared/models/config';
+import { environment } from '../../environments/environment';
+import { Config } from '../shared/models/config';
+
+enum DashboardState {
+  None = "None",
+  Hirer = "Hirer",
+  CenterStaff = "CenterStaff",
+}
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, OnDestroy {
+  private alive: boolean = true;
 
   facebookAppId: string;
   googleClientId: string;
@@ -23,9 +30,36 @@ export class WelcomeComponent implements OnInit {
   outageMessage: string;
   serverData: Config[];
 
+  public roleState: DashboardState = DashboardState.None;
+  public hirerLinks = [
+    { text: "Hire a Worker", link: "/online-orders/introduction", auth: true, icon: "" },
+    { text: "Update Employer Profile", link: "/employers", auth: true, icon: "" },
+    { text: "Hiring History", link: "/my-work-orders", auth: true, icon: "" },
+  ];
+
+  public centerStaffLinks = [
+    ... this.hirerLinks,
+    { text: "Machete Reports", link: "/reports", auth: true },
+  ];
+
+  public welcomeLinks = [
+    { text: "Log In / Sign Up", link: "/welcome",  action: 'login', auth: false },
+  ];
+
+
+  public dashboards = [
+    {title: 'Employer', links: this.hirerLinks, s: DashboardState.Hirer},
+    {title: 'Center Staff', links: this.centerStaffLinks, s: DashboardState.CenterStaff},
+    {title: '', links: this.welcomeLinks, s: DashboardState.None},
+  ]
+
   constructor(private cfgService: ConfigsService,
     private authService: AuthService,
     private router: Router) {    }
+
+  ngOnDestroy(): void {
+    this.alive = false;
+  }
 
   ngOnInit() {
     this.cfgService.getAllConfigs().subscribe(
@@ -39,11 +73,18 @@ export class WelcomeComponent implements OnInit {
         this.macheteOutage = data.find(config => config.key === 'DisableOnlineOrders').value === 'TRUE';
         this.outageMessage = data.find(config => config.key === 'DisableOnlineOrdersBanner').value;
       },
-      error => console.error('welcome.component.OnInit:' + error)
+      error => console.log('welcome.component.OnInit:' + error)
     );
     this.authService.authorize().subscribe(user => {
       this.isLoggedIn = !user.expired;
       this.userState = user.state ? user.state : '/welcome';
+
+      this.roleState = !!user.profile.roles.find((role) => role == "Hirer")
+        ? DashboardState.Hirer
+        : user.profile.roles.filter((role) => role == "Hirer").length == 0
+        ? DashboardState.CenterStaff
+        : DashboardState.None;
+    console.log(this.roleState);
     }, error => {
       console.log('welcome component: error; ', error);
       this.isLoggedIn = false;
@@ -61,9 +102,8 @@ export class WelcomeComponent implements OnInit {
                          + 'state=' + this.macheteSessionId;
   }
 
-
   // DEPRECATED
   register() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/auth/register']);
   }
 }

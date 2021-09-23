@@ -9,7 +9,6 @@ import { TableModule } from 'primeng/table';
 import { TransportRulesService } from '../../online-orders/transport-rules.service';
 import { TransportRulesServiceSpy, RouterSpy } from '../../shared/testing/services.spy';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MomentModule } from 'ngx-moment';
 import { Router } from '@angular/router';
 class WorkOrdersServiceSpy {
   getOrders = jasmine.createSpy('getOrders')
@@ -26,7 +25,6 @@ describe('WorkOrderDatatableComponent', () => {
       declarations: [ WorkOrderDatatableComponent ],
       imports: [
         TableModule,
-        MomentModule
       ]
     })
     .overrideComponent(WorkOrderDatatableComponent, {

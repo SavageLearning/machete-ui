@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -7,63 +8,84 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { tap } from "rxjs/operators";
 import { TransportProvider } from "src/app/online-orders/shared";
+import { Report } from "src/app/reports/models/report";
 import { Column } from "src/app/workers/models/column";
 
 @Component({
   selector: "app-records-table",
   templateUrl: "./records-table.component.html",
   styleUrls: ["./records-table.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RecordsTableComponent implements OnInit, OnChanges {
-  @Input() public values: TransportProvider[] = []; // add more types when using in other features
-  @Input() public excludeCols: string[];
-  @Output() public selectedRecord = new EventEmitter<TransportProvider>();
+  @Input() public values: TransportProvider[] | Report[] = []; // add more types when using in other features
+  @Input() public excludeCols: string[] = [];
+  @Input() public colOrder: string[] = [];
+  @Output() public selectedRecord = new EventEmitter<TransportProvider | Report>();
   public cols: Column[] = [];
-  public record: TransportProvider;
+  public record: TransportProvider | Report;
+  public maxColWidth: number = 0;
 
   constructor() {}
 
-  onRowSelect(selectedRecord: TransportProvider) {
+  onRowSelect() {
     this.selectedRecord.emit(this.record);
   }
 
-  private PrepareColumns(records: any, exclude: string[]) {
-    // console.table(records);
-    // console.log(records[0]);
-    let aRecord = records[0];
-    // console.log(aRecord);
-    let props = Object.keys(aRecord);
-    // console.log(props, "props");
+  /**
+   * 
+   * @param records Intentionally any type
+   * @param exclude 
+   */
+  private PrepareColumns(records: any, exclude: string[]) : Column[] {
+    let anyRecord = records[0];
+    let props = Object.keys(anyRecord);
 
-    props.map((x) => {
-      // console.log(x, "index");
-      // console.log(aRecord[x], "proptype val");
-      // console.log(!!Date.parse(aRecord[x]), "instance of date?");
-      if (!!!exclude.find(name => name == x)) {
-        this.cols.push(
-          new Column(
-            x, // field
-            this.camel2title(x), // field as title
-            this.getPipe(aRecord[x])
-          )
-        );
+    const cols: Column[] = [];
+    if (this.colOrder.length > 0) {
+      props.sort((prev, current) => 
+      this.colOrder.includes(prev)
+        ? -1
+        : this.colOrder.includes(current)
+        ? 1
+        : 0
+      )
+    }
+
+    props.map((prop, index) => {
+      // only bring in nonExcluded cols
+      if (!!!exclude.find(name => name == prop)) {
+        cols.push(new Column( 
+          prop, // field
+          this.camelToTitleCase(prop), // field as title
+          this.getPipe(anyRecord[prop]),
+          index));
       }
     });
+    return cols
+      .slice(0) // get completely new array
+      .sort((a, b) => a.index - b.index);
   }
 
-  private camel2title = (camelCase: string) =>
-    camelCase
+  /**
+   * 
+   * @param camelCase a camelCase string
+   * @returns a Title Case string
+   */
+  private camelToTitleCase(camelCase: string): string {
+    return camelCase
       .replace(/([A-Z])/g, (match) => ` ${match}`)
       .replace(/^./, (match) => match.toUpperCase())
       .trim();
+  }
 
-/**
- * Machete record table pipe assign: Only Supports the short date pipe at the moment
- */
-  private getPipe(fieldValue: any) {
+  /**
+   * Machete record table pipe assign: Only Supports the short date pipe at the moment
+   * @param fieldValue intentionally any
+   * @returns 
+   */
+  private getPipe(fieldValue: any): string {
     return typeof fieldValue == "number"
       ? null
       : !!Date.parse(fieldValue)
@@ -71,12 +93,24 @@ export class RecordsTableComponent implements OnInit, OnChanges {
       : null;
   }
 
+  private pixelWidth(word: string): number {
+    const charWidth = 11;
+    return (word.length * charWidth) + 30.56;
+  }
+
+  private getMaxColWidth(cols: Column[]): number {
+    let longestHeader = cols
+          .slice(0) // don't mutate
+          .sort((a,b) => a.header.length - b.header.length)[this.cols.length -1].header;
+    return this.pixelWidth(longestHeader);
+  }
+
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["values"].currentValue) {
-      // console.log(changes["values"]);
-      this.PrepareColumns(this.values, this.excludeCols);
+      this.cols = this.PrepareColumns(this.values, this.excludeCols);
+      this.maxColWidth = this.getMaxColWidth(this.cols);
     }
   }
 }

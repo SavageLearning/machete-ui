@@ -1,26 +1,67 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from './shared/services/auth.service';
-import { AuthGuardService } from './shared/services/auth-guard.service';
-import { PageNotFoundComponent }    from './not-found.component';
 
+// scoped to app component (app-wide)
 import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
-import { UnauthorizedComponent, WelcomeComponent,
-  AuthorizeComponent, DashboardComponent} from './auth/';
+import { WelcomeComponent } from 'src/app/welcome/welcome.component';
 
-import { RegisterComponent } from './auth/register/register.component';
-import { EmployersService } from './employers/employers.service';
-import {DialogModule} from 'primeng/dialog';
-import {ButtonModule} from 'primeng/button';
+import { CanLoadService } from './shared/services/can-load.service';
 
-const appRoutes: Routes = [
-  // lazy loaded feature modules
+const lazyLoadedFeatureRoutes: Routes = [
+  /**
+   * !lazy loaded feature routes
+   */
+  {
+    path: 'auth',
+    // canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/auth/auth.module').then(m => m.AuthModule)
+  },
   {
     path: 'configuration',
+    canLoad: [CanLoadService],
     loadChildren: () => import('src/app/configs/configs.module').then(m => m.ConfigsModule)
   },
-  // auth
+  {
+    path: 'reports',
+    canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/reports/reports.module').then(m => m.ReportsModule)
+  },
+  {
+    path: 'workers',
+    canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/workers/workers.module').then(m => m.WorkersModule)
+  },
+  {
+    path: 'exports',
+    canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/exports/exports.module').then(m => m.ExportsModule)
+  },
+  {
+    path: 'my-work-orders',
+    canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/my-work-orders/my-work-orders.module').then(m => m.MyWorkOrdersModule)
+  },
+  {
+    path: 'employers',
+    canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/employers/employers.module').then(m => m.EmployersModule)
+  },
+  {
+    path: 'lookups',
+    canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/lookups/lookups.module').then(m => m.LookupsModule)
+  },
+  {
+    path: 'online-orders',
+    canLoad: [CanLoadService],
+    loadChildren: () => import('src/app/online-orders/online-orders.module').then(m => m.OnlineOrdersModule)
+  }
+]
+const appRoutes: Routes = [
+  /**
+   * !app-scoped, app-module-level components
+   */
   {
     path: '',
     redirectTo: '/welcome',
@@ -29,53 +70,41 @@ const appRoutes: Routes = [
   {
     path: 'welcome',
     component: WelcomeComponent,
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
+    pathMatch: 'full'
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [AuthGuardService]
+    redirectTo: '/auth/dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'unauthorized',
-    component: UnauthorizedComponent
+    redirectTo: '/auth/unauthorized',
+    pathMatch: 'full'
   },
-  // Used to receive redirect from Identity server
   {
-    path: 'authorize',
-    component: AuthorizeComponent
-  },
+    path: 'authorize', // redirect from auth
+    redirectTo: '/welcome',
+    pathMatch: 'full'
+  }
+];
+
+const defaultRoutes: Routes = [
   //{ path: '**', component: PageNotFoundComponent }
-  { path: '**', redirectTo: '/welcome' }
+  { path: '**', redirectTo: '/welcome' },
 ];
 
 @NgModule({
-  declarations: [
-    //AppComponent,
-    UnauthorizedComponent,
-    DashboardComponent,
-    WelcomeComponent,
-    RegisterComponent
-  ],
   imports: [
-    CommonModule,
     RouterModule.forRoot(
-      appRoutes,
+      [...appRoutes, ...lazyLoadedFeatureRoutes, ...defaultRoutes],
       { preloadingStrategy: SelectivePreloadingStrategy, relativeLinkResolution: 'legacy' }
-    ),
-    DialogModule,
-    ButtonModule
+    )
   ],
   exports: [
     RouterModule
   ],
   providers: [
-    // here because used in router guards
-    AuthGuardService,
-    EmployersService,
     SelectivePreloadingStrategy
   ]
 })

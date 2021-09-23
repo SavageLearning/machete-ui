@@ -1,12 +1,15 @@
 <!-- ********Reusable Table************ -->
 
-<div *ngIf="!!values" style="width: 100%;overflow:auto; height: flex;">
+<!-- <div *ngIf="!!values" style="width: 100%;overflow:auto; height: flex;"> -->
   <p-table
+    *ngIf="!!values"
     #dt
     [value]="values"
     [paginator]="true"
     [rows]="10"
-    styleClass="p-datatable-striped p-datatable-sm p-datatable-gridlines"
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    [resizableColumns]="true"
+    columnResizeMode="expand"
     [globalFilterFields]="cols"
     selectionMode="single"
     [(selection)]="record"
@@ -22,21 +25,31 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-          <th style="width: auto; min-width: auto;" pSortableColumn="{{col.field}}" *ngFor="let col of cols">
-              {{col.header}}
-              <p-sortIcon [field]="col.field"></p-sortIcon>
+          <th [style.width.px]="maxColWidth" pResizableColumn pSortableColumn="{{col.field}}" *ngFor="let col of cols">
+            <div class="p-d-flex p-jc-around">
+              <div>
+                {{col.header}}
+              </div>
+              <div>
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </div>
+          </div>
           </th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-viewData let-columns="cols">
-      <tr  [pSelectableRow]="viewData">
-          <td class="p-text-light" style="width: auto;" *ngFor="let col of cols">
-                  <!-- {{viewData[col.field]}} -->
-                  <span *ngIf="col.dateFormat !== null">{{viewData[col.field] | date:col.dateFormat}}</span>
-                  <span *ngIf="col.dateFormat == null">{{viewData[col.field]}}</span>
+      <tr [pSelectableRow]="viewData">
+          <td [style.width.px]="maxColWidth" class="p-text-light"  *ngFor="let col of cols">
+            <!-- {{viewData[col.field]}} -->
+            <div class="p-d-flex p-jc-start">
+              <div style="overflow: hidden; text-overflow: ellipsis;">
+                <span *ngIf="col.dateFormat !== null">{{viewData[col.field] | date:col.dateFormat}}</span>
+                <span *ngIf="col.dateFormat == null">{{viewData[col.field]}}</span>
+              </div>
+            </div>
           </td>
       </tr>
     </ng-template>
   </p-table>
-</div>
+<!-- </div> -->

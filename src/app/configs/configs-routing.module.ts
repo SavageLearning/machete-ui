@@ -7,13 +7,11 @@ import { TransportProviderComponent } from './transport-provider/transport-provi
 const routes: Routes = [
   { path: '',
     component: ConfigsComponent,
-    canLoad: [AuthGuardService],
     canActivate: [AuthGuardService],
     children: [
       { 
         path: 'transport-providers',
         component: TransportProviderComponent,
-        canLoad: [AuthGuardService],
         canActivate: [AuthGuardService]
       },
     ]

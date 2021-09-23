@@ -1,11 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-import { NgModule, Injector, ErrorHandler } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
-// import { HttpClientModule, XHRBackend, BrowserXhr, ResponseOptions,  XSRFStrategy } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppMenuComponent, AppSubMenuComponent }  from './menu/app.menu.component';
 import { AppTopBarComponent }  from './app.topbar.component';
@@ -13,23 +12,24 @@ import { AppFooterComponent }  from './app.footer.component';
 import { InlineProfileComponent }  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { Router } from '@angular/router';
-import { AuthService} from './shared/services/auth.service';
 
 import { ToastModule } from 'primeng/toast';
 
-import { AuthorizeComponent } from './auth/authorize/authorize.component';
-import { OnlineOrdersModule } from './online-orders/online-orders.module';
-import { ReportsModule } from './reports/reports.module';
-import { ExportsModule } from './exports/exports.module';
-import { MyWorkOrdersModule } from './my-work-orders/my-work-orders.module';
-import { EmployersModule } from './employers/employers.module';
-import { WorkersModule } from './workers/workers.module';
-import { GlobalErrorHandler } from './shared/global-error-handler';
 import { LoggingService } from './shared/services/logging.service';
 import { TransportProvidersService } from './online-orders/transport-providers.service';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MessagesComponent } from './shared/components/messages/messages.component';
+import { ButtonModule } from 'primeng/button';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { CommonModule } from '@angular/common';
 
+/**
+ * Import only the modules needed for the first render of the app
+ * Only what's required for the components that load first before any other lazy loaded routes.
+ * See the 'appRoutes' 'AppRoutingModules' routes for reference.
+ *
+ * ?? Don't import any services here. using the {providedIn: 'root'} config at the
+ * ?? service level is sufficient
+ */
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,29 +39,20 @@ import { MessagesComponent } from './shared/components/messages/messages.compone
     AppFooterComponent,
     InlineProfileComponent,
     PageNotFoundComponent,
-    AuthorizeComponent,
     MessagesComponent,
+    WelcomeComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ReportsModule,
-    OnlineOrdersModule,
-    ExportsModule,
-    MyWorkOrdersModule,
-    EmployersModule,
-    WorkersModule,
     AppRoutingModule,
     ToastModule,
-    MonacoEditorModule.forRoot() // use forRoot() in main app module only.
+    ButtonModule,
   ],
-  providers: [
-    AuthService,
-    LoggingService,
-    TransportProvidersService,
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

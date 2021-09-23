@@ -6,7 +6,6 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
-import { MomentModule } from 'ngx-moment';
 import { OrderCompleteComponent } from './order-complete/order-complete.component';
 import { WorkOrdersModule } from '../shared/components/work-orders/work-orders.module';
 import { WorkOrderDatatableComponent } from './work-order-datatable/work-order-datatable.component';
@@ -17,7 +16,6 @@ import { WorkOrderDatatableComponent } from './work-order-datatable/work-order-d
     TableModule,
     ButtonModule,
     WorkOrdersRoutingModule,
-    MomentModule,
     WorkOrdersModule,
     InputTextModule,
     CardModule
@@ -28,4 +26,8 @@ import { WorkOrderDatatableComponent } from './work-order-datatable/work-order-d
     WorkOrderDatatableComponent,
   ]
 })
-export class MyWorkOrdersModule { }
+export class MyWorkOrdersModule {
+  constructor() {
+    console.log('ctor');
+  }
+}

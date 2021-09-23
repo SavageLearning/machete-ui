@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LookupsComponent } from './lookups.component';
+import { LookupsRoutingModule } from './lookups-routing.module';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    LookupsRoutingModule
   ],
   declarations: [LookupsComponent]
 })

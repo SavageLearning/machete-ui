@@ -1,14 +1,11 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable brace-style */
-
 import { Observable, of } from 'rxjs';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WelcomeComponent } from './welcome.component';
-import { ConfigsService } from '../../configs/configs.service';
-import { Config } from '../../shared/models/config';
-import { AuthService } from '../../shared/index';
+import { ConfigsService } from '../configs/configs.service';
+import { Config } from '../shared/models/config';
+import { AuthService } from '../shared/index';
 import { Router } from '@angular/router';
-import { AuthServiceSpy, ConfigsServiceSpy, getConfigsList, RouterSpy } from '../../shared/testing';
+import { AuthServiceSpy, ConfigsServiceSpy, getConfigsList, RouterSpy } from '../shared/testing';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;

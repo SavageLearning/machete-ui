@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Optional, SkipSelf } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, concatMap, filter, map, shareReplay, tap } from 'rxjs/operators';
+import { catchError, concatMap, filter, first, map, shareReplay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Report } from 'src/app/reports/models/report';
 import { MessagesService } from '../components/messages/messages.service';
@@ -123,6 +123,7 @@ export class ReportsStoreService {
   public getReport(id: string) {
     return this.reports$.pipe(
       filter(reports => reports.length != 0), // wait for reports to emit
+      first(),
       concatMap(reports => {
         const r = reports.find(r => r.name == id);
         r.columns = r.columns.filter(a => a.visible);

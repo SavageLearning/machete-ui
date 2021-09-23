@@ -16,7 +16,6 @@ import {CardModule} from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
@@ -30,6 +29,10 @@ import { ReportDetailFiltersSelectComponent } from './report-detail/report-detai
 import { RecordControlModule } from '../shared/components/record-control/record-control.module';
 import { ReportResultComponent } from 'src/app/reports/report-result/report-result.component';
 import { ReportCreateComponent } from './report-create/report-create.component';
+import { ReportsService } from './reports.service';
+
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { RecordsTableModule } from '../shared/components/records-table/records-table.module';
 
 
 
@@ -45,6 +48,7 @@ import { ReportCreateComponent } from './report-create/report-create.component';
   ],
   imports: [
     CommonModule,
+    RecordsTableModule,
     TabViewModule,
     ChartModule,
     TableModule,
@@ -67,8 +71,9 @@ import { ReportCreateComponent } from './report-create/report-create.component';
     InputMaskModule,
     CheckboxModule,
     RecordControlModule,
-    MonacoEditorModule.forRoot() // use forRoot() in main app module only.
+    CodemirrorModule
   ],
+  providers: [ReportsService],
   bootstrap: []
 })
 export class ReportsModule {

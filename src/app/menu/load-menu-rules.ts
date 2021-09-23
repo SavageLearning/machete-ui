@@ -72,7 +72,7 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
         //   id: 11,
         //   label: 'Auth diagnostics',
         //   icon: 'perm_identity',
-        //   routerLink: ['/dashboard'],
+        //   routerLink: ['/auth/dashboard'],
         //   authorizedRoles: [
         //     LRole.ADMIN,
         //     LRole.CHECKIN,
