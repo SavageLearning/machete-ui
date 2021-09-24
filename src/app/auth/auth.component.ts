@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 /**
- * Dumnb component holing the router outlet
+ * Dumnb component holding the router outlet
  */
 @Component({
   selector: 'app-auth',
@@ -10,13 +10,10 @@ import { Component, OnInit } from '@angular/core';
   `,
   styles: []
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
 
   constructor() {
     console.log('ctor');
-  }
-
-  ngOnInit(): void {
   }
 
 }

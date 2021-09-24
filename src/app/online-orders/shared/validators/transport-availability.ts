@@ -1,8 +1,5 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-/* eslint-disable curly */
-import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } from '@angular/forms';
-import { TransportRule, TransportProvider, TransportProviderAvailability } from '../index';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { TransportProvider } from '../index';
 import * as moment from 'moment/moment';
 
 // fields is the list of controls to clear if the validator passes

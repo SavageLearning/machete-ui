@@ -7,25 +7,25 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-} from "@angular/core";
-import { TransportProvider } from "src/app/online-orders/shared";
-import { Report } from "src/app/reports/models/report";
-import { Column } from "src/app/workers/models/column";
+} from '@angular/core';
+import { TransportProvider } from 'src/app/online-orders/shared';
+import { Report } from 'src/app/reports/models/report';
+import { Column } from 'src/app/workers/models/column';
 
 @Component({
-  selector: "app-records-table",
-  templateUrl: "./records-table.component.html",
-  styleUrls: ["./records-table.component.css"],
+  selector: 'app-records-table',
+  templateUrl: './records-table.component.html',
+  styleUrls: ['./records-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RecordsTableComponent implements OnInit, OnChanges {
+export class RecordsTableComponent implements OnChanges {
   @Input() public values: TransportProvider[] | Report[] = []; // add more types when using in other features
   @Input() public excludeCols: string[] = [];
   @Input() public colOrder: string[] = [];
   @Output() public selectedRecord = new EventEmitter<TransportProvider | Report>();
   public cols: Column[] = [];
   public record: TransportProvider | Report;
-  public maxColWidth: number = 0;
+  public maxColWidth = 0;
 
   constructor() {}
 
@@ -86,10 +86,10 @@ export class RecordsTableComponent implements OnInit, OnChanges {
    * @returns 
    */
   private getPipe(fieldValue: any): string {
-    return typeof fieldValue == "number"
+    return typeof fieldValue == 'number'
       ? null
       : !!Date.parse(fieldValue)
-      ? "shortDate"
+      ? 'shortDate'
       : null;
   }
 
@@ -105,10 +105,8 @@ export class RecordsTableComponent implements OnInit, OnChanges {
     return this.pixelWidth(longestHeader);
   }
 
-  ngOnInit(): void {}
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["values"].currentValue) {
+    if (changes['values'].currentValue) {
       this.cols = this.PrepareColumns(this.values, this.excludeCols);
       this.maxColWidth = this.getMaxColWidth(this.cols);
     }

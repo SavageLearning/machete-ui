@@ -45,7 +45,7 @@
             <div class="p-d-flex p-jc-start">
               <div style="overflow: hidden; text-overflow: ellipsis;">
                 <span *ngIf="col.dateFormat !== null">{{viewData[col.field] | date:col.dateFormat}}</span>
-                <span *ngIf="col.dateFormat == null">{{viewData[col.field]}}</span>
+                <span *ngIf="col.dateFormat === null">{{viewData[col.field]}}</span>
               </div>
             </div>
           </td>

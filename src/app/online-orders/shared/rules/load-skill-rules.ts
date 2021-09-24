@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { SkillRule } from '../models/skill-rule';
 
 export function loadSkillRules(): Array<SkillRule> {

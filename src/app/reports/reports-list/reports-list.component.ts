@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { Observable } from "rxjs";
-import { filter, first } from "rxjs/operators";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
-import { Report } from "../models/report";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
+import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
+import { Report } from '../models/report';
 
 @Component({
-  selector: "app-reports-list",
-  templateUrl: "./reports-list.component.html",
-  styleUrls: ["./reports-list.component.css"],
+  selector: 'app-reports-list',
+  templateUrl: './reports-list.component.html',
+  styleUrls: ['./reports-list.component.css'],
 })
 export class ReportsListComponent implements OnInit {
   selectedReport: Report;

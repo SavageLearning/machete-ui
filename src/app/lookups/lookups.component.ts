@@ -5,11 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './lookups.component.html',
   styleUrls: ['./lookups.component.css']
 })
-export class LookupsComponent implements OnInit {
+export class LookupsComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

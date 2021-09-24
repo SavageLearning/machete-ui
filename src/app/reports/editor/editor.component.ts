@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { SqlEditorState } from "../report-detail/report-detail.component";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SqlEditorState } from '../report-detail/report-detail.component';
 import 'codemirror/mode/sql/sql';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/dialog/dialog';
@@ -12,15 +12,15 @@ export interface IEditorDetails {
 }
 
 @Component({
-  selector: "app-editor",
-  templateUrl: "./editor.component.html",
-  styleUrls: ["./editor.component.scss"],
+  selector: 'app-editor',
+  templateUrl: './editor.component.html',
+  styleUrls: ['./editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent {
   editorOptions = {
-    theme: "monokai",
-    mode: "text/x-mssql",
+    theme: 'monokai',
+    mode: 'text/x-mssql',
     lineNumbers: true,
     indentWithTabs: true,
     smartIndent: true,
@@ -47,5 +47,4 @@ export class EditorComponent implements OnInit {
     this.editorState.emit(SqlEditorState.OPEN);
   }
 
-  ngOnInit(): void {}
 }

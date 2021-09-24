@@ -1,5 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-/* eslint-disable curly */
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { ScheduleRule } from '../models/schedule-rule';
 

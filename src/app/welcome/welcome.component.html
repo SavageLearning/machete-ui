@@ -1,7 +1,7 @@
 
 <div class="p-card p-p-4 p-mb-4" >
     <div *ngFor="let d of dashboards" class="p-card p-p-2">
-        <ng-container *ngIf="d.s == roleState">
+        <ng-container *ngIf="d.s === roleState">
         <h2>{{d.title}} Dashboard</h2>
         <div class="p-p-2 p-d-flex p-flex-column">
     

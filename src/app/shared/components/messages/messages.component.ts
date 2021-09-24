@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MessageService  as PrimeNGMess } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { map, takeWhile, tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export interface ISuccessMessage {
   template: `<p-toast></p-toast>`,
   styles: []
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
   private alive = true;
   errors$: Observable<any>;
   success$: Observable<void>;
@@ -47,7 +47,7 @@ export class MessagesComponent implements OnInit {
     // simple error object
     if (error instanceof HttpErrorResponse && typeof(error.error) == 'string') {
       this.primeNGMesage.add({
-        severity: "error",
+        severity: 'error',
         summary: error.statusText,
         detail: error.error,
         life: 7000,
@@ -58,7 +58,7 @@ export class MessagesComponent implements OnInit {
     if (error instanceof ErrorModel) {
       error.error.map((e: string) => {
         this.primeNGMesage.add({
-          severity: "error",
+          severity: 'error',
           summary: error.label,
           detail: e,
           life: 7000,
@@ -78,9 +78,9 @@ export class MessagesComponent implements OnInit {
     const errorLables = Object.keys(parsedError);
     errorLables.map((label: string) => {
       // if value of error = string
-      if (typeof(parsedError[label]) == "string") {
+      if (typeof(parsedError[label]) == 'string') {
         this.primeNGMesage.add({
-          severity: "error",
+          severity: 'error',
           summary: label,
           detail: `${parsedError[label]}`,
           life: 7000,
@@ -90,7 +90,7 @@ export class MessagesComponent implements OnInit {
       if (parsedError[label] instanceof Array) {
         parsedError[label].map((e: string) => {
           this.primeNGMesage.add({
-            severity: "error",
+            severity: 'error',
             summary: label,
             detail: `${e}`,
             life: 7000,
@@ -102,7 +102,7 @@ export class MessagesComponent implements OnInit {
 
   notifySuccess(success: ISuccessMessage) {
     this.primeNGMesage.add({
-      severity: "success",
+      severity: 'success',
       summary: success.label,
       detail: success.message,
       life: 3000,

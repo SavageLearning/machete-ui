@@ -1,12 +1,12 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthGuardService } from "../shared";
-import { AuthComponent } from "./auth.component";
-import { AuthorizeComponent } from "./authorize/authorize.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
-import { RegisterComponent } from "./register/register.component";
-import { UnauthorizedComponent } from "./unauthorized/unauthorized.component";
-import { WelcomeComponent } from "../welcome/welcome.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from '../shared';
+import { AuthComponent } from './auth.component';
+import { AuthorizeComponent } from './authorize/authorize.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { RegisterComponent } from './register/register.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { WelcomeComponent } from '../welcome/welcome.component';
 
 const routes: Routes = [
   {
@@ -15,21 +15,21 @@ const routes: Routes = [
     component: AuthComponent,
     children: [
       {
-        path: "register",
+        path: 'register',
         component: RegisterComponent, // unused
       },
       {
-        path: "dashboard",
+        path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuardService],
       },
       {
-        path: "unauthorized",
+        path: 'unauthorized',
         component: UnauthorizedComponent,
       },
       // Used to receive redirect from Identity server
       {
-        path: "authorize",
+        path: 'authorize',
         component: AuthorizeComponent,
       },
     ],

@@ -1,4 +1,3 @@
-/* eslint-disable brace-style */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { User } from '../../shared/models/user';
@@ -8,14 +7,11 @@ import { User } from '../../shared/models/user';
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent {
 
   _user: User;
 
   constructor(private authService: AuthService) {
-  }
-
-  ngOnInit() {
   }
 
   authenticate() {
@@ -34,6 +30,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.authService.isLoggedIn().subscribe(response => response);
   }
 
-  ngOnDestroy() {
-  }
 }

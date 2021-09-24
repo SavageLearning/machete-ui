@@ -1,4 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators, FormGroup, FormControl } from '@angular/forms';
 import { SkillRule } from '../models/skill-rule';
 import { Lookup } from '../../../lookups/models/lookup';

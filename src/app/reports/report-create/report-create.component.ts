@@ -29,7 +29,7 @@ import { SearchInputs } from '../models/search-inputs';
   </p-dialog>`,
   styles: []
 })
-export class ReportCreateComponent implements OnInit, OnDestroy {
+export class ReportCreateComponent implements OnDestroy {
   @Input() showForm: boolean = false;
   @Output() createdRecordEvent = new EventEmitter<Report>();
   reportToCreate: Report = new Report();
@@ -38,8 +38,6 @@ export class ReportCreateComponent implements OnInit, OnDestroy {
   constructor(private store: ReportsStoreService) { }
   ngOnDestroy(): void {
     this.alive = false;
-  }
-  ngOnInit(): void {
   }
 
   create() {

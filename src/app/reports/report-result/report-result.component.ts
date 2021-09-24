@@ -8,14 +8,11 @@ import { SimpleAggregateRow } from '../models/simple-aggregate-row';
   templateUrl: `./report-result.component.html`,
   styles: []
 })
-export class ReportResultComponent implements OnInit {
+export class ReportResultComponent {
   @Input() public viewData: SimpleAggregateRow[];
   @Input() public cols: Column[];
   @Input() public exportFileName: string;
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   getExport(dt: Table) {
     dt.exportFilename =
