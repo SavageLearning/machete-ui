@@ -10,8 +10,6 @@ import { MegaMenuItem } from 'primeng/api';  //required when using MegaMenu
 export class WorkersComponent implements OnInit {
   items: MenuItem[];
 
-  constructor() { }
-
   ngOnInit() {
     this.items = [{
         label: 'Workers',

@@ -127,7 +127,10 @@ export class WorkOrderComponent implements OnInit {
   }
 
   getTime(date: Date): string {
-    return DateTime.fromJSDate(date).minus(this.getDateOnly(date)).toFormat('HH:mm');
+    // return DateTime.fromJSDate(date).minus(this.getDateOnly(date)).toFormat('HH:mm');
+    let time = date.toTimeString();
+    console.log(time, "from luxon");
+    return time;
   }
 
   buildForm(): void {

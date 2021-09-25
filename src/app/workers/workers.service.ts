@@ -23,7 +23,7 @@ export class WorkersService {
   }
 
   getWorkersInSkill(skillId: number, requestParams: ApiRequestParams): Observable<ApiResponse<Worker>> {
-    let params = WorkersService.assignToHTTPParams(requestParams);
+    const params = WorkersService.assignToHTTPParams(requestParams);
     return this.http
       .get<ApiResponse<Worker>>(`${this.uri}/in-skill/${skillId}?`, {withCredentials: true, params});
   }
