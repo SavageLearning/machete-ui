@@ -21,11 +21,11 @@ export class MyWorkOrdersService {
   constructor(private http: HttpClient) { }
 
   getOrders(): Observable<WorkOrder[]> {
-    let uri = environment.dataUrl + '/api/onlineorders';
+    const uri = environment.dataUrl + '/api/onlineorders';
 
     return this.http.get(uri, { withCredentials: true }).pipe(
       map(o => {
-        let wo = o['data'];
+        const wo = o['data'];
         wo.map(x => {
           x.dateTimeofWork = this.toUTC(x.dateTimeofWork);
         });
@@ -35,12 +35,12 @@ export class MyWorkOrdersService {
   }
 
   getOrder(id: number): Observable<WorkOrder> {
-    let url = environment.dataUrl + '/api/onlineorders/' + id;
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const url = environment.dataUrl + '/api/onlineorders/' + id;
+    const postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.get<WorkOrder>(url, { headers: postHeaders, withCredentials: true }).pipe(map(
       (data) => {
-        let wo = data['data'];
+        const wo = data['data'];
         console.log('getOrder received:', wo);
         wo.dateTimeofWork = this.toUTC(wo.dateTimeofWork);
         return wo as WorkOrder;
@@ -53,9 +53,9 @@ export class MyWorkOrdersService {
 
   executePaypal(orderID: number, payerID: string, paymentID: string, token: string): Observable<any> {
 
-    let url = environment.dataUrl + '/api/onlineorders/' + orderID + '/paypalexecute';
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    let jsonModel = JSON.stringify({
+    const url = environment.dataUrl + '/api/onlineorders/' + orderID + '/paypalexecute';
+    const postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const jsonModel = JSON.stringify({
       payerID,
       paymentID,
       paymentToken: token

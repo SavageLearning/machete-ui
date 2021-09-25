@@ -306,8 +306,8 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   }
 
   cloneRequest(c: WorkAssignment): WorkAssignment {
-    let request = new WorkAssignment();
-    for (let prop in c) {
+    const request = new WorkAssignment();
+    for (const prop in c) {
       request[prop] = c[prop];
     }
     return request;

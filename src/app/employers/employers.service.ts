@@ -43,7 +43,7 @@ export class EmployersService {
   save(employer: Employer): Observable<Employer> {
 
     console.log('save:', this.uri, employer);
-    let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
     // hack to get out the door; SavageLearning/Machete#425
     employer.referredBy = 25;

@@ -14,7 +14,7 @@ import { WorkOrderServiceSpy, EmployersServiceSpy, AuthServiceSpy, WorkAssignmen
 describe('OnlineOrdersService', () => {
   let service: OnlineOrdersService;
   let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
+  const baseref: string  = environment.dataUrl;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

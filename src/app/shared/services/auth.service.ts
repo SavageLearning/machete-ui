@@ -28,7 +28,7 @@ export class AuthService {
           console.log('user expired; attempting to authenticate...');
           return this.http.get(environment.dataUrl + '/id/authorize', { observe: 'response', withCredentials: true }).pipe(
             map(response => {
-              let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
+              const claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
               // JSON.parse will return a string if there's only one member, so:
               user.profile.roles = user.profile.roles.concat(claims['role']);
               user.profile.preferred_username = claims['preferredUserName'];

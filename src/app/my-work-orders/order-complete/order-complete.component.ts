@@ -97,7 +97,7 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
         return;
       }
       this.transportLabel = l.find(ll => ll.id === o.transportProviderID).text;
-      let wa = o.workAssignments;
+      const wa = o.workAssignments;
       if (wa != null && wa.length > 0) {
         // sums up the transport  costs
         this.transportCost =

@@ -12,8 +12,8 @@ export class WorkOrderService {
 
   storageKey = 'machete.workorder';
   constructor(private employerService: EmployersService) {
-    let data = sessionStorage.getItem(this.storageKey);
-    let order = new WorkOrder(JSON.parse(data));
+    const data = sessionStorage.getItem(this.storageKey);
+    const order = new WorkOrder(JSON.parse(data));
     // check that data's not null first
     if (data && order && order.isNotEmpty()) {
       console.log('.ctor->Loading existing order', order);
@@ -38,9 +38,9 @@ export class WorkOrderService {
 
   get(): WorkOrder {
     console.log('get called');
-    let data = sessionStorage.getItem(this.storageKey);
+    const data = sessionStorage.getItem(this.storageKey);
     if (data) {
-      let order: WorkOrder = JSON.parse(data);
+      const order: WorkOrder = JSON.parse(data);
       //console.log('get: returning stored order', order);
       order.dateTimeofWork = new Date(order.dateTimeofWork);
       return order;

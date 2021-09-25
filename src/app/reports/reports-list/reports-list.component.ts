@@ -42,7 +42,7 @@ export class ReportsListComponent implements OnInit {
   ngOnInit() {
     // view subscribes and unsubscribes via the async pipe
     this.reportList$ = this.store.reports$ .pipe(
-      filter((x) => x.length !== 0 || !!!x),
+      filter((x) => x.length !== 0 || !x),
       first()
     );
   }

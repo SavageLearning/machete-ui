@@ -11,7 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('AuthGuardService', () => {
   let service: AuthGuardService;
   let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
+  const baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [AuthGuardService, AuthService],

@@ -72,7 +72,7 @@ export class WorkOrderComponent implements OnInit {
     private fb: FormBuilder,
     private observer: BreakpointObserver) {
     console.log('.ctor');
-    let result = sessionStorage.getItem(this.storageKey + '.UG');
+    const result = sessionStorage.getItem(this.storageKey + '.UG');
     if (result === 'false') {
       this.displayUserGuide = false;
     } else {
@@ -108,8 +108,8 @@ export class WorkOrderComponent implements OnInit {
       this.transportRules = transportRules;
       this.isHandset$ = observer.matches; // observe device size
       // map transport entries to dropdown
-      let items = [new MySelectItem('Select transportation method', null)];
-      let transports = transportProviders.map(l => new MySelectItem(l.text, String(l.id)));
+      const items = [new MySelectItem('Select transportation method', null)];
+      const transports = transportProviders.map(l => new MySelectItem(l.text, String(l.id)));
       this.transportMethodsDropDown = items.concat(transports);
       this.buildForm(); // bind the properties of the UI
     });
@@ -128,7 +128,7 @@ export class WorkOrderComponent implements OnInit {
 
   getTime(date: Date): string {
     // return DateTime.fromJSDate(date).minus(this.getDateOnly(date)).toFormat('HH:mm');
-    let time = date.toTimeString();
+    const time = date.toTimeString();
     console.log(time, "from luxon");
     return time;
   }
@@ -181,21 +181,21 @@ export class WorkOrderComponent implements OnInit {
 
   save() {
     // shimming in ValidatorFn outside of form control // englishRequired: "true"
-    let dateCtrl = this.orderForm.get('dateOfWork');
-    let dateError = schedulingDayValidator(this.schedulingRules)(dateCtrl);
-    let dateError2 = transportAvailabilityValidator(this.transportMethods, ['transportProviderID', 'timeOfWork'])(dateCtrl);
+    const dateCtrl = this.orderForm.get('dateOfWork');
+    const dateError = schedulingDayValidator(this.schedulingRules)(dateCtrl);
+    const dateError2 = transportAvailabilityValidator(this.transportMethods, ['transportProviderID', 'timeOfWork'])(dateCtrl);
     if (dateError || dateError2) {
       dateCtrl.setErrors({ ...dateError, ...dateError2, ...dateCtrl.errors });
     }
     //
-    let timeCtrl = this.orderForm.get('timeOfWork');
-    let timeError = schedulingTimeValidator(this.schedulingRules)(timeCtrl);
+    const timeCtrl = this.orderForm.get('timeOfWork');
+    const timeError = schedulingTimeValidator(this.schedulingRules)(timeCtrl);
     if (timeError) {
       timeCtrl.setErrors({ ...timeError, ...timeCtrl.errors });
     }
     //
-    let zipCtrl = this.orderForm.get('zipcode');
-    let zipError = zipcodeValidator(this.transportRules)(zipCtrl);
+    const zipCtrl = this.orderForm.get('zipcode');
+    const zipError = zipcodeValidator(this.transportRules)(zipCtrl);
     if (zipError) {
       zipCtrl.setErrors({ ...zipError, ...zipCtrl.errors });
     }

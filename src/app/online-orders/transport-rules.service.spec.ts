@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 
 describe('TransportRulesService', () => {
   let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
+  const baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

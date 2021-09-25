@@ -12,7 +12,7 @@ export class UnauthorizedComponent {
   }
 
   login() {
-    let rtr = this.router;
+    const rtr = this.router;
     rtr.navigate(['/authorize']);
   }
 }

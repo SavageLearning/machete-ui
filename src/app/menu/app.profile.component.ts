@@ -47,7 +47,7 @@ export class InlineProfileComponent implements OnInit {
     }
 
     startSignoutMainWindow() {
-      let rtr = this.router;
+      const rtr = this.router;
       this.auth.signoutUser().subscribe(response => {
         console.log('signout success: ', response);
         rtr.navigate(['authorize']);

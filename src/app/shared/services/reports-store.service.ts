@@ -37,7 +37,7 @@ export class ReportsStoreService {
   }
 
   private getReportList() {
-    let uri = environment.dataUrl + "/api/reports";
+    const uri = environment.dataUrl + "/api/reports";
     console.log("getReportList: ", uri);
     return this.http
       .get(uri, { withCredentials: true }).pipe(

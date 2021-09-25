@@ -10,9 +10,9 @@ import { ConfigsService } from '../../configs/configs.service';
   styleUrls: ['./introduction.component.css']
 })
 export class IntroductionComponent implements OnInit {
-  macheteOutage: boolean = false;
+  macheteOutage = false;
   outageMessage: string;
-  outageVisible: boolean = false;
+  outageVisible = false;
   constructor(private router: Router, 
     private onlineService: OnlineOrdersService,
     private orderService: WorkOrderService,

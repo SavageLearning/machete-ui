@@ -39,8 +39,8 @@ export class RecordsTableComponent implements OnChanges {
    * @param exclude 
    */
   private PrepareColumns(records: any, exclude: string[]) : Column[] {
-    let anyRecord = records[0];
-    let props = Object.keys(anyRecord);
+    const anyRecord = records[0];
+    const props = Object.keys(anyRecord);
 
     const cols: Column[] = [];
     if (this.colOrder.length > 0) {
@@ -55,7 +55,7 @@ export class RecordsTableComponent implements OnChanges {
 
     props.map((prop, index) => {
       // only bring in nonExcluded cols
-      if (!!!exclude.find(name => name == prop)) {
+      if (!exclude.find(name => name == prop)) {
         cols.push(new Column( 
           prop, // field
           this.camelToTitleCase(prop), // field as title
@@ -88,7 +88,7 @@ export class RecordsTableComponent implements OnChanges {
   private getPipe(fieldValue: any): string {
     return typeof fieldValue == 'number'
       ? null
-      : !!Date.parse(fieldValue)
+      : Date.parse(fieldValue)
       ? 'shortDate'
       : null;
   }
@@ -99,7 +99,7 @@ export class RecordsTableComponent implements OnChanges {
   }
 
   private getMaxColWidth(cols: Column[]): number {
-    let longestHeader = cols
+    const longestHeader = cols
           .slice(0) // don't mutate
           .sort((a,b) => a.header.length - b.header.length)[this.cols.length -1].header;
     return this.pixelWidth(longestHeader);

@@ -37,7 +37,7 @@ export class ExportsComponent implements OnInit {
         this.exportsDropDown = listData.map(r =>
           new MySelectItem(r.name, r.name));
       },
-      error => this.errorMessage = error as any,
+      error => this.errorMessage = error,
       () => console.log('ngOnInit onCompleted'));
   }
 
@@ -56,13 +56,13 @@ export class ExportsComponent implements OnInit {
           });
           this.form = new FormGroup(group);
         },
-        error => this.errorMessage = error as any,
+        error => this.errorMessage = error,
         () => console.log('getColumns completed')
       );
   }
 
   onSubmit() {
-    let data = Object.assign( {
+    const data = Object.assign( {
       beginDate: this.selectedStartDate,
       endDate: this.selectedEndDate,
       filterField: this.selectedDateFilter
@@ -74,7 +74,7 @@ export class ExportsComponent implements OnInit {
             saveAs(res, this.selectedExportName.value + '.xlsx')
         },
         error => {
-          this.errorMessage = error as any;
+          this.errorMessage = error;
         },
       () => console.log('onSubmit.getExport completed'));
   }

@@ -30,10 +30,10 @@ export class WorkAssignmentsService {
     private messageService: MessageService
   ) {
     console.log('.ctor');
-    let data = sessionStorage.getItem(this.storageKey);
+    const data = sessionStorage.getItem(this.storageKey);
     if (data) {
       console.log('sessionStorage:', data);
-      let requests: WorkAssignment[] = JSON.parse(data);
+      const requests: WorkAssignment[] = JSON.parse(data);
       this.requests = requests;
     }
     this.combinedSource$ = observableCombineLatest([
@@ -100,7 +100,7 @@ export class WorkAssignmentsService {
   }
 
   delete(request: WorkAssignment) {
-    let index = this.findSelectedRequestIndex(request);
+    const index = this.findSelectedRequestIndex(request);
     if (index < 0) {
       throw new Error('Can\'t find request (WorkAssignment) by id; failed to delete request.');
     }
@@ -124,13 +124,13 @@ export class WorkAssignmentsService {
   }
 
   compactRequests() {
-    let rule = this.getTransportRule();
+    const rule = this.getTransportRule();
     if (rule == null) {
       console.log('compactRequests: rule null, skipping...');
       return;
     }
-    for (let i in this.requests) {
-      let newid = Number(i);
+    for (const i in this.requests) {
+      const newid = Number(i);
       this.requests[newid].id = newid + 1;
       this.requests[newid].transportCost =
         this.calculateTransportCost(newid + 1, rule);
@@ -177,7 +177,7 @@ export class WorkAssignmentsService {
     // can have a cost rule for a van, with an id greater that min/max worker,
     // that then leads to no rule.
     // TODO: Handle too many ids exception
-    let result = rule.costRules.find(r => id > r.minWorker && id <= r.maxWorker);
+    const result = rule.costRules.find(r => id > r.minWorker && id <= r.maxWorker);
     if (result === undefined || result == null) {
       throw new Error('work assignment id outside of cost rules');
     }

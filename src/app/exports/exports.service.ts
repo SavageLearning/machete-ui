@@ -24,14 +24,14 @@ export class ExportsService {
   }
 
   getColumns(tableName: string): Observable<ExportColumn[]> {
-    let uri = this.uriBase + '/' + tableName.toLowerCase();
+    const uri = this.uriBase + '/' + tableName.toLowerCase();
     console.log('getColumns ', uri);
     return this.http.get(uri, { withCredentials: true }).pipe(
       map(res => res['data'] as ExportColumn[]));
   }
 
   getExport(tableName: string, o: SearchOptions): Observable<Blob> {
-    let params = this.encodeData(o);
+    const params = this.encodeData(o);
     console.log('getExport: ', params);
     //const uri = this.uriBase + '/' + tableName.toLowerCase();
     const uri = this.uriBase + '/' + tableName + '/execute?' + params;

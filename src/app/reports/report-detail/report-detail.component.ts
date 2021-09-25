@@ -31,13 +31,13 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
   reportCreate?: Report = new Report();
   o: SearchOptions;
   viewData$: Observable<SimpleAggregateRow[]>;
-  loadingRecord: boolean = true;
+  loadingRecord = true;
   sqlEditorState: SqlEditorState = SqlEditorState.CLOSED;
   validate: string;
   calYearRange: string;
-  displayCreateForm: boolean = false;
+  displayCreateForm = false;
   deleteConfirmActionData: IConfirmActionData;
-  saving: boolean = false;
+  saving = false;
   private alive = true;
 
   constructor(
@@ -47,10 +47,10 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   getReportDefinition() {
-    let report$ = this.store.getReport(this.routeReportID);
+    const report$ = this.store.getReport(this.routeReportID);
     report$.pipe(takeWhile(() => this.alive)).subscribe(
       (data) => {
-        this.report = data as Report;
+        this.report = data;
         this.loadingRecord = false;
       }
     );
@@ -101,8 +101,8 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     const today = new Date();
     this.calYearRange = `2000:${today.getFullYear() + 1}`
     // other vars
-    let now = new Date();
-    let aYearAgo = new Date();
+    const now = new Date();
+    const aYearAgo = new Date();
     aYearAgo.setFullYear(now.getFullYear() - 1);
     this.o = new SearchOptions();
     this.o.endDate = now.toLocaleDateString();

@@ -49,7 +49,7 @@ describe('ReportsService', () => {
       (res => {
         expect(typeof res).toEqual('object', 'Get w/o query doesn\'t return an object');
       });
-    let req = httpMock.expectOne('http://localhost:9876/api/reports/1'); // 'https://test-api.machetessl.org/api/reports/1');
+    const req = httpMock.expectOne('http://localhost:9876/api/reports/1'); // 'https://test-api.machetessl.org/api/reports/1');
     httpMock.verify();
     done();
   });
@@ -65,7 +65,7 @@ describe('ReportsService', () => {
       });
 
       //let req = httpMock.expectOne('https://test-api.machetessl.org/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
-      let req = httpMock.expectOne('http://localhost:9876/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
+      const req = httpMock.expectOne('http://localhost:9876/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
       httpMock.verify();
       done();
   });

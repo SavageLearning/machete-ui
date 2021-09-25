@@ -36,7 +36,7 @@ export class TransportProvidersStoreService {
     }
 
     private getRecords() {
-      let uriBase = environment.dataUrl + '/api/transportproviders';
+      const uriBase = environment.dataUrl + '/api/transportproviders';
       console.log("getReportList: ", uriBase);
       return this.http
         .get(uriBase, { withCredentials: true }).pipe(

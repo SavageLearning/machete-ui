@@ -91,7 +91,7 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
   }
 
   private initializeTable(res: ApiResponse<Worker>) {
-    this.workersInSkillRes = res as ApiResponse<Worker>;
+    this.workersInSkillRes = res;
     this.workers = this.workersInSkillRes.data;
     console.table(this.workers);
     this.loading = false;

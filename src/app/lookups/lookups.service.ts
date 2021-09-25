@@ -20,7 +20,7 @@ export class LookupsService {
 
   constructor(private http: HttpClient) {
     console.log('.ctor: LookupsService');
-    let data = sessionStorage.getItem(this.storageKey);
+    const data = sessionStorage.getItem(this.storageKey);
     this.lookupsAge = Number(sessionStorage.getItem(this.storageKey + '.age'));
 
     if (data && this.isNotStale) {

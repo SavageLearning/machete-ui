@@ -23,9 +23,9 @@ export function schedulingDayValidator(rules: ScheduleRule[]): ValidatorFn {
         return {scheduling: 'Date cannot be in the past.'}
     }
 
-    let daysSinceEpoch = Math.floor(today.valueOf()/3.6e6);
-    let reqDaysSinceEpoch = Math.floor(requestTime.valueOf()/3.6e6);
-    let leadInHours = (reqDaysSinceEpoch - daysSinceEpoch);
+    const daysSinceEpoch = Math.floor(today.valueOf()/3.6e6);
+    const reqDaysSinceEpoch = Math.floor(requestTime.valueOf()/3.6e6);
+    const leadInHours = (reqDaysSinceEpoch - daysSinceEpoch);
     if (leadInHours < rule.leadHours) {
         return {scheduling: `Lead time of ${(rule.leadHours/24)-1} days required.`}
     }
@@ -49,9 +49,9 @@ export function schedulingTimeValidator(rules: ScheduleRule[]): ValidatorFn {
       const today = new Date(orderTime.toDateString());
       const rule = rules.find(s => s.day === requestTime.getDay());
 
-      let daysSinceEpoch = Math.floor(today.valueOf()/3.6e6);
-      let reqDaysSinceEpoch = Math.floor(requestTime.valueOf()/3.6e6);
-      let leadInHours = (reqDaysSinceEpoch - daysSinceEpoch);
+      const daysSinceEpoch = Math.floor(today.valueOf()/3.6e6);
+      const reqDaysSinceEpoch = Math.floor(requestTime.valueOf()/3.6e6);
+      const leadInHours = (reqDaysSinceEpoch - daysSinceEpoch);
       if (leadInHours < rule.leadHours) {
           return {scheduling: `Lead time of ${(rule.leadHours/24)-1} days required.`}
       }

@@ -67,7 +67,7 @@ export class AuthServiceSpy {
     .and.callFake(() => {
       // TODO: Implement a better stub of the User interface
       // https://stackoverflow.com/questions/37027776/how-to-stub-a-typescript-interface-type-definition
-      let user = {
+      const user = {
         session_state: '',
         token_type: '',
         scope: '',

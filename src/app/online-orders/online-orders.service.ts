@@ -44,7 +44,7 @@ export class OnlineOrdersService {
   loadConfirmState() {
     // This pattern is ugly; should be able to simplify, perhaps use BehaviorSubjectSource instead
     // of companion private variable
-    let loadedConfirms =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
+    const loadedConfirms =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
     if (loadedConfirms != null && loadedConfirms.length > 0) {
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadedConfirms);
     } else {
@@ -86,8 +86,8 @@ export class OnlineOrdersService {
   }
 
   createOrder(order: WorkOrder): Observable<WorkOrder> {
-    let url = environment.dataUrl + '/api/onlineorders';
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const url = environment.dataUrl + '/api/onlineorders';
+    const postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post<WorkOrder>(url, JSON.stringify(order), {
       headers: postHeaders, withCredentials: true

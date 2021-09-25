@@ -22,7 +22,7 @@ export class TransportProviderComponent implements OnInit {
   ngOnInit(): void {
     this.transportProviders$ = this.store.transportProviders$
       .pipe(
-        filter((x) => x.length !== 0 || !!!x),
+        filter((x) => x.length !== 0 || !x),
         first()
       );
   }

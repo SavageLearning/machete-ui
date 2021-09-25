@@ -49,7 +49,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
         private primengConfig: PrimeNGConfig
     ) {}
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.primengConfig.ripple = true;
         this.router.events.subscribe((evt) => {
             if (!(evt instanceof NavigationEnd)) {
@@ -136,7 +136,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     isTablet() {
-        let width = window.innerWidth;
+        const width = window.innerWidth;
         return width <= 1024 && width > 640;
     }
 

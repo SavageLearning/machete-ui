@@ -13,7 +13,7 @@ export class AuthorizeComponent implements OnInit {
 
   ngOnInit() {
     // copy to local; https://github.com/Microsoft/TypeScript/wiki/%27this%27-in-TypeScript
-    let rtr = this.router;
+    const rtr = this.router;
 
     this.auth.authorize().subscribe(user => {
       user.state = user.state ? user.state : '/welcome';

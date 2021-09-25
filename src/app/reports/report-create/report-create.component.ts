@@ -30,10 +30,10 @@ import { SearchInputs } from '../models/search-inputs';
   styles: []
 })
 export class ReportCreateComponent implements OnDestroy {
-  @Input() showForm: boolean = false;
+  @Input() showForm = false;
   @Output() createdRecordEvent = new EventEmitter<Report>();
   reportToCreate: Report = new Report();
-  private alive: boolean = true;
+  private alive = true;
 
   constructor(private store: ReportsStoreService) { }
   ngOnDestroy(): void {

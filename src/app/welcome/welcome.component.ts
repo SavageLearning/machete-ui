@@ -17,7 +17,7 @@ enum DashboardState {
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-  private alive: boolean = true;
+  private alive = true;
 
   facebookAppId: string;
   googleClientId: string;
@@ -64,7 +64,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.cfgService.getAllConfigs().subscribe(
       data => {
-        this.serverData = data as Config[];
+        this.serverData = data;
         console.log('configs: ', data) // TODO this was 2am madness, this isn't great JS
         this.welcome = data.find(config => config.key === 'WorkCenterDescription_EN').value;
         this.facebookAppId = data.find(config => config.key === 'FacebookAppId').value;
@@ -79,7 +79,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
       this.isLoggedIn = !user.expired;
       this.userState = user.state ? user.state : '/welcome';
 
-      this.roleState = !!user.profile.roles.find((role) => role == "Hirer")
+      this.roleState = user.profile.roles.find((role) => role == "Hirer")
         ? DashboardState.Hirer
         : user.profile.roles.filter((role) => role == "Hirer").length == 0
         ? DashboardState.CenterStaff

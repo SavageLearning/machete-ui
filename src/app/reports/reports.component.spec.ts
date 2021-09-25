@@ -29,7 +29,7 @@ class ReportsServiceSpy {
     );
 }
 
-let dynamicDialogRefServiceSpy = jasmine.createSpy('dynamicDialogRefSpy')
+const dynamicDialogRefServiceSpy = jasmine.createSpy('dynamicDialogRefSpy')
 .and.callFake( () => {
 });
 

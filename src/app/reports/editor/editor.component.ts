@@ -28,7 +28,7 @@ export class EditorComponent {
     autoCloseTags: true,
     styleActiveLine: true,
   };
-  editing: boolean = false;
+  editing = false;
 
   @Input() sql: string;
   @Output() editedSql = new EventEmitter<string>();

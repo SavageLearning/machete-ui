@@ -12,7 +12,7 @@ import { AuthServiceSpy } from '../shared/testing';
 describe('EmployersService', async () => {
   let service: EmployersService;
   let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
+  const baseref: string  = environment.dataUrl;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
