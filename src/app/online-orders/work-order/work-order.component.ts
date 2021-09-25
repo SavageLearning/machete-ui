@@ -173,13 +173,13 @@ export class WorkOrderComponent implements OnInit {
           // if (this.showErrors == true){
           //   console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
           // }
-          this.formErrors[field] += control.errors[key] + ' ';
+          this.formErrors[field] += `${control.errors[key] as string} `;
         }
       }
     }
   }
 
-  save() {
+  async save() {
     // shimming in ValidatorFn outside of form control // englishRequired: "true"
     const dateCtrl = this.orderForm.get('dateOfWork');
     const dateError = schedulingDayValidator(this.schedulingRules)(dateCtrl);
@@ -213,7 +213,7 @@ export class WorkOrderComponent implements OnInit {
     this.orderService.save(order);
     this.onlineService.setWorkorderConfirm(true);
     this.newOrder = false;
-    this.router.navigate(['/online-orders/work-assignments']);
+    await this.router.navigate(['/online-orders/work-assignments']);
   }
 
   prepareOrderForSave(): WorkOrder {

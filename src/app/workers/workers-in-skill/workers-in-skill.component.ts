@@ -63,7 +63,7 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
         tap(() => {
           this.loading = true;
           this.reqParams.pageNumber = 1; // clear pagination pointer
-          this.reqParams.search = this.input.nativeElement.value === '' ? undefined : this.input.nativeElement.value;
+          this.reqParams.search = this.input.nativeElement.value as string === '' ? undefined : this.input.nativeElement.value as string;
           console.log(this.input.nativeElement.value)
           this.loadServiceData(this.endpointQueryParam);
         })

@@ -58,6 +58,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
 
   getReportData() {
     // no need to unsubscribe as it uses async pipe
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.viewData$ = this.reportsService.getReportData(this.report.name.toString(), this.o);
   }
 

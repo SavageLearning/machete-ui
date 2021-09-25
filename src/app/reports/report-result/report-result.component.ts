@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Table } from 'primeng/table';
 import { Column } from '../models/column';
 import { SimpleAggregateRow } from '../models/simple-aggregate-row';
@@ -12,7 +12,6 @@ export class ReportResultComponent {
   @Input() public viewData: SimpleAggregateRow[];
   @Input() public cols: Column[];
   @Input() public exportFileName: string;
-  constructor() { }
 
   getExport(dt: Table) {
     dt.exportFilename =

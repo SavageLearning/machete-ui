@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { SqlEditorState } from '../report-detail/report-detail.component';
 import 'codemirror/mode/sql/sql';
 import 'codemirror/addon/edit/matchbrackets';
@@ -33,8 +33,6 @@ export class EditorComponent {
   @Input() sql: string;
   @Output() editedSql = new EventEmitter<string>();
   @Output() editorState = new EventEmitter<SqlEditorState>();
-
-  constructor() {}
 
   doneWithSql(sql: string) {
     this.editing = false;

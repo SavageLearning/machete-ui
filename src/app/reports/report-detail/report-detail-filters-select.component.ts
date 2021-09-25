@@ -29,6 +29,4 @@ import { SearchInputs } from '../models/search-inputs';
 export class ReportDetailFiltersSelectComponent {
   @Input() inputs: SearchInputs;
  
-  constructor() {}
-
 }
