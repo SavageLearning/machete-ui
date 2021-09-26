@@ -18,7 +18,7 @@ export class CanLoadService implements CanLoad {
   canLoad(route: Route, segments: UrlSegment[]): UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return this.authService.authorize().pipe(
       map(user=> this.inAuthorizedRoute(loadMenuRules(user.profile.roles), route)),
-      tap(res => console.log(res, "canLoad Route"))
+      tap(res => console.log(res, 'canLoad Route'))
       );
   }
 

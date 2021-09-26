@@ -11,12 +11,9 @@ import { AppTopBarComponent }  from './app.topbar.component';
 import { AppFooterComponent }  from './app.footer.component';
 import { InlineProfileComponent }  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
-import { Router } from '@angular/router';
 
 import { ToastModule } from 'primeng/toast';
 
-import { LoggingService } from './shared/services/logging.service';
-import { TransportProvidersService } from './online-orders/transport-providers.service';
 import { MessagesComponent } from './shared/components/messages/messages.component';
 import { ButtonModule } from 'primeng/button';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -57,7 +54,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AppModule {
   // Diagnostic only: inspect router configuration
-  constructor(router: Router) {
+  constructor() {
     console.log('.ctor: AppModule');
   }
 

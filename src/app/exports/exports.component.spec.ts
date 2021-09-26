@@ -1,23 +1,18 @@
 
-import {of as observableOf,  Observable } from 'rxjs';
-import { waitForAsync, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { ButtonModule } from 'primeng/button';
+import {of as observableOf } from 'rxjs';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
-import { ChartModule } from 'primeng/chart';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
 import { CalendarModule } from 'primeng/calendar';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExportsComponent } from './exports.component';
 import { ExportsService } from './exports.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ExportsOptionsComponent } from './exports-options.component';
-import { HttpClient } from '@angular/common/http';
-import { HttpHandler } from '@angular/common/http';
-import { Report } from '../reports/models/report';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Export } from './models/export';
 
 class ExportsServiceSpy {
@@ -57,7 +52,7 @@ describe('ExportsComponent', () => {
         ]
       }
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
     fixture = TestBed.createComponent(ExportsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

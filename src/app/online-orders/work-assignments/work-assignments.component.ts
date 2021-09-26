@@ -131,13 +131,13 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   // public methods
   buildForm(): void {
     this.requestForm = this.fb.group({
-      'id': '',
-      'skillId': ['', requiredValidator('Please select the type of work to be performed.')],
-      'skill': [''],
-      'hours': ['', hoursValidator(this.skillsRules, this.skills, 'skillId', 'hours')],
-      'description': ['', lengthValidator(1000)], // !! Todo: should be provided by API
-      'requiresHeavyLifting': [false],
-      'hourlyWage': ['']
+      id: '',
+      skillId: ['', requiredValidator('Please select the type of work to be performed.')],
+      skill: [''],
+      hours: ['', hoursValidator(this.skillsRules, this.skills, 'skillId', 'hours')],
+      description: ['', lengthValidator(1000)], // !! Todo: should be provided by API
+      requiresHeavyLifting: [false],
+      hourlyWage: ['']
     });
 
     this.requestForm.valueChanges

@@ -4,7 +4,6 @@ import { Employer } from '../shared/models/employer';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { YesNoSelectItem } from '../shared/models/my-select-item';
 import { Router } from '@angular/router';
-//import { phoneValidator } from '../shared/validators/phone';
 import { requiredValidator } from '../online-orders/shared/index';
 import { phoneValidator, phoneOrEmptyValidator } from '../shared/validators/phone';
 import { regexValidator } from '../shared/validators/regex';
@@ -46,7 +45,7 @@ export class EmployersComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.buildForm();
     this.employersService.getEmployer()
       .subscribe(
@@ -84,7 +83,7 @@ export class EmployersComponent implements OnInit {
     this.onValueChanged();
   }
 
-  onValueChanged(data?: any) {
+  onValueChanged(data?: any): void {
     const form = this.employerForm;
 
     for (const field in this.formErrors) {
@@ -95,9 +94,9 @@ export class EmployersComponent implements OnInit {
       if (control && !control.valid) {
         for (const key in control.errors) {
           if (this.showErrors === true){
-            console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
+            console.log(`onValueChanged.error:  ${field}: ${control.errors[key]}`);
           }
-          this.formErrors[field] += control.errors[key] + ' ';
+          this.formErrors[field] += `${control.errors[key]} `;
         }
       }
     }

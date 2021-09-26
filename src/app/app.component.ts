@@ -58,12 +58,12 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
             window.scrollTo(0, 0)
         });
     }
-    ngAfterViewInit() {
+    ngAfterViewInit(): void  {
         this.layoutContainer = this.layourContainerViewChild.nativeElement as HTMLDivElement;
         this.layoutMenuScroller = this.layoutMenuScrollerViewChild.nativeElement as HTMLDivElement;
 
         //hides the horizontal submenus or top menu if outside is clicked
-        this.documentClickListener = this.renderer.listen('body', 'click', (event) => {
+        this.documentClickListener = this.renderer.listen('body', 'click', () => {
             if (!this.topbarItemClick) {
                 this.activeTopbarItem = null;
                 this.topbarMenuActive = false;
@@ -82,7 +82,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
         }, 10);
     }
 
-    onMenuButtonClick(event) {
+    onMenuButtonClick(event): void {
         this.rotateMenuButton = !this.rotateMenuButton;
         this.topbarMenuActive = false;
 
@@ -99,7 +99,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
         event.preventDefault();
     }
 
-    onMenuClick($event) {
+    onMenuClick(event): void {
         this.menuClick = true;
         this.resetMenu = false;
 
@@ -110,7 +110,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
         }
     }
 
-    onTopbarMenuButtonClick(event) {
+    onTopbarMenuButtonClick(event): void {
         this.topbarItemClick = true;
         this.topbarMenuActive = !this.topbarMenuActive;
 
@@ -123,7 +123,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
         event.preventDefault();
     }
 
-    onTopbarItemClick(event, item) {
+    onTopbarItemClick(event, item): void {
         this.topbarItemClick = true;
 
         if (this.activeTopbarItem === item) {
@@ -135,40 +135,40 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
         event.preventDefault();
     }
 
-    isTablet() {
+    isTablet(): boolean {
         const width = window.innerWidth;
         return width <= 1024 && width > 640;
     }
 
-    isDesktop() {
+    isDesktop(): boolean {
         return window.innerWidth > 1024;
     }
 
-    isMobile() {
+    isMobile(): boolean {
         return window.innerWidth <= 640;
     }
 
-    isOverlay() {
+    isOverlay(): boolean {
         return this.layoutMode === MenuOrientation.overlay;
     }
 
-    isHorizontal() {
+    isHorizontal(): boolean {
         return this.layoutMode === MenuOrientation.horizontal;
     }
 
-    changeToStaticMenu() {
+    changeToStaticMenu(): void {
         this.layoutMode = MenuOrientation.static;
     }
 
-    changeToOverlayMenu() {
+    changeToOverlayMenu(): void {
         this.layoutMode = MenuOrientation.overlay;
     }
 
-    changeToHorizontalMenu() {
+    changeToHorizontalMenu(): void {
         this.layoutMode = MenuOrientation.horizontal;
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.documentClickListener) {
             this.documentClickListener();
         }

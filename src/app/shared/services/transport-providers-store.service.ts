@@ -37,19 +37,19 @@ export class TransportProvidersStoreService {
 
     private getRecords() {
       const uriBase = environment.dataUrl + '/api/transportproviders';
-      console.log("getReportList: ", uriBase);
+      console.log('getReportList: ', uriBase);
       return this.http
         .get(uriBase, { withCredentials: true }).pipe(
-          map((o) => o["data"] as TransportProvider[]),
+          map((o) => o['data'] as TransportProvider[]),
           catchError((error) => {
             // only expecting one type of error
             this.appMessages.showErrors({
-              Error: `${error["statusText"]}: Contact Machete support.`,
+              Error: `${error['statusText']}: Contact Machete support.`,
             });
             console.log(error);
             return throwError(error);
           }),
-          tap((transportProviders) => console.log("recordsList fetched", transportProviders)),
+          tap((transportProviders) => console.log('recordsList fetched', transportProviders)),
           shareReplay(1)
         )
         .subscribe((tProviders) => this.transportProvidersSubject.next(tProviders));

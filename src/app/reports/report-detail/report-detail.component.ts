@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Report } from "../models/report";
-import { SearchOptions } from "../models/search-options";
-import { SimpleAggregateRow } from "../models/simple-aggregate-row";
-import { ReportsService } from "../reports.service";
-import { Table } from "primeng/table";
-import { Observable } from "rxjs";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
-import { takeWhile } from "rxjs/operators";
-import { IConfirmActionData } from "src/app/shared/components/record-control/record-control.component";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Report } from '../models/report';
+import { SearchOptions } from '../models/search-options';
+import { SimpleAggregateRow } from '../models/simple-aggregate-row';
+import { ReportsService } from '../reports.service';
+import { Table } from 'primeng/table';
+import { Observable } from 'rxjs';
+import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
+import { takeWhile } from 'rxjs/operators';
+import { IConfirmActionData } from 'src/app/shared/components/record-control/record-control.component';
 
 export enum SqlEditorState {
-  OPEN = "OPEN",
-  CLOSED = "CLOSED",
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
 }
 
 export class SqlReportError {
@@ -21,9 +21,9 @@ export class SqlReportError {
 }
 
 @Component({
-  selector: "app-report-detail",
-  templateUrl: "./report-detail.component.html",
-  styleUrls: ["./report-detail.component.css"],
+  selector: 'app-report-detail',
+  templateUrl: './report-detail.component.html',
+  styleUrls: ['./report-detail.component.css'],
 })
 export class ReportDetailComponent implements OnInit, OnDestroy {
   routeReportID: string;
@@ -110,7 +110,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     this.o.beginDate = aYearAgo.toLocaleDateString();
 
     // load data
-    this.routeReportID = this.route.snapshot.paramMap.get("id");
+    this.routeReportID = this.route.snapshot.paramMap.get('id');
     this.getReportDefinition();
 
     // set delete confirm action

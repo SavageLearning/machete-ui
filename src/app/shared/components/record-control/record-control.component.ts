@@ -50,7 +50,7 @@ export class RecordControlComponent {
       icon: this.confirmActionData.icon,
       accept: () => this.confirmActionData.accept(),
       reject: () => {
-            this.appMessages.showErrors(new ErrorModel(['Request Canceled'], "Canceled"));
+            this.appMessages.showErrors(new ErrorModel(['Request Canceled'], 'Canceled'));
           }
       }
     );

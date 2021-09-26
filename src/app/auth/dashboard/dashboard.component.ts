@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { User } from '../../shared/models/user';
 
@@ -14,19 +14,19 @@ export class DashboardComponent {
   constructor(private authService: AuthService) {
   }
 
-  authenticate() {
+  authenticate(): void {
     this.authService.authorize().subscribe(user => { this._user = user; });
   }
 
-  signoutUser() {
+  signoutUser(): void {
     this.authService.signoutUser().subscribe(response => response);
   }
 
-  removeUser() {
+  removeUser():void  {
     this.authService.removeUser();
   }
 
-  verifyLogin() {
+  verifyLogin(): void {
     this.authService.isLoggedIn().subscribe(response => response);
   }
 

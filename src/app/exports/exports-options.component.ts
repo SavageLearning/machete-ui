@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ExportColumn } from './models/export-column';
 import {FormGroup} from '@angular/forms';
 @Component({
@@ -10,6 +10,6 @@ export class ExportsOptionsComponent {
   @Input() columns: ExportColumn[] = [];
   @Input() form: FormGroup;
   checked: true;
-  constructor() { }
+  // constructor() { }
 
 }

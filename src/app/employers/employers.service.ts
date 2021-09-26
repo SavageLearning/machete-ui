@@ -28,15 +28,16 @@ export class EmployersService {
       }),
       catchError(error => {
         this.setEmployer(null);
-        console.log('error from getEmployer');
+        console.error('error from getEmployer: ', error);
         return of(null);
-      }),); // TODO is this last 'undefined' bit intentional?
+      })); // TODO is this last 'undefined' bit intentional?
+
   }
   getEmployer(): Observable<Employer> {
     return this.employerSource.asObservable();
   }
 
-  setEmployer(employer: Employer) {
+  setEmployer(employer: Employer): void {
     this.employerSource.next(employer);
   }
 
@@ -52,7 +53,7 @@ export class EmployersService {
     return this.http.put(this.uri, JSON.stringify(employer), { headers: httpHeaders, withCredentials: true }).pipe(
       map(data => {
         this.setEmployer(data['data'] as Employer);
-        return data['data'];
+        return data['data'] as Employer;
       })
     );
   }

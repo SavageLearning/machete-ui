@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 // TODO @angular/http should be deprecated, need to find @angular/common/http equivalents
-import { HttpHeaders, HttpResponse, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Export } from './models/export';
 import { ExportColumn } from './models/export-column';

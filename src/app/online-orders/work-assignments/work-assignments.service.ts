@@ -7,7 +7,7 @@ import {WorkAssignment} from '../../shared/models/work-assignment';
 import { OnlineOrdersService } from '../online-orders.service';
 import { TransportRule, TransportProvider } from '../shared/index';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { WorkOrder } from "../../shared/models/work-order";
+import { WorkOrder } from '../../shared/models/work-order';
 import { TransportRulesService } from '../transport-rules.service';
 import { TransportProvidersService } from '../transport-providers.service';
 import { MessageService } from 'primeng/api';

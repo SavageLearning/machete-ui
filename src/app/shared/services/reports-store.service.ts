@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
  * @class ReportsStoreService
  */
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 
 export class ReportsStoreService {
@@ -37,20 +37,20 @@ export class ReportsStoreService {
   }
 
   private getReportList() {
-    const uri = environment.dataUrl + "/api/reports";
-    console.log("getReportList: ", uri);
+    const uri = environment.dataUrl + '/api/reports';
+    console.log('getReportList: ', uri);
     return this.http
       .get(uri, { withCredentials: true }).pipe(
-        map((o) => o["data"] as Report[]),
+        map((o) => o['data'] as Report[]),
         catchError((error) => {
           // only expecting one type of error
           this.appMessages.showErrors({
-            Error: `${error["statusText"]}: Contact Machete support.`,
+            Error: `${error['statusText']}: Contact Machete support.`,
           });
           console.log(error);
           return throwError(error);
         }),
-        tap((report) => console.log("reportList fetched")),
+        tap((report) => console.log('reportList fetched')),
         shareReplay(1)
       )
       .subscribe((reportList) => this.reportsSubject.next(reportList));

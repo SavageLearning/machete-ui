@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { filter, first } from "rxjs/operators";
-import { TransportProvider } from "src/app/online-orders/shared";
-import { TransportProvidersStoreService } from "src/app/shared/services/transport-providers-store.service";
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
+import { TransportProvider } from 'src/app/online-orders/shared';
+import { TransportProvidersStoreService } from 'src/app/shared/services/transport-providers-store.service';
 
 @Component({
-  selector: "app-transport-provider",
-  templateUrl: "./transport-provider.component.html",
-  styleUrls: ["./transport-provider.component.css"],
+  selector: 'app-transport-provider',
+  templateUrl: './transport-provider.component.html',
+  styleUrls: ['./transport-provider.component.css'],
 })
 export class TransportProviderComponent implements OnInit {
   public transportProviders$: Observable<TransportProvider[]>;
@@ -15,9 +15,9 @@ export class TransportProviderComponent implements OnInit {
 
   constructor(private store: TransportProvidersStoreService) {}
 
-  handleRowSelect(selectedRecord: TransportProvider) {
-    // navigate to single record
-  }
+  // handleRowSelect(selectedRecord: TransportProvider) {
+  //   // navigate to single record
+  // }
 
   ngOnInit(): void {
     this.transportProviders$ = this.store.transportProviders$

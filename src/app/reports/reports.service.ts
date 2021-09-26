@@ -29,7 +29,7 @@ export class ReportsService {
     console.log('getReportData: ' + uri);
     return this.http.get(uri, { withCredentials: true }).pipe(
       catchError(error => {
-        this.appMessages.showErrors("Unable to retreive results.")
+        this.appMessages.showErrors('Unable to retreive results.')
         return throwError(error);
       }),
       map(res => res['data'] as SimpleAggregateRow[]));

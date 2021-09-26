@@ -1,5 +1,5 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon';
 import { TransportProvider } from '../index';
 
 // fields is the list of controls to clear if the validator passes

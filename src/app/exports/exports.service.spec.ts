@@ -1,10 +1,6 @@
-import { TestBed, inject, waitForAsync } from '@angular/core/testing';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { TestBed, inject } from '@angular/core/testing';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { ExportsService } from './exports.service';
-import {ExportsOptionsComponent} from './exports-options.component';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Export } from './models/export';
 
 describe('ExportsService', () => {
   let service: ExportsService;

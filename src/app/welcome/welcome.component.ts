@@ -6,9 +6,9 @@ import { environment } from '../../environments/environment';
 import { Config } from '../shared/models/config';
 
 enum DashboardState {
-  None = "None",
-  Hirer = "Hirer",
-  CenterStaff = "CenterStaff",
+  None = 'None',
+  Hirer = 'Hirer',
+  CenterStaff = 'CenterStaff',
 }
 
 @Component({
@@ -32,18 +32,18 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   public roleState: DashboardState = DashboardState.None;
   public hirerLinks = [
-    { text: "Hire a Worker", link: "/online-orders/introduction", auth: true, icon: "" },
-    { text: "Update Employer Profile", link: "/employers", auth: true, icon: "" },
-    { text: "Hiring History", link: "/my-work-orders", auth: true, icon: "" },
+    { text: 'Hire a Worker', link: '/online-orders/introduction', auth: true, icon: '' },
+    { text: 'Update Employer Profile', link: '/employers', auth: true, icon: '' },
+    { text: 'Hiring History', link: '/my-work-orders', auth: true, icon: '' },
   ];
 
   public centerStaffLinks = [
     ... this.hirerLinks,
-    { text: "Machete Reports", link: "/reports", auth: true },
+    { text: 'Machete Reports', link: '/reports', auth: true },
   ];
 
   public welcomeLinks = [
-    { text: "Log In / Sign Up", link: "/welcome",  action: 'login', auth: false },
+    { text: 'Log In / Sign Up', link: '/welcome',  action: 'login', auth: false },
   ];
 
 
@@ -79,9 +79,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
       this.isLoggedIn = !user.expired;
       this.userState = user.state ? user.state : '/welcome';
 
-      this.roleState = user.profile.roles.find((role) => role == "Hirer")
+      this.roleState = user.profile.roles.find((role) => role == 'Hirer')
         ? DashboardState.Hirer
-        : user.profile.roles.filter((role) => role == "Hirer").length == 0
+        : user.profile.roles.filter((role) => role == 'Hirer').length == 0
         ? DashboardState.CenterStaff
         : DashboardState.None;
     console.log(this.roleState);

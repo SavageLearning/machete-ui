@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ExportsService} from './exports.service';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
-import {HttpResponse} from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import * as contentDisposition from 'content-disposition';
@@ -29,7 +28,7 @@ export class ExportsComponent implements OnInit {
     this.form = new FormGroup({});
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.exportsService.getExportsList()
       .subscribe(
       listData => {
@@ -41,7 +40,7 @@ export class ExportsComponent implements OnInit {
       () => console.log('ngOnInit onCompleted'));
   }
 
-  getColumns() {
+  getColumns(): void {
     console.log(this.selectedColumns);
     this.exportsService.getColumns(this.selectedExportName.value)
       .subscribe(
@@ -61,7 +60,7 @@ export class ExportsComponent implements OnInit {
       );
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const data = Object.assign( {
       beginDate: this.selectedStartDate,
       endDate: this.selectedEndDate,
@@ -79,7 +78,7 @@ export class ExportsComponent implements OnInit {
       () => console.log('onSubmit.getExport completed'));
   }
 
-  downloadFile(data: any, fileName: string, ttype: string) {
+  downloadFile(data: any, fileName: string, ttype: string): void {
     const blob = new Blob([data], {type: ttype});
     saveAs(blob, fileName);
   }
