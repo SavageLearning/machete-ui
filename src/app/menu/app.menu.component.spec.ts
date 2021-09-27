@@ -1,12 +1,8 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppMenuComponent, AppSubMenuComponent } from './app.menu.component';
 import { AppComponent } from '../app.component';
-import { By }           from '@angular/platform-browser';
-import { DebugElement, EventEmitter } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { loadMenuRules } from './load-menu-rules';
 import { AuthService } from '../shared/index';
 import { AuthServiceSpy } from '../shared/testing';
 
@@ -17,7 +13,6 @@ class AppComponentSpy {
 describe('AppMenuComponent', () => {
   let component: AppMenuComponent;
   let fixture: ComponentFixture<AppMenuComponent>;
-  let el: DebugElement;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AppMenuComponent, AppSubMenuComponent ],
@@ -38,10 +33,9 @@ describe('AppMenuComponent', () => {
     .then(() => {
       fixture = TestBed.createComponent(AppMenuComponent);
       component = fixture.componentInstance;
-      el = fixture.debugElement.query(By.css('.item'))
       // component
       fixture.detectChanges();
-    });
+    }).catch(e => console.error(e));
   }));
 
   it('should create', () => {

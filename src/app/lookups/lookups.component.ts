@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-lookups',
@@ -7,6 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LookupsComponent {
 
-  constructor() { }
+  // constructor() { }
 
 }

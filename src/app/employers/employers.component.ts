@@ -78,12 +78,12 @@ export class EmployersComponent implements OnInit {
     });
 
     this.employerForm.valueChanges
-      .subscribe(data => this.onValueChanged(data));
+      .subscribe(() => this.onValueChanged());
 
     this.onValueChanged();
   }
 
-  onValueChanged(data?: any): void {
+  onValueChanged(): void {
     const form = this.employerForm;
 
     for (const field in this.formErrors) {
@@ -93,16 +93,17 @@ export class EmployersComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          if (this.showErrors === true){
-            console.log(`onValueChanged.error:  ${field}: ${control.errors[key]}`);
+          const errMessage = control.errors[key] as string;
+          if (this.showErrors === true) {
+            console.error(`onValueChanged.error:  ${field}: ${errMessage}`);
           }
-          this.formErrors[field] += `${control.errors[key]} `;
+          this.formErrors[field] += `${errMessage} `;
         }
       }
     }
   }
 
-  saveEmployer() {
+  saveEmployer(): void {
     console.log('saveEmployer: called');
     this.onValueChanged();
     if (this.employerForm.status === 'INVALID') {
@@ -111,12 +112,13 @@ export class EmployersComponent implements OnInit {
     }
     console.log('saveEmployer: form status valid');
     this.showErrors = false;
-    const formModel = this.employerForm.value;
+    const formModel = this.employerForm.value as Employer;
     this.employersService.save(formModel)
       .subscribe(
         data => {
           console.log('employerService.save returned:', data);
-          this.router.navigate(['/online-orders/introduction']);
+          this.router.navigate(['/online-orders/introduction'])
+          .catch(e => console.error(e));
         }
       );
   }

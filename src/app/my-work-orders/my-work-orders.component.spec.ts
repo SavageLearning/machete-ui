@@ -2,8 +2,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyWorkOrdersComponent } from './my-work-orders.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
-import { RouterSpy } from '../shared/testing/index';
 
 describe('MyWorkOrdersComponent', () => {
   let component: MyWorkOrdersComponent;
@@ -23,7 +21,7 @@ describe('MyWorkOrdersComponent', () => {
     //     ]
     //   }
     // })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   }));
 
   beforeEach(() => {

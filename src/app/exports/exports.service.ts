@@ -32,8 +32,7 @@ export class ExportsService {
   getExport(tableName: string, o: SearchOptions): Observable<Blob> {
     const params = this.encodeData(o);
     console.log('getExport: ', params);
-    //const uri = this.uriBase + '/' + tableName.toLowerCase();
-    const uri = this.uriBase + '/' + tableName + '/execute?' + params;
+    const uri = `${this.uriBase}/${tableName}/execute?${params}`;
     return this.http.get(uri, { responseType: 'blob', withCredentials: true }).pipe(
       // eslint-disable-next-line arrow-body-style
       map((res: any) => {

@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import {combineLatest as observableCombineLatest } from 'rxjs';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { WorkOrder } from '../../shared/models/work-order';
-import { LookupsService } from '../../lookups/lookups.service';
-import { LCategory } from '../../lookups/models/lookup';
 import { paypal } from 'paypal-checkout';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyWorkOrdersService } from '../my-work-orders.service';
-import { environment } from '../../../environments/environment';
 import { ConfigsService } from '../../configs/configs.service';
 import { TransportProvidersService } from '../../online-orders/transport-providers.service';
 
@@ -78,7 +75,7 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
     console.log('.ctor');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('order-complete.component:ngOnInit');
     const orderId = +this.route.snapshot.paramMap.get('id');
     observableCombineLatest([
@@ -93,7 +90,7 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
       console.log('paypalConfig', this.paypalConfig);
       this.order = o;
       if (o == null) {
-        this.router.navigate(['/online-orders/order-not-found'])
+        this.router.navigate(['/online-orders/order-not-found']).catch(e => console.error(e));
         return;
       }
       this.transportLabel = l.find(ll => ll.id === o.transportProviderID).text;
@@ -126,19 +123,4 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
       //});
     }
   }
-  // This is a hacky just-in-time load of the 176k checkout.js
-  // it blows up the tests because the call isn't mocked.
-  // Ignoring for now
-  // https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/add-paypal-button/
-  // https://github.com/KevinShiCA/ng4-paypal-button/blob/master/src/app/app.component.ts
-  // public loadPaypalScript(): Promise<any> {
-  //   this.didPaypalScriptLoad = true;
-  //   return new Promise((resolve, reject) => {
-  //     const scriptElement = document.createElement('script');
-  //     scriptElement.src = 'https://www.paypalobjects.com/api/checkout.js';
-  //     scriptElement.onload = resolve;
-  //     document.body.appendChild(scriptElement);
-  //   });
-  // }
-
 }

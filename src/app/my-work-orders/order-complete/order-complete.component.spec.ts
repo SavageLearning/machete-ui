@@ -5,9 +5,13 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderCompleteComponent } from './order-complete.component';
 import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
 import { TableModule } from 'primeng/table';
-import { LookupsService } from '../../lookups/lookups.service';
-import { LookupsServiceSpy, MyWorkOrdersServiceSpy, ActivatedRouteSpy, RouterSpy, ConfigsServiceSpy } from '../../shared/testing';
-import { TransportProvidersServiceSpy, MessageServiceSpy } from '../../shared/testing';
+import {
+  TransportProvidersServiceSpy,
+  MessageServiceSpy,
+  MyWorkOrdersServiceSpy,
+  RouterSpy,
+  ConfigsServiceSpy
+} from '../../shared/testing';
 import { paypal }  from 'paypal-checkout';
 import { MyWorkOrdersService } from '../my-work-orders.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,7 +41,7 @@ describe('OrderCompleteComponent', () => {
           { provide: ActivatedRoute, useValue: {
             snapshot: {
               paramMap: {
-                get: (id) => { return 1; }
+                get: () => { return 1; }
               }
             }
           }
@@ -46,10 +50,9 @@ describe('OrderCompleteComponent', () => {
         ]
       }
     })
-    .compileComponents();
-    spyOn(paypal.Button, 'render').and.callFake(
-      () => { }
-    );
+    .compileComponents().catch(e => console.error(e));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    spyOn(paypal.Button, 'render').and.callFake(() => { return; });
   }));
 
   beforeEach(() => {

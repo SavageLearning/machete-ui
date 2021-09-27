@@ -6,6 +6,7 @@ import { saveAs } from 'file-saver';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import * as contentDisposition from 'content-disposition';
 import { MySelectItem } from '../shared/models/my-select-item';
+import { SearchOptions } from '../reports/models/search-options';
 @Component({
   selector: 'app-exports',
   templateUrl: './exports.component.html',
@@ -36,7 +37,7 @@ export class ExportsComponent implements OnInit {
         this.exportsDropDown = listData.map(r =>
           new MySelectItem(r.name, r.name));
       },
-      error => this.errorMessage = error,
+      error => this.errorMessage = error as string,
       () => console.log('ngOnInit onCompleted'));
   }
 
@@ -55,7 +56,7 @@ export class ExportsComponent implements OnInit {
           });
           this.form = new FormGroup(group);
         },
-        error => this.errorMessage = error,
+        error => this.errorMessage = error as string,
         () => console.log('getColumns completed')
       );
   }
@@ -65,7 +66,7 @@ export class ExportsComponent implements OnInit {
       beginDate: this.selectedStartDate,
       endDate: this.selectedEndDate,
       filterField: this.selectedDateFilter
-    }, this.form.value);
+    }, this.form.value) as SearchOptions;
     console.log(this.form.value);
     this.exportsService.getExport(this.selectedExportName.value, data)
       .subscribe(
@@ -73,7 +74,7 @@ export class ExportsComponent implements OnInit {
             saveAs(res, this.selectedExportName.value + '.xlsx')
         },
         error => {
-          this.errorMessage = error;
+          this.errorMessage = error as string;
         },
       () => console.log('onSubmit.getExport completed'));
   }
