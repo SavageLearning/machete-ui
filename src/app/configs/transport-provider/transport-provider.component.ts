@@ -15,9 +15,9 @@ export class TransportProviderComponent implements OnInit {
 
   constructor(private store: TransportProvidersStoreService) {}
 
-  // handleRowSelect(selectedRecord: TransportProvider) {
-  //   // navigate to single record
-  // }
+  handleRowSelect(selectedRecord: TransportProvider) {
+    // navigate to single record
+  }
 
   ngOnInit(): void {
     this.transportProviders$ = this.store.transportProviders$
