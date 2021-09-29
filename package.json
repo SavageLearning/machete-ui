@@ -14,6 +14,7 @@
     "build-prod": "ng build --configuration production",
     "build-local-dev": "ng build --configuration local-dev",
     "test": "ng test",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
