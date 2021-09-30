@@ -99,6 +99,7 @@
     "rxjs-tslint": "^0.1.8",
     "ts-node": "^7.0.1",
     "typescript": "4.3.5",
+    "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.12"
   }
