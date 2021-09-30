@@ -29,7 +29,7 @@ describe('IntroductionComponent', () => {
         ]
       }
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   }));
 
   beforeEach(() => {

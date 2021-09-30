@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Lookup } from '../../../lookups/models/lookup';
-import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
@@ -20,7 +19,7 @@ export class SkillsComponent implements OnInit {
     this.skills = this.config.data;
   }
 
-  onRowSelect(event) {
+  onRowSelect(event): void {
     this.ref.close(event.data);
   }
 

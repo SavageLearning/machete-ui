@@ -1,18 +1,14 @@
 
-import { Observable } from 'rxjs';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
 import { CalendarModule } from 'primeng/calendar';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import { ReportsComponent } from './reports.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpHandler } from '@angular/common/http';
 import { ReportsService } from './reports.service';
 import { Report } from './models/report';
 import { of } from 'rxjs';
@@ -29,9 +25,8 @@ class ReportsServiceSpy {
     );
 }
 
-let dynamicDialogRefServiceSpy = jasmine.createSpy('dynamicDialogRefSpy')
-.and.callFake( () => {
-});
+const dynamicDialogRefServiceSpy = jasmine.createSpy('dynamicDialogRefSpy')
+.and.callFake( () => { return; });
 
 describe('ReportsComponent', () => {
   let component: ReportsComponent;
@@ -66,7 +61,7 @@ describe('ReportsComponent', () => {
         ]
       }
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
 
   }));
 

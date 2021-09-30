@@ -1,16 +1,11 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { LookupsService } from './lookups.service';
-import { environment } from '../../environments/environment';
-import { HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Lookup, LCategory } from './models/lookup';
-import { Observable } from 'rxjs';
 
 describe('LookupsService', () => {
   let service: LookupsService;
-  let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [LookupsService],
@@ -20,8 +15,7 @@ describe('LookupsService', () => {
     });
     sessionStorage.removeItem('machete.lookups');
     sessionStorage.removeItem('machete.lookups.age');
-    service = TestBed.get(LookupsService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.inject(LookupsService);
 
 
   });
@@ -31,7 +25,7 @@ describe('LookupsService', () => {
   }));
 
   it('getLookups should return 1 injected Lookup record', () => {
-    let testdata = new Array<Lookup>();
+    const testdata = new Array<Lookup>();
     testdata.push(new Lookup({category: LCategory.SKILL}));
     testdata.push(new Lookup({category: LCategory.TRANSPORT}));
     service.lookupsSource.next(testdata);
@@ -45,7 +39,7 @@ describe('LookupsService', () => {
   );
 
   it('getLookup should return 1 injected Lookup record', () => {
-    let testdata = new Array<Lookup>();
+    const testdata = new Array<Lookup>();
     testdata.push(new Lookup({id: 1}));
     testdata.push(new Lookup({id: 2}));
     testdata.push(new Lookup({id: 3}));

@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {ConfirmationService} from 'primeng/api';
 
-import { ConfirmEventType } from 'primeng/api';
 import ErrorModel from '../../models/error-model';
 import { MessagesService } from '../messages/messages.service';
 
@@ -43,20 +42,20 @@ export class RecordControlComponent {
     private appMessages: MessagesService
     ) { }
 
-  deleteRecord() {
+  deleteRecord(): void {
     this.confirmationService.confirm({
       message: this.confirmActionData.message,
       header: this.confirmActionData.header,
       icon: this.confirmActionData.icon,
       accept: () => this.confirmActionData.accept(),
       reject: () => {
-            this.appMessages.showErrors(new ErrorModel(['Request Canceled'], "Canceled"));
+            this.appMessages.showErrors(new ErrorModel(['Request Canceled'], 'Canceled'));
           }
       }
     );
   }
 
-  createRecord() {
+  createRecord(): void {
     this.newRecordE.emit(true);
   }
 

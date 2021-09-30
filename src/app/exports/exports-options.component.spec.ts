@@ -28,7 +28,7 @@ describe('ExportsOptionsComponent', () => {
         ReactiveFormsModule
       ]
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   }));
 
   beforeEach(() => {

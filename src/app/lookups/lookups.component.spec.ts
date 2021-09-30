@@ -10,7 +10,7 @@ describe('LookupsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LookupsComponent ]
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   }));
 
   beforeEach(() => {

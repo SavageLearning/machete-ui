@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {combineLatest, fromEvent} from 'rxjs';
@@ -62,7 +63,7 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
         tap(() => {
           this.loading = true;
           this.reqParams.pageNumber = 1; // clear pagination pointer
-          this.reqParams.search = this.input.nativeElement.value === '' ? undefined : this.input.nativeElement.value;
+          this.reqParams.search = this.input.nativeElement.value as string === '' ? undefined : this.input.nativeElement.value as string;
           console.log(this.input.nativeElement.value)
           this.loadServiceData(this.endpointQueryParam);
         })
@@ -90,7 +91,7 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
   }
 
   private initializeTable(res: ApiResponse<Worker>) {
-    this.workersInSkillRes = res as ApiResponse<Worker>;
+    this.workersInSkillRes = res;
     this.workers = this.workersInSkillRes.data;
     console.table(this.workers);
     this.loading = false;
@@ -101,7 +102,7 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
     this.reqParams.pageNumber = 1;
   }
 
-  loadNextPage(e: LazyLoadEvent) {
+  loadNextPage(e: LazyLoadEvent): void {
     this.loading = true;
     this.reqParams.pageSize = e.rows;
     this.reqParams.pageNumber = e.first == 0 ? (e.first + 1) : (e.first / e.rows) + 1;
@@ -136,7 +137,7 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
     this.loadServiceData(this.endpointQueryParam);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.cd.detectChanges(); // Angular view verification loop
     this.initializeSearchSubscription();
   }

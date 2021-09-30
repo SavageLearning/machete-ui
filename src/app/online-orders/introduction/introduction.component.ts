@@ -10,17 +10,17 @@ import { ConfigsService } from '../../configs/configs.service';
   styleUrls: ['./introduction.component.css']
 })
 export class IntroductionComponent implements OnInit {
-  macheteOutage: boolean = false;
+  macheteOutage = false;
   outageMessage: string;
-  outageVisible: boolean = false;
-  constructor(private router: Router, 
+  outageVisible = false;
+  constructor(private router: Router,
     private onlineService: OnlineOrdersService,
     private orderService: WorkOrderService,
     private assignmentService: WorkAssignmentsService,
     private cfgService: ConfigsService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cfgService.getAllConfigs().subscribe(
       data => {
         this.macheteOutage = data.find(config => config.key === 'DisableOnlineOrders').value === 'TRUE';
@@ -30,16 +30,16 @@ export class IntroductionComponent implements OnInit {
     );
   }
 
-  onClick() {
+  onClick(): void {
     if (this.macheteOutage) {
       this.outageVisible = true;
     } else {
       this.outageVisible = false;
-    this.router.navigate(['/online-orders/intro-confirm']);
+    this.router.navigate(['/online-orders/intro-confirm']).catch(e => console.error(e));
     }
   }
 
-  onClear() {
+  onClear(): void {
     this.onlineService.clearState();
     this.orderService.clearState();
     this.assignmentService.clearState();

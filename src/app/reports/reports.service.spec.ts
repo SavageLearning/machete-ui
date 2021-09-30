@@ -1,14 +1,8 @@
-import { TestBed, inject, waitForAsync } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { TestBed, inject } from '@angular/core/testing';
 import { ReportsService } from './reports.service';
 import { SearchOptions } from './models/search-options';
-import {Report} from './models/report';
-import { HttpClient } from '@angular/common/http';
-import { HttpHandler } from '@angular/common/http';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { RouterSpy } from '../shared/testing';
 
@@ -25,8 +19,8 @@ describe('ReportsService', () => {
         HttpClientTestingModule
       ]
     });
-    service = TestBed.get(ReportsService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.inject(ReportsService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should create the service', inject([ReportsService], (service1: ReportsService) => {
@@ -45,11 +39,10 @@ describe('ReportsService', () => {
     (done) => {
     const o = new SearchOptions();
     service.getReportData('1', o)
-      .subscribe
-      (res => {
+      .subscribe(res => {
         expect(typeof res).toEqual('object', 'Get w/o query doesn\'t return an object');
       });
-    let req = httpMock.expectOne('http://localhost:9876/api/reports/1'); // 'https://test-api.machetessl.org/api/reports/1');
+    httpMock.expectOne('http://localhost:9876/api/reports/1'); // 'https://test-api.machetessl.org/api/reports/1');
     httpMock.verify();
     done();
   });
@@ -65,7 +58,7 @@ describe('ReportsService', () => {
       });
 
       //let req = httpMock.expectOne('https://test-api.machetessl.org/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
-      let req = httpMock.expectOne('http://localhost:9876/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
+      httpMock.expectOne('http://localhost:9876/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
       httpMock.verify();
       done();
   });

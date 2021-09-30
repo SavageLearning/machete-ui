@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { MegaMenuItem } from 'primeng/api';  //required when using MegaMenu
 
 @Component({
   selector: 'app-workers',
@@ -10,9 +9,7 @@ import { MegaMenuItem } from 'primeng/api';  //required when using MegaMenu
 export class WorkersComponent implements OnInit {
   items: MenuItem[];
 
-  constructor() { }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.items = [{
         label: 'Workers',
         icon: 'pi pi-fw pi-user',

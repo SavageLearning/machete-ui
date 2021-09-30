@@ -13,11 +13,11 @@ export class MessagesService {
 
   errors$: Observable<any> = this.errorSubject.asObservable();
 
-  showErrors(errors: any) {
+  showErrors(errors): void {
     this.errorSubject.next(errors);
   }
 
-  showSuccess(message: ISuccessMessage) {
+  showSuccess(message: ISuccessMessage): void {
     this.successSubject.next(message);
   }
 

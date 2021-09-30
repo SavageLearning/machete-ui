@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 // TODO @angular/http should be deprecated, need to find @angular/common/http equivalents
-import { HttpHeaders, HttpResponse, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Export } from './models/export';
 import { ExportColumn } from './models/export-column';
@@ -24,17 +23,16 @@ export class ExportsService {
   }
 
   getColumns(tableName: string): Observable<ExportColumn[]> {
-    let uri = this.uriBase + '/' + tableName.toLowerCase();
+    const uri = this.uriBase + '/' + tableName.toLowerCase();
     console.log('getColumns ', uri);
     return this.http.get(uri, { withCredentials: true }).pipe(
       map(res => res['data'] as ExportColumn[]));
   }
 
   getExport(tableName: string, o: SearchOptions): Observable<Blob> {
-    let params = this.encodeData(o);
+    const params = this.encodeData(o);
     console.log('getExport: ', params);
-    //const uri = this.uriBase + '/' + tableName.toLowerCase();
-    const uri = this.uriBase + '/' + tableName + '/execute?' + params;
+    const uri = `${this.uriBase}/${tableName}/execute?${params}`;
     return this.http.get(uri, { responseType: 'blob', withCredentials: true }).pipe(
       // eslint-disable-next-line arrow-body-style
       map((res: any) => {

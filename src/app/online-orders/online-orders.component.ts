@@ -4,8 +4,7 @@ import {OnlineOrdersService} from './online-orders.service';
 import {FormBuilder} from '@angular/forms';
 import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
 import { WorkOrderService } from './work-order/work-order.service';
-import { EmployersService } from '../employers/employers.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-online-orders',
@@ -39,7 +38,7 @@ export class OnlineOrdersComponent implements OnInit {
       // });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.items = [
       {label: 'Intro', routerLink: ['introduction']},
       {label: 'Confirm', routerLink: ['intro-confirm']},

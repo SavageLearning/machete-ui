@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { WorkOrder } from '../../../models/work-order';
 import {MessageService} from 'primeng/api';
 
@@ -47,12 +47,10 @@ export class FullOrderViewComponent implements OnChanges {
     console.log('.ctor');
    }
 
-    ngOnChanges() {
+    ngOnChanges(): void {
       if (this.showPayPal && this.transportCost > 0 && this.order.ppState !== 'created') {
         const detail = 'Please pay the transport costs by PayPal or Credit Card by clicking on "PayPal Checkout"';
         this.messageService.add({severity: 'warn', summary: 'Transport costs due', detail});
-      } else {
-
       }
       this.employerInfo = {
         name: this.order.contactName,

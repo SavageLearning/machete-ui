@@ -11,9 +11,9 @@ export class AuthorizeComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // copy to local; https://github.com/Microsoft/TypeScript/wiki/%27this%27-in-TypeScript
-    let rtr = this.router;
+    const rtr = this.router;
 
     this.auth.authorize().subscribe(user => {
       user.state = user.state ? user.state : '/welcome';
@@ -24,15 +24,14 @@ export class AuthorizeComponent implements OnInit {
         }
 
       if (user.profile.roles.includes('Hirer') && user.state === '/welcome') {
-        rtr.navigate(['/online-orders/introduction']);
-        return;
+        rtr.navigate(['/online-orders/introduction']).catch(e => console.error(e));
       } else {
-        rtr.navigate([user.state]);
+        rtr.navigate([user.state]).catch(e => console.error(e));
       }
     }, err => {
       console.error('redirecting to login; endSigninMainWindow returned: ', err);
       this.auth.removeUser();
-      rtr.navigate(['/welcome']);
+      rtr.navigate(['/welcome']).catch(e => console.error(e));
     });
   }
 }

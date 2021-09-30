@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { AuthService } from '../shared/index';
-import { User } from '../shared/models/user';
 import { Router } from '@angular/router';
 
 @Component({
@@ -32,7 +31,7 @@ export class InlineProfileComponent implements OnInit {
       console.log('.ctor: InlineProfileComponent');
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
       this.auth.authorize().subscribe(user => {
         this.username = user.profile.preferred_username;
       }, error => {
@@ -41,16 +40,16 @@ export class InlineProfileComponent implements OnInit {
       });
     }
 
-    onClick(event) {
+    onClick(event): void {
       this.active = !this.active;
       event.preventDefault();
     }
 
-    startSignoutMainWindow() {
-      let rtr = this.router;
+    startSignoutMainWindow(): void {
+      const rtr = this.router;
       this.auth.signoutUser().subscribe(response => {
         console.log('signout success: ', response);
-        rtr.navigate(['authorize']);
+        rtr.navigate(['authorize']).catch(e => console.error(e));
       }, error => {
         console.log('Error in signoutRedirect: ', error);
       });

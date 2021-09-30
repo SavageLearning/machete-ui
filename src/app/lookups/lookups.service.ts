@@ -20,11 +20,11 @@ export class LookupsService {
 
   constructor(private http: HttpClient) {
     console.log('.ctor: LookupsService');
-    let data = sessionStorage.getItem(this.storageKey);
+    const data = sessionStorage.getItem(this.storageKey);
     this.lookupsAge = Number(sessionStorage.getItem(this.storageKey + '.age'));
 
     if (data && this.isNotStale) {
-      this.lookups = JSON.parse(data);
+      this.lookups = JSON.parse(data) as Lookup[];
       console.log('.ctor using sessionStorage', this.lookups);
       this.lookupsSource.next(this.lookups);
     } else {
@@ -43,7 +43,7 @@ export class LookupsService {
     return !this.isStale();
   }
 
-  getAllLookups() {
+  getAllLookups(): void {
     // if (this.lookups != null && this.lookups.length > 0 && this.isNotStale()) {
     //   console.log('cache hit');
     //   return Observable.of(this.lookups);
@@ -61,7 +61,7 @@ export class LookupsService {
       });
   }
 
-  storeLookups() {
+  storeLookups(): void {
     sessionStorage.setItem(this.storageKey,
       JSON.stringify(this.lookups));
     sessionStorage.setItem(this.storageKey + '.age',

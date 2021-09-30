@@ -19,6 +19,10 @@ import 'rxjs/add/observable/merge';
  *
  * @class ReportsStoreService
  */
+@Injectable({
+  providedIn: 'root',
+})
+
 export class ReportsStoreService {
   private reportsSubject = new BehaviorSubject<Report[]>([]);
   public reports$: Observable<Report[]> = this.reportsSubject as Observable<Report[]>;
@@ -32,20 +36,20 @@ export class ReportsStoreService {
   }
 
   private getReportList() {
-    let uri = environment.dataUrl + "/api/reports";
-    console.log("getReportList: ", uri);
+    const uri = environment.dataUrl + '/api/reports';
+    console.log('getReportList: ', uri);
     return this.http
       .get(uri, { withCredentials: true }).pipe(
-        map((o) => o["data"] as Report[]),
+        map((o) => o['data'] as Report[]),
         catchError((error) => {
           // only expecting one type of error
           this.appMessages.showErrors({
-            Error: `${error["statusText"]}: Contact Machete support.`,
+            Error: `${error['statusText']}: Contact Machete support.`,
           });
           console.log(error);
           return throwError(error);
         }),
-        tap((report) => console.log("reportList fetched")),
+        tap((report) => console.log('reportList fetched', report)),
         shareReplay(1)
       )
       .subscribe((reportList) => this.reportsSubject.next(reportList));
@@ -100,7 +104,7 @@ export class ReportsStoreService {
         console.log(err);
         return throwError(err);
       }),
-      tap(data => {
+      tap(() => {
         const storeAsValues = this.reportsSubject.getValue();
         const storeReportIndex = storeAsValues.findIndex(x => x.name == name);
         storeAsValues.splice(storeReportIndex, 1);
@@ -112,10 +116,10 @@ export class ReportsStoreService {
 
   private onModifySuccess(label: string, message: string, navigateTo: string): void {
     this.appMessages.showSuccess({label: label, message: message});
-    this.router.navigate([navigateTo])
+    this.router.navigate([navigateTo]).catch(e => console.error(e));
   }
 
-  public getReport(id: string) {
+  public getReport(id: string): Observable<Report> {
     return this.reports$.pipe(
       filter(reports => reports.length != 0), // wait for reports to emit
       concatMap(reports => {
@@ -123,6 +127,6 @@ export class ReportsStoreService {
         r.columns = r.columns.filter(a => a.visible);
         return of(r);
       }),
-    )
+    );
   }
 }

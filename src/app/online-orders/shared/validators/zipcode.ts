@@ -1,6 +1,4 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { TransportRule } from '../index';
 
 export function zipcodeValidator(rules: TransportRule[]): ValidatorFn {

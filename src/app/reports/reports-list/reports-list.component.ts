@@ -1,15 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Observable } from "rxjs";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
-import { Report } from "../models/report";
-import { SimpleAggregateRow } from "../models/simple-aggregate-row";
-import { ReportsService } from "../reports.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
+import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
+import { Report } from '../models/report';
 
 @Component({
-  selector: "app-reports-list",
-  templateUrl: "./reports-list.component.html",
-  styleUrls: ["./reports-list.component.css"],
+  selector: 'app-reports-list',
+  templateUrl: './reports-list.component.html',
+  styleUrls: ['./reports-list.component.css'],
 })
 export class ReportsListComponent implements OnInit {
   selectedReport: Report;
@@ -20,13 +19,16 @@ export class ReportsListComponent implements OnInit {
     private store: ReportsStoreService
   ) {}
 
-  onRowSelect(e: any) {
+  onRowSelect(e: Report): void {
     console.log(e);
     this.router.navigate([`/reports/view/${this.selectedReport.name}`]);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // view subscribes and unsubscribes via the async pipe
-    this.reportList$ = this.store.reports$;
+    this.reportList$ = this.store.reports$ .pipe(
+      filter((x) => x.length !== 0 || !x),
+      first()
+    );
   }
 }

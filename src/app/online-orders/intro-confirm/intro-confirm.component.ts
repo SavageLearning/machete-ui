@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
 import { OnlineOrdersService } from '../online-orders.service';
 import { Router } from '@angular/router';
 import { Confirm } from '../shared/models/confirm';
@@ -18,7 +17,7 @@ export class IntroConfirmComponent implements OnInit {
     console.log('.ctor');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.onlineService.getInitialConfirmedStream()
     .subscribe(
       confirmed => {
@@ -30,15 +29,15 @@ export class IntroConfirmComponent implements OnInit {
     );
   }
 
-  checkConfirm(event: Event) {
-    let result =  this.confirmChoices
+  checkConfirm(event: Event): void {
+    const result =  this.confirmChoices
                             .map(a => a.confirmed)
                             .reduce((a, b) => a && b );
     this.confirmStatus = result;
     this.onlineService.setInitialConfirm(this.confirmChoices);
   }
 
-  nextStep() {
-    this.router.navigate(['/online-orders/work-order']);
+  nextStep(): void {
+    this.router.navigate(['/online-orders/work-order']).catch(e => console.error(e));
   }
 }

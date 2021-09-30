@@ -2,13 +2,9 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { ScheduleRulesService } from './schedule-rules.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { environment } from '../../environments/environment';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('ScheduleRulesService', () => {
-  let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -18,8 +14,8 @@ describe('ScheduleRulesService', () => {
         HttpClientModule,
         HttpClientTestingModule
       ]
-    }).compileComponents();
-    httpMock = TestBed.inject(HttpTestingController);
+    }).compileComponents().catch(e => console.error(e));
+    TestBed.inject(HttpTestingController);
   });
 
   it('should be created', inject([ScheduleRulesService], (service: ScheduleRulesService) => {

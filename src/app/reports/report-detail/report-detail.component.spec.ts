@@ -28,7 +28,7 @@ describe('ReportDetailComponent', () => {
         { provide: ActivatedRoute, useValue: {
             snapshot: {
               paramMap: {
-                get: (id) => { return 'fakeReport'; }
+                get: () => { return 'fakeReport'; }
               }
             }
           }

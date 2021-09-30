@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import {WorkAssignment} from '../../shared/models/work-assignment';
 import { LookupsService } from '../../lookups/lookups.service';
 import { Lookup, LCategory } from '../../lookups/models/lookup';
 import {OnlineOrdersService} from '../online-orders.service';
 import { WorkAssignmentsService } from './work-assignments.service';
-import { WorkOrderService } from '../work-order/work-order.service';
 import { TransportRule, requiredValidator, TransportProvider } from '../shared';
 import { MySelectItem } from '../../shared/models/my-select-item';
 import { hoursValidator } from '../shared/validators/hours';
-import { loadSkillRules } from '../shared/rules/load-skill-rules';
 import { TransportRulesService } from '../transport-rules.service';
 import { SkillRule } from '../shared/models/skill-rule';
 import { TransportProvidersService } from '../transport-providers.service';
@@ -76,7 +74,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
       console.log('.ctor');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('ngOnInit');
     // waService.transportRules could fail under race conditions
 
@@ -85,7 +83,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
       this.lookupsService.getLookups(LCategory.SKILL),
       this.transportProviderService.getTransportProviders()]);
 
-    const subscribed = this.combinedSource.subscribe(
+    this.combinedSource.subscribe(
       values => {
         const [rules, skills, transports] = values;
         //
@@ -131,28 +129,28 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   // public methods
   buildForm(): void {
     this.requestForm = this.fb.group({
-      'id': '',
-      'skillId': ['', requiredValidator('Please select the type of work to be performed.')],
-      'skill': [''],
-      'hours': ['', hoursValidator(this.skillsRules, this.skills, 'skillId', 'hours')],
-      'description': ['', lengthValidator(1000)], // !! Todo: should be provided by API
-      'requiresHeavyLifting': [false],
-      'hourlyWage': ['']
+      id: '',
+      skillId: ['', requiredValidator('Please select the type of work to be performed.')],
+      skill: [''],
+      hours: ['', hoursValidator(this.skillsRules, this.skills, 'skillId', 'hours')],
+      description: ['', lengthValidator(1000)], // !! Todo: should be provided by API
+      requiresHeavyLifting: [false],
+      hourlyWage: ['']
     });
 
     this.requestForm.valueChanges
-      .subscribe(data => this.onValueChanged(data));
+      .subscribe(() => this.onValueChanged());
 
     this.onValueChanged();
   }
-  setHasRequests() {
+  setHasRequests(): void {
     if (this.requestList.length > 0) {
       this.hasRequests = true;
     } else {
       this.hasRequests =  false;
     }
   }
-  onValueChanged(data?: any) {
+  onValueChanged(): void {
     const form = this.requestForm;
 
     for (const field in this.formErrors) {
@@ -162,14 +160,14 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
-            this.formErrors[field] += control.errors[key] + ' ';
+          console.log(`onValueChanged.error: ${field} : ${control.errors[key]}`);
+            this.formErrors[field] += `${control.errors[key]} `;
         }
       }
     }
   }
 
-  selectSkill(skillId: number) {
+  selectSkill(skillId: number): void {
     console.log('selectSkill.skillId:' + String(skillId));
     const skill = this.skills.filter(f => f.id === Number(skillId)).shift();
     if (skill == null || skill === undefined) {
@@ -181,11 +179,11 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.requestForm.controls['hourlyWage'].setValue(skill.wage);
   }
 
-  onAddJobsToRequest() {
+  onAddJobsToRequest(): void {
     this.activeTabIndex = 1;
   }
 
-  onAddMoreJobs() {
+  onAddMoreJobs(): void {
     this.activeTabIndex = 0;
     this.clearMessages(this.eMessages.SuccessSkillSaved);
     this.requestForm.reset();
@@ -194,7 +192,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.newRequest = true;
   }
 
-  onShowSkillsCart() {
+  onShowSkillsCart(): void {
     this.ref = this.dialogService.open(SkillsComponent, {
       data: this.skills,
       header: 'Choose a Skill',
@@ -218,18 +216,18 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  clearMessages(key: MessageTypes) {
+  clearMessages(key: MessageTypes): void {
     this.messageServ.clear(key);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.ref) {
         this.ref.close();
     }
   }
 
   // loads an existing item into the form fields
-  editRequest(request: WorkAssignment) {
+  editRequest(request: WorkAssignment): void {
     this.activeTabIndex = 0;
     this.requestForm.controls['id'].setValue(request.id);
     this.requestForm.controls['skillId'].setValue(request.skillId);
@@ -242,7 +240,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.newRequest = false;
   }
 
-  deleteRequest(request: WorkAssignment) {
+  deleteRequest(request: WorkAssignment): void {
     this.waService.delete(request);
     this.requestList = [...this.waService.getAll()];
     this.requestForm.reset();
@@ -253,7 +251,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.setHasRequests();
   }
 
-  saveRequest() {
+  saveRequest(): void {
     this.onValueChanged();
     if (this.requestForm.status === 'INVALID') {
       this.showErrors = true;
@@ -300,21 +298,21 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.setHasRequests();
   }
 
-  onRowSelect(event) {
+  onRowSelect(event): void {
     this.newRequest = false;
     this.request = this.cloneRequest(event.data);
   }
 
   cloneRequest(c: WorkAssignment): WorkAssignment {
-    let request = new WorkAssignment();
-    for (let prop in c) {
+    const request = new WorkAssignment();
+    for (const prop in c) {
       request[prop] = c[prop];
     }
     return request;
   }
 
-  finalize() {
-    this.router.navigate(['/online-orders/order-confirm']);
+  finalize(): void {
+    this.router.navigate(['/online-orders/order-confirm']).catch(e => console.error(e));
 
   }
 }

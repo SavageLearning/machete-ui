@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrder } from '../../shared/models/work-order';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
+import { WorkAssignmentsService } from '../work-assignments/work-assignments.service';
 import { Router } from '@angular/router';
 import { TransportProvidersService } from '../transport-providers.service';
 import { MessageService } from 'primeng/api';
@@ -32,7 +32,7 @@ export class OrderConfirmComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const l$ = this.transportProviderService.getTransportProviders();
     const o$ = this.ordersService.getStream();
     const wa$ = this.assignmentService.getStream();
@@ -64,7 +64,7 @@ export class OrderConfirmComponent implements OnInit {
 
   }
 
-  submit() {
+  submit(): void {
     this.onlineService.createOrder(this.order)
       .subscribe(
         (data) => {
@@ -75,14 +75,14 @@ export class OrderConfirmComponent implements OnInit {
           this.onlineService.clearState();
           this.ordersService.clearState();
           this.assignmentService.clearState();
-          this.router.navigate(['/my-work-orders/' + data.id]);
+          this.router.navigate([`/my-work-orders/${data.id}`]).catch(e => console.error(e));
         },
         (errorRes: HttpErrorResponse) => {
           this.messageService.add({
-            severity:'error', 
-            summary:`Machete server returned an error`, 
+            severity:'error',
+            summary:`Machete server returned an error`,
             detail: JSON.stringify(errorRes.error)
-          });   
+          });
         }
       );
   }

@@ -6,13 +6,12 @@ import { AuthServiceSpy } from '../../shared/testing';
 
 class RouterSpy {
   navigate = jasmine.createSpy('navigate')
-    .and.callFake((foo) => {});
+    .and.callFake((foo) => { console.log(foo)});
 }
 
 describe('AuthorizeComponent', () => {
   let component: AuthorizeComponent;
   let fixture: ComponentFixture<AuthorizeComponent>;
-  let spy: any;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AuthorizeComponent ]
@@ -25,7 +24,7 @@ describe('AuthorizeComponent', () => {
         ]
       }
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   }));
 
   beforeEach(() => {

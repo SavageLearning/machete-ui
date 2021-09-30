@@ -12,12 +12,11 @@ import { CalendarModule } from 'primeng/calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import { By } from '@angular/platform-browser';
 
 describe('ReportsListComponent', () => {
   let component: ReportsListComponent;
   let fixture: ComponentFixture<ReportsListComponent>;
-  
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ReportsListComponent ],
@@ -36,7 +35,7 @@ describe('ReportsListComponent', () => {
         {provide: ReportsStoreService, useClass: ReportsStoreServiceSpy}
       ]
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   });
 
   beforeEach(() => {
@@ -47,15 +46,15 @@ describe('ReportsListComponent', () => {
 
   it('should create and display report list', () => {
     expect(component).toBeTruthy();
-    let tableRows = fixture.nativeElement.querySelectorAll('tr');
+    const tableRows = fixture.nativeElement.querySelectorAll('tr');
 
     expect(tableRows.length).toBe(3);
-    let headerRow = tableRows[0];
+    const headerRow = tableRows[0];
 
-    let firstHeading = fixture.nativeElement.querySelectorAll('th');
+    const firstHeading = fixture.nativeElement.querySelectorAll('th');
     expect(firstHeading[0].innerHTML).toContain('Name');
 
-    let firstDataCell = fixture.nativeElement.querySelectorAll('td');
+    const firstDataCell = fixture.nativeElement.querySelectorAll('td');
     expect(firstDataCell[0].innerHTML).toContain('Test');
     expect(firstDataCell[5].innerHTML).toContain('More');
   });

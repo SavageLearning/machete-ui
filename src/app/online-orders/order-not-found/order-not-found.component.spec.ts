@@ -10,7 +10,7 @@ describe('OrderNotFoundComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ OrderNotFoundComponent ]
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   }));
 
   beforeEach(() => {

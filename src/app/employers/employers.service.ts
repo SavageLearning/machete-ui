@@ -26,22 +26,23 @@ export class EmployersService {
       }),
       catchError(error => {
         this.setEmployer(null);
-        console.log('error from getEmployer');
+        console.error('error from getEmployer: ', error);
         return of(null);
-      }),); // TODO is this last 'undefined' bit intentional?
+      })); // TODO is this last 'undefined' bit intentional?
+
   }
   getEmployer(): Observable<Employer> {
     return this.employerSource.asObservable();
   }
 
-  setEmployer(employer: Employer) {
+  setEmployer(employer: Employer): void {
     this.employerSource.next(employer);
   }
 
   save(employer: Employer): Observable<Employer> {
 
     console.log('save:', this.uri, employer);
-    let httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
     // hack to get out the door; SavageLearning/Machete#425
     employer.referredBy = 25;
@@ -50,7 +51,7 @@ export class EmployersService {
     return this.http.put(this.uri, JSON.stringify(employer), { headers: httpHeaders, withCredentials: true }).pipe(
       map(data => {
         this.setEmployer(data['data'] as Employer);
-        return data['data'];
+        return data['data'] as Employer;
       })
     );
   }

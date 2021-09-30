@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {ExportsService} from './exports.service';
 import { Export } from './models/export';
 import {ExportColumn} from './models/export-column';
-import {HttpResponse} from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import * as contentDisposition from 'content-disposition';
 import { MySelectItem } from '../shared/models/my-select-item';
+import { SearchOptions } from '../reports/models/search-options';
 @Component({
   selector: 'app-exports',
   templateUrl: './exports.component.html',
@@ -29,7 +29,7 @@ export class ExportsComponent implements OnInit {
     this.form = new FormGroup({});
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.exportsService.getExportsList()
       .subscribe(
       listData => {
@@ -37,11 +37,11 @@ export class ExportsComponent implements OnInit {
         this.exportsDropDown = listData.map(r =>
           new MySelectItem(r.name, r.name));
       },
-      error => this.errorMessage = error as any,
+      error => this.errorMessage = error as string,
       () => console.log('ngOnInit onCompleted'));
   }
 
-  getColumns() {
+  getColumns(): void {
     console.log(this.selectedColumns);
     this.exportsService.getColumns(this.selectedExportName.value)
       .subscribe(
@@ -56,17 +56,17 @@ export class ExportsComponent implements OnInit {
           });
           this.form = new FormGroup(group);
         },
-        error => this.errorMessage = error as any,
+        error => this.errorMessage = error as string,
         () => console.log('getColumns completed')
       );
   }
 
-  onSubmit() {
-    let data = Object.assign( {
+  onSubmit(): void {
+    const data = Object.assign( {
       beginDate: this.selectedStartDate,
       endDate: this.selectedEndDate,
       filterField: this.selectedDateFilter
-    }, this.form.value);
+    }, this.form.value) as SearchOptions;
     console.log(this.form.value);
     this.exportsService.getExport(this.selectedExportName.value, data)
       .subscribe(
@@ -74,12 +74,12 @@ export class ExportsComponent implements OnInit {
             saveAs(res, this.selectedExportName.value + '.xlsx')
         },
         error => {
-          this.errorMessage = error as any;
+          this.errorMessage = error as string;
         },
       () => console.log('onSubmit.getExport completed'));
   }
 
-  downloadFile(data: any, fileName: string, ttype: string) {
+  downloadFile(data: any, fileName: string, ttype: string): void {
     const blob = new Blob([data], {type: ttype});
     saveAs(blob, fileName);
   }

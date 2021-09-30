@@ -1,5 +1,3 @@
-/* eslint-disable brace-style */
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export function regexValidator(regex: RegExp, key: string, message: string): ValidatorFn {

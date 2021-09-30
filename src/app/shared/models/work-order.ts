@@ -42,7 +42,7 @@ export class WorkOrder extends Record<WorkOrder> {
     return !this.isEmpty();
   }
   isEmpty(): boolean {
-    for(let key in this) {
+    for(const key in this) {
       if (this.hasOwnProperty(key)) {
         console.log('Not empty: ', this[key]);
       }

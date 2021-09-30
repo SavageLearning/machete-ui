@@ -1,5 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-
 import { MenuRule, LRole } from './menu-rule';
 
 export function loadMenuRules(authList: string[]): Array<MenuRule> {

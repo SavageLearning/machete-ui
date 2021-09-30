@@ -1,8 +1,5 @@
-/* eslint-disable brace-style */
-/* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Table } from 'primeng/table';
 import { Skill } from '../../shared/models/skill';
 import { WorkersService } from '../workers.service';
 
@@ -52,10 +49,10 @@ export class SkillsListComponent implements OnInit {
   }
 
   navigateToWorkersInSKill(id: number): void {
-    this.router.navigate([`/workers/in-skill/${id}`]);
+    this.router.navigate([`/workers/in-skill/${id}`]).catch(e => console.error(e));
   }
 
-  showHelpDialog() {
+  showHelpDialog(): void {
     this.display = true;
   }
 

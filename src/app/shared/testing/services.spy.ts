@@ -1,21 +1,25 @@
 /* eslint-disable brace-style */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import {of as observableOf,  Observable ,  Subject ,  BehaviorSubject, of } from 'rxjs';
+import {of as observableOf,  Observable } from 'rxjs';
 import {} from 'jasmine';
 import { Employer } from '../models/employer';
 import { Lookup } from '../../lookups/models/lookup';
 import { User, UserProfile } from '../models/user';
 import { EventEmitter } from '@angular/core';
 import { WorkOrder } from '../../shared/models/work-order';
-import { ScheduleRule, TransportRule, TransportProvider, CostRule, TransportProviderAvailability } from '../../online-orders/shared/index';
+import {
+  ScheduleRule,
+  TransportRule,
+  TransportProvider,
+  CostRule,
+  TransportProviderAvailability
+} from '../../online-orders/shared/index';
 import { WorkAssignment } from '../models/work-assignment';
-import { Router, NavigationEnd, UrlTree, convertToParamMap } from '@angular/router';
+import { NavigationEnd, UrlTree, convertToParamMap } from '@angular/router';
 import { loadConfirms } from '../../online-orders/shared/rules/load-confirms';
 import { Config } from '../models/config';
-import { Profile } from 'selenium-webdriver/firefox';
 import { ApiResponse } from '../../workers/models/api-response';
-import { ApiRequestParams } from '../../workers/models/api-request-params';
 import { Worker } from '../models/worker';
 import { Skill } from '../models/skill';
 import { Report } from 'src/app/reports/models/report';
@@ -67,7 +71,7 @@ export class AuthServiceSpy {
     .and.callFake(() => {
       // TODO: Implement a better stub of the User interface
       // https://stackoverflow.com/questions/37027776/how-to-stub-a-typescript-interface-type-definition
-      let user = {
+      const user = {
         session_state: '',
         token_type: '',
         scope: '',
@@ -161,7 +165,7 @@ export class WorkOrderServiceSpy {
 export class OnlineOrdersServiceSpy {
   get = jasmine.createSpy('get')
     .and.callFake(
-      () => {}
+      () => { return; }
     );
   getTransportRules = jasmine.createSpy('getTransportRules')
     .and.callFake(
@@ -194,13 +198,13 @@ export const getConfigsList = (): Config[] => {
 }
 
 export class ConfigsServiceSpy {
-  getConfig = (key: string) => jasmine.createSpy('getConfig')
+  getConfig = jasmine.createSpy('getConfig')
     .and.callFake(
-      () => of(getConfigsList()[0])
+      () => observableOf(getConfigsList()[0])
       );
   getAllConfigs = jasmine.createSpy('getAllConfigs')
     .and.callFake(
-      () => of(getConfigsList())
+      () =>observableOf(getConfigsList())
       );
 }
 
@@ -262,11 +266,11 @@ export class WorkerServiceSpy {
     pageSize: 10,
     totalPages: 1,
   };
-  constructor() {}
-  getWorkersInSkill = (id: number, requestParams: ApiRequestParams) => observableOf(this.apiRes)
+  // constructor() {}
+  getWorkersInSkill = (): Observable<ApiResponse<Worker>> => { return observableOf(this.apiRes);}
   getSkills = jasmine.createSpy('getSkillsFromWorkers')
-    .and.callFake(() => of(new Array<Skill>(
-      new Skill({ id: 1 }) 
+    .and.callFake(() => observableOf(new Array<Skill>(
+      new Skill({ id: 1 })
     )));
 }
 
@@ -275,11 +279,11 @@ export class ReportsServiceSpy {
 }
 
 export class MessagesServiceSpy {
-  
+
 }
 
 export class ReportsStoreServiceSpy {
-  reports$ = of(new Array<Report>(
+  reports$ = observableOf(new Array<Report>(
     new Report({commonName: 'test'}),
     new Report({commonName: 'more'})
     ));

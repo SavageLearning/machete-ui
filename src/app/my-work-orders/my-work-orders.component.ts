@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MyWorkOrdersService } from './my-work-orders.service';
 
 @Component({
@@ -7,13 +7,9 @@ import { MyWorkOrdersService } from './my-work-orders.service';
   styleUrls: ['./my-work-orders.component.css'],
   providers: [MyWorkOrdersService]
 })
-export class MyWorkOrdersComponent implements OnInit {
+export class MyWorkOrdersComponent {
 
 
-  constructor() { }
-
-  ngOnInit() {
-
-  }
+  // constructor() { }
 
 }

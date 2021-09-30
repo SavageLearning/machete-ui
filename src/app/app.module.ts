@@ -12,23 +12,9 @@ import { AppTopBarComponent }  from './app.topbar.component';
 import { AppFooterComponent }  from './app.footer.component';
 import { InlineProfileComponent }  from './menu/app.profile.component';
 import { PageNotFoundComponent }   from './not-found.component';
-import { Router } from '@angular/router';
-import { environment } from '../environments/environment';
-import { AuthService} from './shared/services/auth.service';
 
 import { ToastModule } from 'primeng/toast';
 
-import { AuthorizeComponent } from './auth/authorize/authorize.component';
-import { OnlineOrdersModule } from './online-orders/online-orders.module';
-import { ReportsModule } from './reports/reports.module';
-import { ExportsModule } from './exports/exports.module';
-import { MyWorkOrdersModule } from './my-work-orders/my-work-orders.module';
-import { EmployersModule } from './employers/employers.module';
-import { WorkersModule } from './workers/workers.module';
-import { GlobalErrorHandler } from './shared/global-error-handler';
-import { LoggingService } from './shared/services/logging.service';
-import { TransportProvidersService } from './online-orders/transport-providers.service';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MessagesComponent } from './shared/components/messages/messages.component';
 import { MessagesService } from './shared/components/messages/messages.service';
 
@@ -69,7 +55,7 @@ import { MessagesService } from './shared/components/messages/messages.service';
 })
 export class AppModule {
   // Diagnostic only: inspect router configuration
-  constructor(router: Router) {
+  constructor() {
     console.log('.ctor: AppModule');
   }
 

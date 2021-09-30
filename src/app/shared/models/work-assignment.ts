@@ -13,7 +13,7 @@ export class WorkAssignment extends Record<WorkAssignment> {
   transportCost: number;
   days: number;
 
-  static sort(a: WorkAssignment, b: WorkAssignment) {
+  static sort(a: WorkAssignment, b: WorkAssignment): number {
     if (a.id < b.id) { return -1; }
     if (a.id > b.id) { return 1; }
     return 0;

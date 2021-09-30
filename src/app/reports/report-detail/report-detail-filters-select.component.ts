@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { SearchInputs } from "../models/search-inputs";
+import { Component, Input } from '@angular/core';
+import { SearchInputs } from '../models/search-inputs';
 
 @Component({
-  selector: "app-report-detail-filters-select",
+  selector: 'app-report-detail-filters-select',
   template: `
 <button pButton class="p-button-info" label="'Select Filters to Display'" icon="pi pi-search" (click)="op.toggle($event)"></button>
 
@@ -26,11 +26,7 @@ import { SearchInputs } from "../models/search-inputs";
   styles: [],
 })
 
-export class ReportDetailFiltersSelectComponent implements OnInit {
+export class ReportDetailFiltersSelectComponent {
   @Input() inputs: SearchInputs;
- 
-  constructor() {}
 
-  ngOnInit(): void {
-  }
 }

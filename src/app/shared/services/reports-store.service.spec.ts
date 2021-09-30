@@ -9,7 +9,7 @@ import { ReportsStoreService } from './reports-store.service';
 
 describe('ReportsStoreService', () => {
   let service: ReportsStoreService;
-  let httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+  const httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

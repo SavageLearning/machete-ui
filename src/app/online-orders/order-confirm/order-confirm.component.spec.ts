@@ -1,15 +1,16 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { OrderConfirmComponent } from './order-confirm.component';
 import { WorkOrderService } from '../work-order/work-order.service';
-import { WorkOrder } from '../../shared/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
-import { MessageServiceSpy, TransportProvidersServiceSpy } from '../../shared/testing';
-import { WorkOrderServiceSpy, OnlineOrdersServiceSpy, LookupsServiceSpy, WorkAssignmentsServiceSpy, RouterSpy } from '../../shared/testing';
-
-import { LookupsService } from '../../lookups/lookups.service';
+import {
+  MessageServiceSpy,
+  TransportProvidersServiceSpy,
+  WorkOrderServiceSpy,
+  OnlineOrdersServiceSpy,
+  WorkAssignmentsServiceSpy,
+  RouterSpy
+} from '../../shared/testing';
 import { TableModule } from 'primeng/table';
-
 import { WorkAssignmentsService } from '../work-assignments/work-assignments.service';
 import { Router } from '@angular/router';
 import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
@@ -41,7 +42,7 @@ describe('OrderConfirmComponent', () => {
         ]
       }
     })
-    .compileComponents();
+    .compileComponents().catch(e => console.error(e));
   }));
 
   beforeEach(() => {

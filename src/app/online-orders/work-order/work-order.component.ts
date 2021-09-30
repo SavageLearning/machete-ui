@@ -1,12 +1,18 @@
 
-import { combineLatest as observableCombineLatest, Observable } from 'rxjs';
+import { combineLatest as observableCombineLatest } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { WorkOrder } from '../../shared/models/work-order';
 import { OnlineOrdersService } from '../online-orders.service';
 import { WorkOrderService } from './work-order.service';
-import { ScheduleRule, schedulingDayValidator, requiredValidator, TransportRule } from '../shared';
-import { TransportProvider, schedulingTimeValidator } from '../shared';
+import {
+  TransportProvider,
+  schedulingTimeValidator,
+  ScheduleRule,
+  schedulingDayValidator,
+  requiredValidator,
+  TransportRule
+} from '../shared';
 import { MySelectItem, YesNoSelectItem } from '../../shared/models/my-select-item';
 import { Router } from '@angular/router';
 import { ScheduleRulesService } from '../schedule-rules.service';
@@ -17,9 +23,8 @@ import { regexValidator } from '../../shared/validators/regex';
 import { lengthValidator } from '../../shared/validators/length';
 import { TransportProvidersService } from '../transport-providers.service';
 import { transportAvailabilityValidator } from '../shared/validators/transport-availability';
-import { DateTime } from 'luxon'; 
+import { DateTime } from 'luxon';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-work-order',
@@ -72,7 +77,7 @@ export class WorkOrderComponent implements OnInit {
     private fb: FormBuilder,
     private observer: BreakpointObserver) {
     console.log('.ctor');
-    let result = sessionStorage.getItem(this.storageKey + '.UG');
+    const result = sessionStorage.getItem(this.storageKey + '.UG');
     if (result === 'false') {
       this.displayUserGuide = false;
     } else {
@@ -80,16 +85,16 @@ export class WorkOrderComponent implements OnInit {
     }
   }
 
-  showDialog() {
+  showDialog(): void {
     this.displayTransportCosts = true;
   }
 
-  ackUserGuide() {
+  ackUserGuide(): void {
     this.displayUserGuide = false;
     sessionStorage.setItem(this.storageKey + '.UG', 'false');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.buildForm();
     observableCombineLatest([ // observables from these services:
       this.transportProviderService.getTransportProviders(),
@@ -108,8 +113,8 @@ export class WorkOrderComponent implements OnInit {
       this.transportRules = transportRules;
       this.isHandset$ = observer.matches; // observe device size
       // map transport entries to dropdown
-      let items = [new MySelectItem('Select transportation method', null)];
-      let transports = transportProviders.map(l => new MySelectItem(l.text, String(l.id)));
+      const items = [new MySelectItem('Select transportation method', null)];
+      const transports = transportProviders.map(l => new MySelectItem(l.text, String(l.id)));
       this.transportMethodsDropDown = items.concat(transports);
       this.buildForm(); // bind the properties of the UI
     });
@@ -127,7 +132,10 @@ export class WorkOrderComponent implements OnInit {
   }
 
   getTime(date: Date): string {
-    return DateTime.fromJSDate(date).minus(this.getDateOnly(date)).toFormat('HH:mm');
+    // return DateTime.fromJSDate(date).minus(this.getDateOnly(date)).toFormat('HH:mm');
+    const time = date.toTimeString();
+    console.log(time, 'from luxon');
+    return time;
   }
 
   buildForm(): void {
@@ -157,7 +165,7 @@ export class WorkOrderComponent implements OnInit {
     this.onValueChanged();
   }
 
-  onValueChanged(data?: any) {
+  onValueChanged(data?: any): void {
     const form = this.orderForm;
 
     for (const field in this.formErrors) {
@@ -170,29 +178,29 @@ export class WorkOrderComponent implements OnInit {
           // if (this.showErrors == true){
           //   console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
           // }
-          this.formErrors[field] += control.errors[key] + ' ';
+          this.formErrors[field] += `${control.errors[key] as string} `;
         }
       }
     }
   }
 
-  save() {
+  async save() {
     // shimming in ValidatorFn outside of form control // englishRequired: "true"
-    let dateCtrl = this.orderForm.get('dateOfWork');
-    let dateError = schedulingDayValidator(this.schedulingRules)(dateCtrl);
-    let dateError2 = transportAvailabilityValidator(this.transportMethods, ['transportProviderID', 'timeOfWork'])(dateCtrl);
+    const dateCtrl = this.orderForm.get('dateOfWork');
+    const dateError = schedulingDayValidator(this.schedulingRules)(dateCtrl);
+    const dateError2 = transportAvailabilityValidator(this.transportMethods, ['transportProviderID', 'timeOfWork'])(dateCtrl);
     if (dateError || dateError2) {
       dateCtrl.setErrors({ ...dateError, ...dateError2, ...dateCtrl.errors });
     }
     //
-    let timeCtrl = this.orderForm.get('timeOfWork');
-    let timeError = schedulingTimeValidator(this.schedulingRules)(timeCtrl);
+    const timeCtrl = this.orderForm.get('timeOfWork');
+    const timeError = schedulingTimeValidator(this.schedulingRules)(timeCtrl);
     if (timeError) {
       timeCtrl.setErrors({ ...timeError, ...timeCtrl.errors });
     }
     //
-    let zipCtrl = this.orderForm.get('zipcode');
-    let zipError = zipcodeValidator(this.transportRules)(zipCtrl);
+    const zipCtrl = this.orderForm.get('zipcode');
+    const zipError = zipcodeValidator(this.transportRules)(zipCtrl);
     if (zipError) {
       zipCtrl.setErrors({ ...zipError, ...zipCtrl.errors });
     }
@@ -210,7 +218,7 @@ export class WorkOrderComponent implements OnInit {
     this.orderService.save(order);
     this.onlineService.setWorkorderConfirm(true);
     this.newOrder = false;
-    this.router.navigate(['/online-orders/work-assignments']);
+    await this.router.navigate(['/online-orders/work-assignments']).catch(e => console.error(e));
   }
 
   prepareOrderForSave(): WorkOrder {

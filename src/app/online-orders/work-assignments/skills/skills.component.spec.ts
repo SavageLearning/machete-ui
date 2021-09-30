@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { MockProvider } from 'ng-mocks'
+import { MockProvider } from 'ng-mocks';
 import { DialogService, DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 import { SkillsComponent } from './skills.component';
@@ -9,10 +7,6 @@ import { SkillsComponent } from './skills.component';
 describe('SkillsComponent', () => {
   let component: SkillsComponent;
   let fixture: ComponentFixture<SkillsComponent>;
-  let ms: MessageService;
-  let dialogServ: DialogService;
-  let dynamicDialogRef: DynamicDialogRef;
-  let dynamicDialogConfig: DynamicDialogConfig;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

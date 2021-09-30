@@ -1,7 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IntroConfirmComponent } from './intro-confirm.component';
 import { OnlineOrdersService } from '../online-orders.service';
-import { ScheduleRule } from '../shared/index';
 import { OnlineOrdersServiceSpy, RouterSpy } from '../../shared/testing';
 import { Router } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -29,6 +28,7 @@ describe('IntroConfirmComponent', () => {
       }
     })
     .compileComponents()
+    .catch(e => console.error(e))
     .then(() => {
       fixture = TestBed.createComponent(IntroConfirmComponent);
       component = fixture.componentInstance;

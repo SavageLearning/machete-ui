@@ -38,12 +38,12 @@ describe('AppComponent', () => {
         { provide: AuthService, useClass: AuthServiceSpy },
         MessageService
       ]
-    }).compileComponents();
+    }).compileComponents().catch(e => console.error(e));
   }));
 
   it('should create the app', waitForAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+    const app = fixture.debugElement.componentInstance as AppComponent;
     expect(app).toBeTruthy();
   }));
 });

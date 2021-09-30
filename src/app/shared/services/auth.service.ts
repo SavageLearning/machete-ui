@@ -26,7 +26,7 @@ export class AuthService {
           console.log('user expired; attempting to authenticate...');
           return this.http.get(environment.dataUrl + '/id/authorize', { observe: 'response', withCredentials: true }).pipe(
             map(response => {
-              let claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
+              const claims = JSON.parse(window.atob(response.body['access_token'].split('.')[1]));
               // JSON.parse will return a string if there's only one member, so:
               user.profile.roles = user.profile.roles.concat(claims['role']);
               user.profile.preferred_username = claims['preferredUserName'];
@@ -73,12 +73,12 @@ export class AuthService {
 
   /** Deprecated. Set the redirect route for an unauthorized user.
    * Going forward, should be part of the expired user's state. Synchronous method. */
-  setRedirectRoute(route: string) {
+  setRedirectRoute(route: string): void {
     this._redirectRoute = route;
   }
 
   /** Deprecated. Dereference the user state. This probably means there has been an error. This method runs synchronously. */
-  removeUser() {
+  removeUser(): void {
     this._user = null;
   }
 

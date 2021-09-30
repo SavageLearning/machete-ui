@@ -1,8 +1,7 @@
 
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-import { Report } from './models/report';
 import { SearchOptions } from './models/search-options';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -29,7 +28,7 @@ export class ReportsService {
     console.log('getReportData: ' + uri);
     return this.http.get(uri, { withCredentials: true }).pipe(
       catchError(error => {
-        this.appMessages.showErrors("Unable to retreive results.")
+        this.appMessages.showErrors('Unable to retreive results.')
         return throwError(error);
       }),
       map(res => res['data'] as SimpleAggregateRow[]));

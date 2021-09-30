@@ -9,27 +9,27 @@ import { MenuItem } from 'primeng/api';
 export class ReportsComponent implements OnInit {
   items: MenuItem[];
 
-  constructor() {}
-  
+  // constructor() {}
+
   ngOnInit(): void {
     this.items = [
       {
           label: 'Reports',
           items: [
             {
-              label: 'Report List', 
+              label: 'Report List',
               icon: 'pi pi-fw pi-list',
               routerLink: [`/reports`],
               routerLinkActiveOptions:{exact:true}
-            
+
             },
             {
-              label: 'New Report', 
+              label: 'New Report',
               icon: 'pi pi-fw pi-plus',
             },
           ]
       },
   ];
   }
-  
+
 }

@@ -1,9 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { OnlineOrdersService } from './online-orders.service';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { environment } from '../../environments/environment';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { WorkOrderService } from './work-order/work-order.service';
 import { EmployersService } from '../employers/employers.service';
 import { AuthService } from '../shared/index';
@@ -12,9 +10,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { WorkOrderServiceSpy, EmployersServiceSpy, AuthServiceSpy, WorkAssignmentsServiceSpy } from '../shared/testing';
 
 describe('OnlineOrdersService', () => {
-  let service: OnlineOrdersService;
-  let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,9 +24,9 @@ describe('OnlineOrdersService', () => {
         HttpClientModule,
         HttpClientTestingModule
       ]
-    }).compileComponents();
-    service = TestBed.inject(OnlineOrdersService);
-    httpMock = TestBed.inject(HttpTestingController);
+    }).compileComponents().catch(e => console.error(e));
+    TestBed.inject(OnlineOrdersService);
+    TestBed.inject(HttpTestingController);
   });
 
   it('should ...', inject([OnlineOrdersService], (service1: OnlineOrdersService) => {

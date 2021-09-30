@@ -41,10 +41,10 @@ export class OnlineOrdersService {
     return this.workAssignmentsConfirmSource.asObservable();
   }
 
-  loadConfirmState() {
+  loadConfirmState(): void {
     // This pattern is ugly; should be able to simplify, perhaps use BehaviorSubjectSource instead
     // of companion private variable
-    let loadedConfirms =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
+    const loadedConfirms =  JSON.parse(sessionStorage.getItem(this.initialConfirmKey)) as Confirm[];
     if (loadedConfirms != null && loadedConfirms.length > 0) {
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(loadedConfirms);
     } else {
@@ -58,27 +58,27 @@ export class OnlineOrdersService {
       sessionStorage.getItem(this.workAssignmentConfirmKey) === 'true');
   }
 
-  clearState() {
+  clearState(): void {
     console.log('OnlineOrdersService.clearState-----');
     this.setInitialConfirm(loadConfirms());
     this.setWorkorderConfirm(false);
     this.setWorkAssignmentsConfirm(false);
   }
 
-  setInitialConfirm(choice: Confirm[]) {
+  setInitialConfirm(choice: Confirm[]): void {
     //console.log('setInitialConfirm:', choice);
     sessionStorage.setItem(this.initialConfirmKey, JSON.stringify(choice));
     this.initialConfirmSource.next(choice);
   }
 
-  setWorkorderConfirm(choice: boolean) {
+  setWorkorderConfirm(choice: boolean): void {
     //console.log('setWorkOrderConfirm:', choice);
     sessionStorage.setItem(this.workOrderConfirmKey,
       JSON.stringify(choice));
     this.workOrderConfirmSource.next(choice);
   }
 
-  setWorkAssignmentsConfirm(choice: boolean) {
+  setWorkAssignmentsConfirm(choice: boolean): void {
     //console.log('setWorkAssignmentsConfirm:', choice);
     sessionStorage.setItem(this.workAssignmentConfirmKey,
       JSON.stringify(choice));
@@ -86,8 +86,8 @@ export class OnlineOrdersService {
   }
 
   createOrder(order: WorkOrder): Observable<WorkOrder> {
-    let url = environment.dataUrl + '/api/onlineorders';
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const url = environment.dataUrl + '/api/onlineorders';
+    const postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post<WorkOrder>(url, JSON.stringify(order), {
       headers: postHeaders, withCredentials: true

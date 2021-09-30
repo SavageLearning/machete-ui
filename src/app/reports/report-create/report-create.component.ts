@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
 import { Report } from '../models/report';
@@ -9,7 +9,7 @@ import { SearchInputs } from '../models/search-inputs';
   template: `
   <!-- report create -->
   <p-dialog header="New Report" [(visible)]="showForm">
-    <p-card styleClass="p-card-shadow p-mb-5"> 
+    <p-card styleClass="p-card-shadow p-mb-5">
       <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-input-filled">
           <label for="commonName">Common name</label>
@@ -18,8 +18,8 @@ import { SearchInputs } from '../models/search-inputs';
       </div>
       <ng-template pTemplate="footer">
         <div class="p-d-flex">
-          <button pButton pRipple icon="pi pi-save" 
-            (click)="create()" label="Create Report Definition" 
+          <button pButton pRipple icon="pi pi-save"
+            (click)="create()" label="Create Report Definition"
             class="p-mb-6 p-mt-2 p-button-raised p-ml-auto"
             >
           </button>
@@ -29,20 +29,18 @@ import { SearchInputs } from '../models/search-inputs';
   </p-dialog>`,
   styles: []
 })
-export class ReportCreateComponent implements OnInit, OnDestroy {
-  @Input() showForm: boolean = false;
+export class ReportCreateComponent implements OnDestroy {
+  @Input() showForm = false;
   @Output() createdRecordEvent = new EventEmitter<Report>();
   reportToCreate: Report = new Report();
-  private alive: boolean = true;
+  private alive = true;
 
   constructor(private store: ReportsStoreService) { }
   ngOnDestroy(): void {
     this.alive = false;
   }
-  ngOnInit(): void {
-  }
 
-  create() {
+  create(): void {
     // simplify creation.
     this.reportToCreate.category = `New`;
     this.reportToCreate.sqlquery = `Select Count(*) as [Record Count] from WorkOrders`;
