@@ -49,7 +49,11 @@
                 "input": "src/scripts",
                 "output": "/"
               },
-              { "glob": "**/*", "input": "node_modules/monaco-editor", "output": "assets/monaco-editor" }     
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor",
+                "output": "assets/monaco-editor"
+              }
             ],
             "styles": [
               "node_modules/quill/dist/quill.core.css",
@@ -70,7 +74,6 @@
               "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
               "src/assets/layout/js/ripple.js",
               "node_modules/moment/moment.js",
-              "node_modules/chart.js/dist/Chart.js",
               "node_modules/quill/dist/quill.min.js"
             ],
             "aot": false,
@@ -168,7 +171,6 @@
               "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
               "src/assets/layout/js/ripple.js",
               "node_modules/moment/moment.js",
-              "node_modules/chart.js/dist/Chart.js",
               "node_modules/quill/dist/quill.js"
             ],
             "styles": [
