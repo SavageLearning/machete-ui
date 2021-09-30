@@ -4,7 +4,7 @@
 
 import { combineLatest as observableCombineLatest } from "rxjs";
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
-import { WorkOrder } from "../../shared/models/work-order";
+import { WorkOrderVM } from "../../client";
 import * as paypal from "paypal-checkout";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyWorkOrdersService } from "../my-work-orders.service";
@@ -17,7 +17,7 @@ import { TransportProvidersService } from "../../online-orders/transport-provide
   styleUrls: ["./order-complete.component.css"],
 })
 export class OrderCompleteComponent implements OnInit, AfterViewChecked {
-  order = new WorkOrder();
+  order = {} as WorkOrderVM;
   transportLabel: string;
   workerCount: number;
   transportCost = 0;

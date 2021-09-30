@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { TableModule } from "primeng/table";
 
 import { FullOrderViewComponent } from "./full-order-view.component";
-import { WorkOrder } from "../../../../shared/models/work-order";
+import { WorkOrderVM } from "src/app/client";
 import { MessageService } from "primeng/api";
 import { MessageServiceSpy } from "../../../testing";
 import { Component } from "@angular/core";
@@ -20,7 +20,7 @@ import { Component } from "@angular/core";
   </full-order-view>`,
 })
 export class TestWrapperComponent {
-  order: WorkOrder;
+  order: WorkOrderVM;
   transportLabel: string;
   workerCount: number;
   transportCost: number;
@@ -30,7 +30,7 @@ export class TestWrapperComponent {
 describe("FullOrderViewComponent", () => {
   let component: TestWrapperComponent;
   let fixture: ComponentFixture<TestWrapperComponent>;
-  let testWoDate: Date;
+  let testWoDate: string;
 
   beforeEach(
     waitForAsync(() => {
@@ -48,9 +48,9 @@ describe("FullOrderViewComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestWrapperComponent);
     component = fixture.componentInstance;
-    component.order = new WorkOrder();
+    component.order = {};
     component.order.contactName = "testEmp";
-    testWoDate = new Date();
+    testWoDate = new Date().toISOString();
     component.order.dateTimeofWork = testWoDate;
     component.transportLabel = "";
     component.workerCount = 2;

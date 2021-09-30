@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from "@angular/core";
-import { WorkOrder } from "../../../models/work-order";
+import { WorkOrderVM } from "src/app/client";
 import { MessageService } from "primeng/api";
 
 interface EmployerInfo {
@@ -33,7 +33,7 @@ interface OrderCost {
   styleUrls: ["./full-order-view.component.css"],
 })
 export class FullOrderViewComponent implements OnChanges {
-  @Input() order: WorkOrder;
+  @Input() order: WorkOrderVM;
   @Input() transportLabel: string;
   @Input() workerCount: number;
   @Input() transportCost: number;
@@ -64,8 +64,8 @@ export class FullOrderViewComponent implements OnChanges {
     }
     this.employerInfo = {
       name: this.order.contactName,
-      worksite1: this.order.worksiteAddress1,
-      worksite2: this.order.worksiteAddress2,
+      worksite1: this.order.workSiteAddress1,
+      worksite2: this.order.workSiteAddress2,
       city: this.order.city,
       state: this.order.state,
       zip: this.order.zipcode,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MyWorkOrdersService } from "../my-work-orders.service";
-import { WorkOrder } from "../../shared/models/work-order";
 import { Router } from "@angular/router";
+import { WorkOrderVM } from "src/app/client";
 
 @Component({
   selector: "app-work-order-datatable",
@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./work-order-datatable.component.css"],
 })
 export class WorkOrderDatatableComponent implements OnInit {
-  orders: WorkOrder[];
+  orders: WorkOrderVM[];
   constructor(
     private workOrderService: MyWorkOrdersService,
     private router: Router
@@ -21,7 +21,7 @@ export class WorkOrderDatatableComponent implements OnInit {
     });
   }
 
-  viewOrder(order: WorkOrder): void {
+  viewOrder(order: WorkOrderVM): void {
     console.log(order);
     this.router
       .navigate([`/my-work-orders/${order.id}`])

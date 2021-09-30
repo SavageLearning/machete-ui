@@ -1,4 +1,4 @@
-import { WorkOrder } from "./work-order";
+import { WorkOrderVM } from "src/app/client";
 import { Record } from "./record";
 export class Employer extends Record<Employer> {
   active: boolean;
@@ -24,6 +24,6 @@ export class Employer extends Record<Employer> {
   referredByOther: string;
   returnCustomer: boolean;
   state: string;
-  workOrders: WorkOrder[];
+  workOrders: WorkOrderVM[];
   zipcode: string;
 }

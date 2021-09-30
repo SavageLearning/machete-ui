@@ -1,13 +1,13 @@
 import { combineLatest as observableCombineLatest } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { OnlineOrdersService } from "../online-orders.service";
-import { WorkOrder } from "../../shared/models/work-order";
 import { WorkOrderService } from "../work-order/work-order.service";
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
 import { Router } from "@angular/router";
 import { TransportProvidersService } from "../transport-providers.service";
 import { MessageService } from "primeng/api";
 import { HttpErrorResponse } from "@angular/common/http";
+import { WorkOrderVM } from "src/app/client";
 
 @Component({
   selector: "app-order-confirm",
@@ -15,7 +15,7 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrls: ["./order-confirm.component.css"],
 })
 export class OrderConfirmComponent implements OnInit {
-  order: WorkOrder = new WorkOrder();
+  order: WorkOrderVM = {};
   transportLabel: string;
   workerCount: number;
   transportCost: number;

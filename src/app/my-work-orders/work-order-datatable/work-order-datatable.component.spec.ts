@@ -2,7 +2,7 @@ import { of as observableOf } from "rxjs";
 
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WorkOrderDatatableComponent } from "./work-order-datatable.component";
-import { WorkOrder } from "../../shared/models/work-order";
+import { WorkOrderVM } from "src/app/client";
 import { MyWorkOrdersService } from "../my-work-orders.service";
 import { TableModule } from "primeng/table";
 import { RouterSpy } from "../../shared/testing/services.spy";
@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 class WorkOrdersServiceSpy {
   getOrders = jasmine
     .createSpy("getOrders")
-    .and.callFake(() => observableOf(new Array<WorkOrder>()));
+    .and.callFake(() => observableOf(new Array<WorkOrderVM>()));
 }
 describe("WorkOrderDatatableComponent", () => {
   let component: WorkOrderDatatableComponent;

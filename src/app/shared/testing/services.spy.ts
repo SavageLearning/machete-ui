@@ -7,7 +7,7 @@ import { Employer } from "../models/employer";
 import { Lookup } from "../../lookups/models/lookup";
 import { User, UserProfile } from "../models/user";
 import { EventEmitter } from "@angular/core";
-import { WorkOrder } from "../../shared/models/work-order";
+import { WorkOrderVM } from "src/app/client";
 import {
   ScheduleRule,
   TransportRule,
@@ -57,9 +57,7 @@ export class LookupsServiceSpy {
 export class MyWorkOrdersServiceSpy {
   getOrder = jasmine
     .createSpy("getOrder")
-    .and.callFake(() =>
-      observableOf(new WorkOrder({ id: 1, transportProviderID: 32 }))
-    );
+    .and.callFake(() => observableOf({ id: 1, transportProviderID: 32 }));
 }
 
 export class ActivatedRouteSpy {
@@ -149,21 +147,19 @@ export class WorkAssignmentsServiceSpy {
 
   getWorkOrderStream = jasmine
     .createSpy("getWorkOrderStream")
-    .and.callFake(() => observableOf(new WorkOrder()));
+    .and.callFake(() => observableOf({}));
   getStream = jasmine
     .createSpy("getStream")
     .and.callFake(() => observableOf([new WorkAssignment()]));
 }
 
 export class WorkOrderServiceSpy {
-  get = jasmine.createSpy("get").and.callFake(() => new WorkOrder());
+  get = jasmine.createSpy("get").and.callFake(() => {});
   getStream = jasmine.createSpy("getStream").and.callFake(() =>
-    observableOf(
-      new WorkOrder({
-        id: 1,
-        transportProviderID: 32,
-      })
-    )
+    observableOf({
+      id: 1,
+      transportProviderID: 32,
+    })
   );
 
   loadFromProfile = jasmine
@@ -185,12 +181,10 @@ export class OnlineOrdersServiceSpy {
   getOrderCompleteStream = jasmine
     .createSpy("getOrderCompleteStream")
     .and.callFake(() =>
-      observableOf(
-        new WorkOrder({
-          id: 1,
-          transportProviderID: 32,
-        })
-      )
+      observableOf({
+        id: 1,
+        transportProviderID: 32,
+      })
     );
 
   setWorkorderConfirm = jasmine

@@ -11,7 +11,7 @@ import { WorkAssignment } from "../../shared/models/work-assignment";
 import { OnlineOrdersService } from "../online-orders.service";
 import { TransportRule, TransportProvider } from "../shared/index";
 import { WorkOrderService } from "../work-order/work-order.service";
-import { WorkOrder } from "../../shared/models/work-order";
+import { WorkOrderVM } from "src/app/client";
 import { TransportRulesService } from "../transport-rules.service";
 import { TransportProvidersService } from "../transport-providers.service";
 import { MessageService } from "primeng/api";
@@ -24,9 +24,9 @@ export class WorkAssignmentsService {
   private transports: TransportProvider[];
   private transportRules: TransportRule[];
   private combinedSource$: Observable<
-    [TransportRule[], TransportProvider[], WorkOrder]
+    [TransportRule[], TransportProvider[], WorkOrderVM]
   >;
-  private workOrder: WorkOrder;
+  private workOrder: WorkOrderVM;
 
   constructor(
     private onlineService: OnlineOrdersService,

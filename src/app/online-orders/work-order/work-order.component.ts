@@ -4,7 +4,8 @@
 import { combineLatest as observableCombineLatest } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
-import { WorkOrder } from "../../shared/models/work-order";
+import { WorkOrderVM } from "src/app/client";
+
 import { OnlineOrdersService } from "../online-orders.service";
 import { WorkOrderService } from "./work-order.service";
 import {
@@ -42,7 +43,7 @@ export class WorkOrderComponent implements OnInit {
   transportMethodsDropDown: MySelectItem[];
   transportRules: TransportRule[];
   orderForm: FormGroup;
-  workOrder: WorkOrder = new WorkOrder();
+  workOrder: WorkOrderVM = {};
   dateOfWork: Date;
   timeOfWork: string;
   minOrderDate: Date;
@@ -154,13 +155,12 @@ export class WorkOrderComponent implements OnInit {
     this.defaultOrderTime.setHours(9, 0).toString();
   }
 
-  getDateOnly(date: Date): Date {
-    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  getDateOnly(date: string): Date {
+    return DateTime.fromISO(date).startOf("day").toJSDate();
   }
 
-  getTime(date: Date): string {
-    const timePart = DateTime.fromJSDate(date).toFormat("HH:mm");
-    return timePart;
+  getTime(date: string): string {
+    return DateTime.fromISO(date).toFormat("HH:mm");
   }
 
   buildForm(): void {
@@ -179,10 +179,10 @@ export class WorkOrderComponent implements OnInit {
         requiredValidator("Contact name is required"),
       ],
       worksiteAddress1: [
-        this.workOrder.worksiteAddress1,
+        this.workOrder.workSiteAddress1,
         [requiredValidator("Address is required"), lengthValidator(50)],
       ],
-      worksiteAddress2: [this.workOrder.worksiteAddress2, lengthValidator(50)],
+      worksiteAddress2: [this.workOrder.workSiteAddress2, lengthValidator(50)],
       city: [
         this.workOrder.city,
         [requiredValidator("City is required."), lengthValidator(50)],
@@ -237,9 +237,6 @@ export class WorkOrderComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          // if (this.showErrors == true){
-          //   console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
-          // }
           this.formErrors[field] += `${control.errors[key] as string} `;
         }
       }
@@ -288,7 +285,7 @@ export class WorkOrderComponent implements OnInit {
       .catch((e) => console.error(e));
   }
 
-  prepareOrderForSave(): WorkOrder {
+  prepareOrderForSave(): WorkOrderVM {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const formModel = this.orderForm.value;
     console.log(
@@ -303,12 +300,12 @@ export class WorkOrderComponent implements OnInit {
     const combinedTime = DateTime.fromJSDate(formModel.dateOfWork)
       .plus(timeInMS)
       .toJSDate();
-    const order = new WorkOrder({
+    const order: WorkOrderVM = {
       id: 0,
-      dateTimeofWork: combinedTime,
+      dateTimeofWork: combinedTime.toISOString(),
       contactName: formModel.contactName,
-      worksiteAddress1: formModel.worksiteAddress1,
-      worksiteAddress2: formModel.worksiteAddress2,
+      workSiteAddress1: formModel.workSiteAddress1,
+      workSiteAddress2: formModel.workSiteAddress2,
       city: formModel.city,
       state: formModel.state,
       zipcode: formModel.zipcode,
@@ -320,7 +317,7 @@ export class WorkOrderComponent implements OnInit {
       englishRequired: formModel.englishRequired,
       englishRequiredNote: formModel.englishRequiredNote,
       transportProviderID: formModel.transportProviderID,
-    });
+    };
     order.englishRequired = formModel.englishRequired; // TypeScript pls
     return order;
   }

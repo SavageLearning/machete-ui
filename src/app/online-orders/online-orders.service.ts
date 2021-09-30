@@ -1,7 +1,7 @@
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from "rxjs";
-import { WorkOrder } from "../shared/models/work-order";
+import { WorkOrderVM } from "src/app/client";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 
@@ -91,7 +91,7 @@ export class OnlineOrdersService {
     this.workAssignmentsConfirmSource.next(choice);
   }
 
-  createOrder(order: WorkOrder): Observable<WorkOrder> {
+  createOrder(order: WorkOrderVM): Observable<WorkOrderVM> {
     const url = environment.dataUrl + "/api/onlineorders";
     const postHeaders = new HttpHeaders().set(
       "Content-Type",
@@ -99,10 +99,10 @@ export class OnlineOrdersService {
     );
 
     return this.http
-      .post<WorkOrder>(url, JSON.stringify(order), {
+      .post<WorkOrderVM>(url, JSON.stringify(order), {
         headers: postHeaders,
         withCredentials: true,
       })
-      .pipe(map((data) => data["data"] as WorkOrder));
+      .pipe(map((data) => data["data"] as WorkOrderVM));
   }
 }

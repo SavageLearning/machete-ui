@@ -12,7 +12,7 @@ import { AuthService } from "../../shared/index";
 import { HttpClientModule } from "@angular/common/http";
 import { LookupsService } from "../../lookups/lookups.service";
 import { Lookup } from "../../lookups/models/lookup";
-import { WorkOrder } from "../../shared/models/work-order";
+import { WorkOrderVM } from "src/app/client";
 import { TransportRule, CostRule } from "../shared/index";
 import {
   AuthServiceSpy,
@@ -52,7 +52,7 @@ describe("WorkAssignmentsService", () => {
     });
     sessionStorage.removeItem("machete.workassignments");
     spyOn(WorkOrderService.prototype, "getStream").and.returnValue(
-      observableOf(new WorkOrder({ transportProviderID: 32, zipcode: "12345" }))
+      observableOf({ transportProviderID: 32, zipcode: "12345" })
     );
 
     const transportRules = new Array<TransportRule>();

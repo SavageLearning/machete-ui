@@ -1,19 +1,19 @@
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from "rxjs";
-import { WorkOrder } from "../../shared/models/work-order";
 import { EmployersService } from "../../employers/employers.service";
 import { Employer } from "../../shared/models/employer";
+import { WorkOrderVM } from "src/app/client";
 
 @Injectable()
 export class WorkOrderService {
-  order: WorkOrder;
-  orderSource = new BehaviorSubject<WorkOrder>(null);
+  order: WorkOrderVM;
+  orderSource = new BehaviorSubject<WorkOrderVM>(null);
   //order$ = this.orderSource.asObservable();
 
   storageKey = "machete.workorder";
   constructor(private employerService: EmployersService) {
     const data = sessionStorage.getItem(this.storageKey);
-    const order = new WorkOrder(JSON.parse(data));
+    const order = JSON.parse(data);
     // check that data's not null first
     if (data && order && order.isNotEmpty()) {
       console.log(".ctor->Loading existing order", order);
@@ -31,28 +31,28 @@ export class WorkOrderService {
     }
   }
 
-  getStream(): Observable<WorkOrder> {
+  getStream(): Observable<WorkOrderVM> {
     return this.orderSource.asObservable();
   }
 
-  get(): WorkOrder {
+  get(): WorkOrderVM {
     console.log("get called");
     const data = sessionStorage.getItem(this.storageKey);
     if (data) {
-      const order: WorkOrder = JSON.parse(data) as WorkOrder;
+      const order: WorkOrderVM = JSON.parse(data) as WorkOrderVM;
       //console.log('get: returning stored order', order);
-      order.dateTimeofWork = new Date(order.dateTimeofWork);
+      //order.dateTimeofWork = new Date(order.dateTimeofWork);
       return order;
     } else {
       return this.order;
     }
   }
 
-  mapOrderFrom(employer: Employer): WorkOrder {
-    const order = new WorkOrder();
+  mapOrderFrom(employer: Employer): WorkOrderVM {
+    const order: WorkOrderVM = {};
     order.contactName = employer.name;
-    order.worksiteAddress1 = employer.address1;
-    order.worksiteAddress2 = employer.address2;
+    order.workSiteAddress1 = employer.address1;
+    order.workSiteAddress2 = employer.address2;
     order.city = employer.city;
     order.state = employer.state;
     order.zipcode = employer.zipcode;
@@ -60,7 +60,7 @@ export class WorkOrderService {
     return order;
   }
 
-  save(order: WorkOrder): void {
+  save(order: WorkOrderVM): void {
     console.log("save", order);
     sessionStorage.setItem(this.storageKey, JSON.stringify(order));
     this.order = order;
@@ -69,7 +69,7 @@ export class WorkOrderService {
 
   // TODO: Call clear when order expires, is completed, removed.
   clearState(): void {
-    this.order = new WorkOrder();
+    this.order = {};
     console.log("WorkOrdersService.clearState-----");
 
     sessionStorage.removeItem(this.storageKey);
