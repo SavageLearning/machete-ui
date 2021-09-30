@@ -53,7 +53,7 @@
                 <td *ngFor="let col of cols">
                   <span class="p-column-title">{{col.header}}</span>
                   <span *ngIf="col.dateFormat !== null">{{rowData[col.field] | date:col.dateFormat}}</span>
-                  <span *ngIf="col.dateFormat == null">{{rowData[col.field]}}</span>
+                  <span *ngIf="col.dateFormat === null">{{rowData[col.field]}}</span>
                 </td>
             </tr>
         </ng-template>

@@ -1,5 +1,5 @@
-import { WorkOrder } from './work-order';
-import { Record } from './record';
+import { WorkOrder } from "./work-order";
+import { Record } from "./record";
 export class Employer extends Record<Employer> {
   active: boolean;
   address1: string;

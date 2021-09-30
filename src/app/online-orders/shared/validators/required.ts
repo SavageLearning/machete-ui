@@ -1,6 +1,4 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } from '@angular/forms';
-import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AbstractControl, ValidatorFn } from "@angular/forms";
 
 function isEmptyInputValue(value: any): boolean {
   // we don't check for string here so it also works with arrays
@@ -8,5 +6,6 @@ function isEmptyInputValue(value: any): boolean {
 }
 
 export function requiredValidator(message: string): ValidatorFn {
-    return(control: AbstractControl): {[key: string]: any} => isEmptyInputValue(control.value) ? {required: message} : null;
+  return (control: AbstractControl): { [key: string]: any } =>
+    isEmptyInputValue(control.value) ? { required: message } : null;
 }

@@ -1,39 +1,32 @@
-/* eslint-disable brace-style */
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
-import { User } from '../../shared/models/user';
+import { Component } from "@angular/core";
+import { AuthService } from "../../shared/services/auth.service";
+import { User } from "../../shared/models/user";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: 'dashboard.component.html',
-  styleUrls: ['dashboard.component.scss']
+  selector: "app-dashboard",
+  templateUrl: "dashboard.component.html",
+  styleUrls: ["dashboard.component.scss"],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-
+export class DashboardComponent {
   _user: User;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService) {}
+
+  authenticate(): void {
+    this.authService.authorize().subscribe((user) => {
+      this._user = user;
+    });
   }
 
-  ngOnInit() {
+  signoutUser(): void {
+    this.authService.signoutUser().subscribe((response) => response);
   }
 
-  authenticate() {
-    this.authService.authorize().subscribe(user => { this._user = user; });
-  }
-
-  signoutUser() {
-    this.authService.signoutUser().subscribe(response => response);
-  }
-
-  removeUser() {
+  removeUser(): void {
     this.authService.removeUser();
   }
 
-  verifyLogin() {
-    this.authService.isLoggedIn().subscribe(response => response);
-  }
-
-  ngOnDestroy() {
+  verifyLogin(): void {
+    this.authService.isLoggedIn().subscribe((response) => response);
   }
 }

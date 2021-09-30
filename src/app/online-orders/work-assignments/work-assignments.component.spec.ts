@@ -66,5 +66,4 @@
 //     expect(component.transportRules).toBeTruthy();
 //   });
 
-
 // });

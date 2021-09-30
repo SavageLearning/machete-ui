@@ -1,26 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Table } from 'primeng/table';
-import { Column } from '../models/column';
-import { SimpleAggregateRow } from '../models/simple-aggregate-row';
+import { Component, Input } from "@angular/core";
+import { Table } from "primeng/table";
+import { Column } from "../models/column";
+import { SimpleAggregateRow } from "../models/simple-aggregate-row";
 
 @Component({
-  selector: 'app-report-result',
+  selector: "app-report-result",
   templateUrl: `./report-result.component.html`,
-  styles: []
+  styles: [],
 })
-export class ReportResultComponent implements OnInit {
+export class ReportResultComponent {
   @Input() public viewData: SimpleAggregateRow[];
   @Input() public cols: Column[];
   @Input() public exportFileName: string;
-  constructor() { }
 
-  ngOnInit(): void {
+  getExport(dt: Table): void {
+    dt.exportFilename = this.exportFileName;
+    dt.exportCSV({ options: [{ selectionOnly: false }] });
   }
-
-  getExport(dt: Table) {
-    dt.exportFilename =
-      this.exportFileName;
-    dt.exportCSV({options: [{selectionOnly: false}]});
-  }
-
 }

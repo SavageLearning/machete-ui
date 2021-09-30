@@ -1,10 +1,13 @@
-
-import { map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
-import { WorkOrder } from '../shared/models/work-order';
+import { map } from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { Observable } from "rxjs";
+import { WorkOrder } from "../shared/models/work-order";
 
 @Injectable()
 export class MyWorkOrdersService {
@@ -18,52 +21,70 @@ export class MyWorkOrdersService {
   milliseconds: number;
   utcFomattedDate: Date;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getOrders(): Observable<WorkOrder[]> {
-    let uri = environment.dataUrl + '/api/onlineorders';
+    const uri = environment.dataUrl + "/api/onlineorders";
 
     return this.http.get(uri, { withCredentials: true }).pipe(
-      map(o => {
-        let wo = o['data'];
-        wo.map(x => {
+      map((o) => {
+        const wo = o["data"] as WorkOrder[];
+        wo.map((x) => {
           x.dateTimeofWork = this.toUTC(x.dateTimeofWork);
         });
-        return wo as WorkOrder[]
-      }
-      ));
+        return wo;
+      })
+    );
   }
 
   getOrder(id: number): Observable<WorkOrder> {
-    let url = environment.dataUrl + '/api/onlineorders/' + id;
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    const url = `${environment.dataUrl}/api/onlineorders/${id}`;
+    const postHeaders = new HttpHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
 
-    return this.http.get<WorkOrder>(url, { headers: postHeaders, withCredentials: true }).pipe(map(
-      (data) => {
-        let wo = data['data'];
-        console.log('getOrder received:', wo);
-        wo.dateTimeofWork = this.toUTC(wo.dateTimeofWork);
-        return wo as WorkOrder;
-      }, (err: HttpErrorResponse) => {
-        // TODO error
-        console.error('online-orders.getOrder returned', err);
-      }
-    ));
+    return this.http
+      .get<WorkOrder>(url, { headers: postHeaders, withCredentials: true })
+      .pipe(
+        map(
+          (data) => {
+            const wo = data["data"] as WorkOrder;
+            console.log("getOrder received:", wo);
+            wo.dateTimeofWork = this.toUTC(wo.dateTimeofWork);
+            return wo;
+          },
+          (err: HttpErrorResponse) => {
+            // TODO error
+            console.error("online-orders.getOrder returned", err);
+          }
+        )
+      );
   }
 
-  executePaypal(orderID: number, payerID: string, paymentID: string, token: string): Observable<any> {
-
-    let url = environment.dataUrl + '/api/onlineorders/' + orderID + '/paypalexecute';
-    let postHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    let jsonModel = JSON.stringify({
+  executePaypal(
+    orderID: number,
+    payerID: string,
+    paymentID: string,
+    token: string
+  ): Observable<any> {
+    const url = `${environment.dataUrl}/api/onlineorders/${orderID}/paypalexecute`;
+    const postHeaders = new HttpHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    const jsonModel = JSON.stringify({
       payerID,
       paymentID,
-      paymentToken: token
+      paymentToken: token,
     });
 
-    return this.http.post<any>(url, jsonModel, { headers: postHeaders, withCredentials: true }).pipe(
-      map(data => data)
-    );
+    return this.http
+      .post<any>(url, jsonModel, {
+        headers: postHeaders,
+        withCredentials: true,
+      })
+      .pipe(map((data) => data));
   }
 
   //datetime returned by API has no Zone information, so it has to forced into a UTC zoned date
@@ -84,7 +105,7 @@ export class MyWorkOrdersService {
     this.apiDate.setUTCMinutes(this.minutes);
     this.apiDate.setUTCMilliseconds(this.milliseconds);
 
-    console.log(`UTC WO Date Time with TZ ${this.apiDate}`)
+    // console.log(`UTC WO Date Time with TZ ${this.apiDate}`)
     return this.apiDate;
   }
 }

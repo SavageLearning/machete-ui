@@ -1,10 +1,10 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MessageService  as PrimeNGMess } from 'primeng/api';
-import { Observable } from 'rxjs';
-import { map, takeWhile, tap } from 'rxjs/operators';
-import ErrorModel from '../../models/error-model';
-import { MessagesService } from './messages.service';
+import { HttpErrorResponse } from "@angular/common/http";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { MessageService as PrimeNGMess } from "primeng/api";
+import { Observable } from "rxjs";
+import { map, takeWhile, tap } from "rxjs/operators";
+import ErrorModel from "../../models/error-model";
+import { MessagesService } from "./messages.service";
 
 export interface ISuccessMessage {
   label: string;
@@ -12,47 +12,45 @@ export interface ISuccessMessage {
 }
 
 @Component({
-  selector: 'app-messages',
+  selector: "app-messages",
   template: `<p-toast></p-toast>`,
-  styles: []
+  styles: [],
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
   private alive = true;
   errors$: Observable<any>;
   success$: Observable<void>;
 
-
   constructor(
     public messagesService: MessagesService,
-    private primeNGMesage: PrimeNGMess) { }
+    private primeNGMesage: PrimeNGMess
+  ) {}
 
   ngOnInit(): void {
-    this.errors$ = this.messagesService.errors$
-      .pipe(
-        takeWhile(() => this.alive),
-        tap(error => console.log(error)),
-        map(error => this.notifyErrors(error)),
-      );
+    this.errors$ = this.messagesService.errors$.pipe(
+      takeWhile(() => this.alive),
+      tap((error) => console.log(error)),
+      map((error) => this.notifyErrors(error))
+    );
     this.errors$.subscribe();
-    this.success$ = this.messagesService.success$
-      .pipe(
-        takeWhile(() => this.alive),
-        tap(success => console.log(success)),
-        map((success: ISuccessMessage) => this.notifySuccess(success))
-      );
+    this.success$ = this.messagesService.success$.pipe(
+      takeWhile(() => this.alive),
+      tap((success) => console.log(success)),
+      map((success: ISuccessMessage) => this.notifySuccess(success))
+    );
     this.success$.subscribe();
   }
 
-  notifyErrors = (error: HttpErrorResponse | ErrorModel) => {
+  notifyErrors = (error: HttpErrorResponse | ErrorModel): void => {
     // simple error object
-    if (error instanceof HttpErrorResponse && typeof(error.error) == 'string') {
+    if (error instanceof HttpErrorResponse && typeof error.error == "string") {
       this.primeNGMesage.add({
         severity: "error",
         summary: error.statusText,
         detail: error.error,
         life: 7000,
       });
-      return
+      return;
     }
 
     if (error instanceof ErrorModel) {
@@ -64,7 +62,7 @@ export class MessagesComponent implements OnInit {
           life: 7000,
         });
       });
-      return
+      return;
     }
 
     let parsedError = error;
@@ -78,7 +76,7 @@ export class MessagesComponent implements OnInit {
     const errorLables = Object.keys(parsedError);
     errorLables.map((label: string) => {
       // if value of error = string
-      if (typeof(parsedError[label]) == "string") {
+      if (typeof parsedError[label] == "string") {
         this.primeNGMesage.add({
           severity: "error",
           summary: label,
@@ -95,12 +93,12 @@ export class MessagesComponent implements OnInit {
             detail: `${e}`,
             life: 7000,
           });
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
-  notifySuccess(success: ISuccessMessage) {
+  notifySuccess(success: ISuccessMessage): void {
     this.primeNGMesage.add({
       severity: "success",
       summary: success.label,
@@ -109,8 +107,7 @@ export class MessagesComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.alive = false;
   }
-
 }

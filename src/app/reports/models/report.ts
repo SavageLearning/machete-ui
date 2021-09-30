@@ -1,11 +1,11 @@
-import { Column } from './column';
-import {SearchInputs} from './search-inputs';
+import { Column } from "./column";
+import { SearchInputs } from "./search-inputs";
 /**
  * Created by jcarter on 3/9/17.
  */
 export class Report {
   constructor(init?: Partial<Report>) {
-    Object.assign(this, init)
+    Object.assign(this, init);
   }
   name: string;
   commonName: string;
@@ -25,5 +25,4 @@ export class Report {
   idPrefix: string;
   columns: Column[];
   inputs: SearchInputs;
-
 }

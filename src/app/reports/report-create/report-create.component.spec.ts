@@ -1,27 +1,22 @@
-import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
-import { ReportsStoreServiceSpy } from 'src/app/shared/testing';
-import { Report } from '../models/report';
+import { HttpClientModule } from "@angular/common/http";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { ReportsStoreServiceSpy } from "src/app/shared/testing";
 
-import { ReportCreateComponent } from './report-create.component';
+import { ReportCreateComponent } from "./report-create.component";
 
-describe('ReportCreateComponent', () => {
+describe("ReportCreateComponent", () => {
   let component: ReportCreateComponent;
   let fixture: ComponentFixture<ReportCreateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReportCreateComponent ],
-      imports: [
-        HttpClientModule,
-      ],
+      declarations: [ReportCreateComponent],
+      imports: [HttpClientModule],
       providers: [
-        {provide: ReportsStoreService, useClass: ReportsStoreServiceSpy}
-      ]
-    })
-    .compileComponents();
+        { provide: ReportsStoreService, useClass: ReportsStoreServiceSpy },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -30,7 +25,7 @@ describe('ReportCreateComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

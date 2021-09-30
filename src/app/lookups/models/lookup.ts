@@ -16,31 +16,30 @@ export class Record<T> {
   }
 }
 export class Lookup extends Record<Lookup> {
-  idString = 'Lookup';
+  idString = "Lookup";
   category: string;
   text_EN: string;
   text_ES: string;
   selected: boolean;
-  subcategory: string;          // deprecated, moving to skill-rule
-  level: number;                // deprecated, moving to skill-rule
-  wage: number;                 // deprecated, moving to skill-rule
-  minHour: number;              // deprecated, moving to skill-rule
-  fixedJob?: boolean;           // deprecated, moving to skill-rule
+  subcategory: string; // deprecated, moving to skill-rule
+  level: number; // deprecated, moving to skill-rule
+  wage: number; // deprecated, moving to skill-rule
+  minHour: number; // deprecated, moving to skill-rule
+  fixedJob?: boolean; // deprecated, moving to skill-rule
   sortorder: number;
-  typeOfWorkID: number;         // deprecated, moving to skill-rule
-  speciality: boolean;          // deprecated, moving to skill-rule
-  ltrCode: string;              // deprecated, moving to skill-rule
+  typeOfWorkID: number; // deprecated, moving to skill-rule
+  speciality: boolean; // deprecated, moving to skill-rule
+  ltrCode: string; // deprecated, moving to skill-rule
   emailTemplate: string;
-  skillDescriptionEn: string;   // deprecated, moving to skill-rule
-  skillDescriptionEs: string;   // deprecated, moving to skill-rule
-  minimumCost?: number;         // never used?
+  skillDescriptionEn: string; // deprecated, moving to skill-rule
+  skillDescriptionEs: string; // deprecated, moving to skill-rule
+  minimumCost?: number; // never used?
   key: string;
   active: boolean;
   clientRules: string;
-
 }
 
 export enum LCategory {
-  SKILL = 'skill',
-  TRANSPORT = 'transportmethod'
+  SKILL = "skill",
+  TRANSPORT = "transportmethod",
 }

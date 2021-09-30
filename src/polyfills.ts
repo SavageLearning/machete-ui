@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -39,22 +41,16 @@
 /** IE10 and IE11 requires the following to support `@angular/animation`. */
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
-
 /** Evergreen browsers require these. **/
 // import 'core-js/es6/reflect';
-
 
 /** ALL Firefox browsers require the following to support `@angular/animation`. **/
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
-
-
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import 'zone.js';  // Included with Angular CLI.
-
-
+import "zone.js"; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
@@ -68,6 +64,6 @@ import 'zone.js';  // Included with Angular CLI.
 
 // https://github.com/algolia/algoliasearch-client-javascript/issues/691
 (window as any).process = {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    env: { DEBUG: undefined },
-  };
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  env: { DEBUG: undefined },
+};

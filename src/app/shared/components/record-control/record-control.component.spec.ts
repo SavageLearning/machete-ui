@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { RecordControlComponent } from './record-control.component';
+import { RecordControlComponent } from "./record-control.component";
 
-describe('RecordControlComponent', () => {
+describe("RecordControlComponent", () => {
   let component: RecordControlComponent;
   let fixture: ComponentFixture<RecordControlComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecordControlComponent ]
-    })
-    .compileComponents();
+      declarations: [RecordControlComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('RecordControlComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

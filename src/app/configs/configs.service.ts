@@ -1,24 +1,22 @@
+import { Observable, of } from "rxjs";
 
-import { Observable, of } from 'rxjs';
-
-import { first, mergeMap, map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Config, CCategory } from '../shared/models/config';
+import { first, mergeMap, map } from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Config, CCategory } from "../shared/models/config";
 
 @Injectable()
 export class ConfigsService {
-  uriBase = environment.dataUrl + '/api/configs';
+  uriBase = environment.dataUrl + "/api/configs";
   configs = new Array<Config>();
   configsAge = 0;
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   // TODO simplify
   isStale(): boolean {
     if (this.configsAge > Date.now() - 36000) {
-        return false;
+      return false;
     }
     return true;
   }
@@ -31,26 +29,28 @@ export class ConfigsService {
       return of(this.configs);
     }
 
-    console.log('getAllConfigs: ' + this.uriBase);
+    console.log("getAllConfigs: " + this.uriBase);
     // withCredentials: true is normally necessary, but configs are enabled for anonymous
     return this.http.get(this.uriBase).pipe(
-      map(res => {
+      map((res) => {
         //console.log(res); // <~ outputs a configuration object
-        this.configs = res['data'] as Config[];
+        this.configs = res["data"] as Config[];
         this.configsAge = Date.now();
-        return res['data'] as Config[];
+        return res["data"] as Config[];
       })
     );
   }
 
   getConfigs(category: CCategory): Observable<Config[]> {
     return this.getAllConfigs().pipe(
-      map(res => res.filter(l => l.category === category)));
+      map((res) => res.filter((l) => l.category === category))
+    );
   }
 
   getConfig(key: string): Observable<Config> {
     return this.getAllConfigs().pipe(
-    mergeMap(a => a.filter(ll => ll.key === key)),
-    first(), );
+      mergeMap((a) => a.filter((ll) => ll.key === key)),
+      first()
+    );
   }
 }

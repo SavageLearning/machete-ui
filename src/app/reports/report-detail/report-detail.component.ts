@@ -4,7 +4,6 @@ import { Report } from "../models/report";
 import { SearchOptions } from "../models/search-options";
 import { SimpleAggregateRow } from "../models/simple-aggregate-row";
 import { ReportsService } from "../reports.service";
-import { Table } from "primeng/table";
 import { Observable } from "rxjs";
 import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
 import { takeWhile } from "rxjs/operators";
@@ -31,13 +30,13 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
   reportCreate?: Report = new Report();
   o: SearchOptions;
   viewData$: Observable<SimpleAggregateRow[]>;
-  loadingRecord: boolean = true;
+  loadingRecord = true;
   sqlEditorState: SqlEditorState = SqlEditorState.CLOSED;
   validate: string;
   calYearRange: string;
-  displayCreateForm: boolean = false;
+  displayCreateForm = false;
   deleteConfirmActionData: IConfirmActionData;
-  saving: boolean = false;
+  saving = false;
   private alive = true;
 
   constructor(
@@ -46,63 +45,68 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     private store: ReportsStoreService
   ) {}
 
-  getReportDefinition() {
-    let report$ = this.store.getReport(this.routeReportID);
-    report$.pipe(takeWhile(() => this.alive)).subscribe(
-      (data) => {
-        this.report = data as Report;
-        this.loadingRecord = false;
-      }
-    );
-  }
-
-  getReportData() {
-    // no need to unsubscribe as it uses async pipe
-    this.viewData$ = this.reportsService.getReportData(this.report.name.toString(), this.o);
-  }
-
-  // child component emits event
-  onDoneWithSql(sql: string) {
-    this.report.sqlquery = sql;
-  }
-  onStartEditSql(sqlEditorState: SqlEditorState) {
-    this.sqlEditorState = sqlEditorState;
-  }
-
-  disableSave = (): boolean => this.sqlEditorState !== SqlEditorState.CLOSED
-    || this.saving;
-  
-  get exportFileName() {
-    return `${this.report.name}${this.o.beginDate}${this.o.endDate}`;
-  }
-
-  save() {
-    this.saving = true;
-    this.store.update(this.report).subscribe(res => {
-      this.report = res;
-      this.saving = false;
+  getReportDefinition(): void {
+    const report$ = this.store.getReport(this.routeReportID);
+    report$.pipe(takeWhile(() => this.alive)).subscribe((data) => {
+      this.report = data;
+      this.loadingRecord = false;
     });
   }
 
-  onChildRecordControlCreate(createFromEvent: boolean) {
+  getReportData(): void {
+    // no need to unsubscribe as it uses async pipe
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    this.viewData$ = this.reportsService.getReportData(
+      this.report.name.toString(),
+      this.o
+    );
+  }
+
+  // child component emits event
+  onDoneWithSql(sql: string): void {
+    this.report.sqlquery = sql;
+  }
+  onStartEditSql(sqlEditorState: SqlEditorState): void {
+    this.sqlEditorState = sqlEditorState;
+  }
+
+  disableSave = (): boolean =>
+    this.sqlEditorState !== SqlEditorState.CLOSED || this.saving;
+
+  get exportFileName(): string {
+    return `${this.report.name}${this.o.beginDate}${this.o.endDate}`;
+  }
+
+  save(): void {
+    this.saving = true;
+    this.store.update(this.report).subscribe(
+      (res) => {
+        this.report = res;
+        this.saving = false;
+      },
+      () => (this.saving = false)
+    );
+  }
+
+  onChildRecordControlCreate(createFromEvent: boolean): void {
     // this triggers child component to display create form
     this.displayCreateForm = createFromEvent;
   }
 
   /*
-  * Child component creates record and passes new record from API here
-  */
-  onNewRecord($event: Report) {
+   * Child component creates record and passes new record from API here
+   */
+  onNewRecord($event: Report): void {
     this.report = $event;
   }
 
   ngOnInit(): void {
     // set cal year range
     const today = new Date();
-    this.calYearRange = `2000:${today.getFullYear() + 1}`
+    this.calYearRange = `2000:${today.getFullYear() + 1}`;
     // other vars
-    let now = new Date();
-    let aYearAgo = new Date();
+    const now = new Date();
+    const aYearAgo = new Date();
     aYearAgo.setFullYear(now.getFullYear() - 1);
     this.o = new SearchOptions();
     this.o.endDate = now.toLocaleDateString();
@@ -115,19 +119,18 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     // set delete confirm action
     this.deleteConfirmActionData = {
       message: `Are you sure you want to delete?`,
-      header: 'Confirm Delete',
-      icon: 'pi pi-exclamation-triangle',
+      header: "Confirm Delete",
+      icon: "pi pi-exclamation-triangle",
       accept: () => {
         this.store
-        .delete(this.report.name, 'reports')
-        .pipe(takeWhile(() => this.alive))
-        .subscribe(succcess => this.report = new Report());
-      }      
-    }
+          .delete(this.report.name, "reports")
+          .pipe(takeWhile(() => this.alive))
+          .subscribe(() => (this.report = new Report()));
+      },
+    };
   }
 
   ngOnDestroy(): void {
     this.alive = false;
   }
-
 }

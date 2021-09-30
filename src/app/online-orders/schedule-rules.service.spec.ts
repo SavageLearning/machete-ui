@@ -1,28 +1,27 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { ScheduleRulesService } from './schedule-rules.service';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { environment } from '../../environments/environment';
+import { ScheduleRulesService } from "./schedule-rules.service";
+import { HttpClientModule } from "@angular/common/http";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
-describe('ScheduleRulesService', () => {
-  let httpMock: HttpTestingController;
-  let baseref: string  = environment.dataUrl;
+describe("ScheduleRulesService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        ScheduleRulesService
-      ],
-      imports: [
-        HttpClientModule,
-        HttpClientTestingModule
-      ]
-    }).compileComponents();
-    httpMock = TestBed.inject(HttpTestingController);
+      providers: [ScheduleRulesService],
+      imports: [HttpClientModule, HttpClientTestingModule],
+    })
+      .compileComponents()
+      .catch((e) => console.error(e));
+    TestBed.inject(HttpTestingController);
   });
 
-  it('should be created', inject([ScheduleRulesService], (service: ScheduleRulesService) => {
-    expect(service).toBeTruthy();
-  }));
+  it("should be created", inject(
+    [ScheduleRulesService],
+    (service: ScheduleRulesService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

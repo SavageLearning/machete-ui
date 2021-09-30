@@ -1,17 +1,20 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { OrderNotFoundComponent } from './order-not-found.component';
+import { OrderNotFoundComponent } from "./order-not-found.component";
 
-describe('OrderNotFoundComponent', () => {
+describe("OrderNotFoundComponent", () => {
   let component: OrderNotFoundComponent;
   let fixture: ComponentFixture<OrderNotFoundComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ OrderNotFoundComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [OrderNotFoundComponent],
+      })
+        .compileComponents()
+        .catch((e) => console.error(e));
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderNotFoundComponent);
@@ -19,7 +22,7 @@ describe('OrderNotFoundComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 });

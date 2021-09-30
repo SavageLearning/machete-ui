@@ -1,20 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MessagesComponent } from './messages.component';
-import { MessageService } from 'primeng/api';
+import { MessagesComponent } from "./messages.component";
+import { MessageService } from "primeng/api";
 
-describe('MessagesComponent', () => {
+describe("MessagesComponent", () => {
   let component: MessagesComponent;
   let fixture: ComponentFixture<MessagesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MessagesComponent ],
-      providers: [
-        MessageService
-      ]
-    })
-    .compileComponents();
+      declarations: [MessagesComponent],
+      providers: [MessageService],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -23,7 +20,7 @@ describe('MessagesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,12 +1,12 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { enableProdMode } from "@angular/core";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
-import 'chart.js/dist/Chart.bundle.min.js';
+import { AppModule } from "./app/app.module";
+import { environment } from "./environments/environment";
 
 if (environment.production) {
   enableProdMode();
 }
-console.log('main.ts environment.name:', environment.name);
+console.log("main.ts environment.name:", environment.name);
 platformBrowserDynamic().bootstrapModule(AppModule);

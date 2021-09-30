@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ISuccessMessage } from './messages.component';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
+import { ISuccessMessage } from "./messages.component";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class MessagesService {
   private errorSubject = new BehaviorSubject<any>([]);
@@ -13,14 +13,13 @@ export class MessagesService {
 
   errors$: Observable<any> = this.errorSubject.asObservable();
 
-  showErrors(errors: any) {
+  showErrors(errors): void {
     this.errorSubject.next(errors);
   }
 
-  showSuccess(message: ISuccessMessage) {
+  showSuccess(message: ISuccessMessage): void {
     this.successSubject.next(message);
   }
 
-
-  constructor() { }
+  constructor() {}
 }

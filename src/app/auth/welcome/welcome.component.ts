@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfigsService } from '../../configs/configs.service';
-import { AuthService } from '../../shared/index';
-import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { Config } from '../../shared/models/config';
+import { Component, OnInit } from "@angular/core";
+import { ConfigsService } from "../../configs/configs.service";
+import { AuthService } from "../../shared/index";
+import { Router } from "@angular/router";
+import { environment } from "../../../environments/environment";
+import { Config } from "../../shared/models/config";
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  selector: "app-welcome",
+  templateUrl: "./welcome.component.html",
+  styleUrls: ["./welcome.component.css"],
 })
 export class WelcomeComponent implements OnInit {
-
   facebookAppId: string;
   googleClientId: string;
   macheteSessionId: string;
@@ -23,47 +22,70 @@ export class WelcomeComponent implements OnInit {
   outageMessage: string;
   serverData: Config[];
 
-  constructor(private cfgService: ConfigsService,
+  constructor(
+    private cfgService: ConfigsService,
     private authService: AuthService,
-    private router: Router) {    }
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cfgService.getAllConfigs().subscribe(
-      data => {
-        this.serverData = data as Config[];
-        console.log('configs: ', data) // TODO this was 2am madness, this isn't great JS
-        this.welcome = data.find(config => config.key === 'WorkCenterDescription_EN').value;
-        this.facebookAppId = data.find(config => config.key === 'FacebookAppId').value;
-        this.googleClientId = data.find(config => config.key === 'GoogleClientId').value;
-        this.macheteSessionId = data.find(config => config.key === 'OAuthStateParameter').value;
-        this.macheteOutage = data.find(config => config.key === 'DisableOnlineOrders').value === 'TRUE';
-        this.outageMessage = data.find(config => config.key === 'DisableOnlineOrdersBanner').value;
+      (data) => {
+        this.serverData = data;
+        console.log("configs: ", data); // TODO this was 2am madness, this isn't great JS
+        this.welcome = data.find(
+          (config) => config.key === "WorkCenterDescription_EN"
+        ).value;
+        this.facebookAppId = data.find(
+          (config) => config.key === "FacebookAppId"
+        ).value;
+        this.googleClientId = data.find(
+          (config) => config.key === "GoogleClientId"
+        ).value;
+        this.macheteSessionId = data.find(
+          (config) => config.key === "OAuthStateParameter"
+        ).value;
+        this.macheteOutage =
+          data.find((config) => config.key === "DisableOnlineOrders").value ===
+          "TRUE";
+        this.outageMessage = data.find(
+          (config) => config.key === "DisableOnlineOrdersBanner"
+        ).value;
       },
-      error => console.error('welcome.component.OnInit:' + error)
+      (error) => console.error("welcome.component.OnInit:" + error)
     );
-    this.authService.authorize().subscribe(user => {
-      this.isLoggedIn = !user.expired;
-      this.userState = user.state ? user.state : '/welcome';
-    }, error => {
-      console.log('welcome component: error; ', error);
-      this.isLoggedIn = false;
-    });
+    this.authService.authorize().subscribe(
+      (user) => {
+        this.isLoggedIn = !user.expired;
+        this.userState = user.state ? user.state : "/welcome";
+      },
+      (error) => {
+        console.log("welcome component: error; ", error);
+        this.isLoggedIn = false;
+      }
+    );
   }
 
   // https://stackoverflow.com/a/49437170/2496266
-  login() {
-    window.location.href = environment.dataUrl
-                         + '/id/login?redirect_uri='
-                         + environment.dataUrl
-                         + environment.redirect_uri + '&' // should include above...
-                         + 'app_id=' + this.facebookAppId + '&'
-                         + 'client_id=' + this.googleClientId + '&'
-                         + 'state=' + this.macheteSessionId;
+  login(): void {
+    window.location.href =
+      environment.dataUrl +
+      "/id/login?redirect_uri=" +
+      environment.dataUrl +
+      environment.redirect_uri +
+      "&" + // should include above...
+      "app_id=" +
+      this.facebookAppId +
+      "&" +
+      "client_id=" +
+      this.googleClientId +
+      "&" +
+      "state=" +
+      this.macheteSessionId;
   }
 
-
   // DEPRECATED
-  register() {
-    this.router.navigate(['/register']);
+  register(): void {
+    this.router.navigate(["/register"]);
   }
 }

@@ -11,23 +11,30 @@ export interface IEditorDetails {
   templateUrl: "./editor.component.html",
   styleUrls: ["./editor.component.scss"],
 })
-export class EditorComponent implements OnInit {
-  editorOptions = { theme: "vs-dark", language: "sql" };
-  editing: boolean = false;
+export class EditorComponent {
+  editorOptions = {
+    theme: "monokai",
+    mode: "text/x-mssql",
+    lineNumbers: true,
+    indentWithTabs: true,
+    smartIndent: true,
+    matchBrackets: true,
+    autoCloseTags: true,
+    styleActiveLine: true,
+  };
+  editing = false;
 
   @Input() sql: string;
   @Output() editedSql = new EventEmitter<string>();
   @Output() editorState = new EventEmitter<SqlEditorState>();
 
-  constructor() {}
-
-  doneWithSql(sql: string) {
+  doneWithSql(sql: string): void {
     this.editing = false;
     this.editorState.emit(SqlEditorState.CLOSED);
     this.editedSql.emit(sql);
   }
 
-  startEditSql() {
+  startEditSql(): void {
     this.editing = true;
     this.editorState.emit(SqlEditorState.OPEN);
   }

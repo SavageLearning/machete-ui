@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import {Observable,  BehaviorSubject } from 'rxjs';
-import {WorkOrder} from '../../shared/models/work-order';
-import { EmployersService} from '../../employers/employers.service';
-import { Employer } from '../../shared/models/employer';
+import { Injectable } from "@angular/core";
+import { Observable, BehaviorSubject } from "rxjs";
+import { WorkOrder } from "../../shared/models/work-order";
+import { EmployersService } from "../../employers/employers.service";
+import { Employer } from "../../shared/models/employer";
 
 @Injectable()
 export class WorkOrderService {
@@ -10,25 +10,24 @@ export class WorkOrderService {
   orderSource = new BehaviorSubject<WorkOrder>(null);
   //order$ = this.orderSource.asObservable();
 
-  storageKey = 'machete.workorder';
+  storageKey = "machete.workorder";
   constructor(private employerService: EmployersService) {
-    let data = sessionStorage.getItem(this.storageKey);
-    let order = new WorkOrder(JSON.parse(data));
+    const data = sessionStorage.getItem(this.storageKey);
+    const order = new WorkOrder(JSON.parse(data));
     // check that data's not null first
     if (data && order && order.isNotEmpty()) {
-      console.log('.ctor->Loading existing order', order);
+      console.log(".ctor->Loading existing order", order);
       order.dateTimeofWork = new Date(order.dateTimeofWork); // deserializing date
       this.order = order;
       this.orderSource.next(this.order);
     } else {
-      console.log('.ctor->Create work order from employer');
-      this.employerService.getEmployer()
-        .subscribe(res => {
-          // loading employer data as the defaults for
-          // the new workorder
-          this.order = this.mapOrderFrom(res || new Employer());
-          this.orderSource.next(this.order);
-        });
+      console.log(".ctor->Create work order from employer");
+      this.employerService.getEmployer().subscribe((res) => {
+        // loading employer data as the defaults for
+        // the new workorder
+        this.order = this.mapOrderFrom(res || new Employer());
+        this.orderSource.next(this.order);
+      });
     }
   }
 
@@ -37,10 +36,10 @@ export class WorkOrderService {
   }
 
   get(): WorkOrder {
-    console.log('get called');
-    let data = sessionStorage.getItem(this.storageKey);
+    console.log("get called");
+    const data = sessionStorage.getItem(this.storageKey);
     if (data) {
-      let order: WorkOrder = JSON.parse(data);
+      const order: WorkOrder = JSON.parse(data) as WorkOrder;
       //console.log('get: returning stored order', order);
       order.dateTimeofWork = new Date(order.dateTimeofWork);
       return order;
@@ -61,17 +60,17 @@ export class WorkOrderService {
     return order;
   }
 
-  save(order: WorkOrder) {
-    console.log('save', order);
+  save(order: WorkOrder): void {
+    console.log("save", order);
     sessionStorage.setItem(this.storageKey, JSON.stringify(order));
     this.order = order;
     this.orderSource.next(this.order);
   }
 
   // TODO: Call clear when order expires, is completed, removed.
-  clearState() {
+  clearState(): void {
     this.order = new WorkOrder();
-    console.log('WorkOrdersService.clearState-----');
+    console.log("WorkOrdersService.clearState-----");
 
     sessionStorage.removeItem(this.storageKey);
     this.orderSource.next(this.order);
