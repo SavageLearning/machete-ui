@@ -2,7 +2,7 @@
 /**
  * Created by jcii on 5/31/17.
  */
-import { Record } from './record';
+import { Record } from "./record";
 export class WorkAssignment extends Record<WorkAssignment> {
   skillId: number;
   skill: string;
@@ -14,8 +14,12 @@ export class WorkAssignment extends Record<WorkAssignment> {
   days: number;
 
   static sort(a: WorkAssignment, b: WorkAssignment): number {
-    if (a.id < b.id) { return -1; }
-    if (a.id > b.id) { return 1; }
+    if (a.id < b.id) {
+      return -1;
+    }
+    if (a.id > b.id) {
+      return 1;
+    }
     return 0;
   }
 }

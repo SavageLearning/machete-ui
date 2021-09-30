@@ -1,27 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterSpy, WorkerServiceSpy } from '../../shared/testing';
-import { WorkersService } from '../workers.service';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Router } from "@angular/router";
+import { RouterSpy, WorkerServiceSpy } from "../../shared/testing";
+import { WorkersService } from "../workers.service";
 
-import { SkillsListComponent } from './skills-list.component';
+import { SkillsListComponent } from "./skills-list.component";
 
-describe('SkillsListComponent', () => {
+describe("SkillsListComponent", () => {
   let component: SkillsListComponent;
   let fixture: ComponentFixture<SkillsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SkillsListComponent ],
+      declarations: [SkillsListComponent],
     })
-    .overrideComponent(
-      SkillsListComponent,
-      {
+      .overrideComponent(SkillsListComponent, {
         set: {
           providers: [
             { provide: WorkersService, useClass: WorkerServiceSpy },
             { provide: Router, useClass: RouterSpy },
-        ]}})
-    .compileComponents();
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('SkillsListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

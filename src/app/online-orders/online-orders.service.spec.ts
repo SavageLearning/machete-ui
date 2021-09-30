@@ -1,16 +1,23 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { OnlineOrdersService } from './online-orders.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { WorkOrderService } from './work-order/work-order.service';
-import { EmployersService } from '../employers/employers.service';
-import { AuthService } from '../shared/index';
-import { WorkAssignmentsService } from './work-assignments/work-assignments.service';
-import { HttpClientModule } from '@angular/common/http';
-import { WorkOrderServiceSpy, EmployersServiceSpy, AuthServiceSpy, WorkAssignmentsServiceSpy } from '../shared/testing';
+import { OnlineOrdersService } from "./online-orders.service";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
+import { WorkOrderService } from "./work-order/work-order.service";
+import { EmployersService } from "../employers/employers.service";
+import { AuthService } from "../shared/index";
+import { WorkAssignmentsService } from "./work-assignments/work-assignments.service";
+import { HttpClientModule } from "@angular/common/http";
+import {
+  WorkOrderServiceSpy,
+  EmployersServiceSpy,
+  AuthServiceSpy,
+  WorkAssignmentsServiceSpy,
+} from "../shared/testing";
 
-describe('OnlineOrdersService', () => {
-
+describe("OnlineOrdersService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -18,18 +25,23 @@ describe('OnlineOrdersService', () => {
         { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
         { provide: EmployersService, useClass: EmployersServiceSpy },
         { provide: AuthService, useClass: AuthServiceSpy },
-        { provide: WorkAssignmentsService, useClass: WorkAssignmentsServiceSpy }
+        {
+          provide: WorkAssignmentsService,
+          useClass: WorkAssignmentsServiceSpy,
+        },
       ],
-      imports: [
-        HttpClientModule,
-        HttpClientTestingModule
-      ]
-    }).compileComponents().catch(e => console.error(e));
+      imports: [HttpClientModule, HttpClientTestingModule],
+    })
+      .compileComponents()
+      .catch((e) => console.error(e));
     TestBed.inject(OnlineOrdersService);
     TestBed.inject(HttpTestingController);
   });
 
-  it('should ...', inject([OnlineOrdersService], (service1: OnlineOrdersService) => {
-    expect(service1).toBeTruthy();
-  }));
+  it("should ...", inject(
+    [OnlineOrdersService],
+    (service1: OnlineOrdersService) => {
+      expect(service1).toBeTruthy();
+    }
+  ));
 });

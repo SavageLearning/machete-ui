@@ -1,34 +1,33 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import {WorkAssignment} from '../../shared/models/work-assignment';
-import { LookupsService } from '../../lookups/lookups.service';
-import { Lookup, LCategory } from '../../lookups/models/lookup';
-import {OnlineOrdersService} from '../online-orders.service';
-import { WorkAssignmentsService } from './work-assignments.service';
-import { TransportRule, requiredValidator, TransportProvider } from '../shared';
-import { MySelectItem } from '../../shared/models/my-select-item';
-import { hoursValidator } from '../shared/validators/hours';
-import { TransportRulesService } from '../transport-rules.service';
-import { SkillRule } from '../shared/models/skill-rule';
-import { TransportProvidersService } from '../transport-providers.service';
-import { lengthValidator } from '../../shared/validators/length';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MessageService } from 'primeng/api';
-import { SkillsComponent } from './skills/skills.component';
+import { combineLatest as observableCombineLatest, Observable } from "rxjs";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { FormGroup, FormBuilder } from "@angular/forms";
+import { WorkAssignment } from "../../shared/models/work-assignment";
+import { LookupsService } from "../../lookups/lookups.service";
+import { Lookup, LCategory } from "../../lookups/models/lookup";
+import { OnlineOrdersService } from "../online-orders.service";
+import { WorkAssignmentsService } from "./work-assignments.service";
+import { TransportRule, requiredValidator, TransportProvider } from "../shared";
+import { MySelectItem } from "../../shared/models/my-select-item";
+import { hoursValidator } from "../shared/validators/hours";
+import { TransportRulesService } from "../transport-rules.service";
+import { SkillRule } from "../shared/models/skill-rule";
+import { TransportProvidersService } from "../transport-providers.service";
+import { lengthValidator } from "../../shared/validators/length";
+import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { MessageService } from "primeng/api";
+import { SkillsComponent } from "./skills/skills.component";
 
 enum MessageTypes {
-  ToastSkillSelection = 'ToastSkillSelection',
-  SuccessSkillSaved = 'SuccessSkillSaved'
+  ToastSkillSelection = "ToastSkillSelection",
+  SuccessSkillSaved = "SuccessSkillSaved",
 }
 
-
 @Component({
-  selector: 'app-work-assignments',
-  templateUrl: './work-assignments.component.html',
-  styleUrls: ['./work-assignments.component.css']
+  selector: "app-work-assignments",
+  templateUrl: "./work-assignments.component.html",
+  styleUrls: ["./work-assignments.component.css"],
 })
 export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   // public properties
@@ -36,12 +35,12 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   eMessages = MessageTypes;
   errorMessage: string;
   formErrors = {
-    skillId: '',
-    skill: '',
-    hours: '',
-    description: '',
-    requiresHeavyLifting: '',
-    hourlyWage: ''
+    skillId: "",
+    skill: "",
+    hours: "",
+    description: "",
+    requiresHeavyLifting: "",
+    hourlyWage: "",
   };
   hasRequests = false;
   newRequest = true;
@@ -59,7 +58,9 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   transports: TransportProvider[];
 
   // private fields
-  private combinedSource: Observable<[TransportRule[], Lookup[], TransportProvider[]]>;
+  private combinedSource: Observable<
+    [TransportRule[], Lookup[], TransportProvider[]]
+  >;
 
   constructor(
     private lookupsService: LookupsService,
@@ -70,34 +71,35 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     private router: Router,
     private fb: FormBuilder,
     public dialogService: DialogService,
-    private messageServ: MessageService) {
-      console.log('.ctor');
+    private messageServ: MessageService
+  ) {
+    console.log(".ctor");
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
+    console.log("ngOnInit");
     // waService.transportRules could fail under race conditions
 
     this.combinedSource = observableCombineLatest([
       this.transportRulesService.getTransportRules(),
       this.lookupsService.getLookups(LCategory.SKILL),
-      this.transportProviderService.getTransportProviders()]);
+      this.transportProviderService.getTransportProviders(),
+    ]);
 
-    this.combinedSource.subscribe(
-      values => {
-        const [rules, skills, transports] = values;
-        //
-        this.transportRules = rules;
-        //
-        this.skills = skills;
-        this.skillsDropDown = skills.map(l =>
-          new MySelectItem(l.text_EN, String(l.id)));
-        this.skillsRules = skills.map(l => new SkillRule(l));
-        //
-        this.transports = transports;
-        this.buildForm();
-      }
-    );
+    this.combinedSource.subscribe((values) => {
+      const [rules, skills, transports] = values;
+      //
+      this.transportRules = rules;
+      //
+      this.skills = skills;
+      this.skillsDropDown = skills.map(
+        (l) => new MySelectItem(l.text_EN, String(l.id))
+      );
+      this.skillsRules = skills.map((l) => new SkillRule(l));
+      //
+      this.transports = transports;
+      this.buildForm();
+    });
     // this.transportRulesService.getTransportRules()
     //   .subscribe(
     //     data => this.transportRules = data,
@@ -129,17 +131,22 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   // public methods
   buildForm(): void {
     this.requestForm = this.fb.group({
-      id: '',
-      skillId: ['', requiredValidator('Please select the type of work to be performed.')],
-      skill: [''],
-      hours: ['', hoursValidator(this.skillsRules, this.skills, 'skillId', 'hours')],
-      description: ['', lengthValidator(1000)], // !! Todo: should be provided by API
+      id: "",
+      skillId: [
+        "",
+        requiredValidator("Please select the type of work to be performed."),
+      ],
+      skill: [""],
+      hours: [
+        "",
+        hoursValidator(this.skillsRules, this.skills, "skillId", "hours"),
+      ],
+      description: ["", lengthValidator(1000)], // !! Todo: should be provided by API
       requiresHeavyLifting: [false],
-      hourlyWage: ['']
+      hourlyWage: [""],
     });
 
-    this.requestForm.valueChanges
-      .subscribe(() => this.onValueChanged());
+    this.requestForm.valueChanges.subscribe(() => this.onValueChanged());
 
     this.onValueChanged();
   }
@@ -147,7 +154,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     if (this.requestList.length > 0) {
       this.hasRequests = true;
     } else {
-      this.hasRequests =  false;
+      this.hasRequests = false;
     }
   }
   onValueChanged(): void {
@@ -155,28 +162,30 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
 
     for (const field in this.formErrors) {
       // clear previous error message (if any)
-      this.formErrors[field] = '';
+      this.formErrors[field] = "";
       const control = form.get(field);
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          console.log(`onValueChanged.error: ${field} : ${control.errors[key]}`);
-            this.formErrors[field] += `${control.errors[key]} `;
+          console.log(
+            `onValueChanged.error: ${field} : ${control.errors[key]}`
+          );
+          this.formErrors[field] += `${control.errors[key]} `;
         }
       }
     }
   }
 
   selectSkill(skillId: number): void {
-    console.log('selectSkill.skillId:' + String(skillId));
-    const skill = this.skills.filter(f => f.id === Number(skillId)).shift();
+    console.log("selectSkill.skillId:" + String(skillId));
+    const skill = this.skills.filter((f) => f.id === Number(skillId)).shift();
     if (skill == null || skill === undefined) {
-      throw new Error('Can\'t find selected skill in component\'s list');
+      throw new Error("Can't find selected skill in component's list");
     }
     this.selectedSkill = skill;
-    this.requestForm.controls['skillId'].setValue(skill.id);
-    this.requestForm.controls['skill'].setValue(skill.text_EN);
-    this.requestForm.controls['hourlyWage'].setValue(skill.wage);
+    this.requestForm.controls["skillId"].setValue(skill.id);
+    this.requestForm.controls["skill"].setValue(skill.text_EN);
+    this.requestForm.controls["hourlyWage"].setValue(skill.wage);
   }
 
   onAddJobsToRequest(): void {
@@ -195,10 +204,10 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   onShowSkillsCart(): void {
     this.ref = this.dialogService.open(SkillsComponent, {
       data: this.skills,
-      header: 'Choose a Skill',
-      width: '100%',
-      contentStyle: {overflow: 'auto'},
-      baseZIndex: 10000
+      header: "Choose a Skill",
+      width: "100%",
+      contentStyle: { overflow: "auto" },
+      baseZIndex: 10000,
     });
 
     // called from the child component (skills)
@@ -208,9 +217,9 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
         this.messageServ.add({
           life: 4000,
           key: this.eMessages.ToastSkillSelection,
-          severity: 'success',
+          severity: "success",
           summary: `${skill.text_EN} selected`,
-          detail: 'Choose additional details to continue'
+          detail: "Choose additional details to continue",
         });
       }
     });
@@ -222,20 +231,22 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.ref) {
-        this.ref.close();
+      this.ref.close();
     }
   }
 
   // loads an existing item into the form fields
   editRequest(request: WorkAssignment): void {
     this.activeTabIndex = 0;
-    this.requestForm.controls['id'].setValue(request.id);
-    this.requestForm.controls['skillId'].setValue(request.skillId);
-    this.requestForm.controls['skill'].setValue(request.skill);
-    this.requestForm.controls['hours'].setValue(request.hours);
-    this.requestForm.controls['description'].setValue(request.description);
-    this.requestForm.controls['requiresHeavyLifting'].setValue(request.requiresHeavyLifting);
-    this.requestForm.controls['hourlyWage'].setValue(request.hourlyWage);
+    this.requestForm.controls["id"].setValue(request.id);
+    this.requestForm.controls["skillId"].setValue(request.skillId);
+    this.requestForm.controls["skill"].setValue(request.skill);
+    this.requestForm.controls["hours"].setValue(request.hours);
+    this.requestForm.controls["description"].setValue(request.description);
+    this.requestForm.controls["requiresHeavyLifting"].setValue(
+      request.requiresHeavyLifting
+    );
+    this.requestForm.controls["hourlyWage"].setValue(request.hourlyWage);
     this.selectSkill(request.skillId);
     this.newRequest = false;
   }
@@ -253,7 +264,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
 
   saveRequest(): void {
     this.onValueChanged();
-    if (this.requestForm.status === 'INVALID') {
+    if (this.requestForm.status === "INVALID") {
       this.showErrors = true;
       //this.onlineService.setWorkAssignmentsConfirm(false);
       return;
@@ -270,23 +281,25 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
       requiresHeavyLifting: formModel.requiresHeavyLifting,
       hourlyWage: formModel.hourlyWage,
       transportCost: 0,
-      days: 1// We currently only support 1 day on employer portal
+      days: 1, // We currently only support 1 day on employer portal
     };
 
     this.clearMessages(this.eMessages.SuccessSkillSaved);
     this.waService.save(saveRequest);
-    if (!this.newRequest) { //save message
+    if (!this.newRequest) {
+      //save message
       this.messageServ.add({
-        severity: 'success',
+        severity: "success",
         key: this.eMessages.SuccessSkillSaved,
-        summary: `Job saved!`
+        summary: `Job saved!`,
       });
-    } else { //create message
+    } else {
+      //create message
       this.messageServ.add({
-        severity: 'success',
+        severity: "success",
         key: this.eMessages.SuccessSkillSaved,
         summary: `Success!`,
-        detail: `Job added successfully to your resquest. See details below`
+        detail: `Job added successfully to your resquest. See details below`,
       });
     }
     this.onlineService.setWorkAssignmentsConfirm(true);
@@ -312,7 +325,8 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   }
 
   finalize(): void {
-    this.router.navigate(['/online-orders/order-confirm']).catch(e => console.error(e));
-
+    this.router
+      .navigate(["/online-orders/order-confirm"])
+      .catch((e) => console.error(e));
   }
 }

@@ -1,21 +1,20 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import {combineLatest as observableCombineLatest } from 'rxjs';
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { WorkOrder } from '../../shared/models/work-order';
-import { paypal } from 'paypal-checkout';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MyWorkOrdersService } from '../my-work-orders.service';
-import { ConfigsService } from '../../configs/configs.service';
-import { TransportProvidersService } from '../../online-orders/transport-providers.service';
+import { combineLatest as observableCombineLatest } from "rxjs";
+import { AfterViewChecked, Component, OnInit } from "@angular/core";
+import { WorkOrder } from "../../shared/models/work-order";
+import { paypal } from "paypal-checkout";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MyWorkOrdersService } from "../my-work-orders.service";
+import { ConfigsService } from "../../configs/configs.service";
+import { TransportProvidersService } from "../../online-orders/transport-providers.service";
 
 @Component({
-  selector: 'app-order-complete',
-  templateUrl: './order-complete.component.html',
-  styleUrls: ['./order-complete.component.css']
+  selector: "app-order-complete",
+  templateUrl: "./order-complete.component.html",
+  styleUrls: ["./order-complete.component.css"],
 })
 export class OrderCompleteComponent implements OnInit, AfterViewChecked {
-
   order = new WorkOrder();
   transportLabel: string;
   workerCount: number;
@@ -27,42 +26,51 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
 
   public paypalConfig: any = {
     // The env (sandbox/production) tells the paypal client which URL to use.
-    env: '',
+    env: "",
     client: {
-      sandbox: '',
-      production: ''
+      sandbox: "",
+      production: "",
     },
     commit: true,
-    payment: (data, actions) => actions.payment.create({
+    payment: (data, actions) =>
+      actions.payment.create({
         payment: {
           transactions: [
-            { amount: { total: this.transportCost, currency: 'USD' } }
-          ]
+            { amount: { total: this.transportCost, currency: "USD" } },
+          ],
         },
         experience: {
           input_fields: {
-              no_shipping: 1
-          }
+            no_shipping: 1,
+          },
         },
       }),
     onAuthorize: (data, actions) => {
-      console.log('Payment was successful!', data, actions);
+      console.log("Payment was successful!", data, actions);
       // TODO: add confirmation notice/spinner
-      this.ordersService.executePaypal(this.order.id, data['payerID'], data['paymentID'], data['paymentToken'])
+      this.ordersService
+        .executePaypal(
+          this.order.id,
+          data["payerID"],
+          data["paymentID"],
+          data["paymentToken"]
+        )
         .subscribe(
-          res => {
-            console.log('execute paypal returned:', res);
-            this.ordersService.getOrder(this.order.id)
-              .subscribe(foo => this.order = foo);
+          (res) => {
+            console.log("execute paypal returned:", res);
+            this.ordersService
+              .getOrder(this.order.id)
+              .subscribe((foo) => (this.order = foo));
           },
-          error => console.error('execute paypal errored:', error));
+          (error) => console.error("execute paypal errored:", error)
+        );
     },
     onCancel: (data) => {
-      console.log('The payment was cancelled!', data);
+      console.log("The payment was cancelled!", data);
     },
     onError: (err) => {
-      console.log('There was an error:', err);
-    }
+      console.log("There was an error:", err);
+    },
   };
 
   constructor(
@@ -72,54 +80,60 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private configsService: ConfigsService
   ) {
-    console.log('.ctor');
+    console.log(".ctor");
   }
 
   ngOnInit(): void {
-    console.log('order-complete.component:ngOnInit');
-    const orderId = +this.route.snapshot.paramMap.get('id');
+    console.log("order-complete.component:ngOnInit");
+    const orderId = +this.route.snapshot.paramMap.get("id");
     observableCombineLatest([
       this.transportProviderService.getTransportProviders(),
       this.ordersService.getOrder(orderId),
-      this.configsService.getConfig('PayPalClientID'),
-      this.configsService.getConfig('PayPalEnvironment')
-    ]).subscribe(([l,o,id,env])=>{
-      console.log('ngOnInit:combineLatest received:', l,o,id,env);
-      this.paypalConfig['env'] = env.value;
-      this.paypalConfig.client[env.value] = id.value;
-      console.log('paypalConfig', this.paypalConfig);
-      this.order = o;
-      if (o == null) {
-        this.router.navigate(['/online-orders/order-not-found']).catch(e => console.error(e));
-        return;
-      }
-      this.transportLabel = l.find(ll => ll.id === o.transportProviderID).text;
-      const wa = o.workAssignments;
-      if (wa != null && wa.length > 0) {
-        // sums up the transport  costs
-        this.transportCost =
-          wa.map(waItem => waItem.transportCost)
+      this.configsService.getConfig("PayPalClientID"),
+      this.configsService.getConfig("PayPalEnvironment"),
+    ]).subscribe(
+      ([l, o, id, env]) => {
+        console.log("ngOnInit:combineLatest received:", l, o, id, env);
+        this.paypalConfig["env"] = env.value;
+        this.paypalConfig.client[env.value] = id.value;
+        console.log("paypalConfig", this.paypalConfig);
+        this.order = o;
+        if (o == null) {
+          this.router
+            .navigate(["/online-orders/order-not-found"])
+            .catch((e) => console.error(e));
+          return;
+        }
+        this.transportLabel = l.find(
+          (ll) => ll.id === o.transportProviderID
+        ).text;
+        const wa = o.workAssignments;
+        if (wa != null && wa.length > 0) {
+          // sums up the transport  costs
+          this.transportCost = wa
+            .map((waItem) => waItem.transportCost)
             .reduce((a, b) => a + b);
-        this.workerCount = wa.length;
-        // sums up the labor costs
-        this.laborCost =
-          wa.map(waItem => waItem.hourlyWage * waItem.hours)
+          this.workerCount = wa.length;
+          // sums up the labor costs
+          this.laborCost = wa
+            .map((waItem) => waItem.hourlyWage * waItem.hours)
             .reduce((a, b) => a + b);
-      } else {
-        this.workerCount = 0;
-        this.transportCost = 0;
-        this.laborCost = 0;
-      }
-    },
-    error => console.error('error', error));
+        } else {
+          this.workerCount = 0;
+          this.transportCost = 0;
+          this.laborCost = 0;
+        }
+      },
+      (error) => console.error("error", error)
+    );
   }
 
   public ngAfterViewChecked(): void {
-    if(this.transportCost > 0 && !this.didPaypalScriptLoad) {
+    if (this.transportCost > 0 && !this.didPaypalScriptLoad) {
       //this.loadPaypalScript().then(() => {
-        paypal.Button.render(this.paypalConfig, '#paypal-button');
-        this.loading = false;
-        this.didPaypalScriptLoad = true;
+      paypal.Button.render(this.paypalConfig, "#paypal-button");
+      this.loading = false;
+      this.didPaypalScriptLoad = true;
       //});
     }
   }

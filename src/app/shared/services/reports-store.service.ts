@@ -1,13 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, concatMap, filter, map, shareReplay, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { Report } from 'src/app/reports/models/report';
-import { MessagesService } from '../components/messages/messages.service';
-import { Router } from '@angular/router';
-import 'rxjs/add/operator/partition';
-import 'rxjs/add/observable/merge';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  shareReplay,
+  tap,
+} from "rxjs/operators";
+import { environment } from "src/environments/environment";
+import { Report } from "src/app/reports/models/report";
+import { MessagesService } from "../components/messages/messages.service";
+import { Router } from "@angular/router";
+import "rxjs/add/operator/partition";
+import "rxjs/add/observable/merge";
 
 @Injectable({
   providedIn: "root",
@@ -20,67 +27,77 @@ import 'rxjs/add/observable/merge';
  * @class ReportsStoreService
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
-
 export class ReportsStoreService {
   private reportsSubject = new BehaviorSubject<Report[]>([]);
-  public reports$: Observable<Report[]> = this.reportsSubject as Observable<Report[]>;
+  public reports$: Observable<Report[]> = this.reportsSubject as Observable<
+    Report[]
+  >;
 
   constructor(
     private http: HttpClient,
     private appMessages: MessagesService,
     private router: Router
-    ) {
+  ) {
     this.getReportList();
   }
 
   private getReportList() {
-    const uri = environment.dataUrl + '/api/reports';
-    console.log('getReportList: ', uri);
+    const uri = environment.dataUrl + "/api/reports";
+    console.log("getReportList: ", uri);
     return this.http
-      .get(uri, { withCredentials: true }).pipe(
-        map((o) => o['data'] as Report[]),
+      .get(uri, { withCredentials: true })
+      .pipe(
+        map((o) => o["data"] as Report[]),
         catchError((error) => {
           // only expecting one type of error
           this.appMessages.showErrors({
-            Error: `${error['statusText']}: Contact Machete support.`,
+            Error: `${error["statusText"]}: Contact Machete support.`,
           });
           console.log(error);
           return throwError(error);
         }),
-        tap((report) => console.log('reportList fetched', report)),
+        tap((report) => console.log("reportList fetched", report)),
         shareReplay(1)
       )
       .subscribe((reportList) => this.reportsSubject.next(reportList));
   }
 
-  public update(report: Report): Observable<Report>  {
-    const uri = environment.dataUrl + '/api/reports';
-    return this.http.put(`${uri}/${report.name}`, report, { withCredentials: true }).pipe(
-      map(o => o['data'] as Report),
-      catchError(err => {
-        this.appMessages.showErrors(err);
-        console.log(err);
-        return throwError(err);
-      }),
-      tap((updatedDbRecord: Report) => {
-        const storeAsValues = this.reportsSubject.getValue();
-        const storeReportIndex = storeAsValues.findIndex(x => x.id == report.id);
-        storeAsValues.splice(storeReportIndex, 1, updatedDbRecord); // return the record from API
-        storeAsValues.sort((a, b) => a.id - b.id);
-        this.reportsSubject.next(storeAsValues);
+  public update(report: Report): Observable<Report> {
+    const uri = environment.dataUrl + "/api/reports";
+    return this.http
+      .put(`${uri}/${report.name}`, report, { withCredentials: true })
+      .pipe(
+        map((o) => o["data"] as Report),
+        catchError((err) => {
+          this.appMessages.showErrors(err);
+          console.log(err);
+          return throwError(err);
+        }),
+        tap((updatedDbRecord: Report) => {
+          const storeAsValues = this.reportsSubject.getValue();
+          const storeReportIndex = storeAsValues.findIndex(
+            (x) => x.id == report.id
+          );
+          storeAsValues.splice(storeReportIndex, 1, updatedDbRecord); // return the record from API
+          storeAsValues.sort((a, b) => a.id - b.id);
+          this.reportsSubject.next(storeAsValues);
 
-        this.onModifySuccess('Success', 'Record Saved!', `reports/view/${updatedDbRecord.name}`)
-      })
-    );
+          this.onModifySuccess(
+            "Success",
+            "Record Saved!",
+            `reports/view/${updatedDbRecord.name}`
+          );
+        })
+      );
   }
 
   public create(report: Report): Observable<Report> {
-    const uri = environment.dataUrl + '/api/reports';
+    const uri = environment.dataUrl + "/api/reports";
     return this.http.post(`${uri}`, report, { withCredentials: true }).pipe(
-      map(o => o['data'] as Report),
-      catchError(err => {
+      map((o) => o["data"] as Report),
+      catchError((err) => {
         this.appMessages.showErrors(err);
         console.log(err);
         return throwError(err);
@@ -91,42 +108,50 @@ export class ReportsStoreService {
         storeAsValues.sort((a, b) => a.id - b.id);
         this.reportsSubject.next(storeAsValues);
 
-        this.onModifySuccess('Success', 'Record Created!', `reports/view/${createdDbRecord.name}`);
+        this.onModifySuccess(
+          "Success",
+          "Record Created!",
+          `reports/view/${createdDbRecord.name}`
+        );
       })
     );
   }
 
   public delete(name: string, navigateOnSuccess: string): Observable<any> {
-    const uri = environment.dataUrl + '/api/reports';
+    const uri = environment.dataUrl + "/api/reports";
     return this.http.delete(`${uri}/${name}`, { withCredentials: true }).pipe(
-      catchError(err => {
-        this.appMessages.showErrors({errors: err});
+      catchError((err) => {
+        this.appMessages.showErrors({ errors: err });
         console.log(err);
         return throwError(err);
       }),
       tap(() => {
         const storeAsValues = this.reportsSubject.getValue();
-        const storeReportIndex = storeAsValues.findIndex(x => x.name == name);
+        const storeReportIndex = storeAsValues.findIndex((x) => x.name == name);
         storeAsValues.splice(storeReportIndex, 1);
         this.reportsSubject.next(storeAsValues);
-        this.onModifySuccess('Success', 'Record Deleted!', navigateOnSuccess);
+        this.onModifySuccess("Success", "Record Deleted!", navigateOnSuccess);
       })
     );
   }
 
-  private onModifySuccess(label: string, message: string, navigateTo: string): void {
-    this.appMessages.showSuccess({label: label, message: message});
-    this.router.navigate([navigateTo]).catch(e => console.error(e));
+  private onModifySuccess(
+    label: string,
+    message: string,
+    navigateTo: string
+  ): void {
+    this.appMessages.showSuccess({ label: label, message: message });
+    this.router.navigate([navigateTo]).catch((e) => console.error(e));
   }
 
   public getReport(id: string): Observable<Report> {
     return this.reports$.pipe(
-      filter(reports => reports.length != 0), // wait for reports to emit
-      concatMap(reports => {
-        const r = reports.find(r => r.name == id);
-        r.columns = r.columns.filter(a => a.visible);
+      filter((reports) => reports.length != 0), // wait for reports to emit
+      concatMap((reports) => {
+        const r = reports.find((r) => r.name == id);
+        r.columns = r.columns.filter((a) => a.visible);
         return of(r);
-      }),
+      })
     );
   }
 }

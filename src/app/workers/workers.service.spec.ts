@@ -1,21 +1,21 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { WorkersService } from './workers.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
+import { WorkersService } from "./workers.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { HttpClient } from "@angular/common/http";
 
-describe('WorkersService', () => {
+describe("WorkersService", () => {
   let workersService: WorkersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [HttpClient]
+      providers: [HttpClient],
     });
     workersService = TestBed.inject(WorkersService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(workersService).toBeTruthy();
   });
 });

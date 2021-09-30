@@ -1,13 +1,14 @@
-import { ValidatorFn, FormControl } from '@angular/forms';
-import { SkillRule } from '../models/skill-rule';
-import { Lookup } from '../../../lookups/models/lookup';
+import { ValidatorFn, FormControl } from "@angular/forms";
+import { SkillRule } from "../models/skill-rule";
+import { Lookup } from "../../../lookups/models/lookup";
 
 export function hoursValidator(
   rules: SkillRule[],
   lookups: Lookup[],
   skillIdKey: string,
-  hoursKey: string): ValidatorFn {
-  return (control: FormControl): {[key: string]: any} => {
+  hoursKey: string
+): ValidatorFn {
+  return (control: FormControl): { [key: string]: any } => {
     if (!control.parent) {
       return null;
     }
@@ -15,7 +16,7 @@ export function hoursValidator(
     const hoursControl = control;
 
     if (!hoursControl.value) {
-      return {hours: 'Please choose the hours of work you need.'}
+      return { hours: "Please choose the hours of work you need." };
     }
 
     if (!skillIdControl.value) {
@@ -26,21 +27,23 @@ export function hoursValidator(
     const skill = Number(skillIdControl.value);
 
     if (!Number.isInteger(hours)) {
-      return {hours: 'Value must be a whole number.'}
+      return { hours: "Value must be a whole number." };
     }
 
-    const lookup = lookups.find(l => l.id === skill);
+    const lookup = lookups.find((l) => l.id === skill);
     if (lookup == null) {
-      throw new Error('skillId control didn\'t match a lookup record.');
+      throw new Error("skillId control didn't match a lookup record.");
     }
 
-    const rule = rules.find(f => f.key === lookup.key)
-    if (hoursControl.value <  rule.minHour) {
-      return {hours: `${lookup.text_EN} requires a minimum of ${rule.minHour} hours`}
+    const rule = rules.find((f) => f.key === lookup.key);
+    if (hoursControl.value < rule.minHour) {
+      return {
+        hours: `${lookup.text_EN} requires a minimum of ${rule.minHour} hours`,
+      };
     }
 
     if (hoursControl.value > rule.maxHour) {
-      return {hours: `${lookup.text_EN} cannot exceed ${rule.maxHour} hours`}
+      return { hours: `${lookup.text_EN} cannot exceed ${rule.maxHour} hours` };
     }
   };
 }

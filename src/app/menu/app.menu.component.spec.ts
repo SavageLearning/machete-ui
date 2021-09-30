@@ -1,44 +1,42 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AppMenuComponent, AppSubMenuComponent } from './app.menu.component';
-import { AppComponent } from '../app.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from '../shared/index';
-import { AuthServiceSpy } from '../shared/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { AppMenuComponent, AppSubMenuComponent } from "./app.menu.component";
+import { AppComponent } from "../app.component";
+import { RouterTestingModule } from "@angular/router/testing";
+import { AuthService } from "../shared/index";
+import { AuthServiceSpy } from "../shared/testing";
 
-class AppComponentSpy {
+class AppComponentSpy {}
 
-}
-
-describe('AppMenuComponent', () => {
+describe("AppMenuComponent", () => {
   let component: AppMenuComponent;
   let fixture: ComponentFixture<AppMenuComponent>;
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AppMenuComponent, AppSubMenuComponent ],
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AppMenuComponent, AppSubMenuComponent],
+        imports: [ReactiveFormsModule, RouterTestingModule],
+      })
+        .overrideComponent(AppMenuComponent, {
+          set: {
+            providers: [
+              { provide: AppComponent, useClass: AppComponentSpy },
+              { provide: AuthService, useClass: AuthServiceSpy },
+            ],
+          },
+        })
+        .compileComponents()
+        .then(() => {
+          fixture = TestBed.createComponent(AppMenuComponent);
+          component = fixture.componentInstance;
+          // component
+          fixture.detectChanges();
+        })
+        .catch((e) => console.error(e));
     })
-    .overrideComponent(AppMenuComponent, {
-      set: {
-        providers: [
-          { provide: AppComponent, useClass: AppComponentSpy },
-          { provide: AuthService, useClass: AuthServiceSpy }
-        ]
-      }
-    })
-    .compileComponents()
-    .then(() => {
-      fixture = TestBed.createComponent(AppMenuComponent);
-      component = fixture.componentInstance;
-      // component
-      fixture.detectChanges();
-    }).catch(e => console.error(e));
-  }));
+  );
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

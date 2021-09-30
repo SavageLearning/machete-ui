@@ -1,23 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { filter, first } from 'rxjs/operators';
-import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
-import { Report } from '../models/report';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { filter, first } from "rxjs/operators";
+import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { Report } from "../models/report";
 
 @Component({
-  selector: 'app-reports-list',
-  templateUrl: './reports-list.component.html',
-  styleUrls: ['./reports-list.component.css'],
+  selector: "app-reports-list",
+  templateUrl: "./reports-list.component.html",
+  styleUrls: ["./reports-list.component.css"],
 })
 export class ReportsListComponent implements OnInit {
   selectedReport: Report;
   reportList$: Observable<Report[]>;
 
-  constructor(
-    private router: Router,
-    private store: ReportsStoreService
-  ) {}
+  constructor(private router: Router, private store: ReportsStoreService) {}
 
   onRowSelect(e: Report): void {
     console.log(e);
@@ -26,7 +23,7 @@ export class ReportsListComponent implements OnInit {
 
   ngOnInit(): void {
     // view subscribes and unsubscribes via the async pipe
-    this.reportList$ = this.store.reports$ .pipe(
+    this.reportList$ = this.store.reports$.pipe(
       filter((x) => x.length !== 0 || !x),
       first()
     );

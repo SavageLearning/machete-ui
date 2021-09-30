@@ -31,7 +31,7 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {
     this.cfgService.getAllConfigs().subscribe(
       (data) => {
-        this.serverData = data as Config[];
+        this.serverData = data;
         console.log("configs: ", data); // TODO this was 2am madness, this isn't great JS
         this.welcome = data.find(
           (config) => config.key === "WorkCenterDescription_EN"

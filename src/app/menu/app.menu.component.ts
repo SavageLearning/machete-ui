@@ -1,22 +1,22 @@
-import { Component, Input, OnInit, Inject, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, Inject, forwardRef } from "@angular/core";
 import {
   trigger,
   state,
   style,
   transition,
   animate,
-} from '@angular/animations';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
-import { AppComponent } from '../app.component';
-import { loadMenuRules } from './load-menu-rules';
-import { AuthService } from '../shared/index';
-import { MenuRule } from './menu-rule';
+} from "@angular/animations";
+import { Location } from "@angular/common";
+import { Router } from "@angular/router";
+import { MenuItem } from "primeng/api";
+import { AppComponent } from "../app.component";
+import { loadMenuRules } from "./load-menu-rules";
+import { AuthService } from "../shared/index";
+import { MenuRule } from "./menu-rule";
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './app.menu.component.html',
+  selector: "app-menu",
+  templateUrl: "./app.menu.component.html",
 })
 export class AppMenuComponent implements OnInit {
   @Input() reset: boolean;
@@ -27,7 +27,7 @@ export class AppMenuComponent implements OnInit {
     @Inject(forwardRef(() => AppComponent)) public app: AppComponent,
     private auth: AuthService
   ) {
-    console.log('.ctor: AppMenuComponent');
+    console.log(".ctor: AppMenuComponent");
   }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class AppMenuComponent implements OnInit {
         return new Array<MenuRule>();
       },
       (unauthorized) => {
-        console.log('Not signed in: ', unauthorized);
+        console.log("Not signed in: ", unauthorized);
       }
     );
   }
@@ -45,29 +45,29 @@ export class AppMenuComponent implements OnInit {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[app-submenu]',
-  templateUrl: './app.submenu.component.html',
+  selector: "[app-submenu]",
+  templateUrl: "./app.submenu.component.html",
   animations: [
-    trigger('children', [
+    trigger("children", [
       state(
-        'hidden',
+        "hidden",
         style({
-          height: '0px',
+          height: "0px",
         })
       ),
       state(
-        'visible',
+        "visible",
         style({
-          height: '*',
+          height: "*",
         })
       ),
       transition(
-        'visible => hidden',
-        animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')
+        "visible => hidden",
+        animate("400ms cubic-bezier(0.86, 0, 0.07, 1)")
       ),
       transition(
-        'hidden => visible',
-        animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')
+        "hidden => visible",
+        animate("400ms cubic-bezier(0.86, 0, 0.07, 1)")
       ),
     ]),
   ],

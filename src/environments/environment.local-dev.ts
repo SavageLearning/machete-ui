@@ -5,10 +5,10 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  name: 'local-dev',
+  name: "local-dev",
   production: false,
-  paypalID: '',
-  dataUrl: window.location.protocol + '//' + window.location.host,
-  client_id: 'machete-ui-local',
-  redirect_uri: '/V2/authorize',
+  paypalID: "",
+  dataUrl: window.location.protocol + "//" + window.location.host,
+  client_id: "machete-ui-local",
+  redirect_uri: "/V2/authorize",
 };

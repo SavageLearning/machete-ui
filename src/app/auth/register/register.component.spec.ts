@@ -1,17 +1,20 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { RegisterComponent } from './register.component';
+import { RegisterComponent } from "./register.component";
 
-describe('RegisterComponent', () => {
+describe("RegisterComponent", () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [RegisterComponent],
+      })
+        .compileComponents()
+        .catch((e) => console.log(e));
     })
-    .compileComponents().catch(e => console.log(e));
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
@@ -19,7 +22,7 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(component).toBeTruthy();
   });
 });

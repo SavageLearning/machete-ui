@@ -13,12 +13,12 @@ export interface IEditorDetails {
 })
 export class EditorComponent {
   editorOptions = {
-    theme: 'monokai',
-    mode: 'text/x-mssql',
+    theme: "monokai",
+    mode: "text/x-mssql",
     lineNumbers: true,
     indentWithTabs: true,
     smartIndent: true,
-    matchBrackets : true,
+    matchBrackets: true,
     autoCloseTags: true,
     styleActiveLine: true,
   };

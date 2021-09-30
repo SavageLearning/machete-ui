@@ -14,11 +14,11 @@ export class MenuRule {
 }
 
 export enum LRole {
-  HIRER = 'Hirer',
-  ADMIN = 'Administrator',
-  CHECKIN = 'Check-in',
-  MANAGER = 'Manager',
-  PHONEDESK = 'PhoneDesk',
-  TEACHER = 'Teacher',
-  USER = 'User'
+  HIRER = "Hirer",
+  ADMIN = "Administrator",
+  CHECKIN = "Check-in",
+  MANAGER = "Manager",
+  PHONEDESK = "PhoneDesk",
+  TEACHER = "Teacher",
+  USER = "User",
 }

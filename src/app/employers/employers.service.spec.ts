@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TestBed } from "@angular/core/testing";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
 
-import { EmployersService } from './employers.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AuthService } from '../shared/index';
-import { AuthServiceSpy } from '../shared/testing';
+import { EmployersService } from "./employers.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { AuthService } from "../shared/index";
+import { AuthServiceSpy } from "../shared/testing";
 
-describe('EmployersService', async () => {
+describe("EmployersService", async () => {
   let service: EmployersService;
 
   beforeEach(async () => {
@@ -14,16 +14,14 @@ describe('EmployersService', async () => {
       providers: [
         EmployersService,
         { provide: AuthService, useClass: AuthServiceSpy },
-        HttpClient],
-      imports: [
-        HttpClientModule,
-        HttpClientTestingModule
-      ]
+        HttpClient,
+      ],
+      imports: [HttpClientModule, HttpClientTestingModule],
     });
     service = TestBed.inject(EmployersService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

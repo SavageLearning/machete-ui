@@ -1,28 +1,32 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute} from '@angular/router';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
 
-import { WorkersInSkillComponent } from './workers-in-skill.component';
-import { CommonModule } from '@angular/common';
-import { WorkersRoutingModule } from '../workers-routing.module';
-import { MenuModule } from 'primeng/menu';
-import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { FormsModule } from '@angular/forms';
-import { DialogModule } from 'primeng/dialog';
-import { LookupsService } from '../../lookups/lookups.service';
-import { ActivatedRouteStub, LookupsServiceSpy, WorkerServiceSpy } from '../../shared/testing';
-import { WorkersService } from '../workers.service';
+import { WorkersInSkillComponent } from "./workers-in-skill.component";
+import { CommonModule } from "@angular/common";
+import { WorkersRoutingModule } from "../workers-routing.module";
+import { MenuModule } from "primeng/menu";
+import { CardModule } from "primeng/card";
+import { TableModule } from "primeng/table";
+import { ButtonModule } from "primeng/button";
+import { InputTextModule } from "primeng/inputtext";
+import { ToggleButtonModule } from "primeng/togglebutton";
+import { FormsModule } from "@angular/forms";
+import { DialogModule } from "primeng/dialog";
+import { LookupsService } from "../../lookups/lookups.service";
+import {
+  ActivatedRouteStub,
+  LookupsServiceSpy,
+  WorkerServiceSpy,
+} from "../../shared/testing";
+import { WorkersService } from "../workers.service";
 
-describe('WorkersInSkillComponent', () => {
+describe("WorkersInSkillComponent", () => {
   let component: WorkersInSkillComponent;
   let fixture: ComponentFixture<WorkersInSkillComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkersInSkillComponent ],
+      declarations: [WorkersInSkillComponent],
       imports: [
         // ... whatever other module you have
         CommonModule,
@@ -34,16 +38,14 @@ describe('WorkersInSkillComponent', () => {
         InputTextModule,
         ToggleButtonModule,
         FormsModule,
-        DialogModule
+        DialogModule,
       ],
-      providers:
-      [
+      providers: [
         { provide: ActivatedRoute, useValue: ActivatedRouteStub },
         { provide: LookupsService, useClass: LookupsServiceSpy },
-        { provide: WorkersService, useClass: WorkerServiceSpy }
-      ]
-    })
-    .compileComponents();
+        { provide: WorkersService, useClass: WorkerServiceSpy },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -52,12 +54,11 @@ describe('WorkersInSkillComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeDefined();
   });
 
-  
-  it('should display workers', () => {    
+  it("should display workers", () => {
     expect(component.workers.length).toEqual(1);
   });
 });

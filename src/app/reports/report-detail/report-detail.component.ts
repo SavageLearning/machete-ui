@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Report } from '../models/report';
-import { SearchOptions } from '../models/search-options';
-import { SimpleAggregateRow } from '../models/simple-aggregate-row';
-import { ReportsService } from '../reports.service';
-import { Observable } from 'rxjs';
-import { ReportsStoreService } from 'src/app/shared/services/reports-store.service';
-import { takeWhile } from 'rxjs/operators';
-import { IConfirmActionData } from 'src/app/shared/components/record-control/record-control.component';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Report } from "../models/report";
+import { SearchOptions } from "../models/search-options";
+import { SimpleAggregateRow } from "../models/simple-aggregate-row";
+import { ReportsService } from "../reports.service";
+import { Observable } from "rxjs";
+import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { takeWhile } from "rxjs/operators";
+import { IConfirmActionData } from "src/app/shared/components/record-control/record-control.component";
 
 export enum SqlEditorState {
-  OPEN = 'OPEN',
-  CLOSED = 'CLOSED',
+  OPEN = "OPEN",
+  CLOSED = "CLOSED",
 }
 
 export class SqlReportError {
@@ -20,9 +20,9 @@ export class SqlReportError {
 }
 
 @Component({
-  selector: 'app-report-detail',
-  templateUrl: './report-detail.component.html',
-  styleUrls: ['./report-detail.component.css'],
+  selector: "app-report-detail",
+  templateUrl: "./report-detail.component.html",
+  styleUrls: ["./report-detail.component.css"],
 })
 export class ReportDetailComponent implements OnInit, OnDestroy {
   routeReportID: string;
@@ -47,18 +47,19 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
 
   getReportDefinition(): void {
     const report$ = this.store.getReport(this.routeReportID);
-    report$.pipe(takeWhile(() => this.alive)).subscribe(
-      (data) => {
-        this.report = data;
-        this.loadingRecord = false;
-      }
-    );
+    report$.pipe(takeWhile(() => this.alive)).subscribe((data) => {
+      this.report = data;
+      this.loadingRecord = false;
+    });
   }
 
   getReportData(): void {
     // no need to unsubscribe as it uses async pipe
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    this.viewData$ = this.reportsService.getReportData(this.report.name.toString(), this.o);
+    this.viewData$ = this.reportsService.getReportData(
+      this.report.name.toString(),
+      this.o
+    );
   }
 
   // child component emits event
@@ -69,8 +70,8 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     this.sqlEditorState = sqlEditorState;
   }
 
-  disableSave = (): boolean => this.sqlEditorState !== SqlEditorState.CLOSED
-    || this.saving;
+  disableSave = (): boolean =>
+    this.sqlEditorState !== SqlEditorState.CLOSED || this.saving;
 
   get exportFileName(): string {
     return `${this.report.name}${this.o.beginDate}${this.o.endDate}`;
@@ -78,10 +79,13 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
 
   save(): void {
     this.saving = true;
-    this.store.update(this.report).subscribe(res => {
-      this.report = res;
-      this.saving = false;
-    }, () => this.saving = false);
+    this.store.update(this.report).subscribe(
+      (res) => {
+        this.report = res;
+        this.saving = false;
+      },
+      () => (this.saving = false)
+    );
   }
 
   onChildRecordControlCreate(createFromEvent: boolean): void {
@@ -90,8 +94,8 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
   }
 
   /*
-  * Child component creates record and passes new record from API here
-  */
+   * Child component creates record and passes new record from API here
+   */
   onNewRecord($event: Report): void {
     this.report = $event;
   }
@@ -99,7 +103,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // set cal year range
     const today = new Date();
-    this.calYearRange = `2000:${today.getFullYear() + 1}`
+    this.calYearRange = `2000:${today.getFullYear() + 1}`;
     // other vars
     const now = new Date();
     const aYearAgo = new Date();
@@ -109,25 +113,24 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
     this.o.beginDate = aYearAgo.toLocaleDateString();
 
     // load data
-    this.routeReportID = this.route.snapshot.paramMap.get('id');
+    this.routeReportID = this.route.snapshot.paramMap.get("id");
     this.getReportDefinition();
 
     // set delete confirm action
     this.deleteConfirmActionData = {
       message: `Are you sure you want to delete?`,
-      header: 'Confirm Delete',
-      icon: 'pi pi-exclamation-triangle',
+      header: "Confirm Delete",
+      icon: "pi pi-exclamation-triangle",
       accept: () => {
         this.store
-        .delete(this.report.name, 'reports')
-        .pipe(takeWhile(() => this.alive))
-        .subscribe(() => this.report = new Report());
-      }
-    }
+          .delete(this.report.name, "reports")
+          .pipe(takeWhile(() => this.alive))
+          .subscribe(() => (this.report = new Report()));
+      },
+    };
   }
 
   ngOnDestroy(): void {
     this.alive = false;
   }
-
 }
