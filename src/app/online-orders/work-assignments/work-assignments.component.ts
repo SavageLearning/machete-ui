@@ -137,10 +137,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
         requiredValidator("Please select the type of work to be performed."),
       ],
       skill: [""],
-      hours: [
-        "",
-        hoursValidator(this.skillsRules, this.skills, "skillId", "hours"),
-      ],
+      hours: ["", hoursValidator(this.skillsRules, this.skills, "skillId")],
       description: ["", lengthValidator(1000)], // !! Todo: should be provided by API
       requiresHeavyLifting: [false],
       hourlyWage: [""],
