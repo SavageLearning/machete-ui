@@ -1,8 +1,18 @@
-import { AbstractControl, ValidatorFn, FormControl, FormBuilder, FormGroup } from '@angular/forms';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ScheduleRule, TransportProvider, TransportProviderAvailability } from '..';
-import { transportAvailabilityValidator } from './transport-availability';
-import { DateTime } from 'luxon';
+import {
+  AbstractControl,
+  ValidatorFn,
+  FormControl,
+  FormBuilder,
+  FormGroup,
+} from "@angular/forms";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import {
+  ScheduleRule,
+  TransportProvider,
+  TransportProviderAvailability,
+} from "..";
+import { transportAvailabilityValidator } from "./transport-availability";
+import { DateTime } from "luxon";
 
 describe("TransportAvailability", () => {
   let ctrl: AbstractControl;
@@ -35,12 +45,16 @@ describe("TransportAvailability", () => {
     );
   });
 
-  it('should create an instance', () => {
+  it("should create an instance", () => {
     const now = new Date();
-    const date: Date = DateTime.fromObject({weekday: 1, year: now.getFullYear(), month: now.getMonth()}).toJSDate();
-    console.log(date, 'luxon date');
+    const date: Date = DateTime.fromObject({
+      weekday: 1,
+      year: now.getFullYear(),
+      month: now.getMonth(),
+    }).toJSDate();
+    console.log(date, "luxon date");
     const time: string = DateTime.fromObject({ hour: 0 }).toString();
-    console.log(time, 'luxon time');
+    console.log(time, "luxon time");
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,

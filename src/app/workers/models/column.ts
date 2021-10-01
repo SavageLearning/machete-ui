@@ -1,5 +1,10 @@
 export class Column {
-  constructor(field: string, header: string, dateFormat: string, index?: number) {
+  constructor(
+    field: string,
+    header: string,
+    dateFormat: string,
+    index?: number
+  ) {
     this.field = field;
     this.header = header;
     this.dateFormat = dateFormat;

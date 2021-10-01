@@ -36,12 +36,13 @@ export class ReportsStoreService {
     private appMessages: MessagesService,
     private router: Router,
     @Optional() @SkipSelf() parentModule?: ReportsStoreService
-    ) {
-      // enforce app singleton pattern
-      if (parentModule) {
-        throw new Error(
-          'Machete dev error:ReportsStoreService is already loaded. Additional imports not needed');
-      }
+  ) {
+    // enforce app singleton pattern
+    if (parentModule) {
+      throw new Error(
+        "Machete dev error:ReportsStoreService is already loaded. Additional imports not needed"
+      );
+    }
     this.getReportList();
   }
 

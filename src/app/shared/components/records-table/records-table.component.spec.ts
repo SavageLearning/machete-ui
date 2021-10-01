@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { RecordsTableComponent } from './records-table.component';
+import { RecordsTableComponent } from "./records-table.component";
 
-describe('RecordsTableComponent', () => {
+describe("RecordsTableComponent", () => {
   let component: RecordsTableComponent;
   let fixture: ComponentFixture<RecordsTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecordsTableComponent ]
-    })
-    .compileComponents();
+      declarations: [RecordsTableComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('RecordsTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

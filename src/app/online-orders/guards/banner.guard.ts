@@ -11,13 +11,13 @@ export class BannerGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean> {
-    return combineLatest(
-      [
-        this.configsService.getConfig('DisableOnlineOrders'),
-        this.configsService.getConfig('DisableOnlineOrdersBanner')
-      ]
-    ).pipe(map(([toggle, banner]) => {
-      const result = toggle.value !== 'TRUE';
+    return combineLatest([
+      this.configsService.getConfig("DisableOnlineOrders"),
+      this.configsService.getConfig("DisableOnlineOrdersBanner"),
+    ]).pipe(
+      map(
+        ([toggle, banner]) => {
+          const result = toggle.value !== "TRUE";
 
           console.log("BannerGuard:", result, toggle, banner);
           return result;

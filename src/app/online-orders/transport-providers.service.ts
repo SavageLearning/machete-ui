@@ -8,7 +8,7 @@ import { TransportProvider } from "./shared/";
 import { of } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TransportProvidersService {
   uriBase = environment.dataUrl + "/api/transportproviders";

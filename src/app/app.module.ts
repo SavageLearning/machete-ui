@@ -1,26 +1,29 @@
-import { BrowserModule } from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AppRoutingModule} from './app-routing.module';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AppRoutingModule } from "./app-routing.module";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
 
-import { AppComponent } from './app.component';
-import { AppMenuComponent, AppSubMenuComponent }  from './menu/app.menu.component';
-import { AppTopBarComponent }  from './app.topbar.component';
-import { AppFooterComponent }  from './app.footer.component';
-import { InlineProfileComponent }  from './menu/app.profile.component';
-import { PageNotFoundComponent }   from './not-found.component';
-import { Router } from '@angular/router';
+import { AppComponent } from "./app.component";
+import {
+  AppMenuComponent,
+  AppSubMenuComponent,
+} from "./menu/app.menu.component";
+import { AppTopBarComponent } from "./app.topbar.component";
+import { AppFooterComponent } from "./app.footer.component";
+import { InlineProfileComponent } from "./menu/app.profile.component";
+import { PageNotFoundComponent } from "./not-found.component";
+import { Router } from "@angular/router";
 
-import { ToastModule } from 'primeng/toast';
+import { ToastModule } from "primeng/toast";
 
-import { LoggingService } from './shared/services/logging.service';
-import { TransportProvidersService } from './online-orders/transport-providers.service';
-import { MessagesComponent } from './shared/components/messages/messages.component';
-import { ButtonModule } from 'primeng/button';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { CommonModule } from '@angular/common';
+import { LoggingService } from "./shared/services/logging.service";
+import { TransportProvidersService } from "./online-orders/transport-providers.service";
+import { MessagesComponent } from "./shared/components/messages/messages.component";
+import { ButtonModule } from "primeng/button";
+import { WelcomeComponent } from "./welcome/welcome.component";
+import { CommonModule } from "@angular/common";
 
 /**
  * Import only the modules needed for the first render of the app
@@ -40,7 +43,7 @@ import { CommonModule } from '@angular/common';
     InlineProfileComponent,
     PageNotFoundComponent,
     MessagesComponent,
-    WelcomeComponent
+    WelcomeComponent,
   ],
   imports: [
     CommonModule,
@@ -53,7 +56,7 @@ import { CommonModule } from '@angular/common';
     ButtonModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   // Diagnostic only: inspect router configuration

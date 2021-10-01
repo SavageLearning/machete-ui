@@ -8,23 +8,22 @@ import { ProfileGuard } from "../online-orders/guards/profile.guard";
 
 const woRoutes: Routes = [
   {
-    path: '',
+    path: "",
     component: MyWorkOrdersComponent,
     canActivate: [AuthGuardService, ProfileGuard],
     children: [
       {
         path: ":id",
         component: OrderCompleteComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuardService],
       },
       {
         path: "",
         component: WorkOrderDatatableComponent,
-        canActivate: [AuthGuardService]
-      }
-    ]
-  }
-
+        canActivate: [AuthGuardService],
+      },
+    ],
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(woRoutes)],

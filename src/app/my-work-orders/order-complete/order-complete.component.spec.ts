@@ -2,18 +2,27 @@
 /* eslint-disable arrow-body-style */
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { OrderCompleteComponent } from './order-complete.component';
-import { FullOrderViewComponent } from '../../shared/components/work-orders/full-order-view/full-order-view.component';
-import { TableModule } from 'primeng/table';
-import { LookupsService } from '../../lookups/lookups.service';
-import { LookupsServiceSpy, MyWorkOrdersServiceSpy, ActivatedRouteSpy, RouterSpy, ConfigsServiceSpy } from '../../shared/testing';
-import { TransportProvidersServiceSpy, MessageServiceSpy } from '../../shared/testing';
-import { paypal }  from 'paypal-checkout';
-import { MyWorkOrdersService } from '../my-work-orders.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfigsService } from '../../configs/configs.service';
-import { MessageService } from 'primeng/api';
-import { TransportProvidersService } from '../../online-orders/transport-providers.service';
+import { OrderCompleteComponent } from "./order-complete.component";
+import { FullOrderViewComponent } from "../../shared/components/work-orders/full-order-view/full-order-view.component";
+import { TableModule } from "primeng/table";
+import { LookupsService } from "../../lookups/lookups.service";
+import {
+  LookupsServiceSpy,
+  MyWorkOrdersServiceSpy,
+  ActivatedRouteSpy,
+  RouterSpy,
+  ConfigsServiceSpy,
+} from "../../shared/testing";
+import {
+  TransportProvidersServiceSpy,
+  MessageServiceSpy,
+} from "../../shared/testing";
+import { paypal } from "paypal-checkout";
+import { MyWorkOrdersService } from "../my-work-orders.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ConfigsService } from "../../configs/configs.service";
+import { MessageService } from "primeng/api";
+import { TransportProvidersService } from "../../online-orders/transport-providers.service";
 
 describe("OrderCompleteComponent", () => {
   let component: OrderCompleteComponent;

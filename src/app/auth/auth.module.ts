@@ -1,17 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthorizeComponent } from './authorize/authorize.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RegisterComponent } from './register/register.component';
-import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { AuthComponent } from './auth.component';
-import { DialogModule } from 'primeng/dialog';
-
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { AuthRoutingModule } from "./auth-routing.module";
+import { AuthorizeComponent } from "./authorize/authorize.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { RegisterComponent } from "./register/register.component";
+import { UnauthorizedComponent } from "./unauthorized/unauthorized.component";
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
+import { ButtonModule } from "primeng/button";
+import { AuthComponent } from "./auth.component";
+import { DialogModule } from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -19,21 +17,19 @@ import { DialogModule } from 'primeng/dialog';
     DashboardComponent,
     RegisterComponent,
     UnauthorizedComponent,
-    AuthComponent
+    AuthComponent,
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
     ToastModule,
     ButtonModule,
-    DialogModule
+    DialogModule,
   ],
-  providers: [
-    MessageService
-  ]
+  providers: [MessageService],
 })
 export class AuthModule {
   constructor() {
-    console.log('ctor');
+    console.log("ctor");
   }
 }

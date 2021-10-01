@@ -11,7 +11,7 @@ import { TransportProvidersStoreService } from "src/app/shared/services/transpor
 })
 export class TransportProviderComponent implements OnInit {
   public transportProviders$: Observable<TransportProvider[]>;
-  public excludeCols: string[] = ['availabilityRules'];
+  public excludeCols: string[] = ["availabilityRules"];
 
   constructor(private store: TransportProvidersStoreService) {}
 
@@ -20,10 +20,9 @@ export class TransportProviderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.transportProviders$ = this.store.transportProviders$
-      .pipe(
-        filter((x) => x.length !== 0 || !x),
-        first()
-      );
+    this.transportProviders$ = this.store.transportProviders$.pipe(
+      filter((x) => x.length !== 0 || !x),
+      first()
+    );
   }
 }

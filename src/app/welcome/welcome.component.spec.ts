@@ -5,7 +5,12 @@ import { ConfigsService } from "../configs/configs.service";
 import { Config } from "../shared/models/config";
 import { AuthService } from "../shared/index";
 import { Router } from "@angular/router";
-import { AuthServiceSpy, ConfigsServiceSpy, getConfigsList, RouterSpy } from "../shared/testing";
+import {
+  AuthServiceSpy,
+  ConfigsServiceSpy,
+  getConfigsList,
+  RouterSpy,
+} from "../shared/testing";
 
 describe("WelcomeComponent", () => {
   let component: WelcomeComponent;

@@ -7,7 +7,7 @@ import { Observable, of } from "rxjs";
 import { User } from "../models/user";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
   _redirectRoute = "";

@@ -2,7 +2,7 @@ import { Component, Input } from "@angular/core";
 import { SearchInputs } from "../models/search-inputs";
 
 @Component({
-  selector: 'app-report-detail-filters-select',
+  selector: "app-report-detail-filters-select",
   template: `
     <button
       pButton

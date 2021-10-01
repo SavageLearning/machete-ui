@@ -32,28 +32,47 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   public roleState: DashboardState = DashboardState.None;
   public hirerLinks = [
-    { text: "Hire a Worker", link: "/online-orders/introduction", auth: true, icon: "" },
-    { text: "Update Employer Profile", link: "/employers", auth: true, icon: "" },
+    {
+      text: "Hire a Worker",
+      link: "/online-orders/introduction",
+      auth: true,
+      icon: "",
+    },
+    {
+      text: "Update Employer Profile",
+      link: "/employers",
+      auth: true,
+      icon: "",
+    },
     { text: "Hiring History", link: "/my-work-orders", auth: true, icon: "" },
   ];
 
   public centerStaffLinks = [
-    ... this.hirerLinks,
+    ...this.hirerLinks,
     { text: "Machete Reports", link: "/reports", auth: true },
   ];
 
   public welcomeLinks = [
-    { text: "Log In / Sign Up", link: "/welcome",  action: "login", auth: false },
+    {
+      text: "Log In / Sign Up",
+      link: "/welcome",
+      action: "login",
+      auth: false,
+    },
   ];
 
-
   public dashboards = [
-    {title: "Employer", links: this.hirerLinks, s: DashboardState.Hirer},
-    {title: "Center Staff", links: this.centerStaffLinks, s: DashboardState.CenterStaff},
-    {title: "", links: this.welcomeLinks, s: DashboardState.None},
-  ]
+    { title: "Employer", links: this.hirerLinks, s: DashboardState.Hirer },
+    {
+      title: "Center Staff",
+      links: this.centerStaffLinks,
+      s: DashboardState.CenterStaff,
+    },
+    { title: "", links: this.welcomeLinks, s: DashboardState.None },
+  ];
 
-  constructor(private cfgService: ConfigsService,
+  constructor(
+    private cfgService: ConfigsService,
     private authService: AuthService,
     private router: Router
   ) {}

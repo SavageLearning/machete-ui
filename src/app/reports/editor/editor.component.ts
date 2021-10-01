@@ -1,10 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { SqlEditorState } from '../report-detail/report-detail.component';
-import 'codemirror/mode/sql/sql';
-import 'codemirror/addon/edit/matchbrackets';
-import 'codemirror/addon/dialog/dialog';
-import 'codemirror/addon/edit/closetag';
-import 'codemirror/addon/selection/active-line';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from "@angular/core";
+import { SqlEditorState } from "../report-detail/report-detail.component";
+import "codemirror/mode/sql/sql";
+import "codemirror/addon/edit/matchbrackets";
+import "codemirror/addon/dialog/dialog";
+import "codemirror/addon/edit/closetag";
+import "codemirror/addon/selection/active-line";
 
 export interface IEditorDetails {
   sql?: string;
@@ -12,10 +18,10 @@ export interface IEditorDetails {
 }
 
 @Component({
-  selector: 'app-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: "app-editor",
+  templateUrl: "./editor.component.html",
+  styleUrls: ["./editor.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditorComponent {
   editorOptions = {

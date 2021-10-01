@@ -80,12 +80,12 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
         // }),
         new MenuRule({
           id: 13,
-          label: 'Transport Providers',
-          icon: 'airport_shuttle',
-          routerLink: ['configuration/transport-providers'],
-          authorizedRoles: [LRole.ADMIN]
-        })
-      ]
+          label: "Transport Providers",
+          icon: "airport_shuttle",
+          routerLink: ["configuration/transport-providers"],
+          authorizedRoles: [LRole.ADMIN],
+        }),
+      ],
     }),
     // Hide unfinished work
     // !! TODO finish the workers in list feature

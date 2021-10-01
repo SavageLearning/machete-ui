@@ -10,7 +10,6 @@ import { ISuccessMessage } from "./messages.component";
 @Injectable({
   providedIn: "root",
 })
-
 export class MessagesService {
   private errorSubject = new BehaviorSubject<any>([]);
   private successSubject = new BehaviorSubject<any>([]);
@@ -27,12 +26,12 @@ export class MessagesService {
     this.successSubject.next(message);
   }
 
-
   constructor(@Optional() @SkipSelf() parentModule?: MessagesService) {
     // enforce app singleton pattern
     if (parentModule) {
       throw new Error(
-        'Machete dev error:MessagesService is already loaded. Additional imports not needed');
+        "Machete dev error:MessagesService is already loaded. Additional imports not needed"
+      );
     }
   }
 }

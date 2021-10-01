@@ -6,7 +6,7 @@ import { EmployersService } from "../../employers/employers.service";
 import { Employer } from "../../shared/models/employer";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ProfileGuard implements CanActivate {
   constructor(

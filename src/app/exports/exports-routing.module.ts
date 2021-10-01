@@ -5,7 +5,7 @@ import { AuthGuardService } from "../shared/services/auth-guard.service";
 
 const exportsRoutes: Routes = [
   {
-    path: '',
+    path: "",
     component: ExportsComponent,
     canActivate: [AuthGuardService],
   },

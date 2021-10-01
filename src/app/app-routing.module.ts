@@ -1,63 +1,78 @@
-import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { CommonModule } from "@angular/common";
 
 // scoped to app component (app-wide)
-import { SelectivePreloadingStrategy } from './selective-preloading-strategy';
-import { WelcomeComponent } from 'src/app/welcome/welcome.component';
+import { SelectivePreloadingStrategy } from "./selective-preloading-strategy";
+import { WelcomeComponent } from "src/app/welcome/welcome.component";
 
-import { CanLoadService } from './shared/services/can-load.service';
+import { CanLoadService } from "./shared/services/can-load.service";
 
 const lazyLoadedFeatureRoutes: Routes = [
   /**
    * !lazy loaded feature routes
    */
   {
-    path: 'auth',
+    path: "auth",
     // canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () =>
+      import("src/app/auth/auth.module").then((m) => m.AuthModule),
   },
   {
-    path: 'configuration',
+    path: "configuration",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/configs/configs.module').then(m => m.ConfigsModule)
+    loadChildren: () =>
+      import("src/app/configs/configs.module").then((m) => m.ConfigsModule),
   },
   {
-    path: 'reports',
+    path: "reports",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/reports/reports.module').then(m => m.ReportsModule)
+    loadChildren: () =>
+      import("src/app/reports/reports.module").then((m) => m.ReportsModule),
   },
   {
-    path: 'workers',
+    path: "workers",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/workers/workers.module').then(m => m.WorkersModule)
+    loadChildren: () =>
+      import("src/app/workers/workers.module").then((m) => m.WorkersModule),
   },
   {
-    path: 'exports',
+    path: "exports",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/exports/exports.module').then(m => m.ExportsModule)
+    loadChildren: () =>
+      import("src/app/exports/exports.module").then((m) => m.ExportsModule),
   },
   {
-    path: 'my-work-orders',
+    path: "my-work-orders",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/my-work-orders/my-work-orders.module').then(m => m.MyWorkOrdersModule)
+    loadChildren: () =>
+      import("src/app/my-work-orders/my-work-orders.module").then(
+        (m) => m.MyWorkOrdersModule
+      ),
   },
   {
-    path: 'employers',
+    path: "employers",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/employers/employers.module').then(m => m.EmployersModule)
+    loadChildren: () =>
+      import("src/app/employers/employers.module").then(
+        (m) => m.EmployersModule
+      ),
   },
   {
-    path: 'lookups',
+    path: "lookups",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/lookups/lookups.module').then(m => m.LookupsModule)
+    loadChildren: () =>
+      import("src/app/lookups/lookups.module").then((m) => m.LookupsModule),
   },
   {
-    path: 'online-orders',
+    path: "online-orders",
     canLoad: [CanLoadService],
-    loadChildren: () => import('src/app/online-orders/online-orders.module').then(m => m.OnlineOrdersModule)
-  }
-]
+    loadChildren: () =>
+      import("src/app/online-orders/online-orders.module").then(
+        (m) => m.OnlineOrdersModule
+      ),
+  },
+];
 const appRoutes: Routes = [
   /**
    * !app-scoped, app-module-level components
@@ -70,41 +85,42 @@ const appRoutes: Routes = [
   {
     path: "welcome",
     component: WelcomeComponent,
-    pathMatch: 'full'
+    pathMatch: "full",
   },
   {
-    path: 'dashboard',
-    redirectTo: '/auth/dashboard',
-    pathMatch: 'full'
+    path: "dashboard",
+    redirectTo: "/auth/dashboard",
+    pathMatch: "full",
   },
   {
-    path: 'unauthorized',
-    redirectTo: '/auth/unauthorized',
-    pathMatch: 'full'
+    path: "unauthorized",
+    redirectTo: "/auth/unauthorized",
+    pathMatch: "full",
   },
   {
-    path: 'authorize', // redirect from auth
-    redirectTo: '/welcome',
-    pathMatch: 'full'
-  }
+    path: "authorize", // redirect from auth
+    redirectTo: "/welcome",
+    pathMatch: "full",
+  },
 ];
 
 const defaultRoutes: Routes = [
   //{ path: '**', component: PageNotFoundComponent }
-  { path: '**', redirectTo: '/welcome' },
+  { path: "**", redirectTo: "/welcome" },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(
       [...appRoutes, ...lazyLoadedFeatureRoutes, ...defaultRoutes],
-      { preloadingStrategy: SelectivePreloadingStrategy, relativeLinkResolution: 'legacy' }
-    )
+      {
+        preloadingStrategy: SelectivePreloadingStrategy,
+        relativeLinkResolution: "legacy",
+      }
+    ),
   ],
   exports: [RouterModule],
-  providers: [
-    SelectivePreloadingStrategy
-  ]
+  providers: [SelectivePreloadingStrategy],
 })
 export class AppRoutingModule {
   constructor() {

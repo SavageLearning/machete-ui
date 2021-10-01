@@ -16,12 +16,12 @@ const workersRoute: Routes = [
       {
         path: "skills",
         component: SkillsListComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuardService],
       },
       {
         path: "in-skill/:id",
         component: WorkersInSkillComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuardService],
       },
       {
         path: "**",

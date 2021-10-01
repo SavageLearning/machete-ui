@@ -40,25 +40,26 @@ export class ExportsComponent implements OnInit {
           (r) => new MySelectItem(r.name, r.name)
         );
       },
-      error => this.errorMessage = error as string,
-      () => console.log('ngOnInit onCompleted'));
+      (error) => (this.errorMessage = error as string),
+      () => console.log("ngOnInit onCompleted")
+    );
   }
 
   getColumns(): void {
     console.log(this.selectedColumns);
     this.exportsService.getColumns(this.selectedExportName.value).subscribe(
-      data => {
+      (data) => {
         this.selectedColumns = data;
         this.dateFilterDropDown = data
-          .filter(f => f.system_type_name === 'datetime')
-          .map(r => new MySelectItem(r.name, r.name));
+          .filter((f) => f.system_type_name === "datetime")
+          .map((r) => new MySelectItem(r.name, r.name));
         const group: any = {};
-        data.forEach(col => {
+        data.forEach((col) => {
           group[col.name] = new FormControl(true);
         });
         this.form = new FormGroup(group);
       },
-      error => this.errorMessage = error as string,
+      (error) => (this.errorMessage = error as string),
       () => console.log("getColumns completed")
     );
   }
@@ -68,9 +69,10 @@ export class ExportsComponent implements OnInit {
       {
         beginDate: this.selectedStartDate,
         endDate: this.selectedEndDate,
-        filterField: this.selectedDateFilter
+        filterField: this.selectedDateFilter,
       },
-      this.form.value) as SearchOptions;
+      this.form.value
+    ) as SearchOptions;
     console.log(this.form.value);
     this.exportsService
       .getExport(this.selectedExportName.value, data)

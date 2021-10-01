@@ -8,7 +8,7 @@ import { Employer } from "../shared/models/employer";
 import { AuthService } from "../shared/index";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class EmployersService {
   private employerSource: BehaviorSubject<Employer>;

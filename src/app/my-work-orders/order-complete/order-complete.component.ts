@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
-import { WorkOrder } from '../../shared/models/work-order';
-import { LookupsService } from '../../lookups/lookups.service';
-import { LCategory } from '../../lookups/models/lookup';
-import { paypal } from 'paypal-checkout';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MyWorkOrdersService } from '../my-work-orders.service';
-import { environment } from '../../../environments/environment';
-import { ConfigsService } from '../../configs/configs.service';
-import { TransportProvidersService } from '../../online-orders/transport-providers.service';
+import { combineLatest as observableCombineLatest, Observable } from "rxjs";
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  OnInit,
+} from "@angular/core";
+import { WorkOrder } from "../../shared/models/work-order";
+import { LookupsService } from "../../lookups/lookups.service";
+import { LCategory } from "../../lookups/models/lookup";
+import { paypal } from "paypal-checkout";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MyWorkOrdersService } from "../my-work-orders.service";
+import { environment } from "../../../environments/environment";
+import { ConfigsService } from "../../configs/configs.service";
+import { TransportProvidersService } from "../../online-orders/transport-providers.service";
 
 @Component({
   selector: "app-order-complete",
@@ -92,24 +97,27 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
     observableCombineLatest([
       this.transportProviderService.getTransportProviders(),
       this.ordersService.getOrder(orderId),
-      this.configsService.getConfig('PayPalClientID'),
-      this.configsService.getConfig('PayPalEnvironment')
-    ]).subscribe(([l,o,id,env])=>{
-      console.log('ngOnInit:combineLatest received:', l,o,id,env);
-      this.paypalConfig['env'] = env.value;
-      this.paypalConfig.client[env.value] = id.value;
-      console.log('paypalConfig', this.paypalConfig);
-      this.order = o;
-      if (o == null) {
-        this.router.navigate(['/online-orders/order-not-found'])
-        return;
-      }
-      this.transportLabel = l.find(ll => ll.id === o.transportProviderID).text;
-      const wa = o.workAssignments;
-      if (wa != null && wa.length > 0) {
-        // sums up the transport  costs
-        this.transportCost =
-          wa.map(waItem => waItem.transportCost)
+      this.configsService.getConfig("PayPalClientID"),
+      this.configsService.getConfig("PayPalEnvironment"),
+    ]).subscribe(
+      ([l, o, id, env]) => {
+        console.log("ngOnInit:combineLatest received:", l, o, id, env);
+        this.paypalConfig["env"] = env.value;
+        this.paypalConfig.client[env.value] = id.value;
+        console.log("paypalConfig", this.paypalConfig);
+        this.order = o;
+        if (o == null) {
+          this.router.navigate(["/online-orders/order-not-found"]);
+          return;
+        }
+        this.transportLabel = l.find(
+          (ll) => ll.id === o.transportProviderID
+        ).text;
+        const wa = o.workAssignments;
+        if (wa != null && wa.length > 0) {
+          // sums up the transport  costs
+          this.transportCost = wa
+            .map((waItem) => waItem.transportCost)
             .reduce((a, b) => a + b);
           this.workerCount = wa.length;
           // sums up the labor costs
