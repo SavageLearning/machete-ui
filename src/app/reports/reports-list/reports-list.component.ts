@@ -18,7 +18,9 @@ export class ReportsListComponent implements OnInit {
 
   onRowSelect(e: Report): void {
     console.log(e);
-    this.router.navigate([`/reports/view/${this.selectedReport.name}`]);
+    this.router
+      .navigate([`/reports/view/${this.selectedReport.name}`])
+      .catch((e) => console.error(e));
   }
 
   ngOnInit(): void {

@@ -214,12 +214,12 @@ export class WorkOrderComponent implements OnInit {
       ],
     });
 
-    this.orderForm.valueChanges.subscribe((data) => this.onValueChanged(data));
+    this.orderForm.valueChanges.subscribe(() => this.onValueChanged());
 
     this.onValueChanged();
   }
 
-  onValueChanged(data?: any): void {
+  onValueChanged(): void {
     const form = this.orderForm;
 
     for (const field in this.formErrors) {
@@ -238,7 +238,7 @@ export class WorkOrderComponent implements OnInit {
     }
   }
 
-  async save() {
+  async save(): Promise<void> {
     // shimming in ValidatorFn outside of form control // englishRequired: "true"
     const dateCtrl = this.orderForm.get("dateOfWork");
     const dateError = schedulingDayValidator(this.schedulingRules)(dateCtrl);

@@ -29,7 +29,7 @@ export class IntroConfirmComponent implements OnInit {
     });
   }
 
-  checkConfirm(event: Event): void {
+  checkConfirm(): void {
     const result = this.confirmChoices
       .map((a) => a.confirmed)
       .reduce((a, b) => a && b);

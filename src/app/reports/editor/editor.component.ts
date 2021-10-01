@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { SqlEditorState } from "../report-detail/report-detail.component";
 
 export interface IEditorDetails {
@@ -39,5 +39,5 @@ export class EditorComponent {
     this.editorState.emit(SqlEditorState.OPEN);
   }
 
-  ngOnInit(): void {}
+  // ngOnInit(): void {}
 }

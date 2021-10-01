@@ -13,7 +13,6 @@ describe("TransportAvailability", () => {
   let fb: FormBuilder;
   let fg: FormGroup;
   let tFunc: ValidatorFn;
-  let today: Date;
   beforeEach(() => {
     fb = new FormBuilder();
     tFunc = transportAvailabilityValidator(

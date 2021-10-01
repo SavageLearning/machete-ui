@@ -5,8 +5,7 @@ import { Lookup } from "../../../lookups/models/lookup";
 export function hoursValidator(
   rules: SkillRule[],
   lookups: Lookup[],
-  skillIdKey: string,
-  hoursKey: string
+  skillIdKey: string
 ): ValidatorFn {
   return (control: FormControl): { [key: string]: any } => {
     if (!control.parent) {
