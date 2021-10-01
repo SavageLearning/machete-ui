@@ -6,13 +6,28 @@ import { ReportsStoreService } from "src/app/shared/services/reports-store.servi
 import { Report } from "../models/report";
 
 @Component({
-  selector: "app-reports-list",
-  templateUrl: "./reports-list.component.html",
-  styleUrls: ["./reports-list.component.css"],
+  selector: 'app-reports-list',
+  templateUrl: './reports-list.component.html',
+  styleUrls: ['./reports-list.component.css'],
 })
 export class ReportsListComponent implements OnInit {
   selectedReport: Report;
   reportList$: Observable<Report[]>;
+  public excludeCols: string[] = [
+    'id',
+    'subcategory',
+    'name',
+    'title',
+    'inputs',
+    'columns',
+    'sqlquery',
+    'inputsJson',
+    'columnsJson'
+  ];
+
+  public colOrder: string[] = [
+    'commonName'
+  ];
 
   constructor(private router: Router, private store: ReportsStoreService) {}
 

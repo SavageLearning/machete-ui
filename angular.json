@@ -12,14 +12,16 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
+              "safe-buffer",
+              "path",
               "lodash",
               "primeng/primeng",
               "primeng/components/common/messageservice",
               "rxjs/Rx",
               "file-saver",
               "paypal-checkout",
-              "chart.js",
-              "content-disposition"
+              "content-disposition",
+              "@ctrl/ngx-codemirror"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
@@ -48,41 +50,23 @@
                 "glob": "**/*.js",
                 "input": "src/scripts",
                 "output": "/"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/monaco-editor",
-                "output": "assets/monaco-editor"
               }
             ],
             "styles": [
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill/dist/quill.snow.css",
               "node_modules/nanoscroller/bin/css/nanoscroller.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeng/resources/themes/mdc-light-indigo/theme.css",
               "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/font-awesome/css/font-awesome.min.css",
-              "node_modules/@fullcalendar/core/main.min.css",
-              "node_modules/@fullcalendar/daygrid/main.min.css",
-              "node_modules/@fullcalendar/timegrid/main.min.css",
+              "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/codemirror/theme/monokai.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
-              "src/assets/layout/js/ripple.js",
-              "node_modules/moment/moment.js",
-              "node_modules/quill/dist/quill.min.js"
-            ],
-            "aot": false,
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+              "src/assets/layout/js/ripple.js"
+            ]
           },
           "configurations": {
             "test": {
@@ -94,9 +78,15 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "8mb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
               "aot": true,
               "extractLicenses": true,
               "buildOptimizer": true,
@@ -122,7 +112,29 @@
                 }
               ]
             },
+            "local-bundle-analyze": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local-dev.ts"
+                }
+              ]
+            },
             "local-dev": {
+              "aot": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -169,13 +181,10 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
-              "src/assets/layout/js/ripple.js",
-              "node_modules/moment/moment.js",
-              "node_modules/quill/dist/quill.js"
+              "src/assets/layout/js/ripple.js"
             ],
             "styles": [
               "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/quill/dist/quill.snow.css",
               "node_modules/nanoscroller/bin/css/nanoscroller.css",
               "src/styles.scss"
             ],
@@ -225,6 +234,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }

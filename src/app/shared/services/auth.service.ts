@@ -6,7 +6,9 @@ import { map, mergeMap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 import { User } from "../models/user";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   _redirectRoute = "";
   private _user: User;

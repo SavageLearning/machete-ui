@@ -7,7 +7,9 @@ import { HttpClient } from "@angular/common/http";
 import { TransportProvider } from "./shared/";
 import { of } from "rxjs";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TransportProvidersService {
   uriBase = environment.dataUrl + "/api/transportproviders";
   providers = new Array<TransportProvider>();

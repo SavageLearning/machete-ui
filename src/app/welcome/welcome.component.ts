@@ -1,16 +1,24 @@
-import { Component, OnInit } from "@angular/core";
-import { ConfigsService } from "../../configs/configs.service";
-import { AuthService } from "../../shared/index";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ConfigsService } from "../configs/configs.service";
+import { AuthService } from "../shared/index";
 import { Router } from "@angular/router";
-import { environment } from "../../../environments/environment";
-import { Config } from "../../shared/models/config";
+import { environment } from "../../environments/environment";
+import { Config } from "../shared/models/config";
+
+enum DashboardState {
+  None = "None",
+  Hirer = "Hirer",
+  CenterStaff = "CenterStaff",
+}
 
 @Component({
   selector: "app-welcome",
   templateUrl: "./welcome.component.html",
   styleUrls: ["./welcome.component.css"],
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, OnDestroy {
+  private alive = true;
+
   facebookAppId: string;
   googleClientId: string;
   macheteSessionId: string;
@@ -22,8 +30,30 @@ export class WelcomeComponent implements OnInit {
   outageMessage: string;
   serverData: Config[];
 
-  constructor(
-    private cfgService: ConfigsService,
+  public roleState: DashboardState = DashboardState.None;
+  public hirerLinks = [
+    { text: "Hire a Worker", link: "/online-orders/introduction", auth: true, icon: "" },
+    { text: "Update Employer Profile", link: "/employers", auth: true, icon: "" },
+    { text: "Hiring History", link: "/my-work-orders", auth: true, icon: "" },
+  ];
+
+  public centerStaffLinks = [
+    ... this.hirerLinks,
+    { text: "Machete Reports", link: "/reports", auth: true },
+  ];
+
+  public welcomeLinks = [
+    { text: "Log In / Sign Up", link: "/welcome",  action: "login", auth: false },
+  ];
+
+
+  public dashboards = [
+    {title: "Employer", links: this.hirerLinks, s: DashboardState.Hirer},
+    {title: "Center Staff", links: this.centerStaffLinks, s: DashboardState.CenterStaff},
+    {title: "", links: this.welcomeLinks, s: DashboardState.None},
+  ]
+
+  constructor(private cfgService: ConfigsService,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -32,7 +62,7 @@ export class WelcomeComponent implements OnInit {
     this.cfgService.getAllConfigs().subscribe(
       (data) => {
         this.serverData = data;
-        console.log("configs: ", data); // TODO this was 2am madness, this isn't great JS
+        console.log("configs: ", data); // TODO this was 2am madness, this isn"t great JS
         this.welcome = data.find(
           (config) => config.key === "WorkCenterDescription_EN"
         ).value;

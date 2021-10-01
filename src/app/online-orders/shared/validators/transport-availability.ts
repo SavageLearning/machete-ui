@@ -1,45 +1,35 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-/* eslint-disable curly */
-import { AbstractControl, ValidatorFn } from "@angular/forms";
-import { TransportProvider } from "../index";
-import * as moment from "moment/moment";
+import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { DateTime } from "luxon";
+import { TransportProvider } from '../index';
 
 // fields is the list of controls to clear if the validator passes
-export function transportAvailabilityValidator(
-  rules: TransportProvider[],
-  fields: string[]
-): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } => {
-    if (rules == null) return null;
-    if (control.parent == null) return null;
-    const dateOfWork: Date = control.parent.get("dateOfWork").value;
-    const timeOfWork: string = control.parent.get("timeOfWork").value;
-    if (!dateOfWork || !timeOfWork) return null;
+export function transportAvailabilityValidator(rules: TransportProvider[], fields: string[]): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      if (rules == null) return null;
+      if (control.parent == null) return null;
+      const dateOfWork: Date  = control.parent.get('dateOfWork').value as Date;
+      const timeOfWork: string = control.parent.get('timeOfWork').value as string;
+      if (!dateOfWork || !timeOfWork ) return null;
 
-    const timeInMS =
-      (Number(timeOfWork.split(":")[0]) * 3600 +
-        Number(timeOfWork.split(":")[1]) * 60) *
-      1000;
-    const dateTimeofWork = new Date(dateOfWork.getTime() + timeInMS);
-    const transportProviderID = control.parent.get("transportProviderID").value;
-    if (!dateTimeofWork || !transportProviderID) return null;
+      const timeInMS = (Number(timeOfWork.split(':')[0])*3600+Number(timeOfWork.split(':')[1])*60)*1000;
+      const dateTimeofWork = new Date(dateOfWork.getTime() + timeInMS);
+      const transportProviderID = Number(control.parent.get('transportProviderID').value);
+      if (!dateTimeofWork || !transportProviderID) return null;
 
-    const provider = rules.find((f) => f.id === Number(transportProviderID));
-    const day = provider.availabilityRules.find(
-      (a) => a.day === moment(dateTimeofWork).day()
-    );
-    if (!day.available) {
-      return {
-        transportAvailability: `${provider.text} not available on ${moment(
-          dateTimeofWork
-        ).format("dddd")}.`,
-      };
-    }
-    // clear errors on listed fields
-    for (const i in fields) {
-      const ctrl = control.parent.get(fields[i]);
-      ctrl.setErrors(null);
-    }
-    return null;
-  };
-}
+      const provider = rules.find(f => f.id === Number(transportProviderID));
+      const day = provider.availabilityRules.find(a => a.day === DateTime.local(
+          dateTimeofWork.getFullYear(),
+          dateTimeofWork.getMonth(),
+          dateTimeofWork.getDate()
+        ).day - 1);
+      if(!day.available) {
+        return {transportAvailability: `${provider.text} not available on ${DateTime.fromJSDate(dateTimeofWork).toFormat('dddd')}.`}
+      }
+      // clear errors on listed fields
+      fields.map(field => {
+        const ctrl = control.parent.get(fields[field]);
+        ctrl.setErrors(null);
+      })
+      return null;
+    };
+  }

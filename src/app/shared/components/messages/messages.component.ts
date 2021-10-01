@@ -45,7 +45,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     // simple error object
     if (error instanceof HttpErrorResponse && typeof error.error == "string") {
       this.primeNGMesage.add({
-        severity: "error",
+        severity: 'error',
         summary: error.statusText,
         detail: error.error,
         life: 7000,
@@ -56,7 +56,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
     if (error instanceof ErrorModel) {
       error.error.map((e: string) => {
         this.primeNGMesage.add({
-          severity: "error",
+          severity: 'error',
           summary: error.label,
           detail: e,
           life: 7000,
@@ -78,7 +78,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       // if value of error = string
       if (typeof parsedError[label] == "string") {
         this.primeNGMesage.add({
-          severity: "error",
+          severity: 'error',
           summary: label,
           detail: `${parsedError[label]}`,
           life: 7000,
@@ -88,7 +88,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       if (parsedError[label] instanceof Array) {
         parsedError[label].map((e: string) => {
           this.primeNGMesage.add({
-            severity: "error",
+            severity: 'error',
             summary: label,
             detail: `${e}`,
             life: 7000,
@@ -100,7 +100,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   notifySuccess(success: ISuccessMessage): void {
     this.primeNGMesage.add({
-      severity: "success",
+      severity: 'success',
       summary: success.label,
       detail: success.message,
       life: 3000,

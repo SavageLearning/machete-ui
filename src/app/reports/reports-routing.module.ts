@@ -1,40 +1,35 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { ReportsComponent } from "./reports.component";
-import { AuthGuardService } from "../shared/services/auth-guard.service";
-import { ReportDetailComponent } from "./report-detail/report-detail.component";
-import { ReportsListComponent } from "./reports-list/reports-list.component";
-import { ReportsService } from "./reports.service";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import {ReportsComponent} from './reports.component';
+import { AuthGuardService } from '../shared/services/auth-guard.service';
+import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { ReportsListComponent } from './reports-list/reports-list.component';
 
 const reportsRoutes: Routes = [
   {
-    path: "reports",
+    path: '',
     component: ReportsComponent,
-    canLoad: [AuthGuardService],
     canActivate: [AuthGuardService],
     children: [
       {
-        path: "",
+        path: '',
         component: ReportsListComponent,
-        canLoad: [AuthGuardService],
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuardService]
       },
       {
-        path: "view/:id",
+        path: 'view/:id',
         component: ReportDetailComponent,
-        canLoad: [AuthGuardService],
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuardService]
       },
-      {
-        path: "**",
-        redirectTo: "",
-      },
-    ],
-  },
+    ]
+  }
 ];
 @NgModule({
-  imports: [RouterModule.forChild(reportsRoutes)],
-  exports: [RouterModule],
-  providers: [AuthGuardService, ReportsService],
+  imports: [
+    RouterModule.forChild(reportsRoutes)
+  ],
+  providers: [
+    AuthGuardService
+  ]
 })
-export class ReportsRoutingModule {}
+export class ReportsRoutingModule { }

@@ -7,7 +7,9 @@ import { environment } from "../../environments/environment";
 import { Employer } from "../shared/models/employer";
 import { AuthService } from "../shared/index";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EmployersService {
   private employerSource: BehaviorSubject<Employer>;
   private uri: string = environment.dataUrl + "/api/employers/profile";

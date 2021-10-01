@@ -15,6 +15,7 @@ export class ReportsComponent implements OnInit {
     this.items = [
       {
         label: "Reports",
+        icon: "pi pi-chart-line",
         items: [
           {
             label: "Report List",

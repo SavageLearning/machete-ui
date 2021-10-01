@@ -1,18 +1,10 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  ElementRef,
-  ViewChild,
-  Renderer2,
-  OnDestroy,
-} from "@angular/core";
-import { environment } from "../environments/environment";
-import { ConfigsService } from "./configs/configs.service";
-import { LookupsService } from "./lookups/lookups.service";
-import { Router, NavigationEnd } from "@angular/router";
-import { Message, PrimeNGConfig } from "primeng/api";
-console.log("environment.name:", environment.name);
+import {Component, OnInit, AfterViewInit, ElementRef, ViewChild, Renderer2, OnDestroy} from '@angular/core';
+import { environment } from '../environments/environment';
+import { ConfigsService } from './configs/configs.service';
+import { LookupsService } from './lookups/lookups.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { Message, MessageService, PrimeNGConfig } from 'primeng/api';
+console.log('environment.name:', environment.name);
 
 enum MenuOrientation {
   static,
