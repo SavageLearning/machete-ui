@@ -7,23 +7,20 @@ describe("MyWorkOrdersComponent", () => {
   let component: MyWorkOrdersComponent;
   let fixture: ComponentFixture<MyWorkOrdersComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MyWorkOrdersComponent],
-        imports: [RouterTestingModule],
-      })
-        // .overrideComponent(MyWorkOrdersComponent, {
-        //   set: {
-        //     providers: [
-
-        //     ]
-        //   }
-        // })
-        .compileComponents()
-        .catch((e) => console.error(e));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [MyWorkOrdersComponent],
+      imports: [RouterTestingModule],
     })
-  );
+      // .overrideComponent(MyWorkOrdersComponent, {
+      //   set: {
+      //     providers: [
+
+      //     ]
+      //   }
+      // })
+      .compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyWorkOrdersComponent);

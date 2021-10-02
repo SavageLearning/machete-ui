@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { combineLatest as observableCombineLatest, Observable } from "rxjs";
 import { Component, OnDestroy, OnInit } from "@angular/core";

@@ -48,8 +48,10 @@ export class TransportProvidersStoreService {
         map((o) => o["data"] as TransportProvider[]),
         catchError((error) => {
           // only expecting one type of error
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          const errorAsText: string = error["statusText"] as string;
           this.appMessages.showErrors({
-            Error: `${error["statusText"]}: Contact Machete support.`,
+            Error: `${errorAsText}: Contact Machete support.`,
           });
           console.log(error);
           return throwError(error);

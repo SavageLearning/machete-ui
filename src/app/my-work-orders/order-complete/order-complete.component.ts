@@ -1,19 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import { combineLatest as observableCombineLatest, Observable } from "rxjs";
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  OnInit,
-} from "@angular/core";
+import { combineLatest as observableCombineLatest } from "rxjs";
+import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
-import { LookupsService } from "../../lookups/lookups.service";
-import { LCategory } from "../../lookups/models/lookup";
 import * as paypal from "paypal-checkout";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyWorkOrdersService } from "../my-work-orders.service";
-import { environment } from "../../../environments/environment";
 import { ConfigsService } from "../../configs/configs.service";
 import { TransportProvidersService } from "../../online-orders/transport-providers.service";
 
@@ -107,7 +101,9 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
         console.log("paypalConfig", this.paypalConfig);
         this.order = o;
         if (o == null) {
-          this.router.navigate(["/online-orders/order-not-found"]);
+          this.router
+            .navigate(["/online-orders/order-not-found"])
+            .catch((e) => console.log(e));
           return;
         }
         this.transportLabel = l.find(

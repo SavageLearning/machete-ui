@@ -14,6 +14,7 @@ export class MessagesService {
   private errorSubject = new BehaviorSubject<any>([]);
   private successSubject = new BehaviorSubject<any>([]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   success$: Observable<ISuccessMessage> = this.successSubject.asObservable();
 
   errors$: Observable<any> = this.errorSubject.asObservable();

@@ -27,7 +27,7 @@ export class AuthGuardService implements CanActivate {
       map((user) => {
         if (user.expired) {
           this.authService.setRedirectRoute(state.url);
-          this.router.navigate(["unauthorized"]);
+          this.router.navigate(["unauthorized"]).catch((e) => console.log(e));
         }
 
         return !user.expired;

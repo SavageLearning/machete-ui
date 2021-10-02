@@ -1,6 +1,6 @@
 import { of as observableOf } from "rxjs";
 
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WorkOrderDatatableComponent } from "./work-order-datatable.component";
 import { WorkOrder } from "../../shared/models/work-order";
 import { MyWorkOrdersService } from "../my-work-orders.service";
@@ -16,29 +16,27 @@ describe("WorkOrderDatatableComponent", () => {
   let component: WorkOrderDatatableComponent;
   let fixture: ComponentFixture<WorkOrderDatatableComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [WorkOrderDatatableComponent],
-        imports: [TableModule],
-      })
-        .overrideComponent(WorkOrderDatatableComponent, {
-          set: {
-            providers: [
-              { provide: MyWorkOrdersService, useClass: WorkOrdersServiceSpy },
-              { provide: Router, useClass: RouterSpy },
-            ],
-          },
-        })
-        .compileComponents()
-        .catch((e) => console.error(e))
-        .then(() => {
-          fixture = TestBed.createComponent(WorkOrderDatatableComponent);
-          component = fixture.componentInstance;
-          fixture.detectChanges();
-        });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [WorkOrderDatatableComponent],
+      imports: [TableModule],
     })
-  );
+      .overrideComponent(WorkOrderDatatableComponent, {
+        set: {
+          providers: [
+            { provide: MyWorkOrdersService, useClass: WorkOrdersServiceSpy },
+            { provide: Router, useClass: RouterSpy },
+          ],
+        },
+      })
+      .compileComponents()
+      .catch((e) => console.error(e))
+      .then(() => {
+        fixture = TestBed.createComponent(WorkOrderDatatableComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
+  });
 
   it("should be created", () => {
     expect(component).toBeTruthy();

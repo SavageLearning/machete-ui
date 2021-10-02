@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { catchError, map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 
@@ -35,6 +36,7 @@ export class ReportsService {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public encodeData(data: any): string {
     return Object.keys(data)
       .map((key) => [key, data[key]].map(encodeURIComponent).join("="))

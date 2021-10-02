@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { HttpClient } from "@angular/common/http";
 import { Injectable, Optional, SkipSelf } from "@angular/core";
 import { BehaviorSubject, Observable, of, throwError } from "rxjs";
@@ -123,6 +125,7 @@ export class ReportsStoreService {
     const uri = environment.dataUrl + "/api/reports";
     return this.http.delete(`${uri}/${name}`, { withCredentials: true }).pipe(
       catchError((err) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         this.appMessages.showErrors({ errors: err });
         console.log(err);
         return throwError(err);

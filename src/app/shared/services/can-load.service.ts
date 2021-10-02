@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CanLoad, Route, Router, UrlSegment, UrlTree } from "@angular/router";
-import { concat, Observable, of } from "rxjs";
-import { concatMap, map, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map, tap } from "rxjs/operators";
 import { loadMenuRules } from "src/app/menu/load-menu-rules";
 import { MenuRule } from "src/app/menu/menu-rule";
 import { AuthService } from "./auth.service";
@@ -14,6 +14,7 @@ export class CanLoadService implements CanLoad {
 
   canLoad(
     route: Route,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     segments: UrlSegment[]
   ): UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return this.authService.authorize().pipe(

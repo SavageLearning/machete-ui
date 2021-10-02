@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   Component,
   OnInit,
@@ -141,6 +143,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     if (this.activeTopbarItem === item) {
       this.activeTopbarItem = null;
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       this.activeTopbarItem = item;
     }
 

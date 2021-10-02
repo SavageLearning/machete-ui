@@ -7,7 +7,9 @@ export function schedulingDayValidator(rules: ScheduleRule[]): ValidatorFn {
       return null;
     }
     if (control.parent == null) return null;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const dateOfWork: Date = control.parent.get("dateOfWork").value;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const timeOfWork: string = control.parent.get("timeOfWork").value;
     if (!dateOfWork || !timeOfWork) return null;
 
@@ -43,7 +45,9 @@ export function schedulingTimeValidator(rules: ScheduleRule[]): ValidatorFn {
       return null;
     }
     if (control.parent == null) return null;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const dateOfWork: Date = control.parent.get("dateOfWork").value;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const timeOfWork: string = control.parent.get("timeOfWork").value;
     if (!dateOfWork || !timeOfWork) return null;
 

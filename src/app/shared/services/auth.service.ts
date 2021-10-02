@@ -1,4 +1,6 @@
-/* eslint-disable brace-style */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { environment } from "../../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";

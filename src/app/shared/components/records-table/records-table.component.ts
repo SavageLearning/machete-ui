@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from "@angular/core";
@@ -29,9 +30,7 @@ export class RecordsTableComponent implements OnChanges {
   public record: TransportProvider | Report;
   public maxColWidth = 0;
 
-  constructor() {}
-
-  onRowSelect() {
+  onRowSelect(): void {
     this.selectedRecord.emit(this.record);
   }
 

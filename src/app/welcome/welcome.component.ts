@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ConfigsService } from "../configs/configs.service";
 import { AuthService } from "../shared/index";
 import { Router } from "@angular/router";
@@ -101,7 +101,7 @@ export class WelcomeComponent implements OnInit {
           (config) => config.key === "DisableOnlineOrdersBanner"
         ).value;
       },
-      (error) => console.error("welcome.component.OnInit:" + error)
+      (error) => console.error(`welcome.component.OnInit:${error as string}`)
     );
     this.authService.authorize().subscribe(
       (user) => {
@@ -134,7 +134,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   // DEPRECATED
-  register(): void {
-    this.router.navigate(["/register"]);
+  async register(): Promise<void> {
+    await this.router.navigate(["/register"]);
   }
 }
