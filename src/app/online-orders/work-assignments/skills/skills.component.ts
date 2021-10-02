@@ -16,7 +16,6 @@ export class SkillsComponent implements OnInit {
   selectedSkill: Lookup;
 
   constructor(
-    public dialogService: DialogService,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig
   ) {}

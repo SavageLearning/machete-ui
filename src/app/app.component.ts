@@ -26,7 +26,7 @@ declare let jQuery: any;
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
-  providers: [LookupsService, ConfigsService],
+  providers: [LookupsService, ConfigsService, MessageService],
 })
 export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild("layoutContainer", { static: false })

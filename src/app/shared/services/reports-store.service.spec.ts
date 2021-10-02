@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
@@ -9,7 +10,7 @@ import { ReportsStoreService } from "./reports-store.service";
 
 describe("ReportsStoreService", () => {
   let service: ReportsStoreService;
-  const httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
+  const httpClientSpy: any = jasmine.createSpyObj("HttpClient", ["get"]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

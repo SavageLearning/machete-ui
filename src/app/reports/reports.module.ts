@@ -69,6 +69,7 @@ import { RecordsTableModule } from "../shared/components/records-table/records-t
     InputMaskModule,
     CheckboxModule,
     RecordControlModule,
+    RecordsTableModule,
     CodemirrorModule,
   ],
   providers: [ReportsService],

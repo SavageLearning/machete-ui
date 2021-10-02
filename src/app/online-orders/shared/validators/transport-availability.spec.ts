@@ -1,16 +1,10 @@
 import {
   AbstractControl,
   ValidatorFn,
-  FormControl,
   FormBuilder,
   FormGroup,
 } from "@angular/forms";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import {
-  ScheduleRule,
-  TransportProvider,
-  TransportProviderAvailability,
-} from "..";
+import { TransportProvider, TransportProviderAvailability } from "..";
 import { transportAvailabilityValidator } from "./transport-availability";
 import { DateTime } from "luxon";
 
@@ -46,15 +40,8 @@ describe("TransportAvailability", () => {
   });
 
   it("should create an instance", () => {
-    const now = new Date();
-    const date: Date = DateTime.fromObject({
-      weekday: 1,
-      year: now.getFullYear(),
-      month: now.getMonth(),
-    }).toJSDate();
-    console.log(date, "luxon date");
-    const time: string = DateTime.fromObject({ hour: 0 }).toString();
-    console.log(time, "luxon time");
+    const date: Date = DateTime.local().set({ weekday: 1 }).toJSDate();
+    const time: string = DateTime.local().set({ hour: 0 }).toISOTime();
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,
@@ -66,12 +53,10 @@ describe("TransportAvailability", () => {
   });
 
   it("should not show van on Sunday", () => {
-    const date: Date = moment()
-      .startOf("day")
-      .add(1, "weeks")
-      .isoWeekday(0)
-      .toDate();
-    const time: string = moment(0).format("HH:mm").toString();
+    const date: Date = DateTime.local().set({ weekday: 7 }).toJSDate();
+    const time: string = DateTime.local()
+      .set({ hour: 0, minute: 0 })
+      .toISOTime();
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,

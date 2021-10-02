@@ -10,7 +10,7 @@ import {
 import { WorkOrder } from "../../shared/models/work-order";
 import { LookupsService } from "../../lookups/lookups.service";
 import { LCategory } from "../../lookups/models/lookup";
-import { paypal } from "paypal-checkout";
+import * as paypal from "paypal-checkout";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyWorkOrdersService } from "../my-work-orders.service";
 import { environment } from "../../../environments/environment";

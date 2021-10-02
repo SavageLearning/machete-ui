@@ -288,3 +288,13 @@ export class ReportsStoreServiceSpy {
     )
   );
 }
+
+export class DynamicDialogRefSpy {}
+
+export class DynamicDialogConfigSpy {}
+
+export class TransportProvidersStoreServiceSpy {
+  transportProviders$ = observableOf(
+    new Array<TransportProvider>(new TransportProvider({ key: "test" }))
+  );
+}

@@ -13,7 +13,6 @@ import { environment } from "src/environments/environment";
 import { Report } from "src/app/reports/models/report";
 import { MessagesService } from "../components/messages/messages.service";
 import { Router } from "@angular/router";
-import "rxjs/add/observable/merge";
 
 /**
  * A singleton RXJS BehaviorSubject Machete Data store.

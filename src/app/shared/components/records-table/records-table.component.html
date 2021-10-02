@@ -7,8 +7,9 @@
     [value]="values"
     [paginator]="true"
     [rows]="10"
-    styleClass="p-datatable-sm p-datatable-gridlines"
+    styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines"
     [resizableColumns]="true"
+    [scrollable]="true"
     columnResizeMode="expand"
     [globalFilterFields]="cols"
     selectionMode="single"
@@ -25,8 +26,8 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-          <th [style.width.px]="maxColWidth" pResizableColumn pSortableColumn="{{col.field}}" *ngFor="let col of cols">
-            <div class="p-d-flex p-jc-around">
+          <th pResizableColumn pSortableColumn="{{col.field}}" *ngFor="let col of cols">
+            <div class="p-d-flex p-jc-center" [style.width.px]="maxColWidth">
               <div>
                 {{col.header}}
               </div>
@@ -40,14 +41,13 @@
 
     <ng-template pTemplate="body" let-viewData let-columns="cols">
       <tr [pSelectableRow]="viewData">
-          <td [style.width.px]="maxColWidth" class="p-text-light"  *ngFor="let col of cols">
-            <!-- {{viewData[col.field]}} -->
-            <div class="p-d-flex p-jc-start">
-              <div style="overflow: hidden; text-overflow: ellipsis;">
-                <span *ngIf="col.dateFormat !== null">{{viewData[col.field] | date:col.dateFormat}}</span>
-                <span *ngIf="col.dateFormat === null">{{viewData[col.field]}}</span>
-              </div>
-            </div>
+          <td [style.width.px]="maxColWidth" class="p-text-light" *ngFor="let col of cols">
+            <!-- <div class="p-d-flex p-jc-start"> -->
+              <!-- <div> -->
+                <span id="dt" *ngIf="col.dateFormat !== null">{{viewData[col.field] | date:col.dateFormat}}</span>
+                <span id="dt" style="overflow: hidden; text-overflow: ellipsis;" *ngIf="col.dateFormat === null">{{viewData[col.field]}}</span>
+              <!-- </div> -->
+            <!-- </div> -->
           </td>
       </tr>
     </ng-template>

@@ -17,7 +17,7 @@ import {
   TransportProvidersServiceSpy,
   MessageServiceSpy,
 } from "../../shared/testing";
-import { paypal } from "paypal-checkout";
+import * as paypal from "paypal-checkout";
 import { MyWorkOrdersService } from "../my-work-orders.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfigsService } from "../../configs/configs.service";

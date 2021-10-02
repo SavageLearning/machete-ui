@@ -26,28 +26,23 @@ export function transportAvailabilityValidator(
 
     const provider = rules.find((f) => f.id === Number(transportProviderID));
     const day = provider.availabilityRules.find(
-      (a) =>
-        a.day ===
-        DateTime.local(
-          dateTimeofWork.getFullYear(),
-          dateTimeofWork.getMonth(),
-          dateTimeofWork.getDate()
-        ).day -
-          1
+      (a) => a.day === dateTimeofWork.getDay()
     );
     if (!day.available) {
       return {
         transportAvailability: `${
           provider.text
         } not available on ${DateTime.fromJSDate(dateTimeofWork).toFormat(
-          "dddd"
+          "cccc"
         )}.`,
       };
     }
     // clear errors on listed fields
     fields.map((field) => {
       const ctrl = control.parent.get(fields[field]);
-      ctrl.setErrors(null);
+      if (ctrl !== null) {
+        ctrl.setErrors(null);
+      }
     });
     return null;
   };

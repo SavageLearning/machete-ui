@@ -29,11 +29,8 @@ export class ReportsListComponent implements OnInit {
 
   constructor(private router: Router, private store: ReportsStoreService) {}
 
-  onRowSelect(e: Report): void {
-    console.log(e);
-    this.router
-      .navigate([`/reports/view/${this.selectedReport.name}`])
-      .catch((e) => console.error(e));
+  async onRowSelect(e: Report): Promise<void> {
+    await this.router.navigate([`/reports/view/${e.name}`]);
   }
 
   ngOnInit(): void {

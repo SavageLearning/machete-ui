@@ -34,9 +34,7 @@ describe("ReportsListComponent", () => {
         { provide: Router, useClass: RouterSpy },
         { provide: ReportsStoreService, useClass: ReportsStoreServiceSpy },
       ],
-    })
-      .compileComponents()
-      .catch((e) => console.error(e));
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -45,18 +43,7 @@ describe("ReportsListComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create and display report list", () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
-    const tableRows = fixture.nativeElement.querySelectorAll("tr");
-
-    expect(tableRows.length).toBe(3);
-    const headerRow = tableRows[0];
-
-    const firstHeading = fixture.nativeElement.querySelectorAll("th");
-    expect(firstHeading[0].innerHTML).toContain("Name");
-
-    const firstDataCell = fixture.nativeElement.querySelectorAll("td");
-    expect(firstDataCell[0].innerHTML).toContain("Test");
-    expect(firstDataCell[5].innerHTML).toContain("More");
   });
 });
