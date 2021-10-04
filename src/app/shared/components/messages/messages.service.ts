@@ -1,6 +1,5 @@
 import { Injectable, Optional, SkipSelf } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
-import ErrorModel from "../../models/error-model";
 import { ISuccessMessage } from "./messages.component";
 
 /**
@@ -20,7 +19,7 @@ export class MessagesService {
 
   errors$: Observable<any> = this.errorSubject.asObservable();
 
-  showErrors(errors: ErrorModel): void {
+  showErrors(errors): void {
     this.errorSubject.next(errors);
   }
 
