@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import { combineLatest as observableCombineLatest } from "rxjs";
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";
-import { paypal } from "paypal-checkout";
+import * as paypal from "paypal-checkout";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyWorkOrdersService } from "../my-work-orders.service";
 import { ConfigsService } from "../../configs/configs.service";
@@ -101,7 +103,7 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
         if (o == null) {
           this.router
             .navigate(["/online-orders/order-not-found"])
-            .catch((e) => console.error(e));
+            .catch((e) => console.log(e));
           return;
         }
         this.transportLabel = l.find(

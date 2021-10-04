@@ -47,6 +47,7 @@ export class ExportsService {
   public encodeData(data: any): string {
     return Object.keys(data)
       .map((key) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         return [key, data[key]].map(encodeURIComponent).join("=");
       })
       .join("&");

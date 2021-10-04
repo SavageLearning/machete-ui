@@ -55,6 +55,7 @@ export class ExportsComponent implements OnInit {
           .map((r) => new MySelectItem(r.name, r.name));
         const group: any = {};
         data.forEach((col) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           group[col.name] = new FormControl(true);
         });
         this.form = new FormGroup(group);
@@ -93,6 +94,7 @@ export class ExportsComponent implements OnInit {
   }
 
   getFilename(content: string): string {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return contentDisposition.parse(content).parameters["filename"];
   }
 }

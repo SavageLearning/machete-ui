@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MockProvider } from "ng-mocks";
 import {
-  DialogService,
   DynamicDialogConfig,
   DynamicDialogModule,
   DynamicDialogRef,
 } from "primeng/dynamicdialog";
+import {
+  DynamicDialogConfigSpy,
+  DynamicDialogRefSpy,
+} from "src/app/shared/testing";
 
 import { SkillsComponent } from "./skills.component";
 
@@ -18,9 +20,8 @@ describe("SkillsComponent", () => {
       declarations: [SkillsComponent],
       imports: [DynamicDialogModule],
       providers: [
-        MockProvider(DialogService),
-        MockProvider(DynamicDialogRef),
-        MockProvider(DynamicDialogConfig),
+        { provide: DynamicDialogRef, useClass: DynamicDialogRefSpy },
+        { provide: DynamicDialogConfig, useClass: DynamicDialogConfigSpy },
       ],
     }).compileComponents();
   });

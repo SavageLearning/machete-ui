@@ -17,8 +17,8 @@
       "es2020",
       "dom"
     ],
-    "module": "es2020",
+    "module": "esnext",
     "baseUrl": "./",
   },
-  "include": ["src/ **/.d.ts", "src/**/*.ts"],
+  // "include": ["src/**/.d.ts", "src/**/*.ts", "src/ **/.d.ts"],
 }

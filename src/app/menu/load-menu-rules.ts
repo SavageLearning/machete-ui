@@ -64,36 +64,41 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
       routerLink: ["/configuration"],
       authorizedRoles: [LRole.ADMIN],
       items: [
-        new MenuRule({
-          id: 11,
-          label: "Auth diagnostics",
-          icon: "perm_identity",
-          routerLink: ["/dashboard"],
-          authorizedRoles: [
-            LRole.ADMIN,
-            LRole.CHECKIN,
-            LRole.MANAGER,
-            LRole.PHONEDESK,
-            LRole.TEACHER,
-            LRole.USER,
-          ],
-        }),
+        // new MenuRule({
+        //   id: 11,
+        //   label: 'Auth diagnostics',
+        //   icon: 'perm_identity',
+        //   routerLink: ['/auth/dashboard'],
+        //   authorizedRoles: [
+        //     LRole.ADMIN,
+        //     LRole.CHECKIN,
+        //     LRole.MANAGER,
+        //     LRole.PHONEDESK,
+        //     LRole.TEACHER,
+        //     LRole.USER
+        //   ]
+        // }),
         new MenuRule({
           id: 13,
           label: "Transport Providers",
           icon: "airport_shuttle",
-          routerLink: ["/transport-providers"],
+          routerLink: ["configuration/transport-providers"],
           authorizedRoles: [LRole.ADMIN],
         }),
       ],
     }),
-    new MenuRule({
-      id: 14,
-      label: "Workers",
-      icon: "assignment_ind",
-      routerLink: ["/workers"],
-      authorizedRoles: [LRole.ADMIN, LRole.MANAGER],
-    }),
+    // Hide unfinished work
+    // !! TODO finish the workers in list feature
+    // new MenuRule({
+    //   id: 14,
+    //   label: 'Workers',
+    //   icon: 'assignment_ind',
+    //   routerLink: ['/workers'],
+    //   authorizedRoles: [
+    //     LRole.ADMIN,
+    //     LRole.MANAGER
+    //   ]
+    // }),
   ];
   // lambda-fu
   if (authList == null || authList === undefined) {

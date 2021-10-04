@@ -38,11 +38,10 @@
 
 </div>
 <ng-container *ngIf="editing">
-  <div style="height: 500px">
-    <ngx-monaco-editor
-      style="height: 100%"
+  <div style="height: auto">
+    <ngx-codemirror
       [options]="editorOptions"
       [(ngModel)]="sql"
-    ></ngx-monaco-editor>
+    ></ngx-codemirror>
   </div>
 </ng-container>

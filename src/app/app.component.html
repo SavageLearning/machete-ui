@@ -2,7 +2,7 @@
 <app-messages></app-messages>
 <div class="layout-wrapper" [ngClass]="{'layout-compact':layoutCompact}">
 
-    <div #layoutContainer class="layout-container" 
+    <div #layoutContainer class="layout-container"
             [ngClass]="{'menu-layout-static': !isOverlay(),
             'menu-layout-overlay': isOverlay(),
             'layout-menu-overlay-active': overlayMenuActive,
@@ -12,7 +12,7 @@
 
         <app-topbar></app-topbar>
 
-        <div class="layout-menu" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)">
+        <div class="layout-menu" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick()">
             <div #layoutMenuScroller class="nano">
                 <div class="nano-content menu-scroll-content">
                     <inline-profile *ngIf="profileMode==='inline'&&!isHorizontal()"></inline-profile>
@@ -20,13 +20,13 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="layout-main">
             <router-outlet></router-outlet>
-            
+
             <app-footer></app-footer>
         </div>
-        
+
         <div class="layout-mask"></div>
     </div>
 

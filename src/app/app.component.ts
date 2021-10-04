@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   Component,
   OnInit,
@@ -11,7 +13,7 @@ import { environment } from "../environments/environment";
 import { ConfigsService } from "./configs/configs.service";
 import { LookupsService } from "./lookups/lookups.service";
 import { Router, NavigationEnd } from "@angular/router";
-import { Message, PrimeNGConfig } from "primeng/api";
+import { MenuItem, Message, MessageService, PrimeNGConfig } from "primeng/api";
 console.log("environment.name:", environment.name);
 
 enum MenuOrientation {
@@ -26,7 +28,7 @@ declare let jQuery: any;
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
-  providers: [LookupsService, ConfigsService],
+  providers: [LookupsService, ConfigsService, MessageService],
 })
 export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild("layoutContainer", { static: false })
@@ -94,7 +96,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     }, 10);
   }
 
-  onMenuButtonClick(event): void {
+  onMenuButtonClick(event: Event): void {
     this.rotateMenuButton = !this.rotateMenuButton;
     this.topbarMenuActive = false;
 
@@ -111,7 +113,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     event.preventDefault();
   }
 
-  onMenuClick(event): void {
+  onMenuClick(): void {
     this.menuClick = true;
     this.resetMenu = false;
 
@@ -122,7 +124,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  onTopbarMenuButtonClick(event): void {
+  onTopbarMenuButtonClick(event: Event): void {
     this.topbarItemClick = true;
     this.topbarMenuActive = !this.topbarMenuActive;
 
@@ -135,12 +137,13 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     event.preventDefault();
   }
 
-  onTopbarItemClick(event, item): void {
+  onTopbarItemClick(event: Event, item: MenuItem): void {
     this.topbarItemClick = true;
 
     if (this.activeTopbarItem === item) {
       this.activeTopbarItem = null;
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       this.activeTopbarItem = item;
     }
 

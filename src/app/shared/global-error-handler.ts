@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ErrorHandler, Injectable, Injector } from "@angular/core";
 import { LocationStrategy } from "@angular/common";
 import { LoggingService } from "./index";

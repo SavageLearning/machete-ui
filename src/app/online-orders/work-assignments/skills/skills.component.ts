@@ -1,10 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Lookup } from "../../../lookups/models/lookup";
-import {
-  DialogService,
-  DynamicDialogConfig,
-  DynamicDialogRef,
-} from "primeng/dynamicdialog";
+import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 
 @Component({
   selector: "app-skills",
@@ -16,16 +12,18 @@ export class SkillsComponent implements OnInit {
   selectedSkill: Lookup;
 
   constructor(
-    public dialogService: DialogService,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig
   ) {}
 
   ngOnInit(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.skills = this.config.data;
   }
 
-  onRowSelect(event): void {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  onRowSelect(event: any): void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.ref.close(event.data);
   }
 }

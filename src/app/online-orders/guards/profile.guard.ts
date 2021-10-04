@@ -5,7 +5,9 @@ import { Observable } from "rxjs";
 import { EmployersService } from "../../employers/employers.service";
 import { Employer } from "../../shared/models/employer";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class ProfileGuard implements CanActivate {
   constructor(
     private employersService: EmployersService,

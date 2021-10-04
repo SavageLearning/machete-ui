@@ -6,10 +6,10 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { AuthService } from "../shared/index";
 import { AuthServiceSpy } from "../shared/testing";
 
-describe("EmployersService", async () => {
+describe("EmployersService", () => {
   let service: EmployersService;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         EmployersService,

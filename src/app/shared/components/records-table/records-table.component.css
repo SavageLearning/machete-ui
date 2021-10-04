@@ -1,0 +1,7 @@
+:host ::ng-deep .p-datatable-header {
+  background-color: #e1e6e9;
+}
+
+:host ::ng-deep .p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):hover {
+  background: var(--blue-50);
+}

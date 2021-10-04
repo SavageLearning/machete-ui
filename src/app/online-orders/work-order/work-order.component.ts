@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { combineLatest as observableCombineLatest } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
@@ -281,6 +284,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   prepareOrderForSave(): WorkOrder {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const formModel = this.orderForm.value;
     console.log(
       formModel.dateOfWork,

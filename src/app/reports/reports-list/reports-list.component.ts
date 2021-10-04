@@ -13,14 +13,24 @@ import { Report } from "../models/report";
 export class ReportsListComponent implements OnInit {
   selectedReport: Report;
   reportList$: Observable<Report[]>;
+  public excludeCols: string[] = [
+    "id",
+    "subcategory",
+    "name",
+    "title",
+    "inputs",
+    "columns",
+    "sqlquery",
+    "inputsJson",
+    "columnsJson",
+  ];
+
+  public colOrder: string[] = ["commonName"];
 
   constructor(private router: Router, private store: ReportsStoreService) {}
 
-  onRowSelect(e: Report): void {
-    console.log(e);
-    this.router
-      .navigate([`/reports/view/${this.selectedReport.name}`])
-      .catch((e) => console.error(e));
+  async onRowSelect(e: Report): Promise<void> {
+    await this.router.navigate([`/reports/view/${e.name}`]);
   }
 
   ngOnInit(): void {

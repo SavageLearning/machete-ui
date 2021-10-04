@@ -17,7 +17,7 @@ import { BannerGuard } from "./guards/banner.guard";
 
 const onlineOrderRoutes: Routes = [
   {
-    path: "online-orders",
+    path: "",
     component: OnlineOrdersComponent,
     //canLoad: [AuthGuardService],
     canActivate: [AuthGuardService, ProfileGuard],
@@ -50,10 +50,6 @@ const onlineOrderRoutes: Routes = [
       {
         path: "order-not-found",
         component: OrderNotFoundComponent,
-      },
-      {
-        path: "**",
-        redirectTo: "order-not-found",
       },
     ],
   },

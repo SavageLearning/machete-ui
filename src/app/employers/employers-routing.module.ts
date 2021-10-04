@@ -5,9 +5,8 @@ import { AuthGuardService } from "../shared/index";
 
 const employerRoutes: Routes = [
   {
-    path: "employers",
+    path: "",
     component: EmployersComponent,
-    canLoad: [AuthGuardService],
     canActivate: [AuthGuardService],
   },
 ];

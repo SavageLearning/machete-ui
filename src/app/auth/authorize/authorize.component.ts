@@ -15,7 +15,8 @@ export class AuthorizeComponent implements OnInit {
     const rtr = this.router;
 
     this.auth.authorize().subscribe(
-      (user) => {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      async (user) => {
         user.state = user.state ? user.state : "/welcome";
 
         // get out of the auth loop (no hanging 'authorize works!')
@@ -24,11 +25,9 @@ export class AuthorizeComponent implements OnInit {
         }
 
         if (user.profile.roles.includes("Hirer") && user.state === "/welcome") {
-          rtr
-            .navigate(["/online-orders/introduction"])
-            .catch((e) => console.error(e));
+          await rtr.navigate(["/online-orders/introduction"]);
         } else {
-          rtr.navigate([user.state]);
+          await rtr.navigate([user.state]);
         }
       },
       (err) => {

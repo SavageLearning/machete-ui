@@ -6,11 +6,13 @@ import { OrderCompleteComponent } from "./order-complete.component";
 import { FullOrderViewComponent } from "../../shared/components/work-orders/full-order-view/full-order-view.component";
 import { TableModule } from "primeng/table";
 import {
-  TransportProvidersServiceSpy,
-  MessageServiceSpy,
   MyWorkOrdersServiceSpy,
   RouterSpy,
   ConfigsServiceSpy,
+} from "../../shared/testing";
+import {
+  TransportProvidersServiceSpy,
+  MessageServiceSpy,
 } from "../../shared/testing";
 import * as paypal from "paypal-checkout";
 import { MyWorkOrdersService } from "../my-work-orders.service";

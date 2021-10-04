@@ -6,7 +6,7 @@ import {
 } from "@angular/forms";
 import { TransportProvider, TransportProviderAvailability } from "..";
 import { transportAvailabilityValidator } from "./transport-availability";
-import * as moment from "moment/moment";
+import { DateTime } from "luxon";
 
 describe("TransportAvailability", () => {
   let ctrl: AbstractControl;
@@ -40,12 +40,8 @@ describe("TransportAvailability", () => {
   });
 
   it("should create an instance", () => {
-    const date: Date = moment()
-      .startOf("day")
-      .add(1, "weeks")
-      .isoWeekday(2)
-      .toDate();
-    const time: string = moment(0).format("HH:mm").toString();
+    const date: Date = DateTime.local().set({ weekday: 1 }).toJSDate();
+    const time: string = DateTime.local().set({ hour: 0 }).toISOTime();
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,
@@ -57,12 +53,10 @@ describe("TransportAvailability", () => {
   });
 
   it("should not show van on Sunday", () => {
-    const date: Date = moment()
-      .startOf("day")
-      .add(1, "weeks")
-      .isoWeekday(0)
-      .toDate();
-    const time: string = moment(0).format("HH:mm").toString();
+    const date: Date = DateTime.local().set({ weekday: 7 }).toJSDate();
+    const time: string = DateTime.local()
+      .set({ hour: 0, minute: 0 })
+      .toISOTime();
     fg = fb.group({
       dateOfWork: date,
       timeOfWork: time,

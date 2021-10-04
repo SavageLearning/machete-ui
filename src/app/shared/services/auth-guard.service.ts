@@ -10,7 +10,9 @@ import { AuthService } from "./auth.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class AuthGuardService implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {
     console.log(".ctor: AuthGuardService");
@@ -25,7 +27,7 @@ export class AuthGuardService implements CanActivate {
       map((user) => {
         if (user.expired) {
           this.authService.setRedirectRoute(state.url);
-          this.router.navigate(["unauthorized"]);
+          this.router.navigate(["unauthorized"]).catch((e) => console.log(e));
         }
 
         return !user.expired;

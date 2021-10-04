@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-for-in-array */
 import {
   zip as observableZip,
   of as observableOf,
@@ -38,7 +39,7 @@ export class WorkAssignmentsService {
     const data = sessionStorage.getItem(this.storageKey);
     if (data) {
       console.log("sessionStorage:", data);
-      const requests: WorkAssignment[] = JSON.parse(data);
+      const requests: WorkAssignment[] = JSON.parse(data) as WorkAssignment[];
       this.requests = requests;
     }
     this.combinedSource$ = observableCombineLatest([

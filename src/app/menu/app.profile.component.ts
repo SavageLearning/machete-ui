@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Component, OnInit } from "@angular/core";
 import {
   trigger,
@@ -58,7 +60,7 @@ export class InlineProfileComponent implements OnInit {
     );
   }
 
-  onClick(event): void {
+  onClick(event: Event): void {
     this.active = !this.active;
     event.preventDefault();
   }

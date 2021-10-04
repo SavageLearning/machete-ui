@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, Optional, SkipSelf } from "@angular/core";
 import { BehaviorSubject, Observable, of, throwError } from "rxjs";
 import {
   catchError,
@@ -13,16 +15,11 @@ import { environment } from "src/environments/environment";
 import { Report } from "src/app/reports/models/report";
 import { MessagesService } from "../components/messages/messages.service";
 import { Router } from "@angular/router";
-import "rxjs/add/operator/partition";
-import "rxjs/add/observable/merge";
 
-@Injectable({
-  providedIn: "root",
-})
 /**
- * A singleton RXJS Data store.
+ * A singleton RXJS BehaviorSubject Machete Data store.
  * Returns the same list of records regardless of
- * how many times the observable us consumned until the data is mutaded
+ * how many times the observable is consumned until the data is mutaded
  *
  * @class ReportsStoreService
  */
@@ -38,8 +35,15 @@ export class ReportsStoreService {
   constructor(
     private http: HttpClient,
     private appMessages: MessagesService,
-    private router: Router
+    private router: Router,
+    @Optional() @SkipSelf() parentModule?: ReportsStoreService
   ) {
+    // enforce app singleton pattern
+    if (parentModule) {
+      throw new Error(
+        "Machete dev error:ReportsStoreService is already loaded. Additional imports not needed"
+      );
+    }
     this.getReportList();
   }
 
@@ -121,6 +125,7 @@ export class ReportsStoreService {
     const uri = environment.dataUrl + "/api/reports";
     return this.http.delete(`${uri}/${name}`, { withCredentials: true }).pipe(
       catchError((err) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         this.appMessages.showErrors({ errors: err });
         console.log(err);
         return throwError(err);
