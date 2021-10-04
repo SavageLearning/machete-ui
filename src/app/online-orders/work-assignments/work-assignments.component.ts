@@ -311,7 +311,7 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
     this.setHasRequests();
   }
 
-  onRowSelect(event): void {
+  onRowSelect(event: { data: any }): void {
     this.newRequest = false;
     this.request = this.cloneRequest(event.data);
   }

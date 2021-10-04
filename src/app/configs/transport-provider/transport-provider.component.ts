@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, SkipSelf } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { filter, first } from "rxjs/operators";
 import { TransportProvider } from "src/app/online-orders/shared";
@@ -15,8 +15,9 @@ export class TransportProviderComponent implements OnInit {
 
   constructor(private store: TransportProvidersStoreService) {}
 
-  handleRowSelect(selectedRecord: TransportProvider) {
+  handleRowSelect(selectedRecord: TransportProvider): void {
     // navigate to single record
+    console.log(selectedRecord);
   }
 
   ngOnInit(): void {

@@ -60,7 +60,7 @@ export class InlineProfileComponent implements OnInit {
     );
   }
 
-  onClick(event): void {
+  onClick(event: Event): void {
     this.active = !this.active;
     event.preventDefault();
   }

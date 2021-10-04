@@ -6,7 +6,6 @@ import { AuthorizeComponent } from "./authorize/authorize.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { RegisterComponent } from "./register/register.component";
 import { UnauthorizedComponent } from "./unauthorized/unauthorized.component";
-import { WelcomeComponent } from "../welcome/welcome.component";
 
 const routes: Routes = [
   {

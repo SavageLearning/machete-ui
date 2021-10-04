@@ -1,5 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MyWorkOrdersComponent } from "./my-work-orders.component";
 import { RouterTestingModule } from "@angular/router/testing";
 
@@ -11,15 +10,7 @@ describe("MyWorkOrdersComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [MyWorkOrdersComponent],
       imports: [RouterTestingModule],
-    })
-      // .overrideComponent(MyWorkOrdersComponent, {
-      //   set: {
-      //     providers: [
-
-      //     ]
-      //   }
-      // })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

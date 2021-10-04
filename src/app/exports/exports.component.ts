@@ -65,7 +65,7 @@ export class ExportsComponent implements OnInit {
     );
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const data = Object.assign(
       {
         beginDate: this.selectedStartDate,

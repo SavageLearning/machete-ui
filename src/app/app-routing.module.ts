@@ -1,7 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { CommonModule } from "@angular/common";
-
 // scoped to app component (app-wide)
 import { SelectivePreloadingStrategy } from "./selective-preloading-strategy";
 import { WelcomeComponent } from "src/app/welcome/welcome.component";
