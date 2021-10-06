@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WelcomeComponent } from "./welcome.component";
 import { ConfigsService } from "../configs/configs.service";
@@ -44,5 +47,14 @@ describe("WelcomeComponent", () => {
     getConfigsList().map((conf) => {
       expect(component.serverData).toContain(conf);
     });
+  });
+
+  it("should display unauthenticated dashboard", () => {
+    const dashboardHeading = fixture.debugElement.nativeElement.querySelector(
+      "[data-mtest=dashboard-heading]"
+    );
+    expect(dashboardHeading.textContent).toContain("Dashboard");
+    expect(dashboardHeading.textContent).not.toContain("Center Staff");
+    expect(dashboardHeading.textContent).not.toContain("Employer");
   });
 });

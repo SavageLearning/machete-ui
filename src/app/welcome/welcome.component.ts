@@ -4,6 +4,7 @@ import { AuthService } from "../shared/index";
 import { Router } from "@angular/router";
 import { environment } from "../../environments/environment";
 import { Config } from "../shared/models/config";
+import { User } from "../shared/models/user";
 
 enum DashboardState {
   None = "None",
@@ -30,7 +31,7 @@ export class WelcomeComponent implements OnInit {
   outageMessage: string;
   serverData: Config[];
 
-  public roleState: DashboardState = DashboardState.None;
+  roleState: DashboardState = DashboardState.None;
   public hirerLinks = [
     {
       text: "Hire a Worker",
@@ -107,12 +108,22 @@ export class WelcomeComponent implements OnInit {
       (user) => {
         this.isLoggedIn = !user.expired;
         this.userState = user.state ? user.state : "/welcome";
+        this.roleState = this.defineRoleState(user);
       },
       (error) => {
         console.log("welcome component: error; ", error);
         this.isLoggedIn = false;
       }
     );
+  }
+
+  private defineRoleState(user: User): DashboardState {
+    const roleState: DashboardState = user.expired
+      ? DashboardState.None
+      : user.profile.roles.includes("Hirer")
+      ? DashboardState.Hirer
+      : DashboardState.CenterStaff;
+    return roleState;
   }
 
   // https://stackoverflow.com/a/49437170/2496266
