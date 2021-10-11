@@ -8,6 +8,7 @@ declare namespace Cypress {
     login(username: string, password: string): typeof login;
     logout(): typeof logout;
     getMacheteConfigs(): typeof getMacheteConfigs;
+    getEmployerProfile(): typeof getEmployerProfile;
   }
 }
 
@@ -19,7 +20,6 @@ function login(username: string, password: string): void {
   cy.get('[name="password"]').type(password);
   cy.get("[type=submit]").click();
 }
-
 
 /**
  * Should work with or without being authenticated
@@ -38,7 +38,20 @@ function getMacheteConfigs(): void {
   });
 }
 
-function logout(username: string, password: string): void {
+function getEmployerProfile() {
+  cy.request(`${Cypress.env("macheteApiUrl")}/employers/profile`).then(
+    (response) => {
+      console.log(response.body);
+      expect(response.status).to.eq(200);
+      // look for a employer value
+      const employer = response.body.data;
+      expect(employer).to.be.not.null;
+      Cypress.env("machete-employer", response.body.data);
+    }
+  );
+}
+
+function logout(): void {
   cy.clearCookie(".AspNetCore.Identity.Application");
 }
 
@@ -46,6 +59,7 @@ function logout(username: string, password: string): void {
 Cypress.Commands.add("login", login);
 Cypress.Commands.add("logout", logout);
 Cypress.Commands.add("getMacheteConfigs", getMacheteConfigs);
+Cypress.Commands.add("getEmployerProfile", getEmployerProfile);
 //
 // ***********************************************
 // This example commands.js shows you how to
