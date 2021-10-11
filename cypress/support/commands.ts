@@ -7,17 +7,35 @@ declare namespace Cypress {
   interface Chainable<Subject = any> {
     login(username: string, password: string): typeof login;
     logout(): typeof logout;
+    getMacheteConfigs(): typeof getMacheteConfigs;
   }
 }
 
 function login(username: string, password: string): void {
-  // console.warn(param);
-  cy.visit('/');
-  cy.url().should('includes', 'welcome');
+  cy.visit("/");
+  cy.url().should("includes", "welcome");
   cy.get('button:contains("Log In / Sign Up")').click(); // !needs to be change-resilient
   cy.get('[name="username"]').type(username);
   cy.get('[name="password"]').type(password);
-  cy.get('[type=submit]').click();
+  cy.get("[type=submit]").click();
+}
+
+
+/**
+ * Should work with or without being authenticated
+ */
+function getMacheteConfigs(): void {
+  cy.request(`${Cypress.env("macheteApiUrl")}/configs`).then((response) => {
+    console.log(response.body);
+    expect(response.status).to.eq(200);
+    // look for a config value
+    const theConfig = response.body.data.map(
+      (config) => config.key === "DisableOnlineOrders"
+    );
+    // At least one should be there
+    expect(theConfig).to.include(true);
+    Cypress.env("machete-configs", response.body.data);
+  });
 }
 
 function logout(username: string, password: string): void {
@@ -27,6 +45,7 @@ function logout(username: string, password: string): void {
 // NOTE: You can use it like so:
 Cypress.Commands.add("login", login);
 Cypress.Commands.add("logout", logout);
+Cypress.Commands.add("getMacheteConfigs", getMacheteConfigs);
 //
 // ***********************************************
 // This example commands.js shows you how to
