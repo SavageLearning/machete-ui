@@ -4,7 +4,7 @@ This project is the re-write of the UI for the [Machete project](https://github.
 
 ## Development server
 
-The project uses `ng serve` with the standard Angular CLI dev server. The environment is configured to use our cloud test server for identity and API calls.  You can authenticate with google or facebook for testing.
+The project uses `npm run dev` with the standard Angular CLI dev server. The environment is configured to use our cloud test server for identity and API calls.  You can authenticate with google or facebook for testing.
 
 ## Running unit tests
 
@@ -12,9 +12,9 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `npm run cypress:open` to execute the end-to-end tests via.
 Before running the tests make sure you are serving the Machete app on `:4213`.
-Naturally this also requires running the Angular app via `ng serve`.
+Naturally this also requires running the Angular app via `npm run dev`. Please see our [developer guide](/DEVELOPER.md) to see how we approach testing.
 
 ## Further help
 See the main project [Machete project](https://github.com/savagelearning/machete) for issue and project information.

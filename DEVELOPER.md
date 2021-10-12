@@ -3,11 +3,7 @@
 ## Template Best Practices
 Use change-resilient attributes to your templates to make testing easier.
 
-{% note %}
-
-**Note:** Example: `data-mtest=submit` for a form submit button or `data-mtest=form-edit-toggle`. 
-
-{% endnote %}
+> **Note:** Example: `data-mtest=submit` for a form submit button or `data-mtest=form-edit-toggle`. 
 
 ## Unit Tests
 We use Karma as the unit test framework. All components, services, pipes, custom validators should have an isolated unit test. All unit tests are run during builds. 
@@ -63,7 +59,7 @@ export class ReportsStoreServiceSpy {
 ```
 
 ## Integration Testing
-We use `cypress` as the integration testing framwork. We require integration testing on more ui flows like multi-step forms, form validation, etc. Testing scripts can be found in `package.json`.
+We use [`cypress`](https://docs.cypress.io/guides/overview/why-cypress) as the integration testing framwork. We require integration testing on more ui flows like multi-step forms, form validation, etc. Testing scripts can be found in `package.json`.
 
 - `cypress:open` runs the tests in a browser.
 - `cypress:run`: headless tests
