@@ -1,9 +1,10 @@
-import {
-  MACHETE_ADMIN,
-  MACHETE_USER,
-} from "cypress/machete-constants";
+import { MACHETE_ADMIN, MACHETE_USER } from "cypress/machete-constants";
 
 describe("Login", () => {
+  beforeEach(() => {
+    cy.getMacheteConfigs();
+  });
+
   it("should fail when credentials are incorrect", () => {
     cy.login(MACHETE_ADMIN.user, "BadPassword");
     cy.get("div .error-message").contains(
@@ -46,19 +47,16 @@ describe("Login", () => {
 
   it("should display center info from db configs when authenticated", () => {
     cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
-    cy.getMacheteConfigs();
     checkForWorkCenterDescription();
   });
 
   it("should display center info from db configs when  NOT authenticated", () => {
-    cy.getMacheteConfigs();
     checkForWorkCenterDescription();
   });
 });
 
 const checkForWorkCenterDescription = () => {
   const configs = Cypress.env("machete-configs");
-  console.log(configs, "configs");
   cy.get("[data-mtest=WorkCenterDescription_EN]").should(
     "have.html",
     configs.find(({ key }) => key === "WorkCenterDescription_EN").value

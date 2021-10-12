@@ -25,30 +25,33 @@ function login(username: string, password: string): void {
  * Should work with or without being authenticated
  */
 function getMacheteConfigs(): void {
-  cy.request(`${Cypress.env("macheteApiUrl")}/configs`).then((response) => {
-    console.log(response.body);
+  const endpoint = `${Cypress.env("macheteApiUrl")}/configs`;
+  cy.request(endpoint).then((response) => {
     expect(response.status).to.eq(200);
+    expect(response.body["data"]).to.not.be.null.and.not.be.undefined;
+    const data = response.body.data as Object[];
     // look for a config value
-    const theConfig = response.body.data.map(
-      (config) => config.key === "DisableOnlineOrders"
+    const theConfig = data.map(
+      (config) => config["key"] === "DisableOnlineOrders"
     );
     // At least one should be there
     expect(theConfig).to.include(true);
-    Cypress.env("machete-configs", response.body.data);
+    Cypress.env("machete-configs", data);
   });
+  // wait fot network response to complete before continuing
+  cy.intercept(`${endpoint}/**`);
 }
 
 function getEmployerProfile() {
-  cy.request(`${Cypress.env("macheteApiUrl")}/employers/profile`).then(
-    (response) => {
-      console.log(response.body);
-      expect(response.status).to.eq(200);
-      // look for a employer value
-      const employer = response.body.data;
-      expect(employer).to.be.not.null;
-      Cypress.env("machete-employer", response.body.data);
-    }
-  );
+  const endpoint = `${Cypress.env("macheteApiUrl")}/employers/profile`;
+  cy.request(endpoint).then((response) => {
+    expect(response.status).to.eq(200);
+    // look for a employer value
+    const employer = response.body.data;
+    expect(employer).to.be.not.null;
+    Cypress.env("machete-employer", response.body.data);
+  });
+  cy.intercept(`${endpoint}/**`);
 }
 
 function logout(): void {
