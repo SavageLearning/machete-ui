@@ -1,4 +1,4 @@
-import { MACHETE_ADMIN, MACHETE_USER } from "cypress/machete-constants";
+import { ENV_KEY_MACHETE_CONFIGS, MACHETE_ADMIN, MACHETE_USER } from "cypress/constants";
 
 describe("Login", () => {
   beforeEach(() => {
@@ -56,7 +56,7 @@ describe("Login", () => {
 });
 
 const checkForWorkCenterDescription = () => {
-  const configs = Cypress.env("machete-configs");
+  const configs = Cypress.env(ENV_KEY_MACHETE_CONFIGS);
   cy.get("[data-mtest=WorkCenterDescription_EN]").should(
     "have.html",
     configs.find(({ key }) => key === "WorkCenterDescription_EN").value

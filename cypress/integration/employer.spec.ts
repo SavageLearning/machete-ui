@@ -1,21 +1,25 @@
-import { wordToTitleCase } from "cypress/helpers";
-import { MACHETE_ADMIN } from "cypress/machete-constants";
+import { ENV_KEY_MACHETE_EMPLOYER, MACHETE_ADMIN } from "cypress/constants";
 
 describe("employers profile", () => {
   beforeEach(() => {
     cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.visit("/employers");
     cy.getEmployerProfile();
+    if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {
+      // if new employer
+      cy.log(Cypress.env(ENV_KEY_MACHETE_EMPLOYER));
+      cy.fillOutEmployerProfile();
+    }
   });
   it("should display username", () => {
     cy.get(`[id="name"]`).should(
       "have.value",
-      wordToTitleCase(MACHETE_ADMIN.user)
+      Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["name"]
     );
   });
 
   it("form should validate", () => {
-    const employer = Cypress.env("machete-employer");
+    const employer = Cypress.env(ENV_KEY_MACHETE_EMPLOYER);
 
     // name
     const name = "#name";
@@ -73,16 +77,17 @@ describe("employers profile", () => {
     // required error message
     cy.get("div .p-input-filled input").clear({ force: true });
     cy.get(`[type="submit"`).click();
-    cy.get("form").contains("Name is required");
-    cy.get("form").contains("Phone is required in 999-999-9999 format");
-    cy.get("form").contains("Address is required");
-    cy.get("form").contains("City is required");
-    cy.get("form").contains("State is required State must be two letters");
-    cy.get("form").contains("zipcode is required");
+    const form = "form";
+    cy.get(form).contains("Name is required");
+    cy.get(form).contains("Phone is required in 999-999-9999 format");
+    cy.get(form).contains("Address is required");
+    cy.get(form).contains("City is required");
+    cy.get(form).contains("State is required State must be two letters");
+    cy.get(form).contains("zipcode is required");
   });
 
-  it("should navidate to hire worker form on save", () => {
-    cy.get(`[type="submit"`).click();
+  it("should navigate to hire worker form on save", () => {
+    cy.get(`[type="submit"]`).should("exist").click();
     cy.url().should("include", "online-orders/introduction");
   });
 });
