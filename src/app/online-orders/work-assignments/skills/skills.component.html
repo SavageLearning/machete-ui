@@ -26,7 +26,7 @@
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-skillItem>
-      <tr [pSelectableRow]="rowData">
+      <tr [pSelectableRow]="rowData" attr.data-mtest={{skillItem.id}}>
           <td>
             <small class="p-column-title">Skill</small>
             <i class="pi pi-user"></i>
