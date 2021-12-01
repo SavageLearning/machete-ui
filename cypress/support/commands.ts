@@ -2,8 +2,10 @@
 ///<reference path="./support.d.ts" />
 
 import {
+  ENV_KEY_ANY_SKILL,
   ENV_KEY_MACHETE_CONFIGS,
   ENV_KEY_MACHETE_EMPLOYER,
+  ENV_KEY_MACHETE_LOOKUPS,
   ENV_KEY_MACHETE_TRANSPORT_PROVIDERS,
   ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES,
   MACHETE_ADMIN,
@@ -12,6 +14,7 @@ import {
 
 import { TransportRule } from "../../src/app/online-orders/shared/models/transport-rule";
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
+import { Lookup } from "src/app/lookups/models/lookup";
 
 // Add all the commands below to the support.d.ts Chainable interface
 
@@ -43,27 +46,12 @@ function getMacheteConfigs(): void {
 
 function getMacheteTransportRules(): void {
   const endpoint = `${Cypress.env("macheteApiUrl")}/TransportRules`;
-  cy.getCookie(".AspNetCore.Identity.Application").should('exist');
+  cy.getCookie(".AspNetCore.Identity.Application").should("exist");
   cy.request(endpoint).then((response) => {
     expect(response.status).to.eq(200);
     expect(response.body.data).to.not.be.null.and.not.be.undefined;
     const data = response.body.data;
-    // data.map((o) => {
-    //   return new TransportRule({key: o.key, lookupKey: o.lookupKey});
-    // });
-    Cypress.log({
-      message: "getMacheteTransportRules()",
-      name: "getMacheteTransportRules()",
-      displayName: "getMacheteTransportRules()",
-      consoleProps: () => {
-        // return an object which will
-        // print to dev tools console on click
-        return {
-          Key: "getMacheteTransportRules()",
-          Value: data,
-        };
-      },
-    });
+    logWrapper("getMacheteTransportRules()", data);
     Cypress.env(ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES, data);
   });
 }
@@ -74,19 +62,7 @@ function getMacheteTransportProviders(): void {
     expect(response.status).to.eq(200);
     expect(response.body.data).to.not.be.null.and.not.be.undefined;
     const data = response.body.data as TransportProvider[];
-    Cypress.log({
-      message: "getMacheteTransportProviders()",
-      name: "getMacheteTransportProviders()",
-      displayName: "getMacheteTransportProviders()",
-      consoleProps: () => {
-        // return an object which will
-        // print to dev tools console on click
-        return {
-          Key: "getMacheteTransportProviders()",
-          Value: data,
-        };
-      },
-    });
+    logWrapper("getMacheteTransportProviders()", data);
     Cypress.env(ENV_KEY_MACHETE_TRANSPORT_PROVIDERS, data);
   });
 }
@@ -98,20 +74,22 @@ function getEmployerProfile(): void {
     const employer = response.body.data;
     expect(employer).not.to.eq(undefined);
     expect(response.body["data"]).to.not.be.null.and.not.be.undefined;
-    Cypress.log({
-      message: "getEmployerProfile()",
-      name: "getEmployerProfile()",
-      displayName: "getEmployerProfile()",
-      consoleProps: () => {
-        // return an object which will
-        // print to dev tools console on click
-        return {
-          Key: "getEmployerProfile()",
-          Value: response.body.data,
-        };
-      },
-    });
+    logWrapper("getEmployerProfile()", employer);
     Cypress.env(ENV_KEY_MACHETE_EMPLOYER, response.body.data);
+  });
+}
+
+function getMacheteLookups(): void {
+  const endpoint = `${Cypress.env("macheteApiUrl")}/Lookups`;
+  cy.request(endpoint).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body.data).to.not.be.null.and.not.be.undefined;
+    const data = response.body.data as Lookup[];
+    logWrapper("getMacheteLookups()", data);
+    Cypress.env(ENV_KEY_MACHETE_LOOKUPS, data);
+
+    const anySkill: Lookup = data.find((lu) => lu.category.includes("skill"));
+    Cypress.env(ENV_KEY_ANY_SKILL, anySkill);
   });
 }
 
@@ -158,11 +136,28 @@ function toggleTerms(toggleState: "check" | "uncheck" = "uncheck"): void {
   });
 }
 
+function logWrapper(message: string, data: any): void {
+  Cypress.log({
+    message: message,
+    name: message,
+    displayName: message,
+    consoleProps: () => {
+      // return an object which will
+      // print to dev tools console on click
+      return {
+        Key: message,
+        Value: data,
+      };
+    },
+  });
+}
+
 // NOTE: You can use it like so:
 Cypress.Commands.add("login", login);
 Cypress.Commands.add("logout", logout);
 Cypress.Commands.add("getMacheteConfigs", getMacheteConfigs);
 Cypress.Commands.add("getEmployerProfile", getEmployerProfile);
+Cypress.Commands.add("getMacheteLookups", getMacheteLookups);
 Cypress.Commands.add("fillOutEmployerProfile", fillOutEmployerProfile);
 Cypress.Commands.add("toggleTerms", toggleTerms);
 Cypress.Commands.add("getMacheteTransportRules", getMacheteTransportRules);
@@ -170,6 +165,7 @@ Cypress.Commands.add(
   "getMacheteTransportProviders",
   getMacheteTransportProviders
 );
+Cypress.Commands.add("logWrapper", logWrapper);
 //
 // ***********************************************
 // This example commands.js shows you how to

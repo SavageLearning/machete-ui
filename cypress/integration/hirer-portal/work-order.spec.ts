@@ -11,6 +11,7 @@ import {
 import * as faker from "faker";
 import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
+import { WorkOrderSelectors } from "../../constants/hirer-portal-selectors";
 
 let fields: Partial<{
   key: string;
@@ -19,18 +20,21 @@ let fields: Partial<{
   checkParent: boolean;
 }>[] = null;
 
-const dow: string = "#dateOfWork > .p-calendar > .p-inputtext";
-const tow: string = "#timeOfWork > .p-calendar > .p-inputtext";
-const contacName: string = `input[id="contactName"]`;
-const address1: string = `input[id="worksiteAddress1"]`;
-const city: string = `input[id="city"]`;
-const state: string = `input[id="state"]`;
-const zipcode: string = `input[id="zipcode"]`;
-const phone: string = `input[id="phone"]`;
-const description: string = `textarea[id="description"]`;
+export const stepsToWorkOrder = () => {
+  cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+  cy.toggleTerms("check");
+  cy.visit(onlineOrderRoutes.workOrders, {
+    onBeforeLoad: (win) => {
+      // removes session entry that avoids re-displaying the dialog
+      win.sessionStorage.removeItem("machete.work-order.component.UG");
+      win.sessionStorage.removeItem("machete.workorder");
+    },
+  });
+  cy.get("p-footer > .p-element > .p-button-label").click();
+};
 
 describe("hirer portal - work-orders - flow", () => {
-  beforeEach(() => {
+  before(() => {
     cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.getMacheteTransportRules();
     cy.getMacheteTransportProviders();
@@ -40,15 +44,10 @@ describe("hirer portal - work-orders - flow", () => {
       console.log(Cypress.env(ENV_KEY_MACHETE_EMPLOYER));
       cy.fillOutEmployerProfile();
     }
-
-    cy.toggleTerms("check");
-    cy.visit(onlineOrderRoutes.workOrders, {
-      onBeforeLoad: (win) => {
-        // removes session entry that avoids re-displaying the dialog
-        win.sessionStorage.removeItem("machete.work-order.component.UG");
-      },
-    });
-    cy.get("p-footer > .p-element > .p-button-label").click();
+  });
+  
+  beforeEach(() => {
+    stepsToWorkOrder();
   });
 
   //#region work-orders
@@ -62,7 +61,7 @@ describe("hirer portal - work-orders - flow", () => {
     cy.get(`button[label="Confirm and proceed"]`).click();
     cy.url().should("contain", onlineOrderRoutes.workOrders);
     // !TODO make dynamic
-    cy.get(".p-dialog-content > .ng-tns-c43-12").should(
+    cy.get(`[data-mtest="users-guide-dialog"]`).should(
       "contain",
       "You may pick up the workers, or Casa Latina offers a transport program (fees apply)"
     );
@@ -74,19 +73,18 @@ describe("hirer portal - work-orders - flow", () => {
 
   it(`${onlineOrderRoutes.workOrders} - form should validate date and time`, () => {
     // date of work
-    cy.get(dow)
+    cy.get(WorkOrderSelectors.dow)
+      .clear()
       .type("abcd") // alpha chars are invalid
       .parent()
       .parent()
       .should("have.class", "ng-invalid");
-    cy.get(dow)
-      .trigger("keydown", ESCAPE_KEY)
-      .clear()
-      .type(getTodayPlus(3).text) // correct date should not fail
+    filloutDateAndTime();
+    cy.get(WorkOrderSelectors.dow) // correct date should not fail
       .parent()
       .parent()
       .should("not.have.class", "ng-invalid");
-    cy.get(dow).click();
+    cy.get(WorkOrderSelectors.dow).click();
 
     const dateText = getTodayPlus(3).dateText;
     cy.get(`p-calendar`) // selecting from calendar should not fail
@@ -96,22 +94,22 @@ describe("hirer portal - work-orders - flow", () => {
           cy.wrap($el).click();
         }
       });
-    cy.get(dow)
+    cy.get(WorkOrderSelectors.dow)
       .should("have.value", getTodayPlus(3).text)
       .trigger("keydown", ESCAPE_KEY);
 
     // time of work
-    cy.get(tow)
-      .focus()
+    cy.get(WorkOrderSelectors.tow)
+      .trigger("keydown", ESCAPE_KEY)
+      .clear()
       .type("abc") // alpha chars are invalid
+      .trigger("keydown", ESCAPE_KEY)
       .parent()
       .parent()
       .should("have.class", "ng-invalid")
       .trigger("keydown", ESCAPE_KEY);
-
-    cy.get(tow)
-      .clear()
-      .type("9:30") // correct date should not fail
+    filloutDateAndTime();
+    cy.get(WorkOrderSelectors.tow) // correct date should not fail
       .parent()
       .parent()
       .should("not.have.class", "ng-invalid")
@@ -125,7 +123,7 @@ describe("hirer portal - work-orders - flow", () => {
       .first()
       .should("be.visible")
       .click(); // click on up HOUR arrow
-    cy.get(tow)
+    cy.get(WorkOrderSelectors.tow)
       .should("be.visible")
       .should("have.value", "10:00") // input should contain this val
       .trigger("keydown", ESCAPE_KEY);
@@ -136,34 +134,34 @@ describe("hirer portal - work-orders - flow", () => {
     // required invalid class applied
     fields = [
       {
-        key: contacName,
+        key: WorkOrderSelectors.contacName,
         val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["name"],
       },
       {
-        key: address1,
+        key: WorkOrderSelectors.address1,
         val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["address1"],
       },
       {
-        key: city,
+        key: WorkOrderSelectors.city,
         val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["city"],
       },
       {
-        key: state,
+        key: WorkOrderSelectors.state,
         val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["state"],
         checkParent: true,
       },
       {
-        key: zipcode,
+        key: WorkOrderSelectors.zipcode,
         val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["zipcode"],
         checkParent: true,
       },
       {
-        key: phone,
+        key: WorkOrderSelectors.phone,
         val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["phone"],
         checkParent: true,
       },
       {
-        key: description,
+        key: WorkOrderSelectors.description,
         skipCheckVal: true,
       },
     ];
@@ -179,7 +177,7 @@ describe("hirer portal - work-orders - flow", () => {
       if (item.checkParent) {
         cy.get(item.key).parent().should("not.have.class", "ng-invalid");
         cy.get(item.key)
-          .focus()
+          // .focus()
           .clear() // required case
           .blur()
           .parent()
@@ -207,8 +205,8 @@ describe("hirer portal - work-orders - flow", () => {
         cy.get(item.key).clear();
       }
     });
-    cy.get(dow).clear().trigger("keydown", ESCAPE_KEY);
-    cy.get(tow).clear().trigger("keydown", ESCAPE_KEY);
+    cy.get(WorkOrderSelectors.dow).clear().trigger("keydown", ESCAPE_KEY);
+    cy.get(WorkOrderSelectors.tow).clear().trigger("keydown", ESCAPE_KEY);
     cy.get(`button[type="submit"]`).click();
     cy.get("form").contains("Date & time is required.");
     cy.get("form").contains("Contact name is required");
@@ -222,53 +220,95 @@ describe("hirer portal - work-orders - flow", () => {
   });
 
   it(`${onlineOrderRoutes.workOrders} form - should validate description max length`, () => {
-    cy.get(description)
+    cy.get(WorkOrderSelectors.description)
       .type(faker.random.alpha({ count: 101, upcase: false }))
       .click();
     cy.get(`button[type="submit"]`).click();
     cy.get("form").contains("Must be less than 100 characters");
-    cy.get(description).clear();
+    cy.get(WorkOrderSelectors.description).clear();
   });
 
   it(`${onlineOrderRoutes.workOrders} form - should save when data is valid`, () => {
-    cy.get(description).type(faker.random.alpha({ count: 100, upcase: false }));
-    cy.get(`#pr_id_6_label`).click();
-
-    const pickUpOption = getTransportFreeProvider();
-    cy.get(`.p-dropdown-items-wrapper`).within(() => {
-      cy.get("span").each(($el, index, $lis) => {
-        const spanText = $el.text();
-        if (spanText === pickUpOption) {
-          cy.wrap($el).click();
-        } else {
-          cy.log("OPTION NOT FOUND");
-        }
-      });
-    });
-    cy.get(`#pr_id_6_label`).contains(pickUpOption);
+    filloutDateAndTime();
+    cy.get(WorkOrderSelectors.description).type(
+      faker.random.alpha({ count: 100, upcase: false })
+    );
+    const rules = Cypress.env(ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES);
+    const transportProviders = Cypress.env(ENV_KEY_MACHETE_TRANSPORT_PROVIDERS);
+    selectWorkOrderPickUpMethod(transportProviders, rules);
+    const zip = getFirstFreeProviderZip(rules);
+    cy.get(WorkOrderSelectors.zipcode).clear().type(zip);
     cy.get(`button[type="submit"]`).click();
+    cy.url().should("contain", onlineOrderRoutes.workAssignments);
   });
-
-  const getTransportFreeProvider = (): string => {
-    // stablish values to use
-    let rules: TransportRule[];
-    let pickupLUKey: string;
-    let transportProviders: TransportProvider[];
-    let pickupOptionText: string;
-    rules =
-      (Cypress.env(
-        ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES
-      ) as TransportRule[]) || [];
-    cy.log(JSON.stringify(rules));
-    pickupLUKey = rules.find((item) => {
-      return item.key === "pickup";
-    }).lookupKey;
-    transportProviders = Cypress.env(
-      ENV_KEY_MACHETE_TRANSPORT_PROVIDERS
-    ) as TransportProvider[];
-    pickupOptionText = transportProviders.find(
-      (tp) => tp.key == pickupLUKey
-    ).text;
-    return pickupOptionText;
-  };
 });
+
+export const selectWorkOrderPickUpMethod = (
+  transportProviders: TransportProvider[],
+  rules: TransportRule[]
+): void => {
+  cy.get(`#pr_id_6_label`).click();
+  const pickUpOption = getFreeTransportProvider(transportProviders, rules);
+  cy.get(`.p-dropdown-items-wrapper`).within(() => {
+    cy.get("span").each(($el, index, $lis) => {
+      const spanText = $el.text();
+      if (spanText === pickUpOption) {
+        cy.wrap($el).click();
+        cy.log(`${spanText} CLICKED`);
+      } else {
+        cy.log("OPTION NOT FOUND");
+      }
+    });
+  });
+  cy.get(`#pr_id_6_label`).contains(pickUpOption);
+  cy.get(WorkOrderSelectors.contacName).focus();
+};
+
+export const filloutDateAndTime = () => {
+  cy.get(WorkOrderSelectors.dow)
+    .trigger("keydown", ESCAPE_KEY)
+    .clear()
+    .type(getTodayPlus(3).text) // correct date should not fail
+    .trigger("keydown", ESCAPE_KEY)
+    .parent()
+    .parent()
+    .should("not.have.class", "ng-invalid")
+    .trigger("keydown", ESCAPE_KEY);
+  // cy.get(WorkOrderSelectors.dow).click();
+  cy.get(WorkOrderSelectors.tow)
+    .trigger("keydown", ESCAPE_KEY)
+    .clear()
+    .type("9:30") // correct date should not fail
+    .parent()
+    .parent()
+    .should("not.have.class", "ng-invalid")
+    .trigger("keydown", ESCAPE_KEY);
+};
+
+export const getFreeTransportProvider = (
+  transportProviders: TransportProvider[],
+  rules: TransportRule[]
+): string => {
+  // stablish values to use
+  let pickupLUKey: string;
+  let pickupOptionText: string;
+  cy.log(JSON.stringify(rules));
+  pickupLUKey = rules.find((item) => {
+    return item.key.startsWith("pickup");
+  }).lookupKey;
+  pickupOptionText = transportProviders.find(
+    (tp) => tp.key == pickupLUKey
+  ).text;
+  return pickupOptionText;
+};
+
+export const getFirstFreeProviderZip = (rules: TransportRule[]): string => {
+  let firstZipMatch: string;
+  let result: string;
+  firstZipMatch = rules.find((tr) => tr.key.startsWith("pickup")).zipcodes[0];
+  result = firstZipMatch.includes("*")
+    ? rules[0].zipcodes.toString().split(",")[0]
+    : firstZipMatch;
+  cy.log("FIST ZIP", result);
+  return result;
+};

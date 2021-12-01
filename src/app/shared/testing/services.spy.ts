@@ -31,7 +31,7 @@ export class EmployersServiceSpy {
 }
 
 export class LookupsServiceSpy {
-  fakeLookup = new Lookup({ id: 32, text_EN: "a text label" });
+  fakeLookup = new Lookup({ id: 32, text_EN: "a text label", wage: 15 });
   getLookups = jasmine
     .createSpy("getLookups")
     .and.callFake(() => observableOf([this.fakeLookup]));
@@ -199,8 +199,12 @@ export class ConfigsServiceSpy {
     .and.callFake(() => observableOf(getConfigsList()));
 }
 
+/**
+ * the spy for PrimeNG message service
+ */
 export class MessageServiceSpy {
   add = jasmine.createSpy("add");
+  clear = jasmine.createSpy("clear");
 }
 
 export class ScheduleRulesServiceSpy {
@@ -292,6 +296,8 @@ export class ReportsStoreServiceSpy {
 export class DynamicDialogRefSpy {}
 
 export class DynamicDialogConfigSpy {}
+
+export class DialogServiceSpy {}
 
 export class TransportProvidersStoreServiceSpy {
   transportProviders$ = observableOf(

@@ -20,5 +20,12 @@
     "module": "esnext",
     "baseUrl": "./",
   },
+  "exclude": [
+    "cypress"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+
   // "include": ["src/**/.d.ts", "src/**/*.ts", "src/ **/.d.ts"],
 }

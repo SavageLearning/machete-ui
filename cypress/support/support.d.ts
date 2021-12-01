@@ -17,6 +17,10 @@ declare namespace Cypress {
      */
     getEmployerProfile(): Chainable<void>;
     /**
+     * get Machete lookups and save in Cy env variable
+     */
+    getMacheteLookups(): Chainable<void>;
+    /**
      * fills out employer profile with mock data
      * previous log in required. Should already be at route and with
      * specifi use case.
@@ -35,5 +39,11 @@ declare namespace Cypress {
      * Should be called after authentication
      */
     getMacheteTransportProviders(): Chainable<void>;
+    /**
+     * wraps the Cypress.log(...) method to avoid repetition
+     * @param method the method name that was executed
+     * @param data data to print to console when the snapshot is clicked
+     */
+    logWrapper(method: string, data: any): Chainable<void>;
   }
 }

@@ -153,7 +153,7 @@ export class WorkOrderComponent implements OnInit {
   }
 
   getTime(date: Date): string {
-    const timePart =  DateTime.fromJSDate(date).toFormat("HH:mm");
+    const timePart = DateTime.fromJSDate(date).toFormat("HH:mm");
     return timePart;
   }
 

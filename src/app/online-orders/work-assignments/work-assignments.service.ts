@@ -150,7 +150,10 @@ export class WorkAssignmentsService {
       console.log("OrderService returned an undefined order");
       return null;
     }
-    if (order.transportProviderID <= 0 || order.transportProviderID === undefined) {
+    if (
+      order.transportProviderID <= 0 ||
+      order.transportProviderID === undefined
+    ) {
       console.log("Order missing valid transportProviderID");
       return null;
     }

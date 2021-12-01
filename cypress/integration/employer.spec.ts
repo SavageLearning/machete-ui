@@ -1,4 +1,5 @@
 import { ENV_KEY_MACHETE_EMPLOYER, MACHETE_ADMIN } from "cypress/constants";
+import { Employer } from "src/app/shared/models/employer";
 
 describe("employers profile", () => {
   beforeEach(() => {
@@ -87,6 +88,8 @@ describe("employers profile", () => {
   });
 
   it("should navigate to hire worker form on save", () => {
+    const employer: Employer = Cypress.env(ENV_KEY_MACHETE_EMPLOYER);
+    cy.contains(employer.name);
     cy.get(`[type="submit"]`).should("exist").click();
     cy.url().should("include", "online-orders/introduction");
   });
