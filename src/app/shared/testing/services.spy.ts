@@ -23,11 +23,25 @@ import { ApiResponse } from "../../workers/models/api-response";
 import { Worker } from "../models/worker";
 import { Skill } from "../models/skill";
 import { Report } from "src/app/reports/models/report";
+import { tick } from "@angular/core/testing";
 
 export class EmployersServiceSpy {
   getEmployer = jasmine
     .createSpy("getEmployer")
     .and.callFake(() => observableOf(new Employer()));
+  save = jasmine
+    .createSpy("save")
+    .and.callFake(() => observableOf(new Employer()));
+}
+
+export class EmployersServiceWaitingSpy {
+  getEmployer = jasmine
+    .createSpy("getEmployer")
+    .and.callFake(() => observableOf(new Employer()));
+  save = jasmine.createSpy("save").and.callFake(() => {
+    setTimeout(() => {}, 5000);
+    return observableOf(new Employer());
+  });
 }
 
 export class LookupsServiceSpy {

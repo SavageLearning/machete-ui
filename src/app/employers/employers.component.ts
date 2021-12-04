@@ -21,7 +21,9 @@ import { lengthValidator } from "../shared/validators/length";
 export class EmployersComponent implements OnInit {
   employer: Employer = new Employer();
   employerForm: FormGroup;
-  showErrors = false;
+  showFormErrors = false;
+  saveDisabled = false;
+  errorMessage = "";
   yesNoDropDown = [
     new YesNoSelectItem("no", false),
     new YesNoSelectItem("yes", true),
@@ -51,6 +53,7 @@ export class EmployersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.saveDisabled = false;
     this.buildForm();
     this.employersService.getEmployer().subscribe((data) => {
       this.employer = data || new Employer();
@@ -127,7 +130,7 @@ export class EmployersComponent implements OnInit {
       if (control && !control.valid) {
         for (const key in control.errors) {
           const errMessage = control.errors[key] as string;
-          if (this.showErrors === true) {
+          if (this.showFormErrors === true) {
             console.error(`onValueChanged.error:  ${field}: ${errMessage}`);
           }
           this.formErrors[field] += `${errMessage} `;
@@ -140,19 +143,25 @@ export class EmployersComponent implements OnInit {
     console.log("saveEmployer: called");
     this.onValueChanged();
     if (this.employerForm.status === "INVALID") {
-      this.showErrors = true;
+      console.error("error!");
+      this.showFormErrors = true;
       return;
     }
-    console.log('saveEmployer: form status valid');
+    console.log("saveEmployer: form status valid");
     this.saveDisabled = true;
-    this.showErrors = false;
+    this.showFormErrors = false;
     const formModel = this.employerForm.value as Employer;
-    this.employersService.save(formModel).subscribe((data) => {
-      console.log("employerService.save returned:", data);
-      this.router
-        .navigate(["/online-orders/introduction"])
-        .catch((e) => console.error(e));
-    });
-          this.saveDisabled = false;
+    this.employersService.save(formModel).subscribe(
+      (data) => {
+        console.log("employerService.save returned:", data);
+        this.saveDisabled = false;
+        this.router
+          .navigate(["/online-orders/introduction"])
+          .catch((e) => console.error(e));
+      },
+      (error) => {
+        this.errorMessage = error;
+      }
+    );
   }
 }

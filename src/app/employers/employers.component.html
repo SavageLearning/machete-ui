@@ -1,4 +1,4 @@
-<p-card 
+<p-card
   styleClass="p-card-shadow p-mb-5"
   header="Employer Profile"
   subheader="This is your employer profile. If you're a new employer, you must create a profile before you can place an order.
@@ -21,7 +21,7 @@ This profile information will pre-populate new orders to save you time."
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-              formControlName="phone" 
+              formControlName="phone"
               inputId="phone"
               type="text"
               mask="999-999-9999"
@@ -37,7 +37,7 @@ This profile information will pre-populate new orders to save you time."
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-              formControlName="cellphone" 
+              formControlName="cellphone"
               inputId="cellphone"
               type="text"
               mask="999-999-9999">
@@ -46,9 +46,9 @@ This profile information will pre-populate new orders to save you time."
           </span>
           <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
             {{formErrors.cellphone}}
-          </small>  
+          </small>
         </div>
-        
+
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <input formControlName="email" id="email" type="text" pInputText/>
@@ -58,7 +58,7 @@ This profile information will pre-populate new orders to save you time."
             {{formErrors.email}}
           </small>
         </div>
-        
+
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <input formControlName="referredBy" id="referredBy" type="text" pInputText/>
@@ -68,7 +68,7 @@ This profile information will pre-populate new orders to save you time."
             {{formErrors.referredBy}}
           </small>
         </div>
-        
+
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <input formControlName="referredByOther" id="referredByOther" type="text" pInputText/>
@@ -79,7 +79,7 @@ This profile information will pre-populate new orders to save you time."
           </small>
         </div>
       </div>
-    
+
     <!-- -------------------------vertical divide---------------------------- -->
       <div class="p-col-12 p-md-6">
 
@@ -126,38 +126,37 @@ This profile information will pre-populate new orders to save you time."
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-              formControlName="state" 
+              formControlName="state"
               inputId="state"
-              type="text" 
+              type="text"
               mask="aa">
             </p-inputMask>
             <label for="state">State</label>
           </span>
           <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
             {{formErrors.state}}
-          </small>  
+          </small>
         </div>
 
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-            formControlName="zipcode" 
+            formControlName="zipcode"
             inputId="zipcode"
-            type="text" 
+            type="text"
             mask="99999?-9999">
             </p-inputMask>
             <label for="zipcode">Zipcode</label>
           </span>
           <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
             {{formErrors.zipcode}}
-          </small>  
+          </small>
         </div>
-         
+
       </div>
-        <button pButton type="submit" label="Save" disabled="saveDisabled"></button>
     </div>
     <div class="p-col-12">
-      <button pButton type="submit" style="width: 100%;" label="Save"></button>
+      <button pButton type="submit" style="width: 100%" label="Save" autocomplete="off" [disabled]="saveDisabled"></button>
     </div>
   </form>
 </p-card>
