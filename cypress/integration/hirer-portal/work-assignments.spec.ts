@@ -219,6 +219,9 @@ describe("hirer portal - work-assignments - flow", () => {
     cy.get(WorkAssignmentSelectors.buttonSaveAndContinue).click();
     cy.url().should("contain", onlineOrderRoutes.orderConfirm);
   });
+  it("should compute correct transport fee", () => {
+    
+  });
 });
 
 const selectAnySkill = (anySkill: Lookup) => {
