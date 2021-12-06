@@ -50,6 +50,9 @@ export class MyWorkOrdersServiceSpy {
 
 export class ActivatedRouteSpy {
   get = jasmine.createSpy("snapshot").and.callThrough();
+  queryParams = observableOf({
+    "fb-fail": "true",
+  });
 }
 
 export const ActivatedRouteStub = {
