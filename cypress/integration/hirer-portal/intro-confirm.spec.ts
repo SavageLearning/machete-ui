@@ -2,7 +2,7 @@ import { ENV_KEY_MACHETE_EMPLOYER, MACHETE_ADMIN, onlineOrderRoutes } from "cypr
 
 describe("hirer portal - intro-comfirm - flow", () => {
   beforeEach(() => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.getEmployerProfile();
 
     if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {

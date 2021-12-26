@@ -6,18 +6,18 @@ describe("Login", () => {
   });
 
   it("should fail when credentials are incorrect", () => {
-    cy.login(MACHETE_ADMIN.user, "BadPassword");
+    cy.uiLogin(MACHETE_ADMIN.user, "BadPassword");
     cy.get("div .error-message").contains(
       "Error: Invalid username or password."
     );
   });
   it("should login when credentials are correct", () => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.uiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.get("inline-profile").find("span").contains(MACHETE_ADMIN.user);
   });
 
   it("should see center staff dashboard for non-hirer role", () => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.uiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.get("inline-profile").find("span").contains(MACHETE_ADMIN.user);
     cy.get('[data-mtest="dashboard-links"]').get(
       "button:contains('Hire a Worker')"
@@ -32,7 +32,7 @@ describe("Login", () => {
       "button:contains('Machete Reports')"
     );
     cy.logout();
-    cy.login(MACHETE_USER.user, MACHETE_USER.password);
+    cy.uiLogin(MACHETE_USER.user, MACHETE_USER.password);
     cy.get("inline-profile").find("span").contains(MACHETE_USER.user);
     cy.get('[data-mtest="dashboard-links"]').get(
       "button:contains('Hire a Worker')"
@@ -46,7 +46,7 @@ describe("Login", () => {
   });
 
   it("should display center info from db configs when authenticated", () => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.uiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     checkForWorkCenterDescription();
   });
 

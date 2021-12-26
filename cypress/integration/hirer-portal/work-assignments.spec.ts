@@ -73,7 +73,7 @@ const stepsToWorkOrders = () => {
 
 describe("hirer portal - work-assignments - flow", () => {
   before(() => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.getMacheteTransportRules();
     cy.getMacheteTransportProviders();
     cy.getEmployerProfile();
@@ -87,7 +87,7 @@ describe("hirer portal - work-assignments - flow", () => {
 
   beforeEach(() => {
     cy.logout();
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     stepsToWorkOrders();
   });
 

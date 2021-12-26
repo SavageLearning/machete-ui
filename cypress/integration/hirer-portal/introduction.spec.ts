@@ -6,7 +6,7 @@ import {
 
 describe("hirer portal - introduction - flow", () => {
   beforeEach(() => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.getEmployerProfile();
 
     if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {

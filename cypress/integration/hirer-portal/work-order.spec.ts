@@ -21,7 +21,7 @@ let fields: Partial<{
 }>[] = null;
 
 export const stepsToWorkOrder = () => {
-  cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+  cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
   cy.toggleTerms("check");
   cy.visit(onlineOrderRoutes.workOrders, {
     onBeforeLoad: (win) => {
@@ -35,7 +35,7 @@ export const stepsToWorkOrder = () => {
 
 describe("hirer portal - work-orders - flow", () => {
   before(() => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
     cy.getMacheteTransportRules();
     cy.getMacheteTransportProviders();
     cy.getEmployerProfile();
@@ -45,7 +45,7 @@ describe("hirer portal - work-orders - flow", () => {
       cy.fillOutEmployerProfile();
     }
   });
-  
+
   beforeEach(() => {
     stepsToWorkOrder();
   });
@@ -66,9 +66,8 @@ describe("hirer portal - work-orders - flow", () => {
       "You may pick up the workers, or Casa Latina offers a transport program (fees apply)"
     );
     cy.get("p-footer > .p-element > .p-button-label").should("exist");
-    cy.get("p-footer > .p-element > .p-button-label")
-      .click()
-      .should("not.exist");
+    cy.get("p-footer > .p-element > .p-button-label").click();
+    cy.get("p-footer > .p-element > .p-button-label").should("not.exist");
   });
 
   it(`${onlineOrderRoutes.workOrders} - form should validate date and time`, () => {

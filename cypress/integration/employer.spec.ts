@@ -2,21 +2,27 @@ import { ENV_KEY_MACHETE_EMPLOYER, MACHETE_ADMIN } from "cypress/constants";
 import { Employer } from "src/app/shared/models/employer";
 
 describe("employers profile", () => {
-  beforeEach(() => {
-    cy.login(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
-    cy.visit("/employers");
+  before(() => {
     cy.getEmployerProfile();
-    if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {
+    if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) === 0) {
       // if new employer
       cy.log(Cypress.env(ENV_KEY_MACHETE_EMPLOYER));
       cy.fillOutEmployerProfile();
+      cy.visit("/employers");
+      cy.getEmployerProfile();
     }
   });
+
+  beforeEach(() => {
+    cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
+    cy.visit("/employers");
+    cy.getEmployerProfile();
+
+  });
+
   it("should display username", () => {
-    cy.get(`[id="name"]`).should(
-      "have.value",
-      Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["name"]
-    );
+    const employerProfile = Cypress.env(ENV_KEY_MACHETE_EMPLOYER) as Employer;
+    cy.get(`[id="name"]`).should("have.value", employerProfile.name);
   });
 
   it("form should validate", () => {
@@ -24,14 +30,14 @@ describe("employers profile", () => {
 
     // name
     const name = "#name";
-    cy.get(name).type("fake Employer");
+    cy.get(name).clear().type("fake Employer");
     cy.get(name).should("not.have.class", "ng-invalid");
     cy.get(name).clear();
     cy.get(name).should("have.class", "ng-invalid");
 
     // phone number
     const phone = "#phone";
-    cy.get(phone).type("1234567891");
+    cy.get(phone).clear().type("1234567891");
     cy.get(phone).parent().should("not.have.class", "ng-invalid");
     cy.get(phone).clear();
     cy.get(phone).parent().should("have.class", "ng-invalid");
@@ -42,21 +48,21 @@ describe("employers profile", () => {
 
     // address
     const address = "#address1";
-    cy.get(address).type("fake address");
+    cy.get(address).clear().type("fake address");
     cy.get(address).should("not.have.class", "ng-invalid");
     cy.get(address).clear();
     cy.get(address).should("have.class", "ng-invalid");
 
     // City
     const city = "#city";
-    cy.get(city).type("gotham city");
+    cy.get(city).clear().type("gotham city");
     cy.get(city).should("not.have.class", "ng-invalid");
     cy.get(city).clear();
     cy.get(city).should("have.class", "ng-invalid");
 
     // state
     const state = "#state";
-    cy.get(state).type("WA");
+    cy.get(state).clear().type("WA");
     cy.get(state).parent().should("not.have.class", "ng-invalid");
     cy.get(state).clear();
     cy.get(state).parent().should("have.class", "ng-invalid");
@@ -65,7 +71,7 @@ describe("employers profile", () => {
 
     // zip
     const zip = "#zipcode";
-    cy.get(zip).type("98122");
+    cy.get(zip).clear().type("98122");
     cy.get(zip).parent().should("not.have.class", "ng-invalid");
     cy.get(zip).clear();
     cy.get(zip).type("98122-1234");
@@ -89,7 +95,7 @@ describe("employers profile", () => {
 
   it("should navigate to hire worker form on save", () => {
     const employer: Employer = Cypress.env(ENV_KEY_MACHETE_EMPLOYER);
-    cy.contains(employer.name);
+    cy.get("#name").should("contain.value", employer.name);
     cy.get(`[type="submit"]`).should("exist").click();
     cy.url().should("include", "online-orders/introduction");
   });

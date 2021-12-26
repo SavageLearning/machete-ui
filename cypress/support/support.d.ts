@@ -5,45 +5,54 @@
 // IDE or Text Editor.
 // ***********************************************
 declare namespace Cypress {
-  interface Chainable<Subject = any> {
-    login(username: string, password: string): Chainable<void>;
-    logout(): Chainable<void>;
+  interface Chainable {
+    uiLogin(username: string, password: string): void;
+
+    /**
+     * Log in via network request. Cypress will set the cookie accross tests:
+     * https://docs.cypress.io/guides/getting-started/testing-your-app#Logging-in
+     * @param username test user name
+     * @param password test user password
+     */
+    apiLogin(username: string, password: string): void;
+
+    logout(): void;
     /**
      * Should work with or without being authenticated
      */
-    getMacheteConfigs(): Chainable<void>;
+    getMacheteConfigs(): void;
     /**
      * Should be called after authentication
      */
-    getEmployerProfile(): Chainable<void>;
+    getEmployerProfile(): void;
     /**
      * get Machete lookups and save in Cy env variable
      */
-    getMacheteLookups(): Chainable<void>;
+    getMacheteLookups(): void;
     /**
      * fills out employer profile with mock data
      * previous log in required. Should already be at route and with
      * specifi use case.
      */
-    fillOutEmployerProfile(): Chainable<void>;
+    fillOutEmployerProfile(): void;
     /**
      * Requires: previous login with at least the hirer role
      * @param toggleState `"check" | "uncheck"`
      */
-    toggleTerms(toggleState: string): Chainable<void>;
+    toggleTerms(toggleState: string): void;
     /**
      * Should be called after authentication
      */
-    getMacheteTransportRules(): Chainable<void>;
+    getMacheteTransportRules(): void;
     /**
      * Should be called after authentication
      */
-    getMacheteTransportProviders(): Chainable<void>;
+    getMacheteTransportProviders(): void;
     /**
      * wraps the Cypress.log(...) method to avoid repetition
      * @param method the method name that was executed
      * @param data data to print to console when the snapshot is clicked
      */
-    logWrapper(method: string, data: any): Chainable<void>;
+    logWrapper(method: string, data: any): void;
   }
 }
