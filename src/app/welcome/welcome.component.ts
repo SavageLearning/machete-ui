@@ -1,10 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ConfigsService } from "../configs/configs.service";
 import { AuthService } from "../shared/index";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from "../../environments/environment";
 import { Config } from "../shared/models/config";
 import { User } from "../shared/models/user";
+import { map, pluck, takeWhile, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { MessageService } from "primeng/api";
+
 
 enum DashboardState {
   None = "None",
@@ -17,7 +21,7 @@ enum DashboardState {
   templateUrl: "./welcome.component.html",
   styleUrls: ["./welcome.component.css"],
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, OnDestroy {
   private alive = true;
 
   facebookAppId: string;
@@ -30,6 +34,7 @@ export class WelcomeComponent implements OnInit {
   macheteOutage: boolean;
   outageMessage: string;
   serverData: Config[];
+  query$: Observable<boolean>;
 
   roleState: DashboardState = DashboardState.None;
   public hirerLinks = [
@@ -75,10 +80,43 @@ export class WelcomeComponent implements OnInit {
   constructor(
     private cfgService: ConfigsService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private messageServ: MessageService
   ) {}
 
+  /**
+   * Catches a query param passed by the api redirect result when login fails
+   * Currently we are only expecting one type of failure from the FB login flow:
+   * https://github.com/SavageLearning/Machete/issues/673
+   */
+  private handleQueryParams(): void {
+    this.activatedRoute.queryParams
+      .pipe(
+        takeWhile(() => this.alive),
+        pluck("fb-fail"),
+        map((fbFail: string) => /true/i.test(fbFail)),
+        tap((fbFail: boolean) => {
+          if (fbFail) {
+            this.messageServ.add({
+              life: 18000,
+              key: "root-toast-notifications",
+              severity: "error",
+              summary: `Facebook login failed`,
+              detail: `Machete was unable to confirm your email address via Facebook login.
+              Please click on Login below to see alternate login methods.
+              You may also check Facebook's instructions to confirm your email and try
+              again when your email is confirmed`,
+            });
+          }
+        })
+      )
+      .subscribe();
+  }
+
   ngOnInit(): void {
+    //
+    this.handleQueryParams();
     this.cfgService.getAllConfigs().subscribe(
       (data) => {
         this.serverData = data;
@@ -142,6 +180,10 @@ export class WelcomeComponent implements OnInit {
       "&" +
       "state=" +
       this.macheteSessionId;
+  }
+
+  ngOnDestroy(): void {
+    this.alive = false;
   }
 
   // DEPRECATED
