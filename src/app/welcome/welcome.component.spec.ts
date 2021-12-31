@@ -54,6 +54,14 @@ describe("WelcomeComponent", () => {
     });
   });
 
+  it("should display unauthenticated dashboard", () => {
+    const dashboardHeading = fixture.debugElement.nativeElement.querySelector(
+      "[data-mtest=dashboard-heading]"
+    );
+    expect(dashboardHeading.textContent).toContain("Dashboard");
+    expect(dashboardHeading.textContent).not.toContain("Center Staff");
+    expect(dashboardHeading.textContent).not.toContain("Employer");
+  });
   it("should call message service when fb-login fails", () => {
     // We know the activated route params contains the query that triggers the call
     const add = messageService.add.and.callFake(() => "");

@@ -24,7 +24,8 @@
   },
   "exclude": [
     "src/test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "cypress"
   ],
   "files": [
     "src/main.ts",

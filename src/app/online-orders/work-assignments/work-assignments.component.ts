@@ -189,7 +189,9 @@ export class WorkAssignmentsComponent implements OnInit, OnDestroy {
   }
 
   onAddJobsToRequest(): void {
-    this.activeTabIndex = 1;
+    if (this.requestForm.valid && this.requestForm.touched) {
+      this.activeTabIndex = 1;
+    }
   }
 
   onAddMoreJobs(): void {

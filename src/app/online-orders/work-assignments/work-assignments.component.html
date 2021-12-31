@@ -15,7 +15,7 @@
 
             <div
               class="c-info-card p-shadow-6"
-              *ngIf="selectedSkill.text_EN !== null"
+              *ngIf="selectedSkill.id > 0"
             >
               <div class="p-d-flex p-flex-column p-flex-md-row p-jc-between p-ai-center">
                 <div class="p-order-2 p-order-md-1">
@@ -45,7 +45,7 @@
                 <p-button
                   (click)="onShowSkillsCart()"
                   icon="pi pi-search"
-                  [label]="requestForm.controls['skillId'].value !== 0 ? 'Change Selection' : 'Select a Skill'"
+                  [label]="requestForm.controls['skillId'].value > 0 ? 'Change Selection' : 'Select a Skill'"
                   styleClass="p-mr-2 p-button-help">
                 </p-button>
                 <!-- <app-skills></app-skills> -->
@@ -98,7 +98,8 @@
               (click)="onAddJobsToRequest()"
               [icon]="newRequest ? 'pi pi-plus' : 'pi pi-check'"
               iconPos="right"
-              styleClass="p-button-success">
+              styleClass="p-button-success"
+              data-mtest="add-current-job-to-request">
             </p-button>
           </div>
         </form>

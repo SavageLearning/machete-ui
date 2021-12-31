@@ -150,13 +150,16 @@ export class WorkAssignmentsService {
       console.log("OrderService returned an undefined order");
       return null;
     }
-    if (order.transportProviderID <= 0) {
+    if (
+      order.transportProviderID <= 0 ||
+      order.transportProviderID === undefined
+    ) {
       console.log("Order missing valid transportProviderID");
       return null;
     }
 
     const provider: TransportProvider = this.transports.find(
-      (f) => f.id === order.transportProviderID
+      (f) => f.id === parseInt(order.transportProviderID.toString()) // force number type
     );
     if (provider == null || provider === undefined) {
       console.log(

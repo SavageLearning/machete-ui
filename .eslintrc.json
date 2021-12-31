@@ -2,7 +2,8 @@
   "root": true,
   "ignorePatterns": [
     "projects/**/*",
-    "src/app/client/**/*"
+    "src/app/client/**/*",
+    "cypress/**/*"
   ],
   "overrides": [
     {
