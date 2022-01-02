@@ -9,5 +9,6 @@
   "env": {
     "macheteApiUrl": "http://localhost:4213/api",
     "macheteLegacyUrl": "http://localhost:4213"
-  }
+  },
+  "video": false
 }

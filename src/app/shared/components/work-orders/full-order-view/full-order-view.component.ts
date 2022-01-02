@@ -21,6 +21,7 @@ interface JobDetails {
 
 interface OrderCost {
   feeName: string;
+  feeId: string;
   fee: number;
   due: string;
 }
@@ -81,11 +82,13 @@ export class FullOrderViewComponent implements OnChanges {
     this.orderCost = [
       {
         feeName: "Transport Cost",
+        feeId: "transport_cost",
         fee: this.transportCost,
         due: "Due now and payable with Paypal, debit or credit",
       },
       {
         feeName: "Labor Cost",
+        feeId: "labor_cost",
         fee: this.laborCost,
         due: "To be paid directly to workers in cash at the end of the work day",
       },

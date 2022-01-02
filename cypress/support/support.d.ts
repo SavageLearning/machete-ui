@@ -45,6 +45,12 @@ declare namespace Cypress {
      */
     getMacheteTransportRules(): void;
     /**
+     * Gets the first transport rule with a cost and sets the record in the 
+     * environment variable available through the key in the
+     * `ENV_KEY_MACHETE_PAID_TRANSPORT_PROVIDER` constant
+     */
+     getFirstMachetePaidTransportRule(): void;
+    /**
      * Should be called after authentication
      */
     getMacheteTransportProviders(): void;
@@ -53,6 +59,11 @@ declare namespace Cypress {
      * @param method the method name that was executed
      * @param data data to print to console when the snapshot is clicked
      */
+    /**
+     * Gets the schedule rules
+     * `ENV_KEY_MACHETE_TRANSPORT_SCHEDULE_RULES` constant
+     */
+     getMacheteScheduleRules(): void;
     logWrapper(method: string, data: any): void;
   }
 }
