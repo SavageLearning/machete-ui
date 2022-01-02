@@ -98,4 +98,13 @@ describe("hirer portal - order confirm flow", () => {
     cy.contains("Jobs Requested");
     cy.contains("Review and submit");
   });
+
+  it.only("should display helper text", () => {
+    cy.visit(onlineOrderRoutes.orderConfirm).contains("Review and Submit");
+    cy.get(WorkOrderConfirmSelectors.submit).click();
+    cy.url().should("contains", "my-work-orders");
+    cy.contains("ORDER #");
+    // only visible when fee applies, which is the case case
+    cy.get(WorkOrderConfirmSelectors.paypalButton).should("exist");
+  });
 });

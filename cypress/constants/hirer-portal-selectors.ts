@@ -32,4 +32,6 @@ export class WorkAssignmentSelectors {
 export class WorkOrderConfirmSelectors {
   static readonly transportCost = `[data-mtest="transport_cost"]`;
   static readonly laborCost = `[data-mtest="labor_cost"]`;
+  static readonly submit = `div .card button`;
+  static readonly paypalButton = `div #paypal-button`;
 }
