@@ -8,9 +8,12 @@ import {
 import { SqlEditorState } from "../report-detail/report-detail.component";
 import "codemirror/mode/sql/sql";
 import "codemirror/addon/edit/matchbrackets";
-import "codemirror/addon/dialog/dialog";
+import "codemirror/addon/edit/closebrackets";
 import "codemirror/addon/edit/closetag";
 import "codemirror/addon/selection/active-line";
+import "codemirror/addon/hint/show-hint";
+import "codemirror/addon/hint/sql-hint";
+import "codemirror/addon/scroll/simplescrollbars";
 
 export interface IEditorDetails {
   sql?: string;
@@ -32,7 +35,10 @@ export class EditorComponent {
     smartIndent: true,
     matchBrackets: true,
     autoCloseTags: true,
+    autoCloseBrackets: true,
     styleActiveLine: true,
+    extraKeys: { "Ctrl-Space": "autocomplete" },
+    scrollbarStyle: "overlay",
   };
   editing = false;
 
