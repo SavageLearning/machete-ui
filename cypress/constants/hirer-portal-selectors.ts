@@ -15,9 +15,10 @@ export class WorkAssignmentSelectors {
   static readonly steps: string = `.p-steps`;
   static readonly stepsTitle: string = ".p-card-title";
   static readonly stepInstructions: string = ".p-card-subtitle";
-  static readonly chooseJobsTab: string = "#p-tabpanel-0-label > .p-tabview-title";
-  static readonly reviewAndContinueTab: string = "#p-tabpanel-1-label > .p-tabview-title";
-  static readonly fieldChageSkillSelection: string = "div.p-col-12 > p-button.p-element > .p-ripple > .p-button-label";
+  static readonly chooseJobsTab: string = `div [class="p-tabview-nav-content"] ul li:first`;
+  static readonly reviewAndContinueTab: string = `div [class="p-tabview-nav-content"] ul li[role="presentation"]:last`;
+  static readonly fieldChageSkillSelection: string =
+    "div.p-col-12 > p-button.p-element > .p-ripple > .p-button-label";
   static readonly fieldHoursNeeded: string = "#hours";
   static readonly fieldRequiresHeavyLifting: string = ".p-inputswitch-slider";
   static readonly fieldAdditionalInfo: string = "#description";
@@ -26,4 +27,11 @@ export class WorkAssignmentSelectors {
   static readonly buttonSaveAndContinue: string = `[label="Save and Continue"] > .p-ripple > .p-button-label`;
   static readonly buttonAddMoreJobs: string = `[label="Add More Jobs"] > .p-ripple > .p-button-label`;
   static readonly skillInfo: string = `.p-text-bold`;
+}
+
+export class WorkOrderConfirmSelectors {
+  static readonly transportCost = `[data-mtest="transport_cost"]`;
+  static readonly laborCost = `[data-mtest="labor_cost"]`;
+  static readonly submit = `div .card button`;
+  static readonly paypalButton = `div #paypal-button`;
 }

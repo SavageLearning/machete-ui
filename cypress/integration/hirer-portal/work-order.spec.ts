@@ -1,10 +1,10 @@
 import { getTodayPlus } from "cypress/utils";
 import {
-  ENV_KEY_MACHETE_CONFIGS,
   ENV_KEY_MACHETE_EMPLOYER,
   ENV_KEY_MACHETE_TRANSPORT_PROVIDERS,
   ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES,
   ESCAPE_KEY,
+  initConfirmCheckedTerms,
   MACHETE_ADMIN,
   onlineOrderRoutes,
 } from "cypress/constants";
@@ -22,12 +22,16 @@ let fields: Partial<{
 
 export const stepsToWorkOrder = () => {
   cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
-  cy.toggleTerms("check");
   cy.visit(onlineOrderRoutes.workOrders, {
     onBeforeLoad: (win) => {
       // removes session entry that avoids re-displaying the dialog
       win.sessionStorage.removeItem("machete.work-order.component.UG");
       win.sessionStorage.removeItem("machete.workorder");
+      win.sessionStorage.setItem(
+        // because this sets all terms as accepted
+        "machete.online-orders-service.initialconfirm",
+        JSON.stringify(initConfirmCheckedTerms)
+      );
     },
   });
   cy.get("p-footer > .p-element > .p-button-label").click();

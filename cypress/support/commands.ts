@@ -6,17 +6,18 @@ import {
   ENV_KEY_MACHETE_CONFIGS,
   ENV_KEY_MACHETE_EMPLOYER,
   ENV_KEY_MACHETE_LOOKUPS,
+  ENV_KEY_MACHETE_PAID_TRANSPORT_RULE,
   ENV_KEY_MACHETE_TRANSPORT_PROVIDERS,
   ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES,
-  MACHETE_ADMIN,
+  ENV_KEY_MACHETE_TRANSPORT_SCHEDULE_RULES,
   onlineOrderRoutes,
 } from "cypress/constants";
 
-import { TransportRule } from "../../src/app/online-orders/shared/models/transport-rule";
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
 import { Lookup } from "src/app/lookups/models/lookup";
 import { Employer } from "src/app/shared/models/employer";
-import { clear } from "console";
+import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
+import { ScheduleRule } from "src/app/online-orders/shared/models/schedule-rule";
 
 // Add all the commands below to the support.d.ts Chainable interface
 
@@ -38,6 +39,7 @@ function apiLogin(username: string, password: string): void {
     remember: true,
   }).then((response) => {
     expect(response.status).to.eq(200);
+    cy.getCookie(".AspNetCore.Identity.Application").should("exist");
   });
 }
 
@@ -66,6 +68,32 @@ function getMacheteTransportRules(): void {
     const data = response.body.data;
     logWrapper("getMacheteTransportRules()", data);
     Cypress.env(ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES, data);
+  });
+}
+
+function getFirstMachetePaidTransportRule(): void {
+  const endpoint = `${Cypress.env("macheteApiUrl")}/TransportRules`;
+  cy.request(endpoint).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body.data).to.not.be.null.and.not.be.undefined;
+    const data = response.body.data as TransportRule[];
+    const firstPaidRule = data.find(
+      (tr) => tr.costRules.find((cr) => cr.cost > 0).id !== undefined
+    );
+    logWrapper("getFirstMachetePaidTransportRule()", firstPaidRule);
+    Cypress.env(ENV_KEY_MACHETE_PAID_TRANSPORT_RULE, firstPaidRule ?? 0);
+  });
+}
+
+function getMacheteScheduleRules(): void {
+  const endpoint = `${Cypress.env("macheteApiUrl")}/ScheduleRules`;
+  cy.getCookie(".AspNetCore.Identity.Application").should("exist");
+  cy.request(endpoint).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body.data).to.not.be.null.and.not.be.undefined;
+    const data = response.body.data as ScheduleRule[];
+    logWrapper("getMacheteScheduleRules()", data);
+    Cypress.env(ENV_KEY_MACHETE_TRANSPORT_SCHEDULE_RULES, data);
   });
 }
 
@@ -186,9 +214,14 @@ Cypress.Commands.add("fillOutEmployerProfile", fillOutEmployerProfile);
 Cypress.Commands.add("toggleTerms", toggleTerms);
 Cypress.Commands.add("getMacheteTransportRules", getMacheteTransportRules);
 Cypress.Commands.add(
+  "getFirstMachetePaidTransportRule",
+  getFirstMachetePaidTransportRule
+);
+Cypress.Commands.add(
   "getMacheteTransportProviders",
   getMacheteTransportProviders
 );
+Cypress.Commands.add("getMacheteScheduleRules", getMacheteScheduleRules);
 Cypress.Commands.add("logWrapper", logWrapper);
 //
 // ***********************************************

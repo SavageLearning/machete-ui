@@ -1,47 +1,45 @@
 import {
   ENV_KEY_ANY_SKILL,
   ENV_KEY_MACHETE_EMPLOYER,
-  ENV_KEY_MACHETE_LOOKUPS,
+  ENV_KEY_MACHETE_PAID_TRANSPORT_RULE,
   ENV_KEY_MACHETE_TRANSPORT_PROVIDERS,
+  ENV_KEY_MACHETE_TRANSPORT_SCHEDULE_RULES,
   initConfirmCheckedTerms,
   MACHETE_ADMIN,
   onlineOrderRoutes,
 } from "cypress/constants";
-import { stringToTitleCase } from "cypress/utils/helpers";
+import {
+  stringToTitleCase,
+  generateWorkOrderStub,
+} from "cypress/utils/helpers";
 import * as faker from "faker";
 import { Lookup } from "src/app/lookups/models/lookup";
+import { ScheduleRule } from "src/app/online-orders/shared/models/schedule-rule";
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
+import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
+import { Employer } from "src/app/shared/models/employer";
 import { WorkAssignmentSelectors } from "../../constants/hirer-portal-selectors";
 
-const stepsToWorkOrders = () => {
-  const employerProfile = Cypress.env(ENV_KEY_MACHETE_EMPLOYER);
-  const transportProviders = Cypress.env(ENV_KEY_MACHETE_TRANSPORT_PROVIDERS);
-  const aFreeTransportProvider: TransportProvider = transportProviders.find(
-    (tp) => tp.key.includes("pickup")
+export const stepsToWorkAssignments = () => {
+  const employerProfile = Cypress.env(ENV_KEY_MACHETE_EMPLOYER) as Employer;
+  const transportProviders = Cypress.env(
+    ENV_KEY_MACHETE_TRANSPORT_PROVIDERS
+  ) as TransportProvider[];
+  const paidTransportRule = Cypress.env(
+    ENV_KEY_MACHETE_PAID_TRANSPORT_RULE
+  ) as TransportRule;
+  const scheduleRules = Cypress.env(
+    ENV_KEY_MACHETE_TRANSPORT_SCHEDULE_RULES
+  ) as ScheduleRule[];
+
+  const wo = generateWorkOrderStub(
+    employerProfile,
+    transportProviders,
+    paidTransportRule,
+    scheduleRules
   );
 
-  const orderComponentUG = false;
-
-  const dummyDate = new Date();
-  // when weekend, add 4 days to land on a weekday
-  dummyDate.setDate(dummyDate.getDay() < 5 ? dummyDate.getDate() + 7 : 4);
-  dummyDate.setHours(9, 30);
-
-  const macheteWorkOrder = {
-    id: 0,
-    dateTimeofWork: dummyDate,
-    contactName: employerProfile.name,
-    worksiteAddress1: employerProfile.address1,
-    worksiteAddress2: null,
-    city: employerProfile.city,
-    state: employerProfile.state,
-    zipcode: employerProfile.zipcode,
-    phone: employerProfile.phone,
-    description: "asd",
-    englishRequired: false,
-    englishRequiredNote: null,
-    transportProviderID: aFreeTransportProvider.id,
-  };
+  cy.logWrapper("stub Work Order", wo);
 
   cy.visit(onlineOrderRoutes.introConfirm, {
     onBeforeLoad: (win) => {
@@ -53,11 +51,11 @@ const stepsToWorkOrders = () => {
       win.sessionStorage.setItem(
         "machete.work-order.component.UG",
         // to always show the work order userguide
-        orderComponentUG.toString()
+        "false"
       );
       win.sessionStorage.setItem(
         "machete.workorder",
-        JSON.stringify(macheteWorkOrder)
+        JSON.stringify(wo)
       );
       win.sessionStorage.setItem(
         "machete.online-orders-service.workorderconfirm",
@@ -74,7 +72,8 @@ const stepsToWorkOrders = () => {
 describe("hirer portal - work-assignments - flow", () => {
   before(() => {
     cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
-    cy.getMacheteTransportRules();
+    cy.getFirstMachetePaidTransportRule();
+    cy.getMacheteScheduleRules();
     cy.getMacheteTransportProviders();
     cy.getEmployerProfile();
     if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {
@@ -88,7 +87,7 @@ describe("hirer portal - work-assignments - flow", () => {
   beforeEach(() => {
     cy.logout();
     cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
-    stepsToWorkOrders();
+    stepsToWorkAssignments();
   });
 
   it("should display all fields and text", () => {
@@ -218,9 +217,6 @@ describe("hirer portal - work-assignments - flow", () => {
     cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
     cy.get(WorkAssignmentSelectors.buttonSaveAndContinue).click();
     cy.url().should("contain", onlineOrderRoutes.orderConfirm);
-  });
-  it("should compute correct transport fee", () => {
-    
   });
 });
 
