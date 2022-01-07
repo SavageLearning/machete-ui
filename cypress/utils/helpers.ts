@@ -178,14 +178,8 @@ export const generateWorkAssignmentsStub = (
 
   const wa2: WorkAssignment = {
     id: 2,
-    skillId: skill.id,
-    skill: skill.text_EN,
-    hours: skill.minHour,
-    description: "",
-    requiresHeavyLifting: false,
-    hourlyWage: skill.wage,
     transportCost: getExpectedCostForWorkerCount(2, aPaidTransportRule),
-    days: 1, // this is the default
+    ...wa,
   };
 
   return [wa, wa2];
