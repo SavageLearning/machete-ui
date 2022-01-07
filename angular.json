@@ -60,6 +60,8 @@
               "node_modules/primeicons/primeicons.css",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/codemirror/theme/monokai.css",
+              "node_modules/codemirror/addon/scroll/simplescrollbars.css",
+              "node_modules/codemirror/addon/hint/show-hint.css",
               "src/styles.scss"
             ],
             "scripts": [
