@@ -99,7 +99,7 @@ describe("hirer portal - order confirm flow", () => {
     cy.contains("Review and submit");
   });
 
-  it.only("should display helper text", () => {
+  it("should display helper text", () => {
     cy.visit(onlineOrderRoutes.orderConfirm).contains("Review and Submit");
     cy.get(WorkOrderConfirmSelectors.submit).click();
     cy.url().should("contains", "my-work-orders");

@@ -140,7 +140,7 @@ export const generateWorkOrderStub = (
     worksiteAddress2: null,
     city: employerProfile.city,
     state: employerProfile.state,
-    zipcode: employerProfile.zipcode,
+    zipcode: paidTransportRule.zipcodes[0],
     phone: employerProfile.phone,
     description: "asd",
     englishRequired: false,
@@ -177,10 +177,10 @@ export const generateWorkAssignmentsStub = (
   };
 
   const wa2: WorkAssignment = {
+    ...wa,
     id: 2,
     transportCost: getExpectedCostForWorkerCount(2, aPaidTransportRule),
-    ...wa,
   };
-
+  console.log(JSON.stringify([wa, wa2]), "wa stub");
   return [wa, wa2];
 };
