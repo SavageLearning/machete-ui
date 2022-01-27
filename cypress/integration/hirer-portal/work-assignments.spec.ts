@@ -141,17 +141,16 @@ describe("hirer portal - work-assignments - flow", () => {
   });
   it("should validate additional info length", () => {
     const additionalInfoOverflow = faker.random.alpha({
-      count: 1001,
+      count: 1050,
       upcase: false,
     });
-    cy.get(WorkAssignmentSelectors.fieldAdditionalInfo).type(
-      additionalInfoOverflow
-    );
-    cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
-    cy.get(`p-tabview`)
-      .parent()
-      .should("include.html", `active-index="0"`)
-      .should("not.include.html", `active-index="1"`);
+    cy.get(".p-tabview-nav-content ul li:first").should(
+      "have.class",
+      "p-highlight"
+    ); // make sure right tab is selected
+    cy.get(WorkAssignmentSelectors.fieldAdditionalInfo)
+      .trigger("mousedown")
+      .type(additionalInfoOverflow);
     cy.get(WorkAssignmentSelectors.fieldAdditionalInfo).should(
       "have.class",
       "ng-invalid"
@@ -161,10 +160,9 @@ describe("hirer portal - work-assignments - flow", () => {
     const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
     selectAnySkill(anySkill);
     cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
-    cy.get(`p-tabview`)
-      .parent()
-      .should("include.html", `active-index="1"`)
-      .should("not.include.html", `active-index="0"`);
+    cy.get(".p-tabview-nav-content ul li:first")
+      .next()
+      .should("have.class", "p-highlight"); // make sure right tab is selected
     cy.get(`[header="Review and Continue"]`)
       .find("p-table")
       .contains(stringToTitleCase(anySkill.text_EN));
@@ -221,9 +219,11 @@ describe("hirer portal - work-assignments - flow", () => {
 });
 
 const selectAnySkill = (anySkill: Lookup) => {
+  // cy.wait(5000); // only use for testing remote instances
   cy.get(WorkAssignmentSelectors.chooseJobsTab).click();
   cy.get(WorkAssignmentSelectors.fieldChageSkillSelection).click();
   const skillTitleCase = stringToTitleCase(anySkill.text_EN);
+  cy.get("tbody td:first").should("exist");
   cy.get(`[data-mtest="${anySkill.id}"]`).click();
   cy.get(WorkAssignmentSelectors.skillInfo).contains(skillTitleCase);
   const minHours = anySkill.minHour.toString();

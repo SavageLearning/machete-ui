@@ -30,6 +30,7 @@ import { TransportProvidersService } from "../transport-providers.service";
 import { transportAvailabilityValidator } from "../shared/validators/transport-availability";
 import { DateTime } from "luxon";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { vaccineReqFlagResolver } from "../../shared/helpers";
 
 @Component({
   selector: "app-work-order",
@@ -74,6 +75,7 @@ export class WorkOrderComponent implements OnInit {
     transportProviderID: "",
   };
   isHandset$ = false;
+  requireVaccinatedWorkers = false;
 
   constructor(
     private transportProviderService: TransportProvidersService,
@@ -213,6 +215,7 @@ export class WorkOrderComponent implements OnInit {
         this.workOrder.transportProviderID,
         [requiredValidator("A transport method is required")],
       ],
+      requireVaccinatedWorkers: [this.requireVaccinatedWorkers],
     });
 
     this.orderForm.valueChanges.subscribe(() => this.onValueChanged());
@@ -306,7 +309,10 @@ export class WorkOrderComponent implements OnInit {
       state: formModel.state,
       zipcode: formModel.zipcode,
       phone: formModel.phone,
-      description: formModel.description,
+      description: vaccineReqFlagResolver(
+        formModel.requireVaccinatedWorkers,
+        formModel.description
+      ),
       englishRequired: formModel.englishRequired,
       englishRequiredNote: formModel.englishRequiredNote,
       transportProviderID: formModel.transportProviderID,

@@ -178,6 +178,10 @@ export class OnlineOrdersServiceSpy {
         })
       )
     );
+
+  setWorkorderConfirm = jasmine
+    .createSpy("setWorkorderConfirm")
+    .and.callThrough();
 }
 
 export const getConfigsList = (): Config[] => {

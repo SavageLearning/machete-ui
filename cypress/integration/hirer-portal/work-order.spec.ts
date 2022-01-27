@@ -244,6 +244,46 @@ describe("hirer portal - work-orders - flow", () => {
     cy.get(`button[type="submit"]`).click();
     cy.url().should("contain", onlineOrderRoutes.workAssignments);
   });
+
+  describe(`${onlineOrderRoutes.workOrders} required vaccinated toggle`, () => {
+    it(`field should exist`, () => {
+      const FIELD_SELECTOR = `[data-mtest="toggle-vaccine-req"]`;
+
+      const FEILD_LABEL = `${FIELD_SELECTOR} .p-button-label`;
+      cy.get(FIELD_SELECTOR).should("exist");
+      cy.get(FEILD_LABEL).should("contain", "Vaccinated Workers Not Required");
+
+      cy.get(FIELD_SELECTOR).click();
+      cy.get(FEILD_LABEL).should("contain", "Vaccinated Workers Required");
+    });
+
+    it(`should update form when true`, () => {
+      const FIELD_SELECTOR = `[data-mtest="toggle-vaccine-req"]`;
+
+      const FEILD_LABEL = `${FIELD_SELECTOR} .p-button-label`;
+
+      cy.get(FIELD_SELECTOR).click();
+      cy.get(FEILD_LABEL).should("contain", "Vaccinated Workers Required");
+
+      cy.get(WorkOrderSelectors.description).type("anything");
+      filloutDateAndTime();
+
+      const rules = Cypress.env(ENV_KEY_MACHETE_TRANSPORT_PROVIDER_RULES);
+      const transportProviders = Cypress.env(
+        ENV_KEY_MACHETE_TRANSPORT_PROVIDERS
+      );
+      selectWorkOrderPickUpMethod(transportProviders, rules);
+
+      cy.get(`button[type="submit"]`).click();
+      cy.window().then((win) => {
+        const wo = win.sessionStorage.getItem("machete.workorder");
+        cy.wrap(wo).should(
+          "contain",
+          "!!!---- VACCINATED WORKERS REQUIRED ---!!!"
+        ); // or 'not.empty'
+      });
+    });
+  });
 });
 
 export const selectWorkOrderPickUpMethod = (
