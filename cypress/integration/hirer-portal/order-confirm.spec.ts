@@ -99,12 +99,29 @@ describe("hirer portal - order confirm flow", () => {
     cy.contains("Review and submit");
   });
 
-  it("should display helper text", () => {
+  it("should display paypal button when fees apply", () => {
     cy.visit(onlineOrderRoutes.orderConfirm).contains("Review and Submit");
     cy.get(WorkOrderConfirmSelectors.submit).click();
     cy.url().should("contains", "my-work-orders");
     cy.contains("ORDER #");
     // only visible when fee applies, which is the case case
     cy.get(WorkOrderConfirmSelectors.paypalButton).should("exist");
+  });
+
+  it("should display vaccine requirement flag", () => {
+    cy.visit(onlineOrderRoutes.orderConfirm);
+    const FIELD_SELECTOR = `table:first`;
+
+    const FEILD_LABEL = `${FIELD_SELECTOR} .p-button-label`;
+
+    cy.window().then((win) => {
+      const wo = JSON.parse(win.sessionStorage.getItem("machete.workorder"));
+      const arrangedWo = { ...wo, requireVaccinatedWorkers: true };
+      win.sessionStorage.setItem(
+        "machete.workorder",
+        JSON.stringify(arrangedWo)
+      );
+    });
+    cy.contains("Please review your request summary below.");
   });
 });

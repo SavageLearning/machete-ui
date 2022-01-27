@@ -27,7 +27,7 @@ import { TransportRulesService } from "../transport-rules.service";
 import { TransportProvidersService } from "../transport-providers.service";
 import { DialogService } from "primeng/dynamicdialog";
 import { MessageService } from "primeng/api";
-import { WorkAssignment } from "src/app/shared/models/work-assignment";
+import { WorkAssignment } from "../../shared/models/work-assignment";
 
 describe("WorkAssignmentsComponent", () => {
   let component: WorkAssignmentsComponent;

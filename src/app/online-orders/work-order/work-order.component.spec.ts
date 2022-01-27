@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { WorkOrderComponent } from "./work-order.component";
@@ -33,8 +34,8 @@ describe("WorkOrderComponent", () => {
   let fixture: ComponentFixture<WorkOrderComponent>;
 
   beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
+    waitForAsync(async () => {
+      await TestBed.configureTestingModule({
         declarations: [WorkOrderComponent],
         imports: [
           NoopAnimationsModule,
@@ -44,34 +45,28 @@ describe("WorkOrderComponent", () => {
           DialogModule,
           ToggleButtonModule,
         ],
-      })
-        .overrideComponent(WorkOrderComponent, {
-          set: {
-            providers: [
-              { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
-              {
-                provide: TransportProvidersService,
-                useClass: TransportProvidersServiceSpy,
-              },
-              {
-                provide: OnlineOrdersService,
-                useClass: OnlineOrdersServiceSpy,
-              },
-              { provide: ConfigsService, useClass: ConfigsServiceSpy },
-              { provide: Router, useClass: RouterSpy },
-              {
-                provide: ScheduleRulesService,
-                useClass: ScheduleRulesServiceSpy,
-              },
-              {
-                provide: TransportRulesService,
-                useClass: TransportRulesServiceSpy,
-              },
-            ],
+        providers: [
+          { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
+          {
+            provide: TransportProvidersService,
+            useClass: TransportProvidersServiceSpy,
           },
-        })
-        .compileComponents()
-        .catch((e) => console.error(e));
+          {
+            provide: OnlineOrdersService,
+            useClass: OnlineOrdersServiceSpy,
+          },
+          { provide: ConfigsService, useClass: ConfigsServiceSpy },
+          { provide: Router, useClass: RouterSpy },
+          {
+            provide: ScheduleRulesService,
+            useClass: ScheduleRulesServiceSpy,
+          },
+          {
+            provide: TransportRulesService,
+            useClass: TransportRulesServiceSpy,
+          },
+        ],
+      }).compileComponents();
     })
   );
 
@@ -83,6 +78,13 @@ describe("WorkOrderComponent", () => {
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("toggle require vaccinated workers binds to form control", () => {
+    const form = component.orderForm;
+    form.get("requireVaccinatedWorkers").setValue(true);
+    const req = form.get("requireVaccinatedWorkers").value;
+    expect(req).toEqual(true);
   });
 
   //   it('should save', () => {
