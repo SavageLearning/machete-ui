@@ -146,6 +146,22 @@
         </div>
         <!-- Vertical divide ///////////////////-->
         <div class="p-col-12 p-md-6">
+          <!-- vv======================TEMPORARY FIELD============== -->
+          <div class="p-field p-col-12 p-input-filled">
+            <p-toggleButton
+              formControlName="requireVaccinatedWorkers"
+              onLabel="Vaccinated Workers Required"
+              offLabel="Vaccinated Workers Not Required"
+              offIcon="pi pi-times"
+              onIcon="pi pi-check"
+              data-mtest="toggle-vaccine-req"
+              >
+            </p-toggleButton>
+            <small class="p-invalid" *ngIf="!orderForm.controls['description'].valid && showErrors">
+              {{formErrors.description}}
+            </small>
+          </div>
+          <!-- ^^======================TEMPORARY FIELD============== -->
 
           <div class="p-field p-col-12 p-input-filled">
             <span class="p-float-label">
