@@ -1,5 +1,8 @@
 {
   "compileOnSave": false,
+  "include": [
+    "src/**/*.ts"
+  ],
   "compilerOptions": {
     "downlevelIteration": true,
     "importHelpers": true,
@@ -19,11 +22,5 @@
     ],
     "module": "esnext",
     "baseUrl": "./",
-  },
-
-  "include": [
-    "src/**/*.d.ts"
-  ]
-
-  // "include": ["src/**/.d.ts", "src/**/*.ts", "src/ **/.d.ts"],
+  }
 }
