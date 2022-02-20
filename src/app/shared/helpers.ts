@@ -10,8 +10,9 @@ export const vaccineReqFlagResolver = (
   requiresVaccinatedWorkers: boolean,
   woDescription: string
 ): string => {
-  const VACCINE_REQUIREMENT_FLAG =
-    "!!!---- VACCINATED WORKERS REQUIRED ---!!!\n\n";
+  const VACCINE_REQUIREMENT_FLAG = `
+    **REQUIERE TRABAJADORES VACUNADXS**\n
+  `;
   woDescription = woDescription ?? "";
 
   if (requiresVaccinatedWorkers) {
@@ -21,8 +22,6 @@ export const vaccineReqFlagResolver = (
   }
 
   if (!requiresVaccinatedWorkers) {
-    return woDescription.includes(VACCINE_REQUIREMENT_FLAG)
-      ? woDescription.split(VACCINE_REQUIREMENT_FLAG)[1] ?? ""
-      : woDescription;
+    return woDescription.replace(VACCINE_REQUIREMENT_FLAG, "");
   }
 };

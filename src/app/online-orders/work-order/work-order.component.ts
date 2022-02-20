@@ -76,6 +76,10 @@ export class WorkOrderComponent implements OnInit {
   };
   isHandset$ = false;
   requireVaccinatedWorkers = false;
+  requireVaccinatedWorkersOptions = [
+    new YesNoSelectItem("no", false),
+    new YesNoSelectItem("yes", true),
+  ];
 
   constructor(
     private transportProviderService: TransportProvidersService,

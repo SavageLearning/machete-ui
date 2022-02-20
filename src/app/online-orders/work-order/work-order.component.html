@@ -9,7 +9,7 @@
 
           <div class="p-field p-col-12 p-input-filled">
             <span class="p-float-label">
-              <p-calendar 
+              <p-calendar
                 id="dateOfWork"
                 [minDate]="minOrderDate"
                 [showIcon]="true"
@@ -148,17 +148,13 @@
         <div class="p-col-12 p-md-6">
           <!-- vv======================TEMPORARY FIELD============== -->
           <div class="p-field p-col-12 p-input-filled">
-            <p-toggleButton
-              formControlName="requireVaccinatedWorkers"
-              onLabel="Vaccinated Workers Required"
-              offLabel="Vaccinated Workers Not Required"
-              offIcon="pi pi-times"
-              onIcon="pi pi-check"
-              data-mtest="toggle-vaccine-req"
-              >
-            </p-toggleButton>
-            <small class="p-invalid" *ngIf="!orderForm.controls['description'].valid && showErrors">
-              {{formErrors.description}}
+            <span class="p-float-label">
+              <p-dropdown id="requireVaccinatedWorkers" [options]="requireVaccinatedWorkersOptions" formControlName="requireVaccinatedWorkers"
+                [autoWidth]="false"></p-dropdown>
+              <label for="requireVaccinatedWorkers">Do you prefer prefer vaccinated workers?</label>
+            </span>
+            <small class="p-invalid" *ngIf="!!orderForm.controls['requireVaccinatedWorkers'] && showErrors">
+              {{formErrors.requireVaccinatedWorkers}}
             </small>
           </div>
           <!-- ^^======================TEMPORARY FIELD============== -->
@@ -178,7 +174,7 @@
               {{formErrors.description}}
             </small>
           </div>
-    
+
           <div class="p-field p-col-12 p-input-filled">
             <span class="p-float-label">
               <p-dropdown id="englishRequired" [options]="yesNoDropDown" formControlName="englishRequired"></p-dropdown>
@@ -219,11 +215,11 @@
             <!-- <button type="button" (click)="showDialog()" pButton icon="fa-external-link-square" label="Show transport rates" *ngIf="false"></button> -->
             <a href="https://casa-latina.org/hire-a-worker/" target="_blank">
               <button 
-                pButton 
-                pRipple 
+                pButton
+                pRipple
                 type="button"
                 icon="pi pi-external-link"
-                label="For transportation pricing, click here." 
+                label="For transportation pricing, click here."
                 class="p-button-rounded p-button-help"
               ></button>
             </a>
@@ -261,7 +257,7 @@
       of the worksite and the method of transport for the workers.
     </p>
     <p>
-      You may pick up the workers, or Casa Latina offers a transport program 
+      You may pick up the workers, or Casa Latina offers a transport program
       (fees apply), or you can pay for workers to use public transport.
     </p>
     <p-footer>
