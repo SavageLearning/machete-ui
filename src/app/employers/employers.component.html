@@ -1,4 +1,4 @@
-<p-card 
+<p-card
   styleClass="p-card-shadow p-mb-5"
   header="Employer Profile"
   subheader="This is your employer profile. If you're a new employer, you must create a profile before you can place an order.
@@ -13,7 +13,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="name" id="name" type="text" pInputText/>
             <label for="name">Name</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.name}}
           </small>
         </div>
@@ -21,7 +21,7 @@ This profile information will pre-populate new orders to save you time."
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-              formControlName="phone" 
+              formControlName="phone"
               inputId="phone"
               type="text"
               mask="999-999-9999"
@@ -29,7 +29,7 @@ This profile information will pre-populate new orders to save you time."
             </p-inputMask>
             <label for="phone">Phone number</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.phone}}
           </small>
         </div>
@@ -37,49 +37,49 @@ This profile information will pre-populate new orders to save you time."
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-              formControlName="cellphone" 
+              formControlName="cellphone"
               inputId="cellphone"
               type="text"
               mask="999-999-9999">
             </p-inputMask>
             <label for="cellphone" class="p-col-fixed">Cell phone</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.cellphone}}
-          </small>  
+          </small>
         </div>
-        
+
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <input formControlName="email" id="email" type="text" pInputText/>
             <label for="email" class="p-col-fixed">Email</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.email}}
           </small>
         </div>
-        
+
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <input formControlName="referredBy" id="referredBy" type="text" pInputText/>
             <label for="referredBy" class="p-col-fixed">Referred by?</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.referredBy}}
           </small>
         </div>
-        
+
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <input formControlName="referredByOther" id="referredByOther" type="text" pInputText/>
             <label for="referredByOther" class="p-col-fixed">Referred by notes</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.referredByOther}}
           </small>
         </div>
       </div>
-    
+
     <!-- -------------------------vertical divide---------------------------- -->
       <div class="p-col-12 p-md-6">
 
@@ -88,7 +88,7 @@ This profile information will pre-populate new orders to save you time."
             <p-dropdown id="business" [options]="yesNoDropDown" formControlName="business"></p-dropdown>
             <label for="business">Is a business?</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.business}}
           </small>
         </div>
@@ -98,7 +98,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="address1" id="address1" type="text" pInputText/>
             <label for="address1">Address (1)</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.address1}}
           </small>
         </div>
@@ -108,7 +108,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="address2" id="address2" type="text" pInputText/>
             <label for="address2">Address (2)</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.address2}}
           </small>
         </div>
@@ -118,7 +118,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="city" id="city" type="text" pInputText/>
             <label for="city">City</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.city}}
           </small>
         </div>
@@ -126,37 +126,37 @@ This profile information will pre-populate new orders to save you time."
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-              formControlName="state" 
+              formControlName="state"
               inputId="state"
-              type="text" 
+              type="text"
               mask="aa">
             </p-inputMask>
             <label for="state">State</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.state}}
-          </small>  
+          </small>
         </div>
 
         <div class="p-field p-col-12 p-input-filled">
           <span class="p-float-label">
             <p-inputMask
-            formControlName="zipcode" 
+            formControlName="zipcode"
             inputId="zipcode"
-            type="text" 
+            type="text"
             mask="99999?-9999">
             </p-inputMask>
             <label for="zipcode">Zipcode</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.zipcode}}
-          </small>  
+          </small>
         </div>
-         
+
       </div>
     </div>
     <div class="p-col-12">
-      <button pButton type="submit" style="width: 100%;" label="Save"></button>
+      <button pButton type="submit" style="width: 100%" label="Save" autocomplete="off" [disabled]="saveDisabled"></button>
     </div>
   </form>
 </p-card>
