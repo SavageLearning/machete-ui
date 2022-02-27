@@ -13,7 +13,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="name" id="name" type="text" pInputText/>
             <label for="name">Name</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.name}}
           </small>
         </div>
@@ -29,7 +29,7 @@ This profile information will pre-populate new orders to save you time."
             </p-inputMask>
             <label for="phone">Phone number</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.phone}}
           </small>
         </div>
@@ -44,7 +44,7 @@ This profile information will pre-populate new orders to save you time."
             </p-inputMask>
             <label for="cellphone" class="p-col-fixed">Cell phone</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.cellphone}}
           </small>
         </div>
@@ -54,7 +54,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="email" id="email" type="text" pInputText/>
             <label for="email" class="p-col-fixed">Email</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.email}}
           </small>
         </div>
@@ -64,7 +64,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="referredBy" id="referredBy" type="text" pInputText/>
             <label for="referredBy" class="p-col-fixed">Referred by?</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.referredBy}}
           </small>
         </div>
@@ -74,7 +74,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="referredByOther" id="referredByOther" type="text" pInputText/>
             <label for="referredByOther" class="p-col-fixed">Referred by notes</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.referredByOther}}
           </small>
         </div>
@@ -88,7 +88,7 @@ This profile information will pre-populate new orders to save you time."
             <p-dropdown id="business" [options]="yesNoDropDown" formControlName="business"></p-dropdown>
             <label for="business">Is a business?</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.business}}
           </small>
         </div>
@@ -98,7 +98,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="address1" id="address1" type="text" pInputText/>
             <label for="address1">Address (1)</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.address1}}
           </small>
         </div>
@@ -108,7 +108,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="address2" id="address2" type="text" pInputText/>
             <label for="address2">Address (2)</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.address2}}
           </small>
         </div>
@@ -118,7 +118,7 @@ This profile information will pre-populate new orders to save you time."
             <input formControlName="city" id="city" type="text" pInputText/>
             <label for="city">City</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.city}}
           </small>
         </div>
@@ -133,7 +133,7 @@ This profile information will pre-populate new orders to save you time."
             </p-inputMask>
             <label for="state">State</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.state}}
           </small>
         </div>
@@ -148,7 +148,7 @@ This profile information will pre-populate new orders to save you time."
             </p-inputMask>
             <label for="zipcode">Zipcode</label>
           </span>
-          <small class="p-invalid" *ngIf="!employerForm.valid && showErrors">
+          <small class="p-invalid" *ngIf="!employerForm.valid && showFormErrors">
             {{formErrors.zipcode}}
           </small>
         </div>
