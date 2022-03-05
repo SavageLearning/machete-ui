@@ -7,11 +7,13 @@ import {
   initConfirmCheckedTerms,
   MACHETE_ADMIN,
   onlineOrderRoutes,
+  REMOTE_TEST_WAIT_MS,
 } from "cypress/constants";
 import * as faker from "faker";
 import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
 import { WorkOrderSelectors } from "../../constants/hirer-portal-selectors";
+import { Employer } from "src/app/shared/models/employer";
 
 let fields: Partial<{
   key: string;
@@ -24,8 +26,8 @@ export const stepsToWorkOrder = () => {
   cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
   cy.visit(onlineOrderRoutes.workOrders, {
     onBeforeLoad: (win) => {
-      // removes session entry that avoids re-displaying the dialog
-      win.sessionStorage.removeItem("machete.work-order.component.UG");
+      // turn off userguide
+      win.sessionStorage.setItem("machete.work-order.component.UG", "false");
       win.sessionStorage.removeItem("machete.workorder");
       win.sessionStorage.setItem(
         // because this sets all terms as accepted
@@ -34,7 +36,6 @@ export const stepsToWorkOrder = () => {
       );
     },
   });
-  cy.get("p-footer > .p-element > .p-button-label").click();
 };
 
 describe("hirer portal - work-orders - flow", () => {
@@ -52,6 +53,40 @@ describe("hirer portal - work-orders - flow", () => {
 
   beforeEach(() => {
     stepsToWorkOrder();
+
+    fields = [
+      {
+        key: WorkOrderSelectors.contacName,
+        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["name"],
+      },
+      {
+        key: WorkOrderSelectors.address1,
+        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["address1"],
+      },
+      {
+        key: WorkOrderSelectors.city,
+        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["city"],
+      },
+      {
+        key: WorkOrderSelectors.state,
+        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["state"],
+        checkParent: true,
+      },
+      {
+        key: WorkOrderSelectors.zipcode,
+        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["zipcode"],
+        checkParent: true,
+      },
+      {
+        key: WorkOrderSelectors.phone,
+        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["phone"],
+        checkParent: true,
+      },
+      {
+        key: WorkOrderSelectors.description,
+        skipCheckVal: true,
+      },
+    ];
   });
 
   //#region work-orders
@@ -135,40 +170,6 @@ describe("hirer portal - work-orders - flow", () => {
   it(`${onlineOrderRoutes.workOrders} form - required fail should add invalid class`, () => {
     // required fields should validate
     // required invalid class applied
-    fields = [
-      {
-        key: WorkOrderSelectors.contacName,
-        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["name"],
-      },
-      {
-        key: WorkOrderSelectors.address1,
-        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["address1"],
-      },
-      {
-        key: WorkOrderSelectors.city,
-        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["city"],
-      },
-      {
-        key: WorkOrderSelectors.state,
-        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["state"],
-        checkParent: true,
-      },
-      {
-        key: WorkOrderSelectors.zipcode,
-        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["zipcode"],
-        checkParent: true,
-      },
-      {
-        key: WorkOrderSelectors.phone,
-        val: Cypress.env(ENV_KEY_MACHETE_EMPLOYER)["phone"],
-        checkParent: true,
-      },
-      {
-        key: WorkOrderSelectors.description,
-        skipCheckVal: true,
-      },
-    ];
-
     fields.forEach((item) => {
       if (!item.skipCheckVal) {
         // with default values to check
@@ -203,14 +204,15 @@ describe("hirer portal - work-orders - flow", () => {
 
   it(`${onlineOrderRoutes.workOrders} form - required fail should display error message`, () => {
     // required Error messages
+    cy.get(WorkOrderSelectors.dow).clear().trigger("keydown", ESCAPE_KEY);
+    cy.get(WorkOrderSelectors.tow).clear().trigger("keydown", ESCAPE_KEY);
+    cy.get(`button[type="submit"]`).click();
+    // required Error messages
     fields.forEach((item) => {
       if (item.val !== undefined) {
         cy.get(item.key).clear();
       }
     });
-    cy.get(WorkOrderSelectors.dow).clear().trigger("keydown", ESCAPE_KEY);
-    cy.get(WorkOrderSelectors.tow).clear().trigger("keydown", ESCAPE_KEY);
-    cy.get(`button[type="submit"]`).click();
     cy.get("form").contains("Date & time is required.");
     cy.get("form").contains("Contact name is required");
     cy.get("form").contains("Address is required");
@@ -223,9 +225,9 @@ describe("hirer portal - work-orders - flow", () => {
   });
 
   it(`${onlineOrderRoutes.workOrders} form - should validate description max length`, () => {
-    cy.get(WorkOrderSelectors.description)
-      .type(faker.random.alpha({ count: 101, upcase: false }))
-      .click();
+    const overFlow =
+      "mqaovtkwidbobqsrtlvejedifeupmhsowzvbmrxtzhnpyvuaufcefsmefocsfsfsdfsdfkbkjbkbkbkbkbwbneeyvlomjphznmgvzbuykxkpicnzrbuisfdasdf2";
+    cy.get(WorkOrderSelectors.description).type(overFlow);
     cy.get(`button[type="submit"]`).click();
     cy.get("form").contains("Must be less than 100 characters");
     cy.get(WorkOrderSelectors.description).clear();
@@ -245,25 +247,28 @@ describe("hirer portal - work-orders - flow", () => {
     cy.url().should("contain", onlineOrderRoutes.workAssignments);
   });
 
-  describe(`${onlineOrderRoutes.workOrders} required vaccinated toggle`, () => {
+  describe(`${onlineOrderRoutes.workOrders} required vaccinated dropdown`, () => {
     it(`field should exist`, () => {
-      const FIELD_SELECTOR = `[data-mtest="toggle-vaccine-req"]`;
-
-      const FEILD_LABEL = `${FIELD_SELECTOR} .p-button-label`;
-      cy.get(FIELD_SELECTOR).should("exist");
-      cy.get(FEILD_LABEL).should("contain", "Vaccinated Workers Not Required");
-
-      cy.get(FIELD_SELECTOR).click();
-      cy.get(FEILD_LABEL).should("contain", "Vaccinated Workers Required");
+      cy.get(WorkOrderSelectors.vaccineReqDropdown).should("exist");
+      cy.get(WorkOrderSelectors.vaccineReqDropdown)
+        .parent()
+        .parent()
+        .parent()
+        .contains("Do you prefer prefer vaccinated workers?");
     });
 
-    it(`should update form when true`, () => {
-      const FIELD_SELECTOR = `[data-mtest="toggle-vaccine-req"]`;
-
-      const FEILD_LABEL = `${FIELD_SELECTOR} .p-button-label`;
-
-      cy.get(FIELD_SELECTOR).click();
-      cy.get(FEILD_LABEL).should("contain", "Vaccinated Workers Required");
+    it(`should update form when true on save`, () => {
+      cy.wait(REMOTE_TEST_WAIT_MS);
+      cy.get(WorkOrderSelectors.vaccineReqDropdown).click();
+      cy.get(`.p-dropdown-items-wrapper`).within(() => {
+        cy.get("span").each(($el, index, $lis) => {
+          const spanText = $el.text();
+          if (spanText === "yes") {
+            cy.wrap($el).click();
+            cy.log("spanText: ", spanText);
+          }
+        });
+      });
 
       cy.get(WorkOrderSelectors.description).type("anything");
       filloutDateAndTime();
@@ -277,10 +282,7 @@ describe("hirer portal - work-orders - flow", () => {
       cy.get(`button[type="submit"]`).click();
       cy.window().then((win) => {
         const wo = win.sessionStorage.getItem("machete.workorder");
-        cy.wrap(wo).should(
-          "contain",
-          "!!!---- VACCINATED WORKERS REQUIRED ---!!!"
-        ); // or 'not.empty'
+        cy.wrap(wo).should("contain", "**REQUIERE TRABAJADORES VACUNADXS**");
       });
     });
   });
@@ -290,7 +292,7 @@ export const selectWorkOrderPickUpMethod = (
   transportProviders: TransportProvider[],
   rules: TransportRule[]
 ): void => {
-  cy.get(`#pr_id_6_label`).click();
+  cy.get(WorkOrderSelectors.tranportDropdown).click();
   const pickUpOption = getFreeTransportProvider(transportProviders, rules);
   cy.get(`.p-dropdown-items-wrapper`).within(() => {
     cy.get("span").each(($el, index, $lis) => {
@@ -303,7 +305,7 @@ export const selectWorkOrderPickUpMethod = (
       }
     });
   });
-  cy.get(`#pr_id_6_label`).contains(pickUpOption);
+  cy.get(WorkOrderSelectors.tranportDropdown).contains(pickUpOption);
   cy.get(WorkOrderSelectors.contacName).focus();
 };
 

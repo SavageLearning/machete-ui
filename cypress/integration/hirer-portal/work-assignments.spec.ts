@@ -7,6 +7,7 @@ import {
   initConfirmCheckedTerms,
   MACHETE_ADMIN,
   onlineOrderRoutes,
+  REMOTE_TEST_WAIT_MS,
 } from "cypress/constants";
 import {
   stringToTitleCase,
@@ -53,10 +54,7 @@ export const stepsToWorkAssignments = () => {
         // to always show the work order userguide
         "false"
       );
-      win.sessionStorage.setItem(
-        "machete.workorder",
-        JSON.stringify(wo)
-      );
+      win.sessionStorage.setItem("machete.workorder", JSON.stringify(wo));
       win.sessionStorage.setItem(
         "machete.online-orders-service.workorderconfirm",
         true.toString()
@@ -219,7 +217,7 @@ describe("hirer portal - work-assignments - flow", () => {
 });
 
 const selectAnySkill = (anySkill: Lookup) => {
-  // cy.wait(5000); // only use for testing remote instances
+  cy.wait(REMOTE_TEST_WAIT_MS);
   cy.get(WorkAssignmentSelectors.chooseJobsTab).click();
   cy.get(WorkAssignmentSelectors.fieldChageSkillSelection).click();
   const skillTitleCase = stringToTitleCase(anySkill.text_EN);
