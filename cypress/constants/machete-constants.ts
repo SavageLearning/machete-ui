@@ -2,6 +2,7 @@ import { IOnlineOrderRoute } from "../interfaces";
 
 export const MACHETE_ADMIN = { user: "jadmin", password: "ChangeMe" };
 export const MACHETE_USER = { user: "juser", password: "ChangeMe" };
+export const REMOTE_TEST_WAIT_MS = 0;
 
 // environment var ids used for hodling data from API requests
 export const ENV_KEY_MACHETE_EMPLOYER = "machete-employer";
