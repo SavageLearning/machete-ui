@@ -1,10 +1,9 @@
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { OnlineOrdersService } from "src/app/client/api/onlineOrders.service";
 import { environment } from "src/environments/environment";
-import { WorkOrderVM } from "../client";
+import { WorkOrderVM, OnlineOrdersService } from "machete-client";
 
 @Injectable()
 export class MyWorkOrdersService {

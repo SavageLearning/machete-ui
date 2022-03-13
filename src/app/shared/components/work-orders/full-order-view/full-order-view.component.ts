@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from "@angular/core";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import { MessageService } from "primeng/api";
 
 interface EmployerInfo {

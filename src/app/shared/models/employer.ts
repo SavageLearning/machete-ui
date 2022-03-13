@@ -1,4 +1,4 @@
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import { Record } from "./record";
 export class Employer extends Record<Employer> {
   active: boolean;

@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
 import { TransportProvidersService } from "../transport-providers.service";
 import { MessageService } from "primeng/api";
 import { HttpErrorResponse } from "@angular/common/http";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 
 @Component({
   selector: "app-order-confirm",

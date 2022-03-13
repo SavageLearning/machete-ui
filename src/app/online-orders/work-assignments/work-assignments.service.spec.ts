@@ -12,7 +12,7 @@ import { AuthService } from "../../shared/index";
 import { HttpClientModule } from "@angular/common/http";
 import { LookupsService } from "../../lookups/lookups.service";
 import { Lookup } from "../../lookups/models/lookup";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import { TransportRule, CostRule } from "../shared/index";
 import {
   AuthServiceSpy,

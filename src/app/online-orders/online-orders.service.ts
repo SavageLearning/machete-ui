@@ -1,7 +1,7 @@
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from "rxjs";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 

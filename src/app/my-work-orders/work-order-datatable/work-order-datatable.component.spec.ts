@@ -2,7 +2,7 @@ import { of as observableOf } from "rxjs";
 
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WorkOrderDatatableComponent } from "./work-order-datatable.component";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import { MyWorkOrdersService } from "../my-work-orders.service";
 import { TableModule } from "primeng/table";
 import { RouterSpy } from "../../shared/testing/services.spy";

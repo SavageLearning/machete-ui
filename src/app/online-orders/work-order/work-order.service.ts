@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from "rxjs";
 import { EmployersService } from "../../employers/employers.service";
 import { Employer } from "../../shared/models/employer";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 
 @Injectable()
 export class WorkOrderService {

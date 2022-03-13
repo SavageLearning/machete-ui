@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { TableModule } from "primeng/table";
 
 import { FullOrderViewComponent } from "./full-order-view.component";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import { MessageService } from "primeng/api";
 import { MessageServiceSpy } from "../../../testing";
 import { Component } from "@angular/core";

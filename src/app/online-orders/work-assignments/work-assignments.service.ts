@@ -11,7 +11,7 @@ import { WorkAssignment } from "../../shared/models/work-assignment";
 import { OnlineOrdersService } from "../online-orders.service";
 import { TransportRule, TransportProvider } from "../shared/index";
 import { WorkOrderService } from "../work-order/work-order.service";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import { TransportRulesService } from "../transport-rules.service";
 import { TransportProvidersService } from "../transport-providers.service";
 import { MessageService } from "primeng/api";

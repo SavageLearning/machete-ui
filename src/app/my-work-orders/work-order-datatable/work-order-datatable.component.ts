@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MyWorkOrdersService } from "../my-work-orders.service";
 import { Router } from "@angular/router";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 
 @Component({
   selector: "app-work-order-datatable",

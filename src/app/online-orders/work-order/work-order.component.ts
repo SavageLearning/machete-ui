@@ -4,7 +4,7 @@
 import { combineLatest as observableCombineLatest } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 
 import { OnlineOrdersService } from "../online-orders.service";
 import { WorkOrderService } from "./work-order.service";

@@ -4,7 +4,7 @@
 
 import { combineLatest as observableCombineLatest } from "rxjs";
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
-import { WorkOrderVM } from "../../client";
+import { WorkOrderVM } from "machete-client";
 import * as paypal from "paypal-checkout";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyWorkOrdersService } from "../my-work-orders.service";

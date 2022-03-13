@@ -7,7 +7,7 @@ import { Employer } from "../models/employer";
 import { Lookup } from "../../lookups/models/lookup";
 import { User, UserProfile } from "../models/user";
 import { EventEmitter } from "@angular/core";
-import { WorkOrderVM } from "src/app/client";
+import { WorkOrderVM } from "machete-client";
 import {
   ScheduleRule,
   TransportRule,
