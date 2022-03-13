@@ -64,8 +64,8 @@ export class WorkOrderComponent implements OnInit {
     dateOfWork: "",
     timeOfWork: "",
     contactName: "",
-    worksiteAddress1: "",
-    worksiteAddress2: "",
+    workSiteAddress1: "",
+    workSiteAddress2: "",
     city: "",
     state: "",
     zipcode: "",
@@ -178,11 +178,11 @@ export class WorkOrderComponent implements OnInit {
         this.workOrder.contactName,
         requiredValidator("Contact name is required"),
       ],
-      worksiteAddress1: [
+      workSiteAddress1: [
         this.workOrder.workSiteAddress1,
         [requiredValidator("Address is required"), lengthValidator(50)],
       ],
-      worksiteAddress2: [this.workOrder.workSiteAddress2, lengthValidator(50)],
+      workSiteAddress2: [this.workOrder.workSiteAddress2, lengthValidator(50)],
       city: [
         this.workOrder.city,
         [requiredValidator("City is required."), lengthValidator(50)],

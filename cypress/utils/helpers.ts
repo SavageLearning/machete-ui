@@ -1,3 +1,4 @@
+import { WorkOrderVM } from "src/app/client";
 import { Lookup } from "src/app/lookups/models/lookup";
 import { ScheduleRule } from "src/app/online-orders/shared/models/schedule-rule";
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
