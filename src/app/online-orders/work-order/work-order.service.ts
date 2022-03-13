@@ -3,6 +3,8 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { EmployersService } from "../../employers/employers.service";
 import { Employer } from "../../shared/models/employer";
 import { WorkOrderVM } from "machete-client";
+import { isEmpty } from "src/app/shared/helpers";
+import { DateTime } from "luxon";
 
 @Injectable()
 export class WorkOrderService {
@@ -13,11 +15,11 @@ export class WorkOrderService {
   storageKey = "machete.workorder";
   constructor(private employerService: EmployersService) {
     const data = sessionStorage.getItem(this.storageKey);
-    const order = JSON.parse(data);
+    const order: WorkOrderVM = JSON.parse(data) as WorkOrderVM;
     // check that data's not null first
-    if (data && order && order.isNotEmpty()) {
+    if (data && order && !isEmpty(order)) {
       console.log(".ctor->Loading existing order", order);
-      order.dateTimeofWork = new Date(order.dateTimeofWork); // deserializing date
+      order.dateTimeofWork = DateTime.fromISO(order.dateTimeofWork).toString(); // deserializing date
       this.order = order;
       this.orderSource.next(this.order);
     } else {
