@@ -72,6 +72,8 @@
           },
           "configurations": {
             "test": {
+              "optimization": false,
+              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -84,7 +86,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "8mb"
+                  "maximumError": "3mb"
                 }
               ],
               "optimization": true,
