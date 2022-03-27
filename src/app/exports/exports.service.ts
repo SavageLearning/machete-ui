@@ -5,8 +5,8 @@ import { Injectable } from "@angular/core";
 
 // TODO @angular/http should be deprecated, need to find @angular/common/http equivalents
 import { Observable } from "rxjs";
-import { Export } from "./models/export";
-import { ExportColumn } from "./models/export-column";
+import { Export } from "src/app/shared/models/export";
+import { ExportColumn } from "../shared/models/export-column";
 import { SearchOptions } from "../reports/models/search-options";
 import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";

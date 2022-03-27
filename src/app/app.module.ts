@@ -21,7 +21,8 @@ import { MessagesComponent } from "./shared/components/messages/messages.compone
 import { ButtonModule } from "primeng/button";
 import { WelcomeComponent } from "./welcome/welcome.component";
 import { CommonModule } from "@angular/common";
-
+import { ApiModule } from "machete-client";
+import { environment } from "../environments/environment";
 /**
  * Import only the modules needed for the first render of the app
  * Only what's required for the components that load first before any other lazy loaded routes.
@@ -47,10 +48,11 @@ import { CommonModule } from "@angular/common";
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule,
     AppRoutingModule,
     ToastModule,
     ButtonModule,
+    ApiModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -2,7 +2,7 @@ import { Observable, BehaviorSubject, of } from "rxjs";
 
 import { first, mergeMap, map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { Lookup, LCategory } from "./models/lookup";
+import { Lookup, LCategory } from "../shared/models/lookup";
 import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 

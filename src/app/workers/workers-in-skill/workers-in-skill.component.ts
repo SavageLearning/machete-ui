@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { combineLatest, fromEvent } from "rxjs";
-import { Lookup } from "../../lookups/models/lookup";
+import { Lookup } from "../../shared/models/lookup";
 import { Worker } from "../../shared/models/worker";
 import { LookupsService } from "../../lookups/lookups.service";
 import { WorkersService } from "../workers.service";

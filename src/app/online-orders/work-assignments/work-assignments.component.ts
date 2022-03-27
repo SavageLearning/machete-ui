@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { WorkAssignment } from "../../shared/models/work-assignment";
 import { LookupsService } from "../../lookups/lookups.service";
-import { Lookup, LCategory } from "../../lookups/models/lookup";
+import { Lookup, LCategory } from "../../shared/models/lookup";
 import { OnlineOrdersService } from "../online-orders.service";
 import { WorkAssignmentsService } from "./work-assignments.service";
 import { TransportRule, requiredValidator, TransportProvider } from "../shared";
