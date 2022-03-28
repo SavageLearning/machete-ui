@@ -1,9 +1,6 @@
 import { Observable, BehaviorSubject, of } from "rxjs";
-
 import { catchError, map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { HttpHeaders } from "@angular/common/http";
-import { environment } from "../../environments/environment";
 import { Employer } from "../shared/models/employer";
 import { EmployersService as EmployersClient } from "machete-client";
 
@@ -14,8 +11,6 @@ export class EmployersService {
   private employerSource: BehaviorSubject<Employer>;
 
   constructor(private client: EmployersClient) {
-    client.configuration.withCredentials = true;
-    client.configuration.basePath = environment.dataUrl;
     this.employerSource = new BehaviorSubject<Employer>(null);
     this.fetchEmployer().subscribe();
   }
@@ -43,7 +38,7 @@ export class EmployersService {
 
   save(employer: Employer): Observable<Employer> {
     console.log("save:", employer);
-    // hack to get out the door; SavageLearning/Machete#425
+    // TODO: remove hack to get out the door; SavageLearning/Machete#425
     employer.referredBy = 25;
 
     // create or update

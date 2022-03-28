@@ -2,7 +2,6 @@ import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from "src/environments/environment";
 import { OnlineOrdersService } from "machete-client";
 import { WorkOrder } from "src/app/shared/models/work-order";
 
@@ -18,20 +17,18 @@ export class MyWorkOrdersService {
   milliseconds: number;
   utcFomattedDate: Date;
 
-  constructor(private client: OnlineOrdersService) {
-    client.configuration.withCredentials = true;
-    client.configuration.basePath = environment.dataUrl;
-  }
+  constructor(private client: OnlineOrdersService) {}
 
   getOrders(): Observable<WorkOrder[]> {
     return this.client.apiOnlineordersGet().pipe(
-      map((o) => {
-        const wo = o["data"] as WorkOrder[];
-        // wo.map((x) => {
-        //   x.dateTimeofWork = this.toUTC(x.dateTimeofWork);
-        // });
-        return wo;
-      })
+      map(
+        (o) => {
+          return o["data"] as WorkOrder[];
+        },
+        (err: HttpErrorResponse) => {
+          console.error("online-orders.getOrder returned", err);
+        }
+      )
     );
   }
 
@@ -41,11 +38,10 @@ export class MyWorkOrdersService {
         (data) => {
           const wo = data["data"] as WorkOrder;
           console.log("getOrder received:", wo);
-          //wo.dateTimeofWork = this.toUTC(wo.dateTimeofWork);
           return wo;
         },
         (err: HttpErrorResponse) => {
-          console.error("online-orders.getOrder returned", err);
+          console.error("online-orders.getOrder ID returned", id, err);
         }
       )
     );

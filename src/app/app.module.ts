@@ -55,6 +55,7 @@ import { FileDownloadHttpInterceptor } from "./FileDownloadHttpInterceptor";
     ApiModule.forRoot(() => {
       return new Configuration({
         basePath: `${environment.dataUrl}`,
+        withCredentials: true,
       });
     }),
     HttpClientModule,
