@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import {
@@ -21,8 +21,9 @@ import { MessagesComponent } from "./shared/components/messages/messages.compone
 import { ButtonModule } from "primeng/button";
 import { WelcomeComponent } from "./welcome/welcome.component";
 import { CommonModule } from "@angular/common";
-import { ApiModule } from "machete-client";
+import { ApiModule, Configuration } from "machete-client";
 import { environment } from "../environments/environment";
+import { FileDownloadHttpInterceptor } from "./FileDownloadHttpInterceptor";
 /**
  * Import only the modules needed for the first render of the app
  * Only what's required for the components that load first before any other lazy loaded routes.
@@ -51,10 +52,22 @@ import { environment } from "../environments/environment";
     AppRoutingModule,
     ToastModule,
     ButtonModule,
-    ApiModule,
+    ApiModule.forRoot(() => {
+      return new Configuration({
+        basePath: `${environment.dataUrl}`,
+      });
+    }),
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      // https://stackoverflow.com/questions/60864073/angular-5-api-swagger-body-responsetype-blob
+      // generated-client doesn't detect octet stream properly
+      provide: HTTP_INTERCEPTORS,
+      useClass: FileDownloadHttpInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
