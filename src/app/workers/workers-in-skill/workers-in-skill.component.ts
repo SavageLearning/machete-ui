@@ -81,24 +81,24 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
 
   private loadServiceData(skillId: number) {
     console.table(this.reqParams);
-    const workersInSkill$ = this.workerService.getWorkersInSkill(
-      skillId,
-      this.reqParams
-    );
+    // const workersInSkill$ = this.workerService.getWorkersInSkill(
+    //   skillId,
+    //   this.reqParams
+    // );
     const lookups$ = this.lookupsService.getLookup(skillId);
 
-    combineLatest([workersInSkill$, lookups$]).subscribe(
-      // success
-      (response: [ApiResponse<Worker>, Lookup]) => {
-        const [workersInSkillRes, lookupsRes] = response;
-        // worker
-        this.initializeTable(workersInSkillRes);
-        // Lookup
-        this.skill = lookupsRes;
-      },
-      //error
-      (err) => console.log(err)
-    );
+    // combineLatest([workersInSkill$, lookups$]).subscribe(
+    //   // success
+    //   (response: [ApiResponse<Worker>, Lookup]) => {
+    //     const [workersInSkillRes, lookupsRes] = response;
+    //     // worker
+    //     this.initializeTable(workersInSkillRes);
+    //     // Lookup
+    //     this.skill = lookupsRes;
+    //   },
+    //   //error
+    //   (err) => console.log(err)
+    // );
   }
 
   private initializeTable(res: ApiResponse<Worker>) {

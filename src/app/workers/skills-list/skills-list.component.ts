@@ -34,15 +34,15 @@ export class SkillsListComponent implements OnInit {
   constructor(private workerService: WorkersService, private router: Router) {}
 
   loadSkills(): void {
-    this.workerService.getSkills().subscribe(
-      //sucess
-      (response: Skill[]) => {
-        this.skills = response;
-        // console.table(this.skills);
-      },
-      // error
-      (err) => console.log(err)
-    );
+    // this.workerService.getSkills().subscribe(
+    //   //sucess
+    //   (response: Skill[]) => {
+    //     this.skills = response;
+    //     // console.table(this.skills);
+    //   },
+    //   // error
+    //   (err) => console.log(err)
+    // );
   }
 
   navigateToWorkersInSKill(id: number): void {
