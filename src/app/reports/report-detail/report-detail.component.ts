@@ -5,7 +5,7 @@ import { SearchOptions } from "../models/search-options";
 import { SimpleAggregateRow } from "../models/simple-aggregate-row";
 import { ReportsService } from "../reports.service";
 import { Observable } from "rxjs";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+
 import { takeWhile } from "rxjs/operators";
 import { IConfirmActionData } from "src/app/shared/components/record-control/record-control.component";
 
@@ -41,12 +41,11 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private reportsService: ReportsService,
-    private store: ReportsStoreService
+    private reportsService: ReportsService
   ) {}
 
   getReportDefinition(): void {
-    const report$ = this.store.getReport(this.routeReportID);
+    const report$ = this.reportsService.getReport(this.routeReportID);
     report$.pipe(takeWhile(() => this.alive)).subscribe((data) => {
       this.report = data;
       this.loadingRecord = false;
@@ -79,7 +78,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
 
   save(): void {
     this.saving = true;
-    this.store.update(this.report).subscribe(
+    this.reportsService.update(this.report).subscribe(
       (res) => {
         this.report = res;
         this.saving = false;
@@ -122,7 +121,7 @@ export class ReportDetailComponent implements OnInit, OnDestroy {
       header: "Confirm Delete",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.store
+        this.reportsService
           .delete(this.report.name, "reports")
           .pipe(takeWhile(() => this.alive))
           .subscribe(() => (this.report = new Report()));

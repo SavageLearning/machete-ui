@@ -2,19 +2,16 @@ import { Observable } from "rxjs";
 
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
 import { TransportProvider } from "./shared/";
 import { of } from "rxjs";
-
+import { TransportProvidersService as TransportProvidersClient } from "machete-client";
 @Injectable({
   providedIn: "root",
 })
 export class TransportProvidersService {
-  uriBase = environment.dataUrl + "/api/transportproviders";
   providers = new Array<TransportProvider>();
   providersAge = 0;
-  constructor(private http: HttpClient) {
+  constructor(private client: TransportProvidersClient) {
     console.log(".ctor");
   }
 
@@ -35,7 +32,7 @@ export class TransportProvidersService {
       return of(this.providers);
     }
 
-    return this.http.get(this.uriBase, { withCredentials: true }).pipe(
+    return this.client.apiTransportProvidersGet().pipe(
       map((res) => {
         this.providers = res["data"] as TransportProvider[];
         this.providersAge = Date.now();

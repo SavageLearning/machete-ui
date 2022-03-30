@@ -2,12 +2,11 @@ import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from "rxjs";
 import { WorkOrder } from "../shared/models/work-order";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { environment } from "../../environments/environment";
+import { HttpHeaders } from "@angular/common/http";
 
 import { Confirm } from "./shared/models/confirm";
 import { loadConfirms } from "./shared/rules/load-confirms";
-
+import { OnlineOrdersService as OnlineOrdersClient } from "machete-client";
 @Injectable()
 export class OnlineOrdersService {
   storageKey = "machete.online-orders-service";
@@ -19,7 +18,7 @@ export class OnlineOrdersService {
   private workOrderConfirmSource = new BehaviorSubject<boolean>(false);
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) {
+  constructor(private client: OnlineOrdersClient) {
     console.log(".ctor: OnlineOrdersService");
     // this loads static data from a file. will replace later.
 
@@ -92,17 +91,8 @@ export class OnlineOrdersService {
   }
 
   createOrder(order: WorkOrder): Observable<WorkOrder> {
-    const url = environment.dataUrl + "/api/onlineorders";
-    const postHeaders = new HttpHeaders().set(
-      "Content-Type",
-      "application/json"
-    );
-
-    return this.http
-      .post<WorkOrder>(url, JSON.stringify(order), {
-        headers: postHeaders,
-        withCredentials: true,
-      })
+    return this.client
+      .apiOnlineordersPost(order)
       .pipe(map((data) => data["data"] as WorkOrder));
   }
 }
