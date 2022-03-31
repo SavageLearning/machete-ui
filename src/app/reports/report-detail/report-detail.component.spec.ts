@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { of } from "rxjs";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { ReportsService } from "src/app/reports/reports.service";
+
 import { ReportsServiceSpy } from "src/app/shared/testing";
 import { Report } from "../models/report";
-import { ReportsService } from "../reports.service";
 
 import { ReportDetailComponent } from "./report-detail.component";
 
@@ -35,7 +35,6 @@ describe("ReportDetailComponent", () => {
           },
         },
         { provide: ReportsService, class: ReportsServiceSpy },
-        { provide: ReportsStoreService, value: fakeService },
       ],
     }).compileComponents();
   });
