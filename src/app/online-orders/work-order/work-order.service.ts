@@ -41,8 +41,6 @@ export class WorkOrderService {
     const data = sessionStorage.getItem(this.storageKey);
     if (data) {
       const order: WorkOrder = JSON.parse(data) as WorkOrder;
-      //console.log('get: returning stored order', order);
-      //order.dateTimeofWork = new Date(order.dateTimeofWork);
       return order;
     } else {
       return this.order;
