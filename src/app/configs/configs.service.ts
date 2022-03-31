@@ -1,6 +1,6 @@
 import { Observable, of } from "rxjs";
 
-import { first, mergeMap, map } from "rxjs/operators";
+import { first, mergeMap, map, pluck, tap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
 import { Config, CCategory } from "../shared/models/config";
@@ -31,11 +31,9 @@ export class ConfigsService {
 
     // withCredentials: true is normally necessary, but configs are enabled for anonymous
     return this.client.apiConfigsGet().pipe(
-      map((res) => {
-        this.configs = res["data"] as Config[];
-        this.configsAge = Date.now();
-        return res["data"] as Config[];
-      })
+      pluck("data"),
+      map((data) => data as Config[]),
+      tap(() => (this.configsAge = Date.now()))
     );
   }
 
