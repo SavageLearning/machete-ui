@@ -1,6 +1,6 @@
 import { HttpClientModule } from "@angular/common/http";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { ReportsService } from "src/app/reports/reports.service";
 import { ReportsStoreServiceSpy } from "src/app/shared/testing";
 
 import { ReportCreateComponent } from "./report-create.component";
@@ -14,7 +14,7 @@ describe("ReportCreateComponent", () => {
       declarations: [ReportCreateComponent],
       imports: [HttpClientModule],
       providers: [
-        { provide: ReportsStoreService, useClass: ReportsStoreServiceSpy },
+        { provide: ReportsService, useClass: ReportsStoreServiceSpy },
       ],
     }).compileComponents();
   });

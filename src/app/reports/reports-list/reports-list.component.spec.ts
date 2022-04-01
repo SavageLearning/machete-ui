@@ -2,8 +2,12 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ReportsListComponent } from "./reports-list.component";
 import { Router } from "@angular/router";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
-import { ReportsStoreServiceSpy, RouterSpy } from "src/app/shared/testing";
+import { ReportsService } from "src/app/reports/reports.service";
+
+import {
+  ReportsStoreServiceSpy as ReportsServiceSpy,
+  RouterSpy,
+} from "src/app/shared/testing";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { TableModule } from "primeng/table";
 import { DropdownModule } from "primeng/dropdown";
@@ -32,7 +36,7 @@ describe("ReportsListComponent", () => {
       ],
       providers: [
         { provide: Router, useClass: RouterSpy },
-        { provide: ReportsStoreService, useClass: ReportsStoreServiceSpy },
+        { provide: ReportsService, useClass: ReportsServiceSpy },
       ],
     }).compileComponents();
   });

@@ -2,13 +2,10 @@ import { Observable, BehaviorSubject, of } from "rxjs";
 
 import { first, mergeMap, map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { Lookup, LCategory } from "./models/lookup";
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-
+import { Lookup, LCategory } from "../shared/models/lookup";
+import { LookupsService as LookupsClient } from "machete-client";
 @Injectable()
 export class LookupsService {
-  uriBase = environment.dataUrl + "/api/lookups";
   // need BehaviorSubject because we're caching the response and
   // need to be able serve the cache and not call API every time
   lookupsSource = new BehaviorSubject<Lookup[]>(new Array<Lookup>());
@@ -17,7 +14,7 @@ export class LookupsService {
   storageKey = "machete.lookups";
   private lookups = new Array<Lookup>();
 
-  constructor(private http: HttpClient) {
+  constructor(private client: LookupsClient) {
     console.log(".ctor: LookupsService");
     const data = sessionStorage.getItem(this.storageKey);
     this.lookupsAge = Number(sessionStorage.getItem(this.storageKey + ".age"));
@@ -48,8 +45,7 @@ export class LookupsService {
     //   return Observable.of(this.lookups);
     // }
     // TODO: set timer for refresh
-    console.log("getLookups: ", this.uriBase);
-    this.http.get(this.uriBase, { withCredentials: true }).subscribe((res) => {
+    this.client.apiLookupsGet().subscribe((res) => {
       this.lookups = res["data"] as Lookup[];
       this.lookupsAge = Date.now();
       this.lookupsSource.next(this.lookups);

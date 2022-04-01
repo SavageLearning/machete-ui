@@ -1,36 +1,33 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
 import { Skill } from "../shared/models/skill";
 import { ApiRequestParams } from "./models/api-request-params";
 import { ApiResponse } from "./models/api-response";
 import { Worker } from "../shared/models/worker";
-
+import { WorkersService as WorkersClient } from "machete-client";
 @Injectable({
   providedIn: "root",
 })
 export class WorkersService {
-  private uri = `${environment.dataUrl}/api/workers`;
+  constructor(private client: WorkersClient) {}
 
-  constructor(private http: HttpClient) {}
+  // getSkills(): Observable<Skill[]> {
+  //   return this.client.get<Skill[]>(`${this.uri}/skills`, {
+  //     withCredentials: true,
+  //   });
+  // }
 
-  getSkills(): Observable<Skill[]> {
-    return this.http.get<Skill[]>(`${this.uri}/skills`, {
-      withCredentials: true,
-    });
-  }
-
-  getWorkersInSkill(
-    skillId: number,
-    requestParams: ApiRequestParams
-  ): Observable<ApiResponse<Worker>> {
-    const params = WorkersService.assignToHTTPParams(requestParams);
-    return this.http.get<ApiResponse<Worker>>(
-      `${this.uri}/in-skill/${skillId}?`,
-      { withCredentials: true, params }
-    );
-  }
+  // getWorkersInSkill(
+  //   skillId: number,
+  //   requestParams: ApiRequestParams
+  // ): Observable<ApiResponse<Worker>> {
+  //   const params = WorkersService.assignToHTTPParams(requestParams);
+  //   return this.client.get<ApiResponse<Worker>>(
+  //     `${this.uri}/in-skill/${skillId}?`,
+  //     { withCredentials: true, params }
+  //   );
+  // }
 
   private static assignToHTTPParams(
     requestParams: ApiRequestParams

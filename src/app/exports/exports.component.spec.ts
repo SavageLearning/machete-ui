@@ -12,7 +12,7 @@ import { ExportsService } from "./exports.service";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ExportsOptionsComponent } from "./exports-options.component";
 import { HttpClient, HttpHandler } from "@angular/common/http";
-import { Export } from "./models/export";
+import { Export } from "src/app/shared/models/export";
 
 class ExportsServiceSpy {
   getExportsList = jasmine

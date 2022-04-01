@@ -1,6 +1,7 @@
 import { WorkOrder } from "./work-order";
 import { Record } from "./record";
-export class Employer extends Record<Employer> {
+import { EmployerVM } from "machete-client";
+export class Employer extends Record<Employer> implements EmployerVM {
   active: boolean;
   address1: string;
   address2: string;

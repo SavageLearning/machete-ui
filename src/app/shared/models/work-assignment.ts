@@ -2,8 +2,12 @@
 /**
  * Created by jcii on 5/31/17.
  */
+import { WorkAssignmentVM } from "machete-client";
 import { Record } from "./record";
-export class WorkAssignment extends Record<WorkAssignment> {
+export class WorkAssignment
+  extends Record<WorkAssignment>
+  implements WorkAssignmentVM
+{
   skillId: number;
   skill: string;
   hours: number;

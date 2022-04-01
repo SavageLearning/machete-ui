@@ -1,23 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from "rxjs";
-import { WorkOrder } from "../../shared/models/work-order";
 import { EmployersService } from "../../employers/employers.service";
-import { Employer } from "../../shared/models/employer";
+import { Employer } from "src/app/shared/models/employer";
+import { WorkOrder } from "src/app/shared/models/work-order";
+import { isEmpty } from "src/app/shared/helpers";
+import { DateTime } from "luxon";
 
 @Injectable()
 export class WorkOrderService {
   order: WorkOrder;
   orderSource = new BehaviorSubject<WorkOrder>(null);
-  //order$ = this.orderSource.asObservable();
 
   storageKey = "machete.workorder";
   constructor(private employerService: EmployersService) {
     const data = sessionStorage.getItem(this.storageKey);
     const order = new WorkOrder(JSON.parse(data));
     // check that data's not null first
-    if (data && order && order.isNotEmpty()) {
+    if (data && order && !isEmpty(order)) {
       console.log(".ctor->Loading existing order", order);
-      order.dateTimeofWork = new Date(order.dateTimeofWork); // deserializing date
+      order.dateTimeofWork = DateTime.fromISO(order.dateTimeofWork).toString(); // deserializing date
       this.order = order;
       this.orderSource.next(this.order);
     } else {
@@ -40,8 +41,6 @@ export class WorkOrderService {
     const data = sessionStorage.getItem(this.storageKey);
     if (data) {
       const order: WorkOrder = JSON.parse(data) as WorkOrder;
-      //console.log('get: returning stored order', order);
-      order.dateTimeofWork = new Date(order.dateTimeofWork);
       return order;
     } else {
       return this.order;
@@ -49,10 +48,10 @@ export class WorkOrderService {
   }
 
   mapOrderFrom(employer: Employer): WorkOrder {
-    const order = new WorkOrder();
+    const order: WorkOrder = new WorkOrder();
     order.contactName = employer.name;
-    order.worksiteAddress1 = employer.address1;
-    order.worksiteAddress2 = employer.address2;
+    order.workSiteAddress1 = employer.address1;
+    order.workSiteAddress2 = employer.address2;
     order.city = employer.city;
     order.state = employer.state;
     order.zipcode = employer.zipcode;

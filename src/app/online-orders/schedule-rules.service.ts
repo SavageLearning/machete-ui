@@ -2,17 +2,15 @@ import { Observable } from "rxjs";
 
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { ScheduleRule } from "./shared/index";
-import { environment } from "../../environments/environment";
 import { of } from "rxjs";
+import { ScheduleRulesService as ScheduleRulesClient } from "machete-client";
 
 @Injectable()
 export class ScheduleRulesService {
-  uriBase = environment.dataUrl + "/api/schedulerules";
   rules = new Array<ScheduleRule>();
   rulesAge = 0;
-  constructor(private http: HttpClient) {
+  constructor(private client: ScheduleRulesClient) {
     console.log(".ctor");
   }
 
@@ -32,7 +30,7 @@ export class ScheduleRulesService {
       return of(this.rules);
     }
 
-    return this.http.get(this.uriBase, { withCredentials: true }).pipe(
+    return this.client.apiScheduleRulesGet().pipe(
       map((res) => {
         this.rules = res["data"] as ScheduleRule[];
         this.rulesAge = Date.now();

@@ -63,8 +63,8 @@ export class WorkOrderComponent implements OnInit {
     dateOfWork: "",
     timeOfWork: "",
     contactName: "",
-    worksiteAddress1: "",
-    worksiteAddress2: "",
+    workSiteAddress1: "",
+    workSiteAddress2: "",
     city: "",
     state: "",
     zipcode: "",
@@ -154,13 +154,12 @@ export class WorkOrderComponent implements OnInit {
     this.defaultOrderTime.setHours(9, 0).toString();
   }
 
-  getDateOnly(date: Date): Date {
-    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  getDateOnly(date: string): Date {
+    return DateTime.fromISO(date).startOf("day").toJSDate();
   }
 
-  getTime(date: Date): string {
-    const timePart = DateTime.fromJSDate(date).toFormat("HH:mm");
-    return timePart;
+  getTime(date: string): string {
+    return DateTime.fromISO(date).toFormat("HH:mm");
   }
 
   buildForm(): void {
@@ -178,11 +177,11 @@ export class WorkOrderComponent implements OnInit {
         this.workOrder.contactName,
         requiredValidator("Contact name is required"),
       ],
-      worksiteAddress1: [
-        this.workOrder.worksiteAddress1,
+      workSiteAddress1: [
+        this.workOrder.workSiteAddress1,
         [requiredValidator("Address is required"), lengthValidator(50)],
       ],
-      worksiteAddress2: [this.workOrder.worksiteAddress2, lengthValidator(50)],
+      workSiteAddress2: [this.workOrder.workSiteAddress2, lengthValidator(50)],
       city: [
         this.workOrder.city,
         [requiredValidator("City is required."), lengthValidator(50)],
@@ -237,9 +236,6 @@ export class WorkOrderComponent implements OnInit {
 
       if (control && !control.valid) {
         for (const key in control.errors) {
-          // if (this.showErrors == true){
-          //   console.log('onValueChanged.error:' + field + ': ' + control.errors[key]);
-          // }
           this.formErrors[field] += `${control.errors[key] as string} `;
         }
       }
@@ -305,10 +301,10 @@ export class WorkOrderComponent implements OnInit {
       .toJSDate();
     const order = new WorkOrder({
       id: 0,
-      dateTimeofWork: combinedTime,
+      dateTimeofWork: combinedTime.toISOString(),
       contactName: formModel.contactName,
-      worksiteAddress1: formModel.worksiteAddress1,
-      worksiteAddress2: formModel.worksiteAddress2,
+      workSiteAddress1: formModel.workSiteAddress1,
+      workSiteAddress2: formModel.workSiteAddress2,
       city: formModel.city,
       state: formModel.state,
       zipcode: formModel.zipcode,

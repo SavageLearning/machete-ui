@@ -6,10 +6,10 @@ import { Router } from "@angular/router";
 import { MessagesService } from "../components/messages/messages.service";
 import { MessagesServiceSpy, RouterSpy } from "../testing";
 
-import { ReportsStoreService } from "./reports-store.service";
+import { ReportsService } from "src/app/reports/reports.service";
 
 describe("ReportsStoreService", () => {
-  let service: ReportsStoreService;
+  let service: ReportsService;
   const httpClientSpy: any = jasmine.createSpyObj("HttpClient", ["get"]);
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe("ReportsStoreService", () => {
         { provide: HttpClient, value: httpClientSpy },
       ],
     });
-    service = TestBed.inject(ReportsStoreService);
+    service = TestBed.inject(ReportsService);
   });
 
   it("should be created", () => {

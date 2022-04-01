@@ -1,6 +1,6 @@
 import { ValidatorFn, FormControl } from "@angular/forms";
 import { SkillRule } from "../models/skill-rule";
-import { Lookup } from "../../../lookups/models/lookup";
+import { Lookup } from "../../../shared/models/lookup";
 
 export function hoursValidator(
   rules: SkillRule[],

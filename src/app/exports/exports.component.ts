@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ExportsService } from "./exports.service";
-import { Export } from "./models/export";
-import { ExportColumn } from "./models/export-column";
+import { Export } from "src/app/shared/models/export";
+import { ExportColumn } from "../shared/models/export-column";
 import { saveAs } from "file-saver";
 import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
 import * as contentDisposition from "content-disposition";

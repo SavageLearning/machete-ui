@@ -4,7 +4,7 @@ export class WorkOrderSelectors {
   static readonly contacName: string = `input[id="contactName"]`;
   static readonly vaccineReqDropdown = `#pr_id_5_label`;
   static readonly tranportDropdown = `#pr_id_7_label`;
-  static readonly address1: string = `input[id="worksiteAddress1"]`;
+  static readonly address1: string = `input[id="workSiteAddress1"]`;
   static readonly city: string = `input[id="city"]`;
   static readonly state: string = `input[id="state"]`;
   static readonly zipcode: string = `input[id="zipcode"]`;

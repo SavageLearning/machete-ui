@@ -2,16 +2,13 @@ import { Observable, of } from "rxjs";
 
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { TransportRule } from "./shared/index";
-import { environment } from "../../environments/environment";
-
+import { TransportRulesService as TransportRulesClient } from "machete-client";
 @Injectable()
 export class TransportRulesService {
-  uriBase = environment.dataUrl + "/api/transportrules";
   rules = new Array<TransportRule>();
   rulesAge = 0;
-  constructor(private http: HttpClient) {
+  constructor(private client: TransportRulesClient) {
     console.log(".ctor");
   }
 
@@ -32,7 +29,7 @@ export class TransportRulesService {
       return of(this.rules);
     }
 
-    return this.http.get(this.uriBase, { withCredentials: true }).pipe(
+    return this.client.apiTransportRulesGet().pipe(
       map((res) => {
         this.rules = res["data"] as TransportRule[];
         this.rulesAge = Date.now();

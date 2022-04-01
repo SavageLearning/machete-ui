@@ -64,8 +64,8 @@ export class FullOrderViewComponent implements OnChanges {
     }
     this.employerInfo = {
       name: this.order.contactName,
-      worksite1: this.order.worksiteAddress1,
-      worksite2: this.order.worksiteAddress2,
+      worksite1: this.order.workSiteAddress1,
+      worksite2: this.order.workSiteAddress2,
       city: this.order.city,
       state: this.order.state,
       zip: this.order.zipcode,
