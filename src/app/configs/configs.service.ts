@@ -31,9 +31,11 @@ export class ConfigsService {
 
     // withCredentials: true is normally necessary, but configs are enabled for anonymous
     return this.client.apiConfigsGet().pipe(
-      pluck("data"),
-      map((data) => data as Config[]),
-      tap(() => (this.configsAge = Date.now()))
+      map((res) => {
+        this.configs = res["data"] as Config[];
+        this.configsAge = Date.now();
+        return res["data"] as Config[];
+      })
     );
   }
 
