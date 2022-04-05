@@ -2,43 +2,41 @@
 import { TestBed } from "@angular/core/testing";
 
 import { TransportProvidersService } from "./transport-providers.service";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
-import { TransportProvidersService as TransportProvidersClient } from "machete-client";
-import {
-  MessagesServiceSpy,
-  TransportProvidersClientSpy,
-} from "../shared/testing/services.spy";
+import { MessagesServiceSpy } from "../shared/testing/services.spy";
 import { MessagesService } from "../shared/components/messages/messages.service";
 import { TransportProvider } from "./shared";
+import { of } from "rxjs";
 
 describe("TransportProviderService", () => {
   let service: TransportProvidersService;
-  let clientSpy: jasmine.SpyObj<TransportProvidersClient>;
+  let clientSpy: jasmine.SpyObj<HttpClient>;
   let messageSpy: jasmine.SpyObj<MessagesService>;
+  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
+    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
+
     TestBed.configureTestingModule({
       providers: [
         TransportProvidersService,
         {
-          provide: TransportProvidersClient,
-          useClass: TransportProvidersClientSpy,
+          provide: HttpClient,
+          useValue: httpClientSpy,
         },
         {
           provide: MessagesService,
           useClass: MessagesServiceSpy,
         },
       ],
-      imports: [HttpClientModule, HttpClientTestingModule],
+      imports: [],
     });
     service = TestBed.inject(TransportProvidersService);
-    clientSpy = TestBed.inject(
-      TransportProvidersClient
-    ) as jasmine.SpyObj<TransportProvidersClient>;
+    httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
     messageSpy = TestBed.inject(
       MessagesService
     ) as jasmine.SpyObj<MessagesService>;
@@ -50,10 +48,12 @@ describe("TransportProviderService", () => {
 
   describe("chaching", () => {
     beforeEach(() => {
-      spyOn(
-        TransportProvidersClient.prototype,
-        "apiTransportProvidersGet"
-      ).calls.reset();
+      spyOn(HttpClient.prototype, "get").calls.reset();
+      httpClientSpy.get.and.returnValue(
+        of({
+          data: [new TransportProvider()],
+        })
+      );
     });
 
     it("when api called, session var is set", (done: DoneFn) => {
@@ -71,7 +71,7 @@ describe("TransportProviderService", () => {
 
     it("when none, should callApi", (done: DoneFn) => {
       service.getTransportProviders().subscribe(() => {
-        expect(clientSpy.apiTransportProvidersGet.calls.count()).toBe(1);
+        expect(httpClientSpy.get.calls.count()).toBe(1);
         done();
       });
     });
@@ -80,7 +80,7 @@ describe("TransportProviderService", () => {
       service.providersAge = Date.now() - 300 * 999; // age logic is in service
 
       service.getTransportProviders().subscribe(() => {
-        expect(clientSpy.apiTransportProvidersGet.calls.count()).toBe(0);
+        expect(httpClientSpy.get.calls.count()).toBe(0);
         done();
       });
     });
@@ -95,7 +95,6 @@ describe("TransportProviderServiceHttp", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        TransportProvidersClient, // use real client to utilize httController
         {
           provide: MessagesService,
           useClass: MessagesServiceSpy,
@@ -111,16 +110,17 @@ describe("TransportProviderServiceHttp", () => {
   });
 
   describe("when http error", () => {
-    it("should call showErrors toast", () => {
+    it("should call showErrors toast", (done: DoneFn) => {
       service.getTransportProviders().subscribe({
-        next: () => fail("should have failed with the 500 error"),
+        next: () => done.fail("should have failed with the 500 error"),
         error: () => {
           expect(messageSpy.showErrors.calls.count()).toBe(1);
+          done();
         },
       });
 
       const testReq = httpMock.expectOne(
-        "http://localhost/api/TransportProviders"
+        "http://localhost:9876/api/transportproviders"
       );
       expect(testReq.request.method).toEqual("GET");
       testReq.flush("", { status: 500, statusText: "SErver Error" });
