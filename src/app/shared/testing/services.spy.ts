@@ -252,6 +252,24 @@ export class TransportRulesServiceSpy {
   );
 }
 
+export class TransportProvidersClientSpy {
+  apiTransportProvidersGet = jasmine
+    .createSpy("apiTransportProvidersGet")
+    .and.returnValue(
+      observableOf({
+        data: [
+          new TransportProvider({
+            id: 32,
+            text: "a text label",
+            availabilityRules: new Array<TransportProviderAvailability>(
+              new TransportProviderAvailability({ day: 0, available: false })
+            ),
+          }),
+        ],
+      })
+    );
+}
+
 export class TransportProvidersServiceSpy {
   getTransportProviders = jasmine
     .createSpy("getTransportProviders")
@@ -303,7 +321,9 @@ export class ReportsServiceSpy {
   // getReportData
 }
 
-export class MessagesServiceSpy {}
+export class MessagesServiceSpy {
+  showErrors = jasmine.createSpy("showErrors").and.callThrough();
+}
 
 export class ReportsStoreServiceSpy {
   reports$ = observableOf(
