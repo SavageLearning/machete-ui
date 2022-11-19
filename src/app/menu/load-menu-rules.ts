@@ -84,15 +84,6 @@ export function loadMenuRules(authList: string[]): Array<MenuRule> {
           icon: "airport_shuttle",
           routerLink: ["configuration/transport-providers"],
           authorizedRoles: [LRole.ADMIN],
-          items: [
-            new MenuRule({
-              id: 14,
-              label: "List",
-              icon: "list",
-              routerLink: ["configuration/transport-providers/list"],
-              authorizedRoles: [LRole.ADMIN],
-            }),
-          ],
         }),
       ],
     }),
