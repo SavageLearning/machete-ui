@@ -279,7 +279,6 @@ export class TransportProvidersServiceSpy {
           id: 32,
           text: "a text label",
           availabilityRules: new Array<TransportProviderAvailability>(
-            new TransportProviderAvailability({ day: 0, available: false }),
             new TransportProviderAvailability({ day: 1, available: true }),
             new TransportProviderAvailability({ day: 2, available: true }),
             new TransportProviderAvailability({ day: 3, available: true }),
@@ -290,6 +289,19 @@ export class TransportProvidersServiceSpy {
         }),
       ])
     );
+  getById = jasmine.createSpy("getById").and.callFake(() =>
+    observableOf(
+      new TransportProvider({
+        id: 1,
+        text: "a text label",
+        availabilityRules: new Array<TransportProviderAvailability>(
+          new TransportProviderAvailability({ day: 1, available: true }),
+          new TransportProviderAvailability({ day: 2, available: true })
+        ),
+        key: "one",
+      })
+    )
+  );
 }
 
 export class WorkerServiceSpy {
@@ -323,6 +335,7 @@ export class ReportsServiceSpy {
 
 export class MessagesServiceSpy {
   showErrors = jasmine.createSpy("showErrors").and.callThrough();
+  showSuccess = jasmine.createSpy("showSuccess").and.callThrough();
 }
 
 export class ReportsStoreServiceSpy {
@@ -344,4 +357,8 @@ export class TransportProvidersStoreServiceSpy {
   transportProviders$ = observableOf(
     new Array<TransportProvider>(new TransportProvider({ key: "test" }))
   );
+}
+
+export class ConfirmationServiceSpy {
+  confirm = jasmine.createSpy("confirm").and.callThrough();
 }

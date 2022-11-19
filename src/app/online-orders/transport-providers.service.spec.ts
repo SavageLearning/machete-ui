@@ -19,7 +19,7 @@ describe("TransportProviderService", () => {
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
-    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
+    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get", "post", "put"]);
 
     TestBed.configureTestingModule({
       providers: [
@@ -81,6 +81,48 @@ describe("TransportProviderService", () => {
 
       service.getTransportProviders().subscribe(() => {
         expect(httpClientSpy.get.calls.count()).toBe(0);
+        done();
+      });
+    });
+  });
+
+  describe("upsert", () => {
+    const tp: TransportProvider = {
+      id: 0,
+      key: "fake",
+      text: "FAKE",
+      defaultAttribute: false,
+      active: true,
+      availabilityRules: [],
+    };
+    beforeEach(() => {
+      spyOn(HttpClient.prototype, "post").calls.reset();
+      httpClientSpy.post.and.returnValue(
+        of({
+          data: [new TransportProvider()],
+        })
+      );
+      spyOn(HttpClient.prototype, "put").calls.reset();
+      httpClientSpy.put.and.returnValue(
+        of({
+          data: [new TransportProvider()],
+        })
+      );
+    });
+    it("when no id, should CREATE", (done: DoneFn) => {
+      service.save(tp).subscribe(() => {
+        expect(httpClientSpy.post.calls.count()).toBe(1);
+        done();
+      });
+    });
+    it("when id, should UPDATE", (done: DoneFn) => {
+      sessionStorage.setItem(
+        "tranportProviders",
+        JSON.stringify([{ ...tp, id: 10 }])
+      );
+
+      service.save({ ...tp, id: 10 }).subscribe(() => {
+        expect(httpClientSpy.post.calls.count()).toBe(0);
         done();
       });
     });
