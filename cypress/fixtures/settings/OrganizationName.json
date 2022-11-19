@@ -1,0 +1,14 @@
+[
+  {
+    "key": "OrganizationName",
+    "value": "from stub",
+    "description": "Will be displayed in the employer's portal and throughout the app",
+    "category": "General",
+    "publicConfig": true,
+    "createdby": "Init T. Script",
+    "datecreated": "2022-05-24T13:08:32.937",
+    "dateupdated": "2022-05-29T00:53:24.283",
+    "id": 1,
+    "updatedby": "jciispam@gmail.com"
+  }
+]

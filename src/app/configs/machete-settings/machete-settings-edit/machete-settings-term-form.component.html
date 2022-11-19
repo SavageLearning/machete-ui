@@ -1,0 +1,67 @@
+<h5>Terms</h5>
+<div style="width: 80%; margin: 0 auto;">
+  <ng-container *ngFor="let termForm of termsFormArray.controls">
+
+    <div [formGroup]="termForm">
+      <p-divider align="center">
+        <span class="p-tag">{{termForm.controls['name'].value}}</span>
+      </p-divider>
+      <div class="p-field p-col-12 p-input-filled">
+        <span class="p-float-label">
+          <input pInputText formControlName="name" id="name" name="name" />
+          <label for="name">Name</label>
+        </span>
+        <ng-container *ngIf="termForm.controls['name'].errors">
+          <small
+            class="p-error"
+            *ngIf="termForm.controls['name'].errors.required"
+            >Required</small
+          >
+        </ng-container>
+      </div>
+      <div class="p-field p-col-12 p-input-filled">
+        <span class="p-float-label">
+          <textarea
+            rows="1"
+            cols="30"
+            autoResize="autoResize"
+            pInputTextarea
+            formControlName="text"
+            id="text"
+            name="text"
+          ></textarea>
+          <label for="text">Text</label>
+        </span>
+        <ng-container *ngIf="termForm.controls['text'].errors">
+          <small
+            class="p-error"
+            *ngIf="termForm.controls['text'].errors.required"
+            >Required</small
+          >
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <p-toolbar>
+    <div class="p-toolbar-group-left" style="width: auto"></div>
+    <div class="p-toolbar-group-right" style="width: auto">
+      <button
+        pButton
+        pRipple
+        class="p-button-info p-button-raised p-button-rounded"
+        icon="pi pi-plus"
+        tooltipPosition="bottom"
+        (click)="onNewTerm()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        class="p-button-danger p-button-raised p-button-rounded"
+        icon="pi pi-minus"
+        tooltipPosition="bottom"
+        (click)="onPopTerm()"
+      ></button>
+    </div>
+  </p-toolbar>
+</div>

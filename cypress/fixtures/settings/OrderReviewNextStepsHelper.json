@@ -1,0 +1,12 @@
+{
+  "key": "OrderReviewNextStepsHelper",
+  "value": "OrderReviewNextStepsHelperanythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganything",
+  "description": "Displayed in the pre-sumbit review step. Describe the next steps in the process, will employer need to wait for confirmation via a call, text or wait for email, etc.",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.25",
+  "dateupdated": "2022-05-29T00:52:36.943",
+  "id": 27,
+  "updatedby": "jciispam@gmail.com"
+}

@@ -1,0 +1,12 @@
+{
+  "key": "DisableOnlineOrders",
+  "value": "FALSE",
+  "description": "Enter either TRUE or FALSE. Enter TRUE to turn off access to the online hiring portal",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.263",
+  "dateupdated": "2022-05-24T13:10:33.07",
+  "id": 28,
+  "updatedby": "jciispam@gmail.com"
+}

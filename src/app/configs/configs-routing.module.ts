@@ -19,6 +19,13 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: "settings",
+    loadChildren: () =>
+      import("./machete-settings/machete-settings.module").then(
+        (m) => m.MacheteSettingsModule
+      ),
+  },
 ];
 
 @NgModule({

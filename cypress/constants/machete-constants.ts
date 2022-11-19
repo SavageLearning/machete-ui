@@ -27,6 +27,11 @@ export const onlineOrderRoutes: IOnlineOrderRoute = {
   orderConfirm: `${onlineOrdersBase}/order-confirm`,
 };
 
+const settingsBase: string = "/configuration/settings";
+export const macheteSettingsRoutes: { list: string } = {
+  list: `${settingsBase}`
+}
+
 export const initConfirmCheckedTerms = [
   {
     name: "completion",

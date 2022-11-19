@@ -1,0 +1,12 @@
+{
+  "key": "DisableOnlineOrdersBanner",
+  "value": "Online orders are currently disabled. Please call the center.anythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganything",
+  "description": "The message for employers when the online hring portal is turned off",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.277",
+  "dateupdated": "2022-05-29T00:52:38.217",
+  "id": 29,
+  "updatedby": "jciispam@gmail.com"
+}

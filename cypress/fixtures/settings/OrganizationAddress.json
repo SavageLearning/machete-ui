@@ -1,0 +1,12 @@
+{
+  "key": "OrganizationAddress",
+  "value": "123 main st, seattle, wa 98101anythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganything",
+  "description": "Will be displayed in work order summaries, etc",
+  "category": "General",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.047",
+  "dateupdated": "2022-05-29T00:53:25.613",
+  "id": 10,
+  "updatedby": "jciispam@gmail.com"
+}
