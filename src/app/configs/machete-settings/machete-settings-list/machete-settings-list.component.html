@@ -1,0 +1,5 @@
+<app-records-table
+  [values]="configs$ | async"
+  [excludeCols]="excludeCols"
+  (selectedRecord)="onRowSelect($event)"
+></app-records-table>

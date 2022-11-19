@@ -1,0 +1,12 @@
+{
+  "key": "OrderConfirmTransportFeesNotice",
+  "value": "OrderConfirmTransportFeesNoticeanythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganything",
+  "description": "Will display in the last step if employer chooses a transport method with fees. Inlcude text on why the fee applies",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.16",
+  "dateupdated": "2022-05-29T00:53:32.737",
+  "id": 20,
+  "updatedby": "jciispam@gmail.com"
+}

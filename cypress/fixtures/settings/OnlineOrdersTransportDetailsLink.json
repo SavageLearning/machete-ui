@@ -1,0 +1,12 @@
+{
+  "key": "OnlineOrdersTransportDetailsLink",
+  "value": "OnlineOrdersTransportDetailsLinkanythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganything",
+  "description": "Will display if your transport provider cost rules have any fees. Include the link to your website with transport cost info ",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.15",
+  "dateupdated": "2022-05-29T00:53:31.323",
+  "id": 19,
+  "updatedby": "jciispam@gmail.com"
+}

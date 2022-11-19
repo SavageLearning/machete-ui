@@ -1,0 +1,12 @@
+{
+  "key": "OnlineOrdersEnglishReqNote",
+  "value": "OnlineOrdersEnglishReqNoteanythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganything",
+  "description": "Displayed in the site details step. When employers requests an English-speaking worker, this note provides any center-specific details",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.137",
+  "dateupdated": "2022-05-29T00:53:29.85",
+  "id": 18,
+  "updatedby": "jciispam@gmail.com"
+}

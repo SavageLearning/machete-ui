@@ -1,0 +1,12 @@
+{
+  "key": "OnlineOrdersIntroMessage",
+  "value": "OnlineOrdersIntroMessageanythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganythinganything",
+  "description": "Displays in the 1st step of the online hiring. Include your center's basic information and how you program works, contact number, etc. Links to your website will also work.",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-05-24T13:08:33.113",
+  "dateupdated": "2022-05-29T00:53:28.473",
+  "id": 16,
+  "updatedby": "jciispam@gmail.com"
+}

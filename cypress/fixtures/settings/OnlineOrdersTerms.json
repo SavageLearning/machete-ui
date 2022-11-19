@@ -1,0 +1,12 @@
+{
+  "key": "OnlineOrdersTerms",
+  "value": "[{\"name\":\"term1\",\"text\":\"This is the term one\"},{\"name\":\"term2\",\"text\":\"This is the term two\"}]",
+  "description": "The terms that an employer has to accept before proceding with creating a work order",
+  "category": "OnlineOrders",
+  "publicConfig": true,
+  "createdby": "Init T. Script",
+  "datecreated": "2022-06-21T15:29:44.333",
+  "dateupdated": "2022-06-21T15:29:44.333",
+  "id": 1002,
+  "updatedby": "Init T. Script"
+}

@@ -1,0 +1,119 @@
+<ng-container *ngIf="record$ | async as r">
+  <p-card styleClass="p-mb-4">
+    <ng-template pTemplate="title">
+      <span>
+        {{ r.key }}
+      </span>
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      <span> {{ tpHelperText }} </span>
+    </ng-template>
+    <div class="content p-mt-4">
+      <div class="p-d-flex p-flex-column">
+        <div class="c-info-card p-shadow-6">
+          <div
+            class="p-d-flex p-flex-column p-flex-md-row p-jc-between p-ai-center"
+          >
+            <div class="p-order-2 p-order-md-1">
+              <div class="p-text-bold p-mb-2" style="font-size: 0.8rem">
+                Description
+              </div>
+              <div style="font-weight: 20; font-size: 0.9rem">
+                {{ r.description }}
+              </div>
+            </div>
+            <div style="font-size: 1rem" class="p-order-1 p-order-md-3">
+              <i class="pi pi-info-circle"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form>
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12 p-input-filled">
+            <span class="p-float-label">
+              <input
+                pInputText
+                [value]="r.category"
+                [disabled]="true"
+                id="category"
+                name="category"
+              />
+              <label for="category">Category</label>
+            </span>
+          </div>
+          <div class="p-field p-col-12 p-input-filled" [hidden]="r.key === TERMS_KEY">
+            <span class="p-float-label">
+              <input
+                pInputText
+                [(ngModel)]="r.value"
+                id="value"
+                name="value"
+                required
+                ngModel
+                #value="ngModel"
+              />
+              <label for="value">Value</label>
+            </span>
+            <small class="p-error" *ngIf="!r.value"
+              >Value is required</small
+            >
+          </div>
+          <div class="p-field p-col-12" *ngIf="r.key === TERMS_KEY">
+            <app-machete-settings-term-form [termsAsString]="r.value" (termChange)="onChildTermChange($event, r)"></app-machete-settings-term-form>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <div class="p-toolbar-group-left">
+          <button
+            pButton
+            pRipple
+            class="p-button-raised p-mr-2"
+            icon="pi pi-save"
+            tooltipPosition="bottom"
+            label="Save"
+            [disabled]="value.errors"
+            (click)="onConfirmSave($event, r)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            class="p-button-warning p-button-raised"
+            icon="pi pi-ban"
+            tooltipPosition="bottom"
+            label="Cancel"
+            (click)="onCancel()"
+          ></button>
+        </div>
+
+        <div class="p-toolbar-group-right">
+          <p-confirmPopup></p-confirmPopup>
+        </div>
+      </p-toolbar>
+    </ng-template>
+  </p-card>
+  <p-fieldset legend="System Fields" [toggleable]="true" [collapsed]="true">
+    <div class="p-d-flex">
+      <div class="p-mr-2 p-d-flex p-flex-column p-jc-start p-ai-center">
+        <div class="text-900 mb-3 font-medium">
+          <p-chip>Updated By</p-chip>
+        </div>
+        <span class="text-700 text-sm line-height-3"> {{ r.updatedby }}</span>
+      </div>
+
+      <p-divider layout="vertical"></p-divider>
+
+      <div class="p-mr-2 p-d-flex p-flex-column p-jc-start p-ai-center">
+        <div class="text-900 mb-3 font-medium">
+          <p-chip>Date Updated</p-chip>
+        </div>
+        <span class="text-700 text-sm line-height-3">
+          {{ r.dateupdated | date: "short" }}
+        </span>
+      </div>
+    </div>
+  </p-fieldset>
+</ng-container>
