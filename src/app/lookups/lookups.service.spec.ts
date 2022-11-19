@@ -2,7 +2,7 @@ import { TestBed, inject } from "@angular/core/testing";
 
 import { LookupsService } from "./lookups.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { Lookup, LCategory } from "./models/lookup";
+import { Lookup, LCategory } from "../shared/models/lookup";
 
 describe("LookupsService", () => {
   let service: LookupsService;

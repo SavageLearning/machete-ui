@@ -3,19 +3,18 @@ import { Observable, of, throwError } from "rxjs";
 import { first, mergeMap, map, pluck, catchError, tap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
 import { Config, CCategory } from "../shared/models/config";
-import { MessagesService } from "../shared/components/messages/messages.service";
+import { ConfigsService as ConfigsClient } from "machete-client";
 import { MS_NON_EDITABLE_CONFIGS_LOWER_CASE } from "./machete-settings/shared/machete-settings-constants";
-
 @Injectable()
 export class ConfigsService {
   uriBase = environment.dataUrl + "/api/configs";
   configs = new Array<Config>();
   configsAge = 0;
-  constructor(private http: HttpClient, private appMessages: MessagesService) {}
+  constructor(private client: ConfigsClient, private appMessages: MessagesService) {
+    client.configuration.withCredentials = false;
+  }
 
-  // TODO simplify
   isStale(): boolean {
     if (this.configsAge > Date.now() - 36000) {
       return false;
@@ -31,15 +30,11 @@ export class ConfigsService {
       return of(this.configs);
     }
 
-    console.log("getAllConfigs: " + this.uriBase);
     // withCredentials: true is normally necessary, but configs are enabled for anonymous
-    return this.http.get(this.uriBase).pipe(
-      map((res) => {
-        //console.log(res); // <~ outputs a configuration object
-        this.configs = res["data"] as Config[];
-        this.configsAge = Date.now();
-        return res["data"] as Config[];
-      })
+    return this.client.apiConfigsGet().pipe(
+      pluck("data"),
+      map((data) => data as Config[]),
+      tap(() => (this.configsAge = Date.now()))
     );
   }
 

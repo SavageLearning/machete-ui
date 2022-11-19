@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { ExportColumn } from "./models/export-column";
+import { ExportColumn } from "../shared/models/export-column";
 import { FormGroup } from "@angular/forms";
 @Component({
   selector: "app-exports-options",

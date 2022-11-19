@@ -1,12 +1,9 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable, Optional, SkipSelf } from "@angular/core";
-import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError, map, shareReplay, tap } from "rxjs/operators";
 import { TransportProvider } from "src/app/online-orders/shared";
-import { environment } from "src/environments/environment";
 import { MessagesService } from "../components/messages/messages.service";
-
+import { TransportProvidersService as TransportProvidersClient } from "machete-client";
 /**
  * A singleton RXJS BehaviorSubject Machete Data store.
  * Returns the same list of records regardless of
@@ -25,9 +22,8 @@ export class TransportProvidersStoreService {
     .transportProvidersSubject as Observable<TransportProvider[]>;
 
   constructor(
-    private http: HttpClient,
+    private client: TransportProvidersClient,
     private appMessages: MessagesService,
-    private router: Router,
     @Optional() @SkipSelf() parentModule?: TransportProvidersStoreService
   ) {
     // enforce app singleton pattern
@@ -40,10 +36,8 @@ export class TransportProvidersStoreService {
   }
 
   private getRecords() {
-    const uriBase = environment.dataUrl + "/api/transportproviders";
-    console.log("getReportList: ", uriBase);
-    return this.http
-      .get(uriBase, { withCredentials: true })
+    return this.client
+      .apiTransportProvidersGet()
       .pipe(
         map((o) => o["data"] as TransportProvider[]),
         catchError((error) => {

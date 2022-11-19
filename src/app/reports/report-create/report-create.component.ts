@@ -6,7 +6,7 @@ import {
   Output,
 } from "@angular/core";
 import { takeWhile } from "rxjs/operators";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { ReportsService } from "src/app/reports/reports.service";
 import { Report } from "../models/report";
 import { SearchInputs } from "../models/search-inputs";
 
@@ -47,7 +47,7 @@ export class ReportCreateComponent implements OnDestroy {
   reportToCreate: Report = new Report();
   private alive = true;
 
-  constructor(private store: ReportsStoreService) {}
+  constructor(private store: ReportsService) {}
   ngOnDestroy(): void {
     this.alive = false;
   }

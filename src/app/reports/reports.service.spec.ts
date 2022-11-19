@@ -28,18 +28,6 @@ describe("ReportsService", () => {
     }
   ));
 
-  it("should encode parameters", inject(
-    [ReportsService],
-    (service2: ReportsService) => {
-      const o = new SearchOptions();
-      o.beginDate = new Date("01/01/2017").toLocaleDateString();
-      o.endDate = new Date("03/01/2017").toLocaleDateString();
-      expect(service2.encodeData(o)).toEqual(
-        "beginDate=1%2F1%2F2017&endDate=3%2F1%2F2017"
-      );
-    }
-  ));
-
   it("should get object from getReportData when no parameters present", (done) => {
     const o = new SearchOptions();
     service.getReportData("1", o).subscribe((res) => {
@@ -48,7 +36,8 @@ describe("ReportsService", () => {
         "Get w/o query doesn't return an object"
       );
     });
-    httpMock.expectOne("http://localhost:9876/api/reports/1"); // 'https://test-api.machetessl.org/api/reports/1');
+    httpMock.expectOne("http://localhost/api/reports");
+    httpMock.expectOne("http://localhost/api/reports/1"); // 'https://test-api.machetessl.org/api/reports/1');
     httpMock.verify();
     done();
   });
@@ -63,8 +52,10 @@ describe("ReportsService", () => {
 
     //let req = httpMock.expectOne('https://test-api.machetessl.org/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017');
     httpMock.expectOne(
-      "http://localhost:9876/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017"
+      "http://localhost/api/reports/foobar?beginDate=1%2F1%2F2016&endDate=1%2F1%2F2017"
     );
+    httpMock.expectOne("http://localhost/api/reports");
+
     httpMock.verify();
     done();
   });

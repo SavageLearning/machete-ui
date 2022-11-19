@@ -37,7 +37,7 @@ describe("ExportsService", () => {
     service.getExportsList().subscribe((rows) => {
       expect(rows.length).toBe(2, "expected 2 in exports list");
     });
-    const req = httpMock.expectOne("http://localhost:9876/api/exports"); // 'https://test-api.machetessl.org/api/exports'
+    const req = httpMock.expectOne("http://localhost/api/exports"); // 'https://test-api.machetessl.org/api/exports'
     expect(req.request.method).toEqual("GET");
 
     const testdata = new Array<string>();

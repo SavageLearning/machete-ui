@@ -1,4 +1,4 @@
-import { combineLatest as observableCombineLatest } from "rxjs";
+import { combineLatest as observableCombineLatest, Observable } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { OnlineOrdersService } from "../online-orders.service";
 import { WorkOrder } from "../../shared/models/work-order";
@@ -32,7 +32,7 @@ export class OrderConfirmComponent implements OnInit {
 
   ngOnInit(): void {
     const l$ = this.transportProviderService.getTransportProviders();
-    const o$ = this.ordersService.getStream();
+    const o$ = this.ordersService.getStream() as Observable<WorkOrder>;
     const wa$ = this.assignmentService.getStream();
 
     observableCombineLatest([l$, o$, wa$]).subscribe(
@@ -68,6 +68,7 @@ export class OrderConfirmComponent implements OnInit {
   submit(): void {
     this.onlineService.createOrder(this.order).subscribe(
       (data) => {
+        console.log(data);
         if (data.id == null) {
           console.error("workorder doesn't have an ID");
           return;

@@ -30,7 +30,7 @@ export class TestWrapperComponent {
 describe("FullOrderViewComponent", () => {
   let component: TestWrapperComponent;
   let fixture: ComponentFixture<TestWrapperComponent>;
-  let testWoDate: Date;
+  let testWoDate: string;
 
   beforeEach(
     waitForAsync(() => {
@@ -50,7 +50,7 @@ describe("FullOrderViewComponent", () => {
     component = fixture.componentInstance;
     component.order = new WorkOrder();
     component.order.contactName = "testEmp";
-    testWoDate = new Date();
+    testWoDate = new Date().toISOString();
     component.order.dateTimeofWork = testWoDate;
     component.transportLabel = "";
     component.workerCount = 2;

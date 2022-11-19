@@ -1,13 +1,9 @@
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from "@angular/common/http";
-import { environment } from "../../environments/environment";
+import { HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { WorkOrder } from "../shared/models/work-order";
+import { OnlineOrdersService } from "machete-client";
+import { WorkOrder } from "src/app/shared/models/work-order";
 
 @Injectable()
 export class MyWorkOrdersService {
@@ -21,45 +17,34 @@ export class MyWorkOrdersService {
   milliseconds: number;
   utcFomattedDate: Date;
 
-  constructor(private http: HttpClient) {}
+  constructor(private client: OnlineOrdersService) {}
 
   getOrders(): Observable<WorkOrder[]> {
-    const uri = environment.dataUrl + "/api/onlineorders";
-
-    return this.http.get(uri, { withCredentials: true }).pipe(
-      map((o) => {
-        const wo = o["data"] as WorkOrder[];
-        wo.map((x) => {
-          x.dateTimeofWork = this.toUTC(x.dateTimeofWork);
-        });
-        return wo;
-      })
+    return this.client.apiOnlineordersGet().pipe(
+      map(
+        (o) => {
+          return o["data"] as WorkOrder[];
+        },
+        (err: HttpErrorResponse) => {
+          console.error("online-orders.getOrder returned", err);
+        }
+      )
     );
   }
 
   getOrder(id: number): Observable<WorkOrder> {
-    const url = `${environment.dataUrl}/api/onlineorders/${id}`;
-    const postHeaders = new HttpHeaders().set(
-      "Content-Type",
-      "application/json"
+    return this.client.apiOnlineordersOrderIDGet(id).pipe(
+      map(
+        (data) => {
+          const wo = data["data"] as WorkOrder;
+          console.log("getOrder received:", wo);
+          return wo;
+        },
+        (err: HttpErrorResponse) => {
+          console.error("online-orders.getOrder ID returned", id, err);
+        }
+      )
     );
-
-    return this.http
-      .get<WorkOrder>(url, { headers: postHeaders, withCredentials: true })
-      .pipe(
-        map(
-          (data) => {
-            const wo = data["data"] as WorkOrder;
-            console.log("getOrder received:", wo);
-            wo.dateTimeofWork = this.toUTC(wo.dateTimeofWork);
-            return wo;
-          },
-          (err: HttpErrorResponse) => {
-            // TODO error
-            console.error("online-orders.getOrder returned", err);
-          }
-        )
-      );
   }
 
   executePaypal(
@@ -68,22 +53,14 @@ export class MyWorkOrdersService {
     paymentID: string,
     token: string
   ): Observable<any> {
-    const url = `${environment.dataUrl}/api/onlineorders/${orderID}/paypalexecute`;
-    const postHeaders = new HttpHeaders().set(
-      "Content-Type",
-      "application/json"
-    );
-    const jsonModel = JSON.stringify({
+    const jsonModel = {
       payerID,
       paymentID,
       paymentToken: token,
-    });
+    };
 
-    return this.http
-      .post<any>(url, jsonModel, {
-        headers: postHeaders,
-        withCredentials: true,
-      })
+    return this.client
+      .apiOnlineordersOrderIDPaypalexecutePost(orderID, jsonModel)
       .pipe(map((data) => data));
   }
 

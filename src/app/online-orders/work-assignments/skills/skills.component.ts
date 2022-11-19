@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Lookup } from "../../../lookups/models/lookup";
+import { Lookup } from "../../../shared/models/lookup";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 
 @Component({
