@@ -4,7 +4,7 @@
 import { of as observableOf, Observable } from "rxjs";
 import {} from "jasmine";
 import { Employer } from "../models/employer";
-import { Lookup } from "../../lookups/models/lookup";
+import { Lookup } from "../models/lookup";
 import { User, UserProfile } from "../models/user";
 import { EventEmitter } from "@angular/core";
 import { WorkOrder } from "../../shared/models/work-order";

@@ -7,15 +7,15 @@ import { of } from "rxjs";
 import { MessagesService } from "../shared/components/messages/messages.service";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
+import { TransportProvidersService as TransportProvidersClient } from "machete-client";
 @Injectable({
   providedIn: "root",
 })
 export class TransportProvidersService {
-  uriBase = environment.dataUrl + "/api/transportproviders";
   providers = new Array<TransportProvider>();
   providersAge = 0;
   constructor(
-    private http: HttpClient,
+    private client: TransportProvidersClient,
     private appMessages: MessagesService,
     @Optional() @SkipSelf() parentModule?: TransportProvidersService
   ) {
@@ -46,7 +46,7 @@ export class TransportProvidersService {
       return of(JSON.parse(cache) as TransportProvider[]);
     }
 
-    return this.http.get(this.uriBase, { withCredentials: true }).pipe(
+    return this.client.apiTransportProvidersGet().pipe(
       catchError((error) => {
         // only expecting one type of error
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

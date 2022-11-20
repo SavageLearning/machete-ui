@@ -3,11 +3,13 @@
  * Created by jcii on 6/2/17.
  */
 
+import { LookupVM } from "machete-client";
+
 export class Record<T> {
   idString: string;
   id: number;
-  datecreated: Date;
-  dateupdated: Date;
+  datecreated: string;
+  dateupdated: string;
   createdby: string;
   updatedby: string;
   idPrefix: string;
@@ -15,7 +17,7 @@ export class Record<T> {
     Object.assign(this, init);
   }
 }
-export class Lookup extends Record<Lookup> {
+export class Lookup extends Record<Lookup> implements LookupVM {
   idString = "Lookup";
   category: string;
   text_EN: string;

@@ -11,7 +11,7 @@ import { EmployersService } from "../../employers/employers.service";
 import { AuthService } from "../../shared/index";
 import { HttpClientModule } from "@angular/common/http";
 import { LookupsService } from "../../lookups/lookups.service";
-import { Lookup } from "../../lookups/models/lookup";
+import { Lookup } from "../../shared/models/lookup";
 import { WorkOrder } from "../../shared/models/work-order";
 import { TransportRule, CostRule } from "../shared/index";
 import {

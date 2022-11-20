@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { filter, first } from "rxjs/operators";
-import { ReportsStoreService } from "src/app/shared/services/reports-store.service";
+import { ReportsService } from "src/app/reports/reports.service";
 import { Report } from "../models/report";
 
 @Component({
@@ -27,7 +27,7 @@ export class ReportsListComponent implements OnInit {
 
   public colOrder: string[] = ["commonName"];
 
-  constructor(private router: Router, private store: ReportsStoreService) {}
+  constructor(private router: Router, private store: ReportsService) {}
 
   async onRowSelect(e: Report): Promise<void> {
     await this.router.navigate([`/reports/view/${e.name}`]);

@@ -25,3 +25,12 @@ export const vaccineReqFlagResolver = (
     return woDescription.replace(VACCINE_REQUIREMENT_FLAG, "");
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const isEmpty = (obj: Object): boolean => {
+  for (const prop in obj) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (obj.hasOwnProperty(prop)) return false;
+  }
+  return true;
+};

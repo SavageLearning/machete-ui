@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { combineLatest, fromEvent } from "rxjs";
-import { Lookup } from "../../lookups/models/lookup";
+import { Lookup } from "../../shared/models/lookup";
 import { Worker } from "../../shared/models/worker";
 import { LookupsService } from "../../lookups/lookups.service";
 import { WorkersService } from "../workers.service";
@@ -81,24 +81,24 @@ export class WorkersInSkillComponent implements OnInit, AfterViewInit {
 
   private loadServiceData(skillId: number) {
     console.table(this.reqParams);
-    const workersInSkill$ = this.workerService.getWorkersInSkill(
-      skillId,
-      this.reqParams
-    );
+    // const workersInSkill$ = this.workerService.getWorkersInSkill(
+    //   skillId,
+    //   this.reqParams
+    // );
     const lookups$ = this.lookupsService.getLookup(skillId);
 
-    combineLatest([workersInSkill$, lookups$]).subscribe(
-      // success
-      (response: [ApiResponse<Worker>, Lookup]) => {
-        const [workersInSkillRes, lookupsRes] = response;
-        // worker
-        this.initializeTable(workersInSkillRes);
-        // Lookup
-        this.skill = lookupsRes;
-      },
-      //error
-      (err) => console.log(err)
-    );
+    // combineLatest([workersInSkill$, lookups$]).subscribe(
+    //   // success
+    //   (response: [ApiResponse<Worker>, Lookup]) => {
+    //     const [workersInSkillRes, lookupsRes] = response;
+    //     // worker
+    //     this.initializeTable(workersInSkillRes);
+    //     // Lookup
+    //     this.skill = lookupsRes;
+    //   },
+    //   //error
+    //   (err) => console.log(err)
+    // );
   }
 
   private initializeTable(res: ApiResponse<Worker>) {

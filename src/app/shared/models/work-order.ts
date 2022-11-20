@@ -1,23 +1,17 @@
 import { WorkAssignment } from "./work-assignment";
 import { Record } from "./record";
+import { WorkOrderVM } from "machete-client";
 
-export class WorkOrder extends Record<WorkOrder> {
-  // createdby: string;
-  // datecreated: Date;
-  // dateupdated: Date;
-  // updatedby: string;
+export class WorkOrder extends Record<WorkOrder> implements WorkOrderVM {
   city: string;
   contactName: string;
-  dateTimeofWork: Date;
+  dateTimeofWork: string;
   description: string;
-  // disclosureAgreement?: boolean;
-  // employerID: number;
   englishRequired = false;
   englishRequiredNote: string;
-  // onlineSource: boolean;
   paperOrderNum?: number;
-  ppFee?: string;
-  ppPayerID?: number;
+  ppFee?: number;
+  ppPayerID?: string;
   ppState?: string;
   ppResponse?: string;
   ppPaymentToken?: string;
@@ -25,15 +19,9 @@ export class WorkOrder extends Record<WorkOrder> {
   phone: string;
   state: string;
   statusEN: string;
-  // statusID: number;
-  // timeFlexible: boolean;
-  // timeZoneOffset: number;
-  // transportFee: number;
-  // transportMethodEN: string;
   transportProviderID: number;
-  // waPseudoIDCounter: number;
-  worksiteAddress1: string;
-  worksiteAddress2: string;
+  workSiteAddress1: string;
+  workSiteAddress2: string;
   zipcode: string;
 
   workAssignments?: WorkAssignment[];
