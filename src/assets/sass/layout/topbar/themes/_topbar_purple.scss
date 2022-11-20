@@ -1,0 +1,13 @@
+.layout-topbar-purple {
+    $topbarBgColor: #6A1B9A;
+    $topbarLeftBgColor: #4A148C;
+
+    $topbarMenuButtonBgColor:#F9A825;
+    $topbarMenuButtonTextColor:#212121;
+
+    $topbarItemTextColor: #ffffff;
+    $topbarItemTextHoverBgColor: rgba(255,255,255,.12);
+
+    @import '../_topbar_exports';
+    @import '../_topbar_theme';
+}

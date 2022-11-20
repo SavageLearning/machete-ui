@@ -1,0 +1,15 @@
+.layout-menu-light {
+    $menuBgColor:#FDFEFF;
+
+    $rootMenuTextColor:#657380;
+
+    $menuItemTextColor:#515C66;
+    $menuItemHoverBgColor:rgba(0,0,0,.04);
+    $activeMenuItemTextColor: var(--primary-menu-text-color);
+    $activeMenuItemBgColor: var(--primary-lightest-color);
+
+    $inlineMenuBorderColor: #e4e4e4;
+
+    @import '../_menu_exports';
+    @import '../_menu_theme';
+}

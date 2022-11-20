@@ -1,0 +1,17 @@
+.layout-breadcrumb-container {
+    background-color: $contentBgColor;
+
+    .layout-breadcrumb {
+        background: transparent;
+        border: 0 none;
+        border-radius: 0;
+    }
+
+    .layout-breadcrumb-buttons {
+        .p-button {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+}
+

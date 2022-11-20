@@ -1,6 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 // Global outlined input text styles //
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/prismjs/themes/prism-coy.css";
+@import "../node_modules/@fullcalendar/daygrid/main.min.css";
+@import "../node_modules/@fullcalendar/timegrid/main.min.css";
 
+// "node_modules/nanoscroller/bin/css/nanoscroller.css",
+// "node_modules/primeng/resources/primeng.min.css",
+// "node_modules/primeng/resources/themes/mdc-light-indigo/theme.css",
+// "node_modules/primeflex/primeflex.css",
+// "node_modules/primeicons/primeicons.css",
+// "node_modules/codemirror/lib/codemirror.css",
+// "node_modules/codemirror/theme/monokai.css",
 .p-float-label textarea ~ label {
   top: 0;
 }
@@ -10,7 +23,7 @@
 // Responsive Table Styles
 
 .p-datatable-responsive .p-datatable-tbody > tr > td {
-    word-break: break-word;
+  word-break: break-word;
   & .p-column-title {
     display: none;
   }
@@ -84,8 +97,8 @@
 }
 
 .c-divider {
-  border-bottom: .2px solid var(--surface-d);
-  margin: 1.5rem 0 .2rem 0;
+  border-bottom: 0.2px solid var(--surface-d);
+  margin: 1.5rem 0 0.2rem 0;
 }
 
 .c-hightlight {

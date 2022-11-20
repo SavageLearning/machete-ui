@@ -1,211 +1,310 @@
 /* Utils */
 .clearfix:after {
-    content:" ";
-    display:block;
-    clear:both;
+    content: " ";
+    display: block;
+    clear: both;
 }
 
 *[hidden] {
-    display: none; 
+    display: none;
+}
+
+.p-lh {
+    line-height: 1.5;
 }
 
 .card {
-    @include content-shadow();
-    @include border-radius(2px);
-    background: #ffffff;
-    padding: 1em;
-    margin-bottom: 1em;
-    box-sizing: border-box;
-    
-    &.card-w-title {
-        padding-bottom: 2em;
+    background-color: $contentBgColor;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+    border-radius: $borderRadius;
+
+    &:last-child {
+        margin-bottom: 0;
     }
-    
-    h1 {
-        font-size: 1.5em;
-        font-weight: 400;
-        margin: 1em 0;
-        
-        &:first-child {
-            margin-top: .667em;
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
         }
     }
-    
-    h2 {
-        font-size: 1.375em;
-        font-weight: 400;
-    }
-    
-    h3 {
-        font-size: 1.250em;
-        font-weight: 400;
-    }
-    
-    h4 {
-        font-size: 1.125em;
-        font-weight: 400;
+
+    .card-subtitle {
+        color: $textSecondaryColor;
+        font-weight: 600;
+        margin: -1rem 0 1rem 0;
     }
 }
 
-.nopad {
+.p-toast {
+    &.p-toast-top-right,
+    &.p-toast-top-left,
+    &.p-toast-top-center {
+        top: 85px;
+    }
+}
+
+body {
+    .p-overlay-badge {
+        position: relative;
+    }
+
+    .p-overlay-badge .p-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%,-50%);
+        transform-origin: 100% 0;
+        margin: 0;
+    }
+}
+
+.height-100 {
+    height: 100% !important;
+}
+
+.width-100 {
+    width: 100% !important;
+}
+
+.fs-xsmall {
+    font-size: .715rem !important;
+}
+
+.fs-small {
+    font-size: .858rem !important;
+}
+
+.fs-normal {
+    font-size: 1rem !important;
+}
+
+.fs-large {
+    font-size: 1.5rem !important;
+}
+
+.fs-xlarge {
+    font-size: 2rem !important;
+}
+
+.fs-xxlarge {
+    font-size: 3rem !important;
+}
+
+.fw-400 {
+    font-weight: 400 !important;
+}
+
+.fw-500 {
+    font-weight: 500 !important;
+}
+
+.fw-700 {
+    font-weight: 700 !important;
+}
+
+.rounded-small {
+    border-radius: 2px !important;
+}
+
+.rounded-normal {
+    border-radius: 4px !important;
+}
+
+.rounded-large {
+    border-radius: 6px !important;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+
+.rounded-none {
+    border-radius: 0 !important;
+}
+
+.divider-top {
+    border-top: 1px solid $dividerColor !important;
+}
+
+.divider-bottom {
+    border-bottom: 1px solid $dividerColor !important;
+}
+
+.divider-left {
+    border-left: 1px solid $dividerColor !important;
+}
+
+.divider-right {
+    border-right: 1px solid $dividerColor !important;
+}
+
+.muted-text {
+    color: $textSecondaryColor !important;
+}
+
+.text-color {
+    color: $textColor !important;
+}
+
+.solid-surface-text-color {
+    color: $solidSurfaceTextColor !important;
+}
+
+.white-color {
+    color: #ffffff !important;
+}
+
+.dark-color {
+    color: #212121 !important;
+}
+
+.pink-color {
+    color: $pink !important;
+}
+
+.indigo-color {
+    color: $indigo !important;
+}
+
+.yellow-color {
+    color: $yellow !important;
+}
+
+.orange-color {
+    color: $orange !important;
+}
+
+.teal-color {
+    color: $teal !important;
+}
+
+.cyan-color {
+    color: $cyan !important;
+}
+
+.bluegrey-color {
+    color: $bluegrey !important;
+}
+
+.purple-color {
+    color: $purple !important;
+}
+
+.deeppurple-color {
+    color: $deeppurple !important;
+}
+
+.blue-color {
+    color: $blue !important;
+}
+
+.lightblue-color {
+    color: $lightblue !important;
+}
+
+.green-color {
+    color: $green !important;
+}
+
+.lightgreen-color {
+    color: $lightgreen !important;
+}
+
+.lime-color {
+    color: $lime !important;
+}
+
+.deeporange-color {
+    color: $deeporange !important;
+}
+
+.brown-color {
+    color: $brown !important;
+}
+
+.content-bgcolor {
+    background-color: $contentBgColor !important;
+}
+
+.content-alt-bgcolor {
+    background-color: $contentAltBgColor !important;
+}
+
+.pink-bgcolor {
+    background-color: $pink !important;
+}
+
+.indigo-bgcolor {
+    background-color: $indigo !important;
+}
+
+.yellow-bgcolor {
+    background-color: $yellow !important;
+}
+
+.orange-bgcolor {
+    background-color: $orange !important;
+}
+
+.teal-bgcolor {
+    background-color: $teal !important;
+}
+
+.cyan-bgcolor {
+    background-color: $cyan !important;
+}
+
+.bluegrey-bgcolor {
+    background-color: $bluegrey !important;
+}
+
+.purple-bgcolor {
+    background-color: $purple !important;
+}
+
+.deeppurple-bgcolor {
+    background-color: $deeppurple !important;
+}
+
+.blue-bgcolor {
+    background-color: $blue !important;
+}
+
+.lightblue-bgcolor {
+    background-color: $lightblue !important;
+}
+
+.green-bgcolor {
+    background-color: $green !important;
+}
+
+.lightgreen-bgcolor {
+    background-color: $lightgreen !important;
+}
+
+.lime-bgcolor {
+    background-color: $lime !important;
+}
+
+.deeporange-bgcolor {
+    background-color: $deeporange !important;
+}
+
+.brown-bgcolor {
+    background-color: $brown !important;
+}
+
+.badge-dot {
+    width: .5rem;
+    min-width: .5rem;
+    height: .5rem;
+    border-radius: 50%;
     padding: 0;
-    
-    .ui-panel-content {
-        padding: 0;
-    }
-}
-
-@-webkit-keyframes fadeInDown {
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-
-  to {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translate3d(0, -20px, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@-webkit-keyframes fadeOutUp {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-}
-
-@keyframes fadeOutUp {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-}
-
-.fadeInDown {
-    -webkit-animation-name: fadeInDown;
-    animation-name: fadeInDown;
- }
- 
- .fadeOutUp {
-     -webkit-animation-name: fadeOutUp;
-     animation-name: fadeOutUp;
-  }
-
-.ui-shadow-1 {
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.ui-shadow-2 {
-    -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-.ui-shadow-3 {
-    -webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    -moz-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
-
-.ui-shadow-4 {
-    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-
-.ui-shadow-5 {
-    -webkit-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-    -moz-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-}
-
-.ui-g {
-    &.form-group {
-        > div {
-            padding: .75em 1em;
-        }
-    }
-    
-    &.form-group-m {
-        > div {
-            padding: 1em;
-        }
-    }
-}
-
-/* Ripple */
-/* Ripple Effect Style like Google Material Buttons Effect*/
-.ripplelink{
-    /* display:block; */
-    /*color:#fff;*/
-    text-decoration:none;
-    position:relative;
-    overflow:hidden;
-    -webkit-transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    -o-transition: all 0.2s ease;
-    transition: all 0.2s ease;
-    z-index:0;
-}
-
-.ripplelink:hover{
-	/*z-index:1000;*/
-}
-
-.ink {
-  display: block;
-  position: absolute;
-  background:rgba(255, 255, 255, 0.4);
-  border-radius: 100%;
-  -webkit-transform:scale(0);
-     -moz-transform:scale(0);
-       -o-transform:scale(0);
-          transform:scale(0);
-}
-
-.ripple-animate {
-	-webkit-animation:ripple 0.65s linear;
-   -moz-animation:ripple 0.65s linear;
-    -ms-animation:ripple 0.65s linear;
-     -o-animation:ripple 0.65s linear;
-        animation:ripple 0.65s linear;
-}
-
-@-webkit-keyframes ripple {
-    100% {opacity: 0; -webkit-transform: scale(2.5);}
-}
-@-moz-keyframes ripple {
-    100% {opacity: 0; -moz-transform: scale(2.5);}
-}
-@-o-keyframes ripple {
-    100% {opacity: 0; -o-transform: scale(2.5);}
-}
-@keyframes ripple {
-    100% {opacity: 0; transform: scale(2.5);}
 }

@@ -48,8 +48,8 @@ describe("ExportsComponent", () => {
             ],
           },
         })
-        .compileComponents()
-        .catch((e) => console.error(e));
+        .compileComponents();
+      //.catch((e) => console.error(e));
       fixture = TestBed.createComponent(ExportsComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

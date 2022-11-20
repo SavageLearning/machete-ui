@@ -1,0 +1,26 @@
+@media (min-width: $mobileBreakpoint + 1) {
+    .layout-menu-static {
+        .menu-wrapper {
+            transform: translate3d(-17rem, 0px, 0px);
+            transition: transform $transitionDuration;
+        }
+
+        .layout-main {
+            transition: margin-left $transitionDuration;
+        }
+
+        &.layout-menu-active {
+            .menu-wrapper {
+                transform: translate3d(0px, 0px, 0px);
+            }
+
+            .layout-topbar .layout-topbar-left .layout-menu-button > i {
+                transform: rotate(180deg);
+            }
+
+            .layout-main {
+                margin-left: 17rem;
+            }
+        }
+    }
+}

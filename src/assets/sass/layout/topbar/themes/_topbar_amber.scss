@@ -1,0 +1,13 @@
+.layout-topbar-amber {
+    $topbarBgColor: #FFA000;
+    $topbarLeftBgColor: #FF8F00;
+
+    $topbarMenuButtonBgColor:#212121;
+    $topbarMenuButtonTextColor:#ffffff;
+
+    $topbarItemTextColor: #212121;
+    $topbarItemTextHoverBgColor: rgba(0,0,0,.12);
+
+    @import '../_topbar_exports';
+    @import '../_topbar_theme';
+}

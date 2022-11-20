@@ -1,0 +1,25 @@
+.layout-help-page {
+    .layout-help-page-header {
+        position: relative;
+
+        .layout-help-page-header-text {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            margin-top: -1.75rem;
+            color: #ffffff;
+        }
+
+        .layout-help-page-search {
+            position: absolute;
+            left: 2rem;
+            bottom: -1rem;
+            border-radius: 4px;
+            width: calc(100% - 4rem);
+
+            .p-inputtext {
+                border: 0 none;
+            }
+        }
+    }
+}

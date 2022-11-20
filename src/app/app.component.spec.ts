@@ -2,11 +2,7 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
 import { AppTopBarComponent } from "./app.topbar.component";
-import { InlineProfileComponent } from "./menu/app.profile.component";
-import {
-  AppMenuComponent,
-  AppSubMenuComponent,
-} from "./menu/app.menu.component";
+import { AppMenuComponent } from "./app.menu.component";
 import { AppFooterComponent } from "./app.footer.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { PageNotFoundComponent } from "./not-found.component";
@@ -24,10 +20,8 @@ describe("AppComponent", () => {
         declarations: [
           AppComponent,
           AppMenuComponent,
-          AppSubMenuComponent,
           AppTopBarComponent,
           AppFooterComponent,
-          InlineProfileComponent,
           PageNotFoundComponent,
           AuthorizeComponent,
         ],

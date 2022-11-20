@@ -1,0 +1,50 @@
+@import "./_rtl_menu";
+@import "./topbar/_rtl_topbar";
+
+.layout-wrapper {
+  &.layout-rtl {
+    .layout-megamenu {
+      &.p-megamenu .p-menuitem-link .p-menuitem-icon {
+        margin-right: 0;
+        margin-left: 0.5rem;
+      }
+    }
+
+    .layout-config-button.p-button {
+      right: auto;
+      left: 0;
+      border-top-right-radius: $borderRadius;
+      border-bottom-right-radius: $borderRadius;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+
+      .p-button-icon {
+        font-size: 2rem;
+      }
+    }
+
+    .widget-bestsellers > li .bestseller-item .item-button {
+      margin-left: 0;
+      margin-right: auto;
+    }
+
+    .widget-chat {
+      .write-message {
+        .p-inputgroup-addon:first-child {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          border-top-right-radius: 30px;
+          border-bottom-right-radius: 30px;
+          border-left-width: 0;
+        }
+
+        .p-inputgroup-addon:last-child {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-top-left-radius: 30px;
+          border-bottom-left-radius: 30px;
+        }
+      }
+    }
+  }
+}

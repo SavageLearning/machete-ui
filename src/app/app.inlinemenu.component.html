@@ -1,0 +1,37 @@
+<div [ngClass]="{'layout-inline-menu': true, 'layout-inline-menu-active':appMain.inlineMenuActive[key]}" [ngStyle]="style" [class]="styleClass">
+    <a class="layout-inline-menu-action flex flex-row align-items-center" [ngClass]="appMain.isHorizontal() ? 'p-3 lg:col-1 py-3' : 'p-3'" (click)="onClick($event)"
+        pTooltip="Amy Elsner" [tooltipDisabled]="isTooltipDisabled">
+        <img src="assets/layout/images/avatar.png" alt="avatar" style="width: 32px; height: 32px;">
+        <span class="flex flex-column" [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
+            <span class="font-bold">{{this.username}}</span>
+        </span>
+        <i class="layout-inline-menu-icon pi pi-angle-down" [ngClass]="{'ml-auto': !app.isRTL, 'mr-auto': app.isRTL}"></i>
+    </a>
+
+    <ul class="layout-inline-menu-action-panel" [@menu]="appMain.inlineMenuActive[key] ? isHorizontalActive() ? 'visible' : 'visibleAnimated' : isHorizontalActive() ? 'hidden' : 'hiddenAnimated'">
+        <li class="layout-inline-menu-action-item" pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled">
+            <a class="flex flex-row align-items-center" [attr.tabindex]="tabIndex">
+                <i class="pi pi-cog pi-fw"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+        <li class="layout-inline-menu-action-item" pTooltip="Terms of Usage" [tooltipDisabled]="isTooltipDisabled">
+            <a class="flex flex-row align-items-center" [attr.tabindex]="tabIndex">
+                <i class="pi pi-file-o pi-fw"></i>
+                <span>Terms of Usage</span>
+            </a>
+        </li>
+        <li class="layout-inline-menu-action-item" pTooltip="Support" [tooltipDisabled]="isTooltipDisabled">
+            <a class="flex flex-row align-items-center" [attr.tabindex]="tabIndex">
+                <i class="pi pi-compass pi-fw"></i>
+                <span>Support</span>
+            </a>
+        </li>
+        <li class="layout-inline-menu-action-item" pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled">
+            <a class="flex flex-row align-items-center" [attr.tabindex]="tabIndex">
+                <i class="pi pi-power-off pi-fw"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
+</div>

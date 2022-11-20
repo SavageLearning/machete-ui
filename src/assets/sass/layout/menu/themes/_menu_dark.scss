@@ -1,0 +1,15 @@
+.layout-menu-dark {
+    $menuBgColor:#1e1e1e;
+    
+    $rootMenuTextColor:rgba(255,255,255,.60);
+
+    $menuItemTextColor:rgba(255,255,255,.87);
+    $menuItemHoverBgColor:hsla(0,0%,100%,.04);
+    $activeMenuItemTextColor:rgba(255,255,255,.87);
+    $activeMenuItemBgColor: hsla(0,0%,100%,.04);
+
+    $inlineMenuBorderColor: hsla(0,0%,100%,.12);
+
+    @import '../_menu_exports';
+    @import '../_menu_theme';
+}

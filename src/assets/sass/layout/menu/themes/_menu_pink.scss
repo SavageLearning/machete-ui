@@ -1,0 +1,16 @@
+.layout-menu-pink {
+    $menuBgColor:#880E4F;
+
+    $rootMenuTextColor:#ffffff;
+
+    $menuItemTextColor:rgba(255,255,255,.6);
+    $menuItemHoverBgColor:rgba(255,255,255,.12);
+    $activeMenuItemTextColor:#ffffff;
+    $activeMenuItemBgColor: rgba(255,255,255,.24);
+
+    $inlineMenuBorderColor: rgba(255,255,255,.24);
+
+    @import '../_menu_exports';
+    @import '../_menu_theme';
+}
+

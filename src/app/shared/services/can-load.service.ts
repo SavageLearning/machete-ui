@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { CanLoad, Route, Router, UrlSegment, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
-import { loadMenuRules } from "src/app/menu/load-menu-rules";
-import { MenuRule } from "src/app/menu/menu-rule";
+import { loadMenuRules } from "src/app/load-menu-rules";
+import { MenuRule } from "src/app/menu-rule";
 import { AuthService } from "./auth.service";
 
 @Injectable({
@@ -26,10 +26,23 @@ export class CanLoadService implements CanLoad {
   }
 
   private inAuthorizedRoute(menuRules: MenuRule[], route: Route): boolean {
+    console.log(route, menuRules);
+    let flatRules = this.flatten(menuRules);
     return (
-      menuRules.find((mr) =>
-        mr.routerLink.find((rl) => rl.includes(route.path))
+      flatRules.find((mr) =>
+        mr.routerLink?.find((rl) => rl.includes(route.path))
       ) !== undefined
     );
+  }
+
+  private flatten(menuRules: MenuRule[]): MenuRule[] {
+    let result = new Array<MenuRule>();
+    menuRules.forEach((rule) => {
+      result.push(rule);
+      if (Array.isArray(rule.items)) {
+        result = result.concat(this.flatten(rule.items));
+      }
+    });
+    return result;
   }
 }
