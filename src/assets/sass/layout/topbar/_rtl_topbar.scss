@@ -1,0 +1,92 @@
+.layout-wrapper {
+	&.layout-rtl {
+        direction: rtl;
+
+        .layout-topbar {
+            left: auto;
+            right: 0;
+
+            .layout-topbar-left {
+                .layout-topbar-logo {
+                    padding-right: 0;
+                    padding-left: 1.25rem;
+                }
+
+                .layout-menu-button {
+                    left: auto;
+                    right: 15.75rem;
+                }
+
+                .layout-topbar-mobile-button {
+                    margin: 0 auto 0 .5rem;
+                }
+            }
+
+            .layout-topbar-right {
+                padding-left: 0;
+                padding-right: 2rem;
+
+                .layout-topbar-actions-right {
+                    .layout-topbar-items {
+                        .layout-topbar-item {
+                            .layout-topbar-action-panel {
+                                right: auto;
+                                left: 0;
+                            }
+
+                            &.layout-search-item {
+                                .layout-search-panel {
+                                    left: auto;
+                                    right: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .layout-topbar-actions-left {
+                    .layout-megamenu {
+                        &.p-megamenu {
+                            .p-megamenu-root-list {
+                                > .p-menuitem {
+                                    > .p-menuitem-link {
+                                        .p-submenu-icon {
+                                            margin-left: 0;
+                                            margin-right: .5rem;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @media (max-width: $mobileBreakpoint) {
+            .layout-topbar {
+                .layout-topbar-right {
+                    .layout-topbar-actions-left {
+                        .layout-megamenu {
+                            .p-megamenu-panel {
+                                left: 1rem;
+                                right: 1rem;
+                            }
+                        }
+                    }
+
+                    .layout-topbar-actions-right {
+                        .layout-topbar-items {
+                            .layout-topbar-item {
+                                .layout-topbar-action-panel {
+                                    left: 1em;
+                                    right: 1em;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

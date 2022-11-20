@@ -21,7 +21,15 @@
               "file-saver",
               "paypal-checkout",
               "content-disposition",
-              "@ctrl/ngx-codemirror"
+              "@ctrl/ngx-codemirror",
+              "codemirror/addon/edit/closebrackets",
+              "codemirror/addon/edit/closetag",
+              "codemirror/addon/edit/matchbrackets",
+              "codemirror/addon/hint/show-hint",
+              "codemirror/addon/hint/sql-hint",
+              "codemirror/addon/scroll/simplescrollbars",
+              "codemirror/addon/selection/active-line",
+              "codemirror/mode/sql/sql"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
@@ -29,7 +37,14 @@
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "assets": [
-              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "ignore": [
+                  "**/*.scss"
+                ],
+                "output": "/assets/"
+              },
               "src/favicon.ico",
               {
                 "glob": "**/*.js",
@@ -64,11 +79,7 @@
               "node_modules/codemirror/addon/hint/show-hint.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
-              "src/assets/layout/js/ripple.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "test": {
@@ -182,11 +193,7 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
-              "src/assets/layout/js/ripple.js"
-            ],
+            "scripts": [],
             "styles": [
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/nanoscroller/bin/css/nanoscroller.css",
@@ -248,13 +255,12 @@
         }
       }
     }
-
   },
   "defaultProject": "machete-ui",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "style": "css"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

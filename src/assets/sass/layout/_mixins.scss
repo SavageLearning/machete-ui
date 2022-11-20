@@ -1,0 +1,55 @@
+@mixin nested-submenu-indents($val, $index, $length) {
+    ul {
+        li {
+            a {
+                padding-left: $val * $index;
+            }
+
+            @if $index < $length {
+                @include nested-submenu-indents($val, $index + 1, $length);
+            }
+        }
+    }
+}
+
+@mixin nested-submenu-indents-rtl($val, $index, $length) {
+    ul {
+        li {
+            a {
+                padding-left: .5rem;
+                padding-right: $val * $index;
+            }
+
+            @if $index < $length {
+                @include nested-submenu-indents-rtl($val, $index + 1, $length);
+            }
+        }
+    }
+}
+
+@mixin input-placeholder($color) {
+    &::-webkit-input-placeholder {color: $color}
+    &:-moz-placeholder           {color: $color}
+    &::-moz-placeholder          {color: $color}
+    &:-ms-input-placeholder      {color: $color}
+}
+
+@mixin reset-list {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+@mixin material-overlay-transform {
+    transform-origin: top;
+}
+
+@mixin material-overlay-animation {
+    @include material-overlay-transform;
+    animation-name: overlayEnter;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    animation-duration: .12s;
+}

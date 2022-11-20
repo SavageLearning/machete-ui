@@ -1,0 +1,104 @@
+.menu-wrapper {
+    background-color: $menuBgColor;
+    box-shadow: $menuShadow;
+
+    .layout-menu-container {
+        .layout-menu {
+            > li {
+                > div {
+                    .layout-menuitem-text {
+                        color: $rootMenuTextColor;
+                    }
+                }
+
+                > ul {
+                    background-color: $menuBgColor;
+                }
+            }
+
+            li {
+                a {
+                    color: $menuItemTextColor;
+
+                    i {
+                        color: $menuItemTextColor;
+                    }
+
+                    &:hover {
+                        background-color: $menuItemHoverBgColor;
+                    }
+                }
+
+                &.active-menuitem {
+                    > a {
+                        background-color: $activeMenuItemBgColor;
+                        color: $activeMenuItemTextColor;
+
+                        > i {
+                            color: $activeMenuItemTextColor;
+                        }
+                    }
+
+                    a.active-menuitem-routerlink {
+                        background-color: $activeMenuItemBgColor;
+                        color: $activeMenuItemTextColor;
+
+                        > i {
+                            color: $activeMenuItemTextColor;
+                        }
+                    }
+                }
+            }
+        }
+
+        .layout-inline-menu {
+            border-color: $inlineMenuBorderColor;
+
+            a {
+                color: $menuItemTextColor;
+            }
+
+            .layout-inline-menu-action,
+            .layout-inline-menu-action-panel .layout-inline-menu-action-item {
+                color: $menuItemTextColor;
+
+                i {
+                    color: $menuItemTextColor;
+                }
+
+                &:hover {
+                    background-color: $menuItemHoverBgColor;
+                }
+            }
+
+            .layout-inline-menu-action-panel {
+                background-color: $menuBgColor;
+            }
+        }
+    }
+}
+
+@media (min-width: $mobileBreakpoint + 1) {
+    &.layout-menu-horizontal,
+    &.layout-menu-slim {
+        .menu-wrapper {
+            .layout-menu-container {
+                .layout-menu {
+                    > li {
+                        > ul {
+                            box-shadow: $submenuShadow;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.layout-menu-horizontal {
+        .layout-inline-menu {
+            .layout-inline-menu-action-panel {
+                box-shadow: $submenuShadow;
+            }
+        }
+    }
+}

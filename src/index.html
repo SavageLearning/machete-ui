@@ -12,29 +12,18 @@
   <link rel="icon" type="image/x-icon" href="assets/layout/images/favicon.png">
 
   <!-- Layout CSS -->
-  <link id="theme-css" rel="stylesheet" type="text/css" href="assets/theme/theme-dark-blue.css">
-  <link id="layout-css" rel="stylesheet" type="text/css" href="assets/layout/css/layout-dark-blue.css">
-  <script>
-    var global = global || window;
-    var Buffer = Buffer || [];
-    var process = process || {
-      env: { DEBUG: undefined },
-      version: []
-    };
-  </script>
+  <link id="theme-css" rel="stylesheet" type="text/css" href="assets/theme/bluegrey/theme-light.css">
+  <link id="layout-css" rel="stylesheet" type="text/css" href="assets/layout/css/layout-light.css">
 </head>
 <body>
     <app-root>
-        <!--<div class="splash-screen">-->
-            <!--<div class="splash-container">-->
-              <!--<div class="logo"></div>-->
-              <!--<div class="load-bar">-->
-                  <!--<div class="bar"></div>-->
-                  <!--<div class="bar"></div>-->
-                  <!--<div class="bar"></div>-->
-              <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="splash-screen">
+            <div class="splash-loader-container">
+                <svg class="splash-loader" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                   <circle class="splash-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+                </svg>
+            </div>
+        </div>
     </app-root>
 </body>
 </html>

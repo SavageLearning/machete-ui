@@ -1,0 +1,30 @@
+@media (min-width: $mobileBreakpoint + 1) {
+    .layout-menu-overlay {
+        
+        .menu-wrapper {
+            transform: translate3d(-17rem, 0px, 0px);
+            transition: transform $transitionDuration;
+            transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        &.layout-menu-active {
+            .menu-wrapper {
+                transform: translate3d(0px, 0px, 0px);
+            }
+
+            .layout-topbar .layout-topbar-left .layout-menu-button > i {
+                transform: rotate(180deg);
+            }
+        }
+
+        .layout-topbar {
+            .layout-topbar-wrapper {
+                .layout-topbar-right {
+                    .menu-button {
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }
+}

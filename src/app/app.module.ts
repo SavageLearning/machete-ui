@@ -1,29 +1,42 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
+import { BreadcrumbModule } from "primeng/breadcrumb";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { MegaMenuModule } from "primeng/megamenu";
+import { SidebarModule } from "primeng/sidebar";
 
 import { AppComponent } from "./app.component";
-import {
-  AppMenuComponent,
-  AppSubMenuComponent,
-} from "./menu/app.menu.component";
+import { AppMenuComponent } from "./app.menu.component";
 import { AppTopBarComponent } from "./app.topbar.component";
 import { AppFooterComponent } from "./app.footer.component";
-import { InlineProfileComponent } from "./menu/app.profile.component";
 import { PageNotFoundComponent } from "./not-found.component";
 
 import { ToastModule } from "primeng/toast";
+import { DialogModule } from "primeng/dialog";
 
 import { MessagesComponent } from "./shared/components/messages/messages.component";
 import { ButtonModule } from "primeng/button";
 import { WelcomeComponent } from "./welcome/welcome.component";
-import { CommonModule } from "@angular/common";
+import {
+  CommonModule,
+  HashLocationStrategy,
+  LocationStrategy,
+  PathLocationStrategy,
+} from "@angular/common";
 import { ApiModule, Configuration } from "machete-client";
 import { environment } from "../environments/environment";
 import { FileDownloadHttpInterceptor } from "./FileDownloadHttpInterceptor";
+import { MenuService } from "./app.menu.service";
+import { AppBreadcrumbService } from "./app.breadcrumb.service";
+import { AppInlineMenuComponent } from "./app.inlinemenu.component";
+import { AppMainComponent } from "./app.main.component";
+import { AppConfigComponent } from "./app.config.component";
+import { AppRightMenuComponent } from "./app.rightmenu.component";
+import { AppMenuitemComponent } from "./app.menuitem.component";
+import { AppBreadcrumbComponent } from "./app.breadcrumb.component";
 /**
  * Import only the modules needed for the first render of the app
  * Only what's required for the components that load first before any other lazy loaded routes.
@@ -35,11 +48,15 @@ import { FileDownloadHttpInterceptor } from "./FileDownloadHttpInterceptor";
 @NgModule({
   declarations: [
     AppComponent,
+    AppMainComponent,
+    AppConfigComponent,
     AppMenuComponent,
-    AppSubMenuComponent,
+    AppMenuitemComponent,
+    AppInlineMenuComponent,
+    AppRightMenuComponent,
+    AppBreadcrumbComponent,
     AppTopBarComponent,
     AppFooterComponent,
-    InlineProfileComponent,
     PageNotFoundComponent,
     MessagesComponent,
     WelcomeComponent,
@@ -47,25 +64,32 @@ import { FileDownloadHttpInterceptor } from "./FileDownloadHttpInterceptor";
   imports: [
     CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
     ToastModule,
+    BreadcrumbModule,
     ButtonModule,
+    DialogModule,
+    MegaMenuModule,
+    SidebarModule,
     ApiModule.forRoot(() => {
       return new Configuration({
         basePath: `${environment.dataUrl}`,
         withCredentials: true,
       });
     }),
-    HttpClientModule,
   ],
   providers: [
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+    MenuService,
+    AppBreadcrumbService,
     {
       // https://stackoverflow.com/questions/60864073/angular-5-api-swagger-body-responsetype-blob
       // generated-client doesn't detect octet stream properly
-      provide: HTTP_INTERCEPTORS,
       useClass: FileDownloadHttpInterceptor,
+      provide: HTTP_INTERCEPTORS,
       multi: true,
     },
   ],

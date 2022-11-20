@@ -1,0 +1,38 @@
+$bodyBgColor:#121212 !default;
+$textColor:rgba(255,255,255,.87) !default;
+$textSecondaryColor:rgba(255,255,255,.60) !default;
+
+$contentBgColor:#1e1e1e !default;
+$contentAltBgColor:#262626 !default;
+$overlayContentBgColor:#262626 !default;
+$dividerColor:hsla(0,0%,100%,.12) !default;
+$hoverBgColor:hsla(0,0%,100%,.04);
+$solidSurfaceTextColor: #121212 !default;
+
+$menuShadow: 2px 0 4px -1px rgba(0, 0, 0, 0.2), 4px 0 5px 0 rgba(0, 0, 0, 0.14), 1px 0 10px 0 rgba(0, 0, 0, 0.12);
+$submenuShadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+$menuTooltipBgColor:#262626 !default;
+$menuTooltipTextColor:rgba(255,255,255,.87) !default;
+
+$pink: #F06292 !default;
+$indigo: #7986CB !default;
+$yellow: #FFD54F !default;
+$orange: #FFB74D !default;
+$teal: #4DB6AC !default;
+$cyan: #4DD0E1 !default;
+$bluegrey: #78909C !default;
+$purple: #BA68C8 !default;
+$deeppurple: #9575CD !default;
+$blue: #64B5F6 !default;
+$lightblue: #03A9F4 !default;
+$green: #81C784 !default;
+$lightgreen: #8BC34A !default;
+$lime: #DCE775 !default;
+$deeporange: #FF8A65 !default;
+$brown: #A1887F !default;
+
+:root {
+    --divider-color:#{$dividerColor};
+}
+
+@import './_layout_common';

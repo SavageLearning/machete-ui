@@ -1,0 +1,13 @@
+.layout-topbar-yellow {
+    $topbarBgColor: #FBC02D;
+    $topbarLeftBgColor: #F9A825;
+
+    $topbarMenuButtonBgColor:#212121;
+    $topbarMenuButtonTextColor:#ffffff;
+
+    $topbarItemTextColor: #212121;
+    $topbarItemTextHoverBgColor: rgba(0,0,0,.12);
+
+    @import '../_topbar_exports';
+    @import '../_topbar_theme';
+}

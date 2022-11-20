@@ -1,0 +1,13 @@
+.layout-topbar-lime {
+    $topbarBgColor: #AFB42B;
+    $topbarLeftBgColor: #9E9D24;
+
+    $topbarMenuButtonBgColor:#F57C00;
+    $topbarMenuButtonTextColor:#212121;
+
+    $topbarItemTextColor: #212121;
+    $topbarItemTextHoverBgColor: rgba(0,0,0,.12);
+
+    @import '../_topbar_exports';
+    @import '../_topbar_theme';
+}

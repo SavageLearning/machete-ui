@@ -1,235 +1,346 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <title>PrimeNG - ULTIMA</title>
+    <script>document.write('<base href="' + document.location + '" />');</script>
 
-  <head>
-      <script>document.write('<base href="' + document.location + '" />');</script>
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <title>PrimeNG - ULTIMA</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="icon" type="image/x-icon" href="assets/layout/images/favicon.png">
 
-      <link rel="stylesheet" type="text/css" href="../theme/theme-dark-blue.css.css">
-      <link rel="stylesheet" type="text/css" href="../layout/css/layout-dark-blue.css">
-      <link rel="stylesheet" type="text/css" href="primeng.min.css">
+    <link id="theme-css" rel="stylesheet" type="text/css" href="../theme/bluegrey/theme-light.css">
+    <link id="layout-css" rel="stylesheet" type="text/css" href="../layout/css/layout-light.css">
+    <link rel="stylesheet" type="text/css" href="primeng.min.css">
+    <link rel="stylesheet" type="text/css" href="primeflex.min.css">
+    <link rel="stylesheet" type="text/css" href="primeicons.css">
 
-      <script src="jquery.js"></script>
-      <script type="text/javascript">
-          $(function() {
-              $('#menu-button').on('click', function(e) {
-                  var menu = $('#menu');
-                  if(menu.hasClass('lmenu-active')) {
-                      menu.addClass('fadeOutUp');
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
 
-                      setTimeout(function() {
-                          menu.removeClass('fadeOutUp fadeInDown lmenu-active');
-                      },500);
-                  }
-                  else {
-                      menu.addClass('lmenu-active fadeInDown');
-                  }
-                  e.preventDefault();
-              });
-          });
-      </script>
-  </head>
+        .videoFrame{
+            width: 560px;
+            height: 300px;
+        }
 
-  <body class="landing-body">
-      <div class="landing-wrapper">
-          <div id="header">
-              <div class="header-top clearfix">
-                  <span class="logo"></span>
+        @media screen and (max-width: 960px) {
+            .videoFrame{
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="landing-container">
+    <button class="landing-color-button p-button-rounded p-button-secondary p-button p-component p-button-icon-only p-4" onclick="changeLandingColor(event)">
+        <span class="p-button-icon pi pi-moon fs-xlarge" aria-hidden="true"></span>
+        <span aria-hidden="true" class="p-button-label">&amp;nbsp;</span>
+    </button>
 
-                  <a id="menu-button" href="#">
-                      <i class="material-icons">menu</i>
-                  </a>
-                  <ul id="menu" class="animated">
-                     <li><a href="#"><i class="ui-icon ui-icon-home"></i><span>Home</span></a></li>
-                     <li><a href="#introduction"><i class="ui-icon ui-icon-open-in-browser"></i><span>Introduction</span></a></li>
-                     <li><a href="#features"><i class="ui-icon ui-icon-list"></i><span>Features</span></a></li>
-                     <li><a href="#promotion"><i class="ui-icon ui-icon-group-work"></i><span>Promotion</span></a></li>
-                     <li><a href="#pricing"><i class="ui-icon ui-icon-attach-money"></i><span>Pricing</span></a></li>
-                     <li><a href="#video"><i class="ui-icon ui-icon-videocam"></i><span>Video</span></a></li>
-                  </ul>
-              </div>
+    <div id="header" class="section flex flex-column">
+        <div class="header-menu-container flex align-items-center justify-content-between">
+            <a class="layout-topbar-logo" routerLink="/">
+                <img src="../layout/images/logo2x.png" alt="ultima-layout" style="height: 24px">
+            </a>
 
-              <div class="header-content clearfix">
-                  <h1>Your application slogan comes here</h1>
-                  <a href="/" class="ui-button secondary">
-                      <span class="ui-button-text">Sign Up Now</span>
-                  </a>
-              </div>
-          </div>
+            <a id="menu-button" href="#" class="lg:hidden">
+                <i class="pi pi-bars fs-xlarge"></i>
+            </a>
+            <ul id="menu">
+                <li><a href="#" class="flex p-3">Home</a></li>
+                <li><a href="#header" class="flex p-3">Introduction</a></li>
+                <li><a href="#features" class="flex p-3">Features</a></li>
+                <li><a href="#promotion" class="flex p-3">Promotion</a></li>
+                <li><a href="#pricing" class="flex p-3">Pricing</a></li>
+                <li><a href="#video" class="flex pl-3 py-3">Video</a></li>
+            </ul>
+        </div>
 
-          <div id="features">
-              <h2>The Ultimate Material Application Template for PrimeNG</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse delectus sit velit, aspernatur voluptates molestiae, enim recusandae. Odit dicta, maiores quas ad nesciunt, illum expedita veritatis illo quam odio id!</p>
+        <div class="header-text flex flex-column align-items-center justify-content-center">
+            <h1 class="mb-6 white-color">Your application slogan comes here</h1>
+            <a href="/" class="p-button p-button-secondary">
+                <span class="p-button-text">Sign Up Now</span>
+            </a>
+        </div>
+    </div>
 
-              <div class="ui-g">
-                  <div class="ui-g-12 ui-md-4">
-                      <h3>Creative</h3>
-                      <p>Lorem ipsum dolor sit amet</p>
-                      <div class="feature-icon">
-                          <i class="material-icons">&#xE150;</i>
-                      </div>
-                  </div>
-                  <div class="ui-g-12 ui-md-4">
-                      <h3>Responsive</h3>
-                      <p>Lorem ipsum dolor sit amet</p>
-                      <div class="feature-icon">
-                          <i class="material-icons">&#xE32C;</i>
-                      </div>
-                  </div>
-                  <div class="ui-g-12 ui-md-4">
-                      <h3>Cross Browser</h3>
-                      <p>Lorem ipsum dolor sit amet</p>
-                      <div class="feature-icon">
-                          <i class="material-icons">&#xE89D;</i>
-                      </div>
-                  </div>
+    <div id="features" class="section flex flex-column align-items-center">
+        <h2>The Ultimate Material Application Template for PrimeNG</h2>
+        <p class="text-center">PrimeNG is a collection of rich UI components for Angular. PrimeNG is developed by PrimeTek Informatics, a vendor with years of expertise in developing open source UI solutions.
+            Allocate your valuable time on business logic rather than dealing with the complex user interface requirements.
+        </p>
 
-                  <div class="ui-g-12 ui-md-4">
-                      <div class="feature-icon">
-                          <i class="material-icons">&#xE259;</i>
-                      </div>
-                      <h3>Well Organized</h3>
-                      <p>Well Organ</p>
-                  </div>
-                  <div class="ui-g-12 ui-md-4">
-                      <div class="feature-icon">
-                          <i class="material-icons">&#xE40A;</i>
-                      </div>
-                      <h3>Beautiful</h3>
-                      <p>Lorem ipsum dolor sit amet</p>
-                  </div>
-                  <div class="ui-g-12 ui-md-4">
-                      <div class="feature-icon">
-                          <i class="material-icons">&#xE86C;</i>
-                      </div>
-                      <h3>Just For you</h3>
-                      <p>Lorem ipsum dolor sit amet</p>
-                  </div>
-              </div>
-          </div>
+        <div class="grid mt-3 mx-0">
+            <div class="col-12 md:col-4 text-center">
+                <h3>Creative</h3>
+                <button class="feature-button p-button-rounded p-button-plain p-button-text p-button p-component p-button-icon-only">
+                    <span class="p-button-icon pi pi-pencil fs-xlarge" aria-hidden="true"></span>
+                    <span aria-hidden="true" class="p-button-label">&amp;nbsp;</span>
+                </button>
+            </div>
+            <div class="col-12 md:col-4 text-center">
+                <h3>Responsive</h3>
+                <button class="feature-button p-button-rounded p-button-plain p-button-text p-button p-component p-button-icon-only">
+                    <span class="p-button-icon pi pi-mobile fs-xlarge" aria-hidden="true"></span>
+                    <span aria-hidden="true" class="p-button-label">&amp;nbsp;</span>
+                </button>
+            </div>
+            <div class="col-12 md:col-4 text-center">
+                <h3>Cross Browser</h3>
+                <button class="feature-button p-button-rounded p-button-plain p-button-text p-button p-component p-button-icon-only">
+                    <span class="p-button-icon pi pi-upload fs-xlarge" aria-hidden="true"></span>
+                    <span aria-hidden="true" class="p-button-label">&amp;nbsp;</span>
+                </button>
+            </div>
 
-          <div id="promotion" class="clearfix">
-              <div class="ui-g">
-                  <div class="ui-g-12 ui-lg-8">
-                      <h1>Boost Your Productivity.</h1>
-                      <a href="/" class="ui-button secondary">
-                          <span class="ui-button-text">Sign Up Now</span>
-                      </a>
-                  </div>
-                  <div class="ui-g-12 ui-lg-4">
-                      <div class="card">
-                          <h3>Just</h3>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab perferendis nesciunt ad reiciendis explicabo consequatur sapiente odit ipsa harum illum, necessitatibus quaerat voluptates aspernatur iure, aperiam possimus sint sit mollitia!</p>
-                      </div>
+            <div class="col-12 md:col-4 text-center">
+                <button class="feature-button p-button-rounded p-button-plain p-button-text p-button p-component p-button-icon-only">
+                    <span class="p-button-icon pi pi-tag fs-xlarge" aria-hidden="true"></span>
+                    <span aria-hidden="true" class="p-button-label">&amp;nbsp;</span>
+                </button>
+                <h3>Well Organized</h3>
+            </div>
+            <div class="col-12 md:col-4 text-center">
+                <button class="feature-button p-button-rounded p-button-plain p-button-text p-button p-component p-button-icon-only">
+                    <span class="p-button-icon pi pi-palette fs-xlarge" aria-hidden="true"></span>
+                    <span aria-hidden="true" class="p-button-label">&amp;nbsp;</span>
+                </button>
+                <h3>Beautiful</h3>
+            </div>
+            <div class="col-12 md:col-4 text-center">
+                <button class="feature-button p-button-rounded p-button-plain p-button-text p-button p-component p-button-icon-only">
+                    <span class="p-button-icon pi pi-check-circle fs-xlarge" aria-hidden="true"></span>
+                    <span aria-hidden="true" class="p-button-label">&amp;nbsp;</span>
+                </button>
+                <h3>Just For you</h3>
+            </div>
+        </div>
+    </div>
 
-                      <div class="card">
-                          <h3>Like</h3>
-                          <p>Ab perferendis nesciunt ad reiciendis explicabo consequatur sapiente odit ipsa harum illum. Necessitatibus quaerat voluptates aspernatur iure, aperiam possimus sint sit mollitia!</p>
-                      </div>
+    <div id="promotion" class="flex flex-column align-items-center">
+        <div class="grid m-0 py-3 pl-xl-6">
+            <div class="col-12 lg:col-8 flex flex-column justify-content-center align-items-center lg:align-items-start pl-6">
+                <h1 class="white-color">Boost Your Productivity.</h1>
+                <button class="p-button-raised p-button p-component">
+                    <span class="p-button-label">Sign Up Now</span>
+                </button>
+            </div>
+            <div class="col-12 lg:col-4">
+                <div class="card mt-3 mb-0">
+                    <h3>Just</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab perferendis nesciunt ad reiciendis
+                        explicabo consequatur sapiente odit ipsa harum illum</p>
+                </div>
 
-                      <div class="card">
-                          <h3>That</h3>
-                          <p>Necessitatibus quaerat voluptates aspernatur iure, aperiam possimus sint sit mollitia! Ab perferendis nesciunt ad reiciendis explicabo consequatur sapiente odit ipsa harum illum.</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
+                <div class="card mt-3 mb-0">
+                    <h3>Like</h3>
+                    <p>Ab perferendis nesciunt ad reiciendis explicabo consequatur sapiente odit ipsa harum illum</p>
+                </div>
 
-          <div id="pricing">
-              <h2>Pricing</h2>
-              <p>Esse delectus sit velit, aspernatur voluptates molestiae, enim recusandae. Odit dicta, maiores quas ad nesciunt, illum expedita veritatis illo quam odio id!</p>
+                <div class="card my-3">
+                    <h3>That</h3>
+                    <p>Necessitatibus quaerat voluptates aspernatur iure, aperiam possimus sint sit mollitia! </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-              <div class="ui-g">
-                  <div class="ui-g-12 ui-md-4 pricing-box pricing-basic">
-                      <div class="card">
-                          <div class="pricing-header">
-                              <span class="name">BASIC</span>
-                              <span class="fee">$5</span>
-                              <span class="type">Monthly</span>
-                          </div>
-                          <div class="pricing-content">
-                              <ul>
-                                  <li><i class="material-icons"></i><span>Responsive</span></li>
-                                  <li><i class="material-icons"></i><span>Push Messages</span></li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="ui-g-12 ui-md-4 pricing-box pricing-standard">
-                      <div class="card">
-                          <div class="pricing-header">
-                              <span class="name">STANDARD</span>
-                              <span class="fee">$25</span>
-                              <span class="type">Monthly</span>
-                          </div>
-                          <div class="pricing-content">
-                              <ul>
-                                  <li><i class="material-icons"></i><span>Responsive</span></li>
-                                  <li><i class="material-icons"></i><span>Push Messages</span></li>
-                                  <li><i class="material-icons"></i><span>7/24 Support</span></li>
-                                  <li><i class="material-icons"></i><span>Free Shipping</span></li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="ui-g-12 ui-md-4 pricing-box pricing-professional">
-                      <div class="card">
-                          <div class="pricing-header">
-                              <span class="name">PROFESSIONAL</span>
-                              <span class="fee">$50</span>
-                              <span class="type">Monthly</span>
-                          </div>
-                          <div class="pricing-content">
-                              <ul>
-                                  <li><i class="material-icons"></i><span>Responsive</span></li>
-                                  <li><i class="material-icons"></i><span>Push Messages</span></li>
-                                  <li><i class="material-icons"></i><span>7/24 Support</span></li>
-                                  <li><i class="material-icons"></i><span>Free Shipping</span></li>
-                                  <li><i class="material-icons"></i><span>Unlimited Bandwidth</span></li>
-                                  <li><i class="material-icons"></i><span>Unlimited Storage</span></li>
-                                  <li><i class="material-icons"></i><span>Gift Cards</span></li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+    <div id="pricing" class="section flex flex-column align-items-center">
+        <h2>Pricing</h2>
+        <p>Esse delectus sit velit, aspernatur voluptates molestiae, enim recusandae. Odit dicta, maiores quas ad
+            nesciunt, illum expedita veritatis illo quam odio id!</p>
 
-          <div id="video">
-             <div class="video-content">
-                 <h2>Video</h2>
-                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.</p>
-                 <div class="video-container">
-                     <iframe src="https://www.youtube.com/embed/B_lYGUtCd0g" frameborder="0" width="560" height="330"></iframe>
-                 </div>
-             </div>
-         </div>
+        <div class="grid m-0 pricing-content">
+            <div class="col-12 xl:col-4">
+                <div class="card p-0">
+                    <div class="flex flex-column align-items-center indigo-bgcolor white-color p-6 fs-large">
+                        <span>BASIC</span>
+                        <h1 class="font-bold">$5</h1>
+                        <span>Monthly</span>
+                    </div>
+                    <ul class="options">
+                        <li><i class="pi pi-check"></i><span>Responsive</span></li>
+                        <li><i class="pi pi-check"></i><span>Push Messages</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 xl:col-4">
+                <div class="card p-0">
+                    <div class="flex flex-column align-items-center pink-bgcolor white-color p-6 fs-large">
+                        <span>STANDARD</span>
+                        <h1 class="font-bold">$25</h1>
+                        <span>Monthly</span>
+                    </div>
+                    <ul class="options">
+                        <li><i class="pi pi-check"></i><span>Responsive</span></li>
+                        <li><i class="pi pi-check"></i><span>Push Messages</span></li>
+                        <li><i class="pi pi-check"></i><span>7/24 Support</span></li>
+                        <li><i class="pi pi-check"></i><span>Free Shipping</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 xl:col-4 pricing-box pricing-professional">
+                <div class="card p-0">
+                    <div class="flex flex-column align-items-center cyan-bgcolor white-color p-6 fs-large">
+                        <span>PROFESSIONAL</span>
+                        <h1 class="font-bold">$50</h1>
+                        <span>Monthly</span>
+                    </div>
+                    <ul class="options">
+                        <li><i class="pi pi-check"></i><span>Responsive</span></li>
+                        <li><i class="pi pi-check"></i><span>Push Messages</span></li>
+                        <li><i class="pi pi-check"></i><span>7/24 Support</span></li>
+                        <li><i class="pi pi-check"></i><span>Free Shipping</span></li>
+                        <li><i class="pi pi-check"></i><span>Unlimited Bandwidth</span></li>
+                        <li><i class="pi pi-check"></i><span>Unlimited Storage</span></li>
+                        <li><i class="pi pi-check"></i><span>Gift Cards</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-         <div class="footer">
-             <div class="footer-content">
-                 <div class="ui-g">
-                      <div class="ui-g-12 ui-md-6">
-                          <p>PrimeNG ULTIMA</p>
-                      </div>
-                      <div class="ui-g-12 ui-md-6">
-                          <ul>
-                              <li><a href="#mobile">Promotion</a></li>
-                              <li><a href="#pricing">Pricing</a></li>
-                              <li><a href="#video">Video</a></li>
-                          </ul>
-                          <ul>
-                              <li><a href="#">Home</a></li>
-                              <li><a href="#introduction">Introduction</a></li>
-                              <li><a href="#features">Features</a></li>
-                          </ul>
-                      </div>
-                  </div>
-             </div>
-         </div>
-      </div>
-  </body>
+    <div id="video" class="section flex flex-column align-items-center justify-content-center">
+        <h2>Video</h2>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.</p>
+        <div class="m-3">
+            <iframe src="https://www.youtube.com/embed/B_lYGUtCd0g" frameborder="0" width="560" height="330" class="videoFrame"></iframe>
+        </div>
+    </div>
+
+    <div id="footer" class="section flex align-items-center justify-content-between flex-column lg:flex-row">
+        <p>PrimeNG ULTIMA</p>
+
+        <div class="py-3 flex align-items-center">
+            <ul class="my-3 mx-6">
+                <li><a href="#mobile">Promotion</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#video">Video</a></li>
+            </ul>
+            <ul class="my-3 ml-3">
+                <li><a href="#">Home</a></li>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#features">Features</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var LandingUtils = {
+            addClass: function(element, classNames) {
+                var classNamesArr = classNames.split(' ');
+                for (var i = 0; i < classNamesArr.length; i++) {
+                    var className = classNamesArr[i];
+                    if (element.classList)
+                        element.classList.add(className);
+                    else
+                        element.className += ' ' + className;
+                }
+            },
+            removeClass: function(element, classNames) {
+                var classNamesArr = classNames.split(' ');
+                for (var i = 0; i < classNamesArr.length; i++) {
+                    var className = classNamesArr[i];
+                    if (element.classList)
+                        element.classList.remove(className);
+                    else
+                        element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+                }
+            },
+            hasClass: function(element, className) {
+                if (element.classList)
+                    return element.classList.contains(className);
+                else
+                    return new RegExp('(^| )' + className + '( |$)', 'gi').test(element.className);
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var menuButton = document.getElementById('menu-button');
+
+            if (menuButton) {
+                var isMenuActive = false;
+
+                menuButton.addEventListener('click', function (e) {
+                    var menu = document.getElementById('menu');
+
+                    if (LandingUtils.hasClass(menu, 'menu-active')) {
+                        LandingUtils.addClass(menu, 'fadeOutUp');
+                        isMenuActive = false;
+                    } else {
+                        LandingUtils.addClass(menu, 'menu-active fadeInDown');
+                        isMenuActive = true;
+                    }
+                    e.preventDefault();
+                });
+
+                menu.addEventListener('animationend', function(e) {
+                    if (isMenuActive) {
+                        LandingUtils.removeClass(menu, 'fadeInDown');
+                    }
+                    else {
+                        LandingUtils.removeClass(menu, 'menu-active fadeOutUp');
+                    }
+                });
+            }
+        });
+
+        function changeLandingColor(event) {
+            var replaceLink = function(linkElement, href) {
+                if (/(MSIE|Trident\/|Edge\/)/i.test(window.navigator.userAgent)) {
+                    linkElement.setAttribute('href', href);
+                } else {
+                    var id = linkElement.getAttribute('id');
+                    var cloneLinkElement = linkElement.cloneNode(true);
+
+                    cloneLinkElement.setAttribute('href', href);
+                    cloneLinkElement.setAttribute('id', id + '-clone');
+
+                    linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
+
+                    cloneLinkElement.addEventListener('load', function() {
+                        linkElement.remove();
+                        cloneLinkElement.setAttribute('id', id);
+                    });
+                }
+            };
+
+            var changeColor = function(link, prefix) {
+                var urlTokens = link.getAttribute('href').split('/');
+                var isLight = urlTokens[urlTokens.length - 1] === (prefix + 'light.css');
+                urlTokens[urlTokens.length - 1] = prefix + (isLight ? 'dark' : 'light') + '.css';
+                var newURL = urlTokens.join('/');
+                replaceLink(link, newURL);
+            };
+
+            var layoutLink = document.getElementById('layout-css');
+            changeColor(layoutLink, 'layout-');
+
+            var themeLink = document.getElementById('theme-css');
+            changeColor(themeLink, 'theme-');
+
+            var target = event.currentTarget;
+            var firstChild = target.firstElementChild;
+            if (LandingUtils.hasClass(target, 'p-button-secondary')) {
+                LandingUtils.removeClass(target, 'p-button-secondary');
+                LandingUtils.addClass(target, 'p-button-warning');
+                LandingUtils.removeClass(firstChild, 'pi-moon');
+                LandingUtils.addClass(firstChild, 'pi-sun');
+            }
+            else {
+                LandingUtils.addClass(target, 'p-button-secondary');
+                LandingUtils.removeClass(target, 'p-button-warning');
+                LandingUtils.addClass(firstChild, 'pi-moon');
+                LandingUtils.removeClass(firstChild, 'pi-sun');
+            }
+
+
+
+            event.preventDefault();
+        }
+    </script>
+</body>
 </html>

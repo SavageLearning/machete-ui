@@ -1,0 +1,13 @@
+.layout-topbar-pink {
+    $topbarBgColor: #AD1457;
+    $topbarLeftBgColor: #880E4F;
+
+    $topbarMenuButtonBgColor:#F9A825;
+    $topbarMenuButtonTextColor:#212121;
+
+    $topbarItemTextColor: #ffffff;
+    $topbarItemTextHoverBgColor: rgba(255,255,255,.12);
+
+    @import '../_topbar_exports';
+    @import '../_topbar_theme';
+}

@@ -1,0 +1,13 @@
+.layout-topbar-lightblue {
+    $topbarBgColor: #0288D1;
+    $topbarLeftBgColor: #0277BD;
+
+    $topbarItemTextColor: #ffffff;
+    $topbarItemTextHoverBgColor: rgba(255,255,255,.12);
+
+    $topbarMenuButtonBgColor:#FDD835;
+    $topbarMenuButtonTextColor:#212121;
+
+    @import '../_topbar_exports';
+    @import '../_topbar_theme';
+}

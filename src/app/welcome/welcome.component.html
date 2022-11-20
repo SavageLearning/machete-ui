@@ -1,39 +1,16 @@
 
-<div class="p-card p-p-4 p-mb-4" >
-    <div *ngFor="let d of dashboards" class="p-card p-p-2">
-        <ng-container *ngIf="d.s === roleState">
-        <h2 data-mtest="dashboard-heading">{{d.title}} Dashboard</h2>
-        <div data-mtest="dashboard-links" class="p-p-2 p-d-flex p-flex-column">
-    
-            <ng-container *ngFor="let l of d.links">
-            <div class="p-m-2" *ngIf="l.action === undefined">
-                <a [routerLink]="l.link">
-                    <button pButton pRipple label="{{l.text}}"></button>
-                </a>
-            </div>
-    
-            <div class="p-m-2" *ngIf="l.action === 'login'">
-                <button pButton pRipple (click)="login()">{{l.text}}</button>
-                </div>
-            </ng-container>
-    
-        </div>
-        </ng-container>
-    </div>
-    <div data-mtest="WorkCenterDescription_EN" [innerHTML]="welcome" class="p-p-4 p-mt-6 c-info-border">
-    </div>
+<div [innerHTML]="welcome" class="p-p-4 p-mt-6 c-info-border">
 </div>
+<button pButton type="button" (click)="login()" *ngIf="!isLoggedIn">Sign-in</button>
 
-<p-dialog 
+<p-dialog
     *ngIf="macheteOutage"
-    [(visible)]="macheteOutage" 
-    [modal]="true" 
-    [maximizable]="false" 
+    [(visible)]="macheteOutage"
+    [modal]="true"
+    [maximizable]="false"
     [baseZIndex]="10000"
-    [responsive]="true" 
-    [width]="500" 
-    [minWidth]="200" 
-    [minY]="70" 
+    [responsive]="true"
+    [minY]="70"
     [closable]="true">
     <p-header>
         Online Hiring Temporarily Unavailable

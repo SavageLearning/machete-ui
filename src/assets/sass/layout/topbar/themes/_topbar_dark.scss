@@ -1,0 +1,13 @@
+.layout-topbar-dark {
+    $topbarBgColor: #1e1e1e;
+    $topbarLeftBgColor: #1e1e1e;
+
+    $topbarMenuButtonBgColor:#E91E63;
+    $topbarMenuButtonTextColor:#ffffff;
+
+    $topbarItemTextColor: #ffffff;
+    $topbarItemTextHoverBgColor: rgba(255,255,255,.12);
+
+    @import '../_topbar_exports';
+    @import '../_topbar_theme';
+}

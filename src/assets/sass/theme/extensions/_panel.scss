@@ -1,0 +1,18 @@
+.p-panel {
+    border-radius: $borderRadius;
+    box-shadow: $cardShadow;
+
+    .p-panel-header,
+    .p-panel-content,
+    .p-panel-footer {
+        border: 0 none;
+    }
+
+    .p-panel-content {
+        padding-top: 0;
+    }
+
+    .p-panel-title {
+        font-size: 1.25rem;
+    }
+}
