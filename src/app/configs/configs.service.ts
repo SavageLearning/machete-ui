@@ -6,12 +6,16 @@ import { environment } from "../../environments/environment";
 import { Config, CCategory } from "../shared/models/config";
 import { ConfigsService as ConfigsClient } from "machete-client";
 import { MS_NON_EDITABLE_CONFIGS_LOWER_CASE } from "./machete-settings/shared/machete-settings-constants";
+import { MessagesService } from "../shared/components/messages/messages.service";
 @Injectable()
 export class ConfigsService {
   uriBase = environment.dataUrl + "/api/configs";
   configs = new Array<Config>();
   configsAge = 0;
-  constructor(private client: ConfigsClient, private appMessages: MessagesService) {
+  constructor(
+    private client: ConfigsClient,
+    private appMessages: MessagesService
+  ) {
     client.configuration.withCredentials = false;
   }
 
@@ -63,26 +67,24 @@ export class ConfigsService {
       );
     }
 
-    return this.http
-      .put(`${this.uriBase}/${config.id}`, config, { withCredentials: true })
-      .pipe(
-        catchError((error) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          const errorAsText: string = error["statusText"] as string;
-          this.appMessages.showErrors({
-            Error: `${errorAsText}: Contact Machete support.`,
-          });
-          console.log(error);
-          return throwError(error);
-        }),
-        pluck("data"),
-        map((data) => data as Config),
-        tap(() => {
-          this.appMessages.showSuccess({
-            label: "Success",
-            message: "Record Saved",
-          });
-        })
-      );
+    return this.client.apiConfigsIdPut(config.id, config).pipe(
+      catchError((error) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const errorAsText: string = error["statusText"] as string;
+        this.appMessages.showErrors({
+          Error: `${errorAsText}: Contact Machete support.`,
+        });
+        console.log(error);
+        return throwError(error);
+      }),
+      pluck("data"),
+      map((data) => data as Config),
+      tap(() => {
+        this.appMessages.showSuccess({
+          label: "Success",
+          message: "Record Saved",
+        });
+      })
+    );
   }
 }

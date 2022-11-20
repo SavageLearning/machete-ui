@@ -120,7 +120,7 @@ describe("TransportProviderServiceHttp", () => {
       });
 
       const testReq = httpMock.expectOne(
-        "http://localhost:9876/api/transportproviders"
+        "http://localhost/api/TransportProviders"
       );
       expect(testReq.request.method).toEqual("GET");
       testReq.flush("", { status: 500, statusText: "SErver Error" });

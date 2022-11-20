@@ -15,10 +15,9 @@ export class TransportProvidersService {
   providers = new Array<TransportProvider>();
   providersAge = 0;
   constructor(
-    private http: HttpClient,
+    private client: TransportProvidersClient,
     private appMessages: MessagesService,
-    @Optional() @SkipSelf() parentModule?: TransportProvidersService,
-    private client: TransportProvidersClient
+    @Optional() @SkipSelf() parentModule?: TransportProvidersService
   ) {
     // enforce app singleton pattern
     if (parentModule) {
