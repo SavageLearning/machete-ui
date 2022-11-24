@@ -1,0 +1,9 @@
+node_modules
+.idea
+.devcontainer
+.vscode
+cypress
+dist
+**.md
+.github
+test

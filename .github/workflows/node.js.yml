@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  tests:
 
     runs-on: ubuntu-latest
 
@@ -34,3 +34,14 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm run test-headless
+
+    - name: "Start project compose services"
+      run: docker compose -f docker-compose.yml up -d
+    - name: "Wait for docker to finish building"
+      run: sleep 10
+
+    - name: Run cypress e2e tests
+      uses: cypress-io/github-action@v4
+      with:
+        config-file: cypress.json
+        wait-on: "http://localhost:4213/V2"
