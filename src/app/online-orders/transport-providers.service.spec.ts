@@ -2,7 +2,11 @@
 import { TestBed } from "@angular/core/testing";
 
 import { TransportProvidersService } from "./transport-providers.service";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import {
+  TransportProvidersService as TransportProvidersClient,
+  TransportProviderVM,
+} from "machete-client";
+import { HttpClientModule } from "@angular/common/http";
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -14,19 +18,20 @@ import { of } from "rxjs";
 
 describe("TransportProviderService", () => {
   let service: TransportProvidersService;
-  let clientSpy: jasmine.SpyObj<HttpClient>;
   let messageSpy: jasmine.SpyObj<MessagesService>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
+  let tpClient: jasmine.SpyObj<TransportProvidersClient>;
 
   beforeEach(() => {
-    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
+    tpClient = jasmine.createSpyObj("TransportProvidersClient", [
+      "apiTransportProvidersGet",
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
         TransportProvidersService,
         {
-          provide: HttpClient,
-          useValue: httpClientSpy,
+          provide: TransportProvidersClient,
+          useValue: tpClient,
         },
         {
           provide: MessagesService,
@@ -36,7 +41,9 @@ describe("TransportProviderService", () => {
       imports: [],
     });
     service = TestBed.inject(TransportProvidersService);
-    httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
+    tpClient = TestBed.inject(
+      TransportProvidersClient
+    ) as jasmine.SpyObj<TransportProvidersClient>;
     messageSpy = TestBed.inject(
       MessagesService
     ) as jasmine.SpyObj<MessagesService>;
@@ -48,10 +55,19 @@ describe("TransportProviderService", () => {
 
   describe("chaching", () => {
     beforeEach(() => {
-      spyOn(HttpClient.prototype, "get").calls.reset();
-      httpClientSpy.get.and.returnValue(
+      const tpVm: TransportProviderVM = {};
+      spyOn(
+        TransportProvidersClient.prototype,
+        "apiTransportProvidersGet"
+      ).calls.reset();
+      // ah! typescript
+      (
+        (tpClient as jasmine.SpyObj<TransportProviderVM>)[
+          "apiTransportProvidersGet"
+        ] as jasmine.Spy
+      ).and.returnValue(
         of({
-          data: [new TransportProvider()],
+          data: [tpVm],
         })
       );
     });
@@ -71,7 +87,7 @@ describe("TransportProviderService", () => {
 
     it("when none, should callApi", (done: DoneFn) => {
       service.getTransportProviders().subscribe(() => {
-        expect(httpClientSpy.get.calls.count()).toBe(1);
+        expect(tpClient["apiTransportProvidersGet"].calls.count()).toBe(1);
         done();
       });
     });
@@ -80,7 +96,7 @@ describe("TransportProviderService", () => {
       service.providersAge = Date.now() - 300 * 999; // age logic is in service
 
       service.getTransportProviders().subscribe(() => {
-        expect(httpClientSpy.get.calls.count()).toBe(0);
+        expect(tpClient["apiTransportProvidersGet"].calls.count()).toBe(0);
         done();
       });
     });
