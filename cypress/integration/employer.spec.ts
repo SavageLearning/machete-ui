@@ -18,6 +18,24 @@ describe("employers profile", () => {
     cy.visit("/employers");
     cy.getEmployerProfile();
 
+    // stubs out response when there's no employer profile
+    // this should only happen when on first db start
+    const employerProfile = Cypress.env(ENV_KEY_MACHETE_EMPLOYER) as Employer;
+    if (!employerProfile) {
+      // Stubbing the response from server here
+      cy.fixture("employers/profile.json");
+      cy.intercept(
+        {
+          method: "GET",
+          url: "/api/Employers/profile",
+        },
+        { fixture: "employers/profile" }
+      ).as("employer.profile");
+      cy.visit("/employers");
+      cy.wait("@employer.profile").then((intercepted) => {
+        Cypress.env(ENV_KEY_MACHETE_EMPLOYER, intercepted.response.body.data);
+      });
+    }
   });
 
   it("should display username", () => {

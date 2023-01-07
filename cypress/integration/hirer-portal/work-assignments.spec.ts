@@ -14,7 +14,7 @@ import {
   generateWorkOrderStub,
 } from "cypress/utils/helpers";
 import * as faker from "faker";
-import { Lookup } from "src/app/lookups/models/lookup";
+import { LookupVM } from "machete-client";
 import { ScheduleRule } from "src/app/online-orders/shared/models/schedule-rule";
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
 import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
@@ -129,7 +129,7 @@ describe("hirer portal - work-assignments - flow", () => {
       .should("not.have.attr", "disabled");
   });
   it("should not display add request if invalid", () => {
-    const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+    const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
     cy.get(WorkAssignmentSelectors.fieldHoursNeeded).type(
       anySkill.minHour.toString()
     );
@@ -155,7 +155,7 @@ describe("hirer portal - work-assignments - flow", () => {
     );
   });
   it("should add request to list when valid and swtich to review tab", () => {
-    const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+    const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
     selectAnySkill(anySkill);
     cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
     cy.get(".p-tabview-nav-content ul li:first")
@@ -166,7 +166,7 @@ describe("hirer portal - work-assignments - flow", () => {
       .contains(stringToTitleCase(anySkill.text_EN));
   });
   it("should show success message when request is added", () => {
-    const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+    const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
     selectAnySkill(anySkill);
     cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
     cy.get(`p-messages .p-message-summary`).contains(`Success!`);
@@ -175,7 +175,7 @@ describe("hirer portal - work-assignments - flow", () => {
     );
   });
   it("should edit request", () => {
-    const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+    const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
     const uniqueValue = "MacheteRocks";
     selectAnySkill(anySkill);
     cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
@@ -189,7 +189,7 @@ describe("hirer portal - work-assignments - flow", () => {
     cy.get(`tbody`).contains((anySkill.minHour + 1).toString());
   });
   it("should delete request", () => {
-    const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+    const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
     const uniqueValue = "MacheteRocks";
     cy.get(WorkAssignmentSelectors.fieldAdditionalInfo).type(uniqueValue);
     selectAnySkill(anySkill);
@@ -198,7 +198,7 @@ describe("hirer portal - work-assignments - flow", () => {
     cy.get(`tbody`).should("not.contain", uniqueValue);
   });
   it("Add More Jobs should switch to blank form", () => {
-    const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+    const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
     selectAnySkill(anySkill);
     cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
     cy.get(WorkAssignmentSelectors.buttonAddMoreJobs).click();
@@ -208,7 +208,7 @@ describe("hirer portal - work-assignments - flow", () => {
     );
   });
   it(`Save and Continue should navigate to ${onlineOrderRoutes.orderConfirm}`, () => {
-    const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+    const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
     selectAnySkill(anySkill);
     cy.get(WorkAssignmentSelectors.buttonAddCurrentJobToRequest).click();
     cy.get(WorkAssignmentSelectors.buttonSaveAndContinue).click();
@@ -216,7 +216,7 @@ describe("hirer portal - work-assignments - flow", () => {
   });
 });
 
-const selectAnySkill = (anySkill: Lookup) => {
+const selectAnySkill = (anySkill: LookupVM) => {
   cy.wait(REMOTE_TEST_WAIT_MS);
   cy.get(WorkAssignmentSelectors.chooseJobsTab).click();
   cy.get(WorkAssignmentSelectors.fieldChageSkillSelection).click();

@@ -10,7 +10,7 @@ import {
   generateWorkAssignmentsStub,
   getExpectedCostForWorkerCount,
 } from "cypress/utils";
-import { Lookup } from "src/app/lookups/models/lookup";
+import { LookupVM } from "machete-client";
 import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
 import { WorkAssignment } from "src/app/shared/models/work-assignment";
 import { stepsToWorkAssignments } from "./work-assignments.spec";
@@ -19,7 +19,7 @@ let waInTest: WorkAssignment[];
 
 const stepsToOrderConfirm = () => {
   // arrange base state
-  const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+  const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
   if (anySkill === null || anySkill === undefined) throw new Error();
   const paidTransportRule = Cypress.env(
     ENV_KEY_MACHETE_PAID_TRANSPORT_RULE

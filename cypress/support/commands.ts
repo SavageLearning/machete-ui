@@ -14,7 +14,7 @@ import {
 } from "cypress/constants";
 
 import { TransportProvider } from "src/app/online-orders/shared/models/transport-provider";
-import { Lookup } from "src/app/lookups/models/lookup";
+import { LookupVM, ConfigVM } from "machete-client";
 import { Employer } from "src/app/shared/models/employer";
 import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
 import { ScheduleRule } from "src/app/online-orders/shared/models/schedule-rule";
@@ -54,7 +54,7 @@ function getMacheteConfigs(): void {
       (config) => config["key"] === "DisableOnlineOrders"
     );
     // At least one should be there
-    expect(theConfig).to.include(true);
+    expect(theConfig).to.not.null;
     Cypress.env(ENV_KEY_MACHETE_CONFIGS, data);
   });
 }
@@ -130,16 +130,46 @@ function getEmployerProfile(): void {
   });
 }
 
+function enableOnlineOrdersSetting(configs: ConfigVM[]): void {
+  const { id, value } = configs.filter(
+    (config: ConfigVM) => config.key === "DisableOnlineOrders"
+  )[0];
+  expect(id).not.null;
+  const disableOnlineOrdersConfig = {
+    id: id,
+    key: "DisableOnlineOrders",
+    value: "FALSE",
+    description:
+      "Enter either TRUE or FALSE. Enter TRUE to turn off access to the online hiring portal",
+    category: "OnlineOrders",
+    publicConfig: true,
+    createdby: "Init T. Script",
+    datecreated: "2023-01-06T22:25:14.18",
+    dateupdated: "2023-01-06T22:25:14.18",
+    updatedby: "Init T. Script",
+  };
+
+  if (value === "TRUE") {
+    cy.request(
+      "PUT",
+      `${Cypress.env("macheteApiUrl")}/configs/${id}`,
+      disableOnlineOrdersConfig
+    ).then(() => {
+      cy.getMacheteConfigs();
+    });
+  }
+}
+
 function getMacheteLookups(): void {
   const endpoint = `${Cypress.env("macheteApiUrl")}/Lookups`;
   cy.request(endpoint).then((response) => {
     expect(response.status).to.eq(200);
     expect(response.body.data).to.not.be.null.and.not.be.undefined;
-    const data = response.body.data as Lookup[];
+    const data = response.body.data as LookupVM[];
     logWrapper("getMacheteLookups()", data);
     Cypress.env(ENV_KEY_MACHETE_LOOKUPS, data);
 
-    const anySkill: Lookup = data.find((lu) => lu.category.includes("skill"));
+    const anySkill: LookupVM = data.find((lu) => lu.category.includes("skill"));
     Cypress.env(ENV_KEY_ANY_SKILL, anySkill);
   });
 }
@@ -209,6 +239,7 @@ Cypress.Commands.add("apiLogin", apiLogin);
 Cypress.Commands.add("logout", logout);
 Cypress.Commands.add("getMacheteConfigs", getMacheteConfigs);
 Cypress.Commands.add("getEmployerProfile", getEmployerProfile);
+Cypress.Commands.add("enableOnlineOrdersSetting", enableOnlineOrdersSetting);
 Cypress.Commands.add("getMacheteLookups", getMacheteLookups);
 Cypress.Commands.add("fillOutEmployerProfile", fillOutEmployerProfile);
 Cypress.Commands.add("toggleTerms", toggleTerms);

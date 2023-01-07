@@ -1,4 +1,6 @@
 /// <reference types="cypress" />
+/// <reference types="./machete-client-types" />
+
 // ***********************************************
 // This example namespace declaration will help
 // with Intellisense and code completion in your
@@ -26,6 +28,12 @@ declare namespace Cypress {
      */
     getEmployerProfile(): void;
     /**
+     * Enables the online orders by updating the
+     * Config via an http request
+     * @param configs
+     */
+    enableOnlineOrdersSetting(configs: ConfigVMNS.ConfigVMM[]): void;
+    /**
      * get Machete lookups and save in Cy env variable
      */
     getMacheteLookups(): void;
@@ -45,11 +53,11 @@ declare namespace Cypress {
      */
     getMacheteTransportRules(): void;
     /**
-     * Gets the first transport rule with a cost and sets the record in the 
+     * Gets the first transport rule with a cost and sets the record in the
      * environment variable available through the key in the
      * `ENV_KEY_MACHETE_PAID_TRANSPORT_PROVIDER` constant
      */
-     getFirstMachetePaidTransportRule(): void;
+    getFirstMachetePaidTransportRule(): void;
     /**
      * Should be called after authentication
      */
@@ -63,7 +71,7 @@ declare namespace Cypress {
      * Gets the schedule rules
      * `ENV_KEY_MACHETE_TRANSPORT_SCHEDULE_RULES` constant
      */
-     getMacheteScheduleRules(): void;
+    getMacheteScheduleRules(): void;
     logWrapper(method: string, data: any): void;
   }
 }

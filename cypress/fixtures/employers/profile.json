@@ -1,0 +1,33 @@
+{
+  "data": {
+    "active": false,
+    "address1": "123",
+    "address2": null,
+    "blogparticipate": null,
+    "business": false,
+    "businessname": null,
+    "cellphone": "",
+    "city": "seattle",
+    "driverslicense": null,
+    "email": "jciispam@gmail.com",
+    "fax": null,
+    "isOnlineProfileComplete": null,
+    "licenseplate": null,
+    "name": "jadmin",
+    "notes": null,
+    "onlineSigninID": "59972656-59bc-451b-bcf2-6b60900e8b6a",
+    "onlineSource": true,
+    "phone": "123-123-1234",
+    "receiveUpdates": false,
+    "referredby": 25,
+    "referredbyOther": null,
+    "returnCustomer": false,
+    "state": "wa",
+    "zipcode": "98111",
+    "createdby": "jciispam@gmail.com",
+    "datecreated": "2023-01-06T22:16:13.263",
+    "dateupdated": "2023-01-06T22:16:13.263",
+    "id": 1,
+    "updatedby": "jciispam@gmail.com"
+  }
+}
