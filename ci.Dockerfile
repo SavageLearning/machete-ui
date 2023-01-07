@@ -5,6 +5,7 @@ RUN git clone https://github.com/SavageLearning/Machete.git
 
 WORKDIR /admin/Machete
 RUN sed -i 's/localhost/sqlserver/g' Machete.Web/appsettings.json
+RUN dotnet tool restore
 RUN dotnet build --no-incremental
 RUN dotnet publish -o output Machete.Web
 
