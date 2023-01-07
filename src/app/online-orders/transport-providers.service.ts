@@ -40,9 +40,9 @@ export class TransportProvidersService {
   }
 
   getTransportProviders(): Observable<TransportProvider[]> {
-    if (this.isNotStale()) {
+    const cache = sessionStorage.getItem("tranportProviders");
+    if (this.isNotStale() && cache) {
       console.log("returning cache", this.providersAge);
-      const cache = sessionStorage.getItem("tranportProviders");
       return of(JSON.parse(cache) as TransportProvider[]);
     }
 

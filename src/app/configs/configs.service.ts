@@ -38,6 +38,7 @@ export class ConfigsService {
     return this.client.apiConfigsGet().pipe(
       pluck("data"),
       map((data) => data as Config[]),
+      tap((data) => (this.configs = data)),
       tap(() => (this.configsAge = Date.now()))
     );
   }

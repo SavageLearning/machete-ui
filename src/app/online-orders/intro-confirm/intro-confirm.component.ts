@@ -23,9 +23,12 @@ export class IntroConfirmComponent implements OnInit {
   ngOnInit(): void {
     this.onlineService.getInitialConfirmedStream().subscribe((confirmed) => {
       this.confirmChoices = confirmed;
-      this.confirmStatus = this.confirmChoices
-        .map((a) => a.confirmed)
-        .reduce((a, b) => a && b);
+      this.confirmStatus = this.confirmChoices.every(
+        (confirm) => confirm.confirmed
+      );
+
+      // .map((a) => a.confirmed)
+      // .reduce((a, b) => a && b);
     });
   }
 
