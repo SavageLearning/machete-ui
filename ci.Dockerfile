@@ -15,7 +15,7 @@ COPY ./ ./
 RUN npm install
 RUN npm run --silent build-prod
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 RUN mkdir -p /app/api/Content /app/api/Identity /app/api/dist
 COPY --from=build-dotnet /admin/Machete/output/ /app/api
 COPY --from=build-nodejs /app/dist /app/api/dist
