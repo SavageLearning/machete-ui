@@ -1,6 +1,5 @@
 import {
   ENV_KEY_MACHETE_CONFIGS,
-  ENV_KEY_MACHETE_EMPLOYER,
   MACHETE_ADMIN,
   onlineOrderRoutes,
 } from "cypress/constants";
@@ -15,13 +14,7 @@ describe("hirer portal - intro-comfirm - flow", () => {
 
   beforeEach(() => {
     cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
-    cy.getEmployerProfile();
-
-    if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {
-      // if new employer
-      console.log(Cypress.env(ENV_KEY_MACHETE_EMPLOYER));
-      cy.fillOutEmployerProfile();
-    }
+    cy.apiGetEmployerProfile();
 
     cy.enableOnlineOrdersSetting(loadConfigs());
   });

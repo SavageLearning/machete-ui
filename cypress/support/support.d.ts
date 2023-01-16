@@ -26,7 +26,7 @@ declare namespace Cypress {
     /**
      * Should be called after authentication
      */
-    getEmployerProfile(): void;
+    apiGetEmployerProfile(): void;
     /**
      * Enables the online orders by updating the
      * Config via an http request
@@ -42,7 +42,9 @@ declare namespace Cypress {
      * previous log in required. Should already be at route and with
      * specifi use case.
      */
-    fillOutEmployerProfile(): void;
+     uiFillOutEmployerProfile(): void;
+
+    apiFillOutEmployerProfile(): void;
     /**
      * Requires: previous login with at least the hirer role
      * @param toggleState `"check" | "uncheck"`

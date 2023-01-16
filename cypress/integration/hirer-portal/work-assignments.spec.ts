@@ -73,12 +73,7 @@ describe("hirer portal - work-assignments - flow", () => {
     cy.getFirstMachetePaidTransportRule();
     cy.getMacheteScheduleRules();
     cy.getMacheteTransportProviders();
-    cy.getEmployerProfile();
-    if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {
-      // if new employer
-      console.log(Cypress.env(ENV_KEY_MACHETE_EMPLOYER));
-      cy.fillOutEmployerProfile();
-    }
+    cy.apiGetEmployerProfile();
     cy.getMacheteLookups();
   });
 

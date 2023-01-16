@@ -108,7 +108,7 @@ function getMacheteTransportProviders(): void {
   });
 }
 
-function getEmployerProfile(): void {
+function apiGetEmployerProfile(): void {
   const endpoint = `${Cypress.env("macheteApiUrl")}/employers/profile`;
   cy.request({
     url: endpoint,
@@ -121,11 +121,12 @@ function getEmployerProfile(): void {
       expect(response.body).haveOwnProperty("data");
       const employer = response.body.data as Employer;
       expect(employer).to.not.be.null.and.not.be.undefined;
-      logWrapper("getEmployerProfile()", employer);
+      logWrapper("apiGetEmployerProfile()", employer);
       Cypress.env(ENV_KEY_MACHETE_EMPLOYER, employer);
     } else {
+      cy.apiFillOutEmployerProfile();
       Cypress.env(ENV_KEY_MACHETE_EMPLOYER, 0);
-      logWrapper("getEmployerProfile()", 0);
+      logWrapper("apiGetEmployerProfile()", 0);
     }
   });
 }
@@ -174,7 +175,7 @@ function getMacheteLookups(): void {
   });
 }
 
-function fillOutEmployerProfile(): void {
+function uiFillOutEmployerProfile(): void {
   // name
   const name = "#name";
   cy.get(name).clear().type("fake Employer");
@@ -200,6 +201,44 @@ function fillOutEmployerProfile(): void {
   cy.get(zip).clear().type("98122");
   cy.get(`[type="submit"`).click();
   cy.url().should("include", "online-orders/introduction");
+}
+
+function apiFillOutEmployerProfile(): void {
+  const endpoint = `${Cypress.env("macheteLegacyUrl")}/api/Employers/profile`;
+  cy.request("POST", endpoint, {
+    address1: "fake address",
+    business: false,
+    city: "gotham city",
+    driverslicense: null,
+    email: "fake@gmail.com",
+    fax: null,
+    name: "fake Employer",
+    notes: null,
+    onlineSource: true,
+    phone: "123-456-7891",
+    receiveUpdates: false,
+    referredby: 25,
+    referredbyOther: null,
+    returnCustomer: false,
+    state: "WA",
+    zipcode: "98122",
+    createdby: "fake@gmail.com",
+    dateupdated: "2023-01-16T01:13:13.17",
+    id: 1,
+    updatedby: "fake@gmail.com",
+  }).then((response) => {
+    if (response.status == 200) {
+      expect(response.body).haveOwnProperty("data");
+      const employer = response.body.data as Employer;
+      expect(employer).to.not.be.null.and.not.be.undefined;
+      logWrapper("apiFillOutEmployerProfile()", employer);
+      expect(response.status).to.eq(200);
+      Cypress.env(ENV_KEY_MACHETE_EMPLOYER, employer);
+    } else {
+      Cypress.env(ENV_KEY_MACHETE_EMPLOYER, 0);
+      logWrapper("apiFillOutEmployerProfile()", 0);
+    }
+  });
 }
 
 function logout(): void {
@@ -238,10 +277,11 @@ Cypress.Commands.add("uiLogin", uiLogin);
 Cypress.Commands.add("apiLogin", apiLogin);
 Cypress.Commands.add("logout", logout);
 Cypress.Commands.add("getMacheteConfigs", getMacheteConfigs);
-Cypress.Commands.add("getEmployerProfile", getEmployerProfile);
+Cypress.Commands.add("apiGetEmployerProfile", apiGetEmployerProfile);
 Cypress.Commands.add("enableOnlineOrdersSetting", enableOnlineOrdersSetting);
 Cypress.Commands.add("getMacheteLookups", getMacheteLookups);
-Cypress.Commands.add("fillOutEmployerProfile", fillOutEmployerProfile);
+Cypress.Commands.add("uiFillOutEmployerProfile", uiFillOutEmployerProfile);
+Cypress.Commands.add("apiFillOutEmployerProfile", apiFillOutEmployerProfile);
 Cypress.Commands.add("toggleTerms", toggleTerms);
 Cypress.Commands.add("getMacheteTransportRules", getMacheteTransportRules);
 Cypress.Commands.add(
