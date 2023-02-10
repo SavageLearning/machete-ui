@@ -1,6 +1,5 @@
 import {
   ENV_KEY_ANY_SKILL,
-  ENV_KEY_MACHETE_EMPLOYER,
   ENV_KEY_MACHETE_PAID_TRANSPORT_RULE,
   MACHETE_ADMIN,
   onlineOrderRoutes,
@@ -10,7 +9,7 @@ import {
   generateWorkAssignmentsStub,
   getExpectedCostForWorkerCount,
 } from "cypress/utils";
-import { Lookup } from "src/app/lookups/models/lookup";
+import { LookupVM } from "machete-client";
 import { TransportRule } from "src/app/online-orders/shared/models/transport-rule";
 import { WorkAssignment } from "src/app/shared/models/work-assignment";
 import { stepsToWorkAssignments } from "./work-assignments.spec";
@@ -19,7 +18,7 @@ let waInTest: WorkAssignment[];
 
 const stepsToOrderConfirm = () => {
   // arrange base state
-  const anySkill: Lookup = Cypress.env(ENV_KEY_ANY_SKILL);
+  const anySkill: LookupVM = Cypress.env(ENV_KEY_ANY_SKILL);
   if (anySkill === null || anySkill === undefined) throw new Error();
   const paidTransportRule = Cypress.env(
     ENV_KEY_MACHETE_PAID_TRANSPORT_RULE
@@ -46,12 +45,7 @@ describe("hirer portal - order confirm flow", () => {
     cy.getMacheteScheduleRules();
     cy.getMacheteTransportProviders();
     cy.getMacheteLookups();
-    cy.getEmployerProfile();
-    if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) == 0) {
-      // if new employer
-      console.log(Cypress.env(ENV_KEY_MACHETE_EMPLOYER));
-      cy.fillOutEmployerProfile();
-    }
+    cy.apiGetEmployerProfile();
   });
 
   beforeEach(() => {

@@ -2,30 +2,19 @@ import { ENV_KEY_MACHETE_EMPLOYER, MACHETE_ADMIN } from "cypress/constants";
 import { Employer } from "src/app/shared/models/employer";
 
 describe("employers profile", () => {
-  before(() => {
-    cy.getEmployerProfile();
-    if (Cypress.env(ENV_KEY_MACHETE_EMPLOYER) === 0) {
-      // if new employer
-      cy.log(Cypress.env(ENV_KEY_MACHETE_EMPLOYER));
-      cy.fillOutEmployerProfile();
-      cy.visit("/employers");
-      cy.getEmployerProfile();
-    }
-  });
-
   beforeEach(() => {
     cy.apiLogin(MACHETE_ADMIN.user, MACHETE_ADMIN.password);
-    cy.visit("/employers");
-    cy.getEmployerProfile();
-
+    cy.apiGetEmployerProfile();
   });
 
   it("should display username", () => {
+    cy.visit("/employers");
     const employerProfile = Cypress.env(ENV_KEY_MACHETE_EMPLOYER) as Employer;
     cy.get(`[id="name"]`).should("have.value", employerProfile.name);
   });
 
   it("form should validate", () => {
+    cy.visit("/employers");
     const employer = Cypress.env(ENV_KEY_MACHETE_EMPLOYER);
 
     // name
@@ -94,6 +83,7 @@ describe("employers profile", () => {
   });
 
   it("should navigate to hire worker form on save", () => {
+    cy.visit("/employers");
     const employer: Employer = Cypress.env(ENV_KEY_MACHETE_EMPLOYER);
     cy.get("#name").should("contain.value", employer.name);
     cy.get(`[type="submit"]`).should("exist").click();

@@ -1,0 +1,33 @@
+{
+  "data": {
+    "active": false,
+    "address1": "fake address",
+    "address2": null,
+    "blogparticipate": null,
+    "business": false,
+    "businessname": null,
+    "cellphone": null,
+    "city": "gotham city",
+    "driverslicense": null,
+    "email": "jciispam@gmail.com",
+    "fax": null,
+    "isOnlineProfileComplete": null,
+    "licenseplate": null,
+    "name": "fake Employer",
+    "notes": null,
+    "onlineSigninID": "984fff15-93c5-41c4-b45d-2ed6f20f54f1",
+    "onlineSource": true,
+    "phone": "123-456-7891",
+    "receiveUpdates": false,
+    "referredby": 25,
+    "referredbyOther": null,
+    "returnCustomer": false,
+    "state": "WA",
+    "zipcode": "98122",
+    "createdby": "jciispam@gmail.com",
+    "datecreated": "2023-01-16T01:05:00.857",
+    "dateupdated": "2023-01-16T01:21:24.0310004+00:00",
+    "id": 1,
+    "updatedby": "jciispam@gmail.com"
+  }
+}
