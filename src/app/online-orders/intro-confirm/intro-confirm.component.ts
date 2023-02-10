@@ -26,9 +26,6 @@ export class IntroConfirmComponent implements OnInit {
       this.confirmStatus = this.confirmChoices.every(
         (confirm) => confirm.confirmed
       );
-
-      // .map((a) => a.confirmed)
-      // .reduce((a, b) => a && b);
     });
   }
 
