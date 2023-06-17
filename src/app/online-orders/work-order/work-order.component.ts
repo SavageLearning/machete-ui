@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { combineLatest as observableCombineLatest } from "rxjs";
+import { combineLatest as observableCombineLatest, Observable } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { WorkOrder } from "../../shared/models/work-order";
@@ -31,6 +31,8 @@ import { transportAvailabilityValidator } from "../shared/validators/transport-a
 import { DateTime } from "luxon";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { vaccineReqFlagResolver } from "../../shared/helpers";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
+import { map, pluck } from "rxjs/operators";
 
 @Component({
   selector: "app-work-order",
@@ -80,11 +82,21 @@ export class WorkOrderComponent implements OnInit {
     new YesNoSelectItem("no", false),
     new YesNoSelectItem("yes", true),
   ];
+  onlineOrdersTransportDetailsLink$: Observable<string> = this.appSettingsStore
+    .getConfig("OnlineOrdersTransportDetailsLink")
+    .pipe(pluck("value"));
+  disableWorkersVaccineRequirement$: Observable<boolean> = this.appSettingsStore
+    .getConfig("DisableWorkersVaccineRequirement")
+    .pipe(
+      pluck("value"),
+      map((flag: string) => flag === "TRUE")
+    );
 
   constructor(
     private transportProviderService: TransportProvidersService,
     private orderService: WorkOrderService,
     private onlineService: OnlineOrdersService,
+    private appSettingsStore: AppSettingsStoreService,
     private schedulingRulesService: ScheduleRulesService,
     private transportRulesService: TransportRulesService,
     private router: Router,

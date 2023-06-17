@@ -9,6 +9,7 @@ import {
   OnlineOrdersServiceSpy,
   WorkAssignmentsServiceSpy,
   RouterSpy,
+  AppSettingsStoreServiceSpy,
 } from "../../shared/testing";
 import { TableModule } from "primeng/table";
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
@@ -16,6 +17,7 @@ import { Router } from "@angular/router";
 import { FullOrderViewComponent } from "../../shared/components/work-orders/full-order-view/full-order-view.component";
 import { MessageService } from "primeng/api";
 import { TransportProvidersService } from "../transport-providers.service";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
 
 describe("OrderConfirmComponent", () => {
   let component: OrderConfirmComponent;
@@ -45,6 +47,10 @@ describe("OrderConfirmComponent", () => {
                 useClass: WorkAssignmentsServiceSpy,
               },
               { provide: Router, useClass: RouterSpy },
+              {
+                provide: AppSettingsStoreService,
+                useClass: AppSettingsStoreServiceSpy,
+              },
             ],
           },
         })

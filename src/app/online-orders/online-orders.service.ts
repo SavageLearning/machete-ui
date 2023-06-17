@@ -1,14 +1,19 @@
-import { map } from "rxjs/operators";
-import { Injectable } from "@angular/core";
-import { Observable, BehaviorSubject } from "rxjs";
-import { WorkOrder } from "../shared/models/work-order";
-import { HttpHeaders } from "@angular/common/http";
-
+import { map, tap } from "rxjs/operators";
+import { Injectable, OnDestroy } from "@angular/core";
+import { Observable, BehaviorSubject, Subscription } from "rxjs";
 import { Confirm } from "./shared/models/confirm";
-import { loadConfirms } from "./shared/rules/load-confirms";
-import { OnlineOrdersService as OnlineOrdersClient } from "machete-client";
-@Injectable()
-export class OnlineOrdersService {
+import { AppSettingsStoreService } from "../shared/services/app-settings-store.service";
+import {
+  ConfigVM as Config,
+  WorkOrderVM as WorkOrder,
+  WorkOrdersService as OrdersClient,
+} from "machete-client";
+import { OnlineOrderTerm } from "../configs/machete-settings/machete-settings-edit/online-order-term";
+
+@Injectable({
+  providedIn: "root",
+})
+export class OnlineOrdersService implements OnDestroy {
   storageKey = "machete.online-orders-service";
   initialConfirmKey = this.storageKey + ".initialconfirm";
   workOrderConfirmKey = this.storageKey + ".workorderconfirm";
@@ -17,12 +22,32 @@ export class OnlineOrdersService {
   private initialConfirmSource: BehaviorSubject<Confirm[]>;
   private workOrderConfirmSource = new BehaviorSubject<boolean>(false);
   private workAssignmentsConfirmSource = new BehaviorSubject<boolean>(false);
+  private confirmChoices = new Array<Confirm>();
+  private termsSubscription: Subscription;
+  private terms$: Observable<Confirm[]> = this.appSettingsStore
+    .getConfig("OnlineOrdersTerms")
+    .pipe(
+      map((config: Config) => JSON.parse(config.value) as OnlineOrderTerm[]),
+      map((terms: OnlineOrderTerm[]) =>
+        terms.map(
+          (x) =>
+            new Confirm({ name: x.name, description: x.text, confirmed: false })
+        )
+      ),
+      tap((terms: Confirm[]) => (this.confirmChoices = terms))
+    );
 
-  constructor(private client: OnlineOrdersClient) {
+  constructor(
+    private ordersClient: OrdersClient,
+    private appSettingsStore: AppSettingsStoreService
+  ) {
     console.log(".ctor: OnlineOrdersService");
-    // this loads static data from a file. will replace later.
-
-    this.loadConfirmState();
+    this.termsSubscription = this.terms$.subscribe(() =>
+      this.loadConfirmState()
+    );
+  }
+  ngOnDestroy(): void {
+    this.termsSubscription.unsubscribe();
   }
 
   getInitialConfirmedStream(): Observable<Confirm[]> {
@@ -49,7 +74,7 @@ export class OnlineOrdersService {
       );
     } else {
       this.initialConfirmSource = new BehaviorSubject<Confirm[]>(
-        loadConfirms()
+        this.confirmChoices
       );
     }
 
@@ -64,7 +89,7 @@ export class OnlineOrdersService {
 
   clearState(): void {
     console.log("OnlineOrdersService.clearState-----");
-    this.setInitialConfirm(loadConfirms());
+    this.setInitialConfirm(this.confirmChoices);
     this.setWorkorderConfirm(false);
     this.setWorkAssignmentsConfirm(false);
   }
@@ -91,8 +116,8 @@ export class OnlineOrdersService {
   }
 
   createOrder(order: WorkOrder): Observable<WorkOrder> {
-    return this.client
-      .apiOnlineordersPost(order)
+    return this.ordersClient
+      .apiWorkordersPost(order)
       .pipe(map((data) => data["data"] as WorkOrder));
   }
 }

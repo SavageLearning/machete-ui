@@ -11,7 +11,6 @@ import { Confirm } from "../shared/models/confirm";
 export class IntroConfirmComponent implements OnInit {
   confirmChoices = new Array<Confirm>();
   confirmStatus = false;
-  // TODO: Refactor as a service that polls from API
 
   constructor(
     private onlineService: OnlineOrdersService,

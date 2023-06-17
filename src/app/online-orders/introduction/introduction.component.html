@@ -3,26 +3,9 @@
     About Casa Latina
   </ng-template>
   <ng-template pTemplate="content">
-    <p>
-      Casa Latina connects Latino immigrant workers with individuals and
-      businesses looking for temporary labor. Our workers are skilled and
-      dependable.
-    </p>
-    <p>
-      From landscaping to dry walling to catering and housecleaning, if you can
-      dream the project our workers can do it! For more information about our
-      program please read these Frequently Asked Questions If you are ready to
-      hire a worker, please fill out the following form.
-    </p>
-
-    <p>
-      Casa Latina is taking all necessary precautions to keep employers and
-      workers safe, therefore some jobs might not be available at this time.
-    </p>
-    <p>
-      If you still have questions about hiring a worker, please call us at
-      206.956.0779 x3.
-    </p>
+    <ng-container *ngIf="stepOneIntro$ | async as sOneMessage">
+      <p [innerHtml]="sOneMessage.value"></p>
+    </ng-container>
   </ng-template>
   <ng-template pTemplate="footer">
     <div class="p-grid p-nogutter p-justify-end">
@@ -46,15 +29,15 @@
     </div>
   </ng-template>
 
-<p-dialog 
+<p-dialog
     *ngIf="macheteOutage"
-    [(visible)]="outageVisible" 
-    [modal]="true" 
-    [maximizable]="false" 
+    [(visible)]="outageVisible"
+    [modal]="true"
+    [maximizable]="false"
     [baseZIndex]="10000"
-    [responsive]="true" 
+    [responsive]="true"
     [style]="{width: '90vw'}"
-    [minY]="70" 
+    [minY]="70"
     [closable]="true">
     <p-header>
       Online Hiring Temporarily Unavailable

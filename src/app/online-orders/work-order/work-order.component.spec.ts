@@ -11,15 +11,14 @@ import { ToggleButtonModule } from "primeng/togglebutton";
 
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { OnlineOrdersService } from "../online-orders.service";
-import { ConfigsService } from "../../configs/configs.service";
 import {
   TransportRulesServiceSpy,
   TransportProvidersServiceSpy,
   ScheduleRulesServiceSpy,
+  AppSettingsStoreServiceSpy,
 } from "../../shared/testing";
 import {
   WorkOrderServiceSpy,
-  ConfigsServiceSpy,
   OnlineOrdersServiceSpy,
   RouterSpy,
 } from "../../shared/testing";
@@ -28,6 +27,7 @@ import { Router } from "@angular/router";
 import { ScheduleRulesService } from "../schedule-rules.service";
 import { TransportRulesService } from "../transport-rules.service";
 import { TransportProvidersService } from "../transport-providers.service";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
 
 describe("WorkOrderComponent", () => {
   let component: WorkOrderComponent;
@@ -55,7 +55,10 @@ describe("WorkOrderComponent", () => {
             provide: OnlineOrdersService,
             useClass: OnlineOrdersServiceSpy,
           },
-          { provide: ConfigsService, useClass: ConfigsServiceSpy },
+          {
+            provide: AppSettingsStoreService,
+            useClass: AppSettingsStoreServiceSpy,
+          },
           { provide: Router, useClass: RouterSpy },
           {
             provide: ScheduleRulesService,

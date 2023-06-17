@@ -5,7 +5,7 @@ import { ConfirmationService } from "primeng/api";
 import { merge, Observable, Subject } from "rxjs";
 import { pluck, switchMap, takeWhile, tap } from "rxjs/operators";
 import { Config } from "src/app/shared/models/config";
-import { ConfigsService } from "../../configs.service";
+import { AppSettingsStoreService } from "../../../shared/services/app-settings-store.service";
 
 @Component({
   selector: "app-machete-settings-edit",
@@ -25,14 +25,14 @@ export class MacheteSettingsEditComponent implements OnInit, OnDestroy {
     pluck("id"),
     switchMap((id: string) => {
       this.routeRecordId = id;
-      return this.configsService.getConfig(this.routeRecordId);
+      return this.appSettingsStore.getConfig(this.routeRecordId);
     })
   );
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private configsService: ConfigsService,
+    private appSettingsStore: AppSettingsStoreService,
     private primeConfirmService: ConfirmationService
   ) {}
 
@@ -52,7 +52,7 @@ export class MacheteSettingsEditComponent implements OnInit, OnDestroy {
   }
 
   public save(record: Config): void {
-    this.configsService
+    this.appSettingsStore
       .update(record)
       .pipe(
         takeWhile(() => this.isAlive),

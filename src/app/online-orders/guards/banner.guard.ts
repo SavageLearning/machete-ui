@@ -2,18 +2,21 @@ import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
 import { combineLatest, Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { ConfigsService } from "../..//configs/configs.service";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
 
 @Injectable()
 export class BannerGuard implements CanActivate {
-  constructor(private configsService: ConfigsService, private router: Router) {
+  constructor(
+    private appSettingsStore: AppSettingsStoreService,
+    private router: Router
+  ) {
     console.log(".ctor");
   }
 
   canActivate(): Observable<boolean> {
     return combineLatest([
-      this.configsService.getConfig("DisableOnlineOrders"),
-      this.configsService.getConfig("DisableOnlineOrdersBanner"),
+      this.appSettingsStore.getConfig("DisableOnlineOrders"),
+      this.appSettingsStore.getConfig("DisableOnlineOrdersBanner"),
     ]).pipe(
       map(
         ([toggle, banner]) => {

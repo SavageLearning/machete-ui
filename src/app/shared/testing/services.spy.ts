@@ -23,7 +23,6 @@ import { ApiResponse } from "../../workers/models/api-response";
 import { Worker } from "../models/worker";
 import { Skill } from "../models/skill";
 import { Report } from "src/app/reports/models/report";
-import { tick } from "@angular/core/testing";
 
 export class EmployersServiceSpy {
   getEmployer = jasmine
@@ -200,6 +199,12 @@ export class OnlineOrdersServiceSpy {
 
 export const getConfigsList = (): Config[] => {
   const configs: Config[] = new Array<Config>();
+  configs.push(
+    new Config({
+      key: "OnlineOrderTerms",
+      value: `[{"name":"term1","text":"This is the term one"},{"name":"term2","text":"This is the term two"}]`,
+    })
+  );
   configs.push(new Config({ key: "WorkCenterDescription_EN", value: "foo" }));
   configs.push(new Config({ key: "FacebookAppId", value: "foo" }));
   configs.push(new Config({ key: "GoogleClientId", value: "foo" }));
@@ -218,6 +223,28 @@ export class ConfigsServiceSpy {
   getAllConfigs = jasmine
     .createSpy("getAllConfigs")
     .and.callFake(() => observableOf(getConfigsList()));
+}
+
+export class ConfigsServiceClientSpy {
+  apiConfigsGet = jasmine
+    .createSpy("apiConfigsGet")
+    .and.callFake(() => observableOf(getConfigsList()[0]));
+  apiConfigsIdPut = jasmine
+    .createSpy("apiConfigsIdPut")
+    .and.callFake(() => observableOf(getConfigsList()[0]));
+}
+
+export class AppSettingsStoreServiceSpy {
+  all$ = observableOf(getConfigsList());
+  getConfigsWith = jasmine
+    .createSpy("getConfigsWith")
+    .and.callFake(() => observableOf(getConfigsList()));
+  getConfig = jasmine
+    .createSpy("getConfig")
+    .and.callFake(() => observableOf(getConfigsList()[0]));
+  update = jasmine
+    .createSpy("update")
+    .and.callFake(() => observableOf(getConfigsList[0]));
 }
 
 /**

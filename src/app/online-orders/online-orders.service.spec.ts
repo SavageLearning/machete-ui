@@ -15,7 +15,9 @@ import {
   EmployersServiceSpy,
   AuthServiceSpy,
   WorkAssignmentsServiceSpy,
+  AppSettingsStoreServiceSpy,
 } from "../shared/testing";
+import { AppSettingsStoreService } from "../shared/services/app-settings-store.service";
 
 describe("OnlineOrdersService", () => {
   beforeEach(() => {
@@ -25,6 +27,10 @@ describe("OnlineOrdersService", () => {
         { provide: WorkOrderService, useClass: WorkOrderServiceSpy },
         { provide: EmployersService, useClass: EmployersServiceSpy },
         { provide: AuthService, useClass: AuthServiceSpy },
+        {
+          provide: AppSettingsStoreService,
+          useClass: AppSettingsStoreServiceSpy,
+        },
         {
           provide: WorkAssignmentsService,
           useClass: WorkAssignmentsServiceSpy,

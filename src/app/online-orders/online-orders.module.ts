@@ -45,7 +45,6 @@ import { WorkOrdersModule } from "../shared/components/work-orders/work-orders.m
 import { ProfileGuard } from "./guards/profile.guard";
 import { LayoutModule } from "@angular/cdk/layout";
 import { SkillsComponent } from "./work-assignments/skills/skills.component";
-import { ConfigsService } from "../configs/configs.service";
 import { BannerGuard } from "./guards/banner.guard";
 
 @NgModule({
@@ -88,10 +87,8 @@ import { BannerGuard } from "./guards/banner.guard";
     SkillsComponent,
   ],
   providers: [
-    OnlineOrdersService,
     ScheduleRulesService,
     TransportRulesService,
-    ConfigsService,
     ProfileGuard,
     BannerGuard,
     MessageService, //PrimeNG Service

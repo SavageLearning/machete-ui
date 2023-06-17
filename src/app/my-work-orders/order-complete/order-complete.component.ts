@@ -8,8 +8,8 @@ import { WorkOrder } from "../../shared/models/work-order";
 import * as paypal from "paypal-checkout";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyWorkOrdersService } from "../my-work-orders.service";
-import { ConfigsService } from "../../configs/configs.service";
 import { TransportProvidersService } from "../../online-orders/transport-providers.service";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
 
 @Component({
   selector: "app-order-complete",
@@ -80,7 +80,7 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
     private transportProviderService: TransportProvidersService,
     private route: ActivatedRoute,
     private router: Router,
-    private configsService: ConfigsService
+    private appSettingsStore: AppSettingsStoreService
   ) {
     console.log(".ctor");
   }
@@ -91,8 +91,8 @@ export class OrderCompleteComponent implements OnInit, AfterViewChecked {
     observableCombineLatest([
       this.transportProviderService.getTransportProviders(),
       this.ordersService.getOrder(orderId),
-      this.configsService.getConfig("PayPalClientID"),
-      this.configsService.getConfig("PayPalEnvironment"),
+      this.appSettingsStore.getConfig("PayPalClientID"),
+      this.appSettingsStore.getConfig("PayPalEnvironment"),
     ]).subscribe(
       ([l, o, id, env]) => {
         console.log("ngOnInit:combineLatest received:", l, o, id, env);

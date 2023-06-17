@@ -8,7 +8,7 @@ import { TableModule } from "primeng/table";
 import {
   MyWorkOrdersServiceSpy,
   RouterSpy,
-  ConfigsServiceSpy,
+  AppSettingsStoreServiceSpy,
 } from "../../shared/testing";
 import {
   TransportProvidersServiceSpy,
@@ -17,9 +17,9 @@ import {
 import * as paypal from "paypal-checkout";
 import { MyWorkOrdersService } from "../my-work-orders.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ConfigsService } from "../../configs/configs.service";
 import { MessageService } from "primeng/api";
 import { TransportProvidersService } from "../../online-orders/transport-providers.service";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
 
 describe("OrderCompleteComponent", () => {
   let component: OrderCompleteComponent;
@@ -42,7 +42,10 @@ describe("OrderCompleteComponent", () => {
                 provide: MyWorkOrdersService,
                 useClass: MyWorkOrdersServiceSpy,
               },
-              { provide: ConfigsService, useClass: ConfigsServiceSpy },
+              {
+                provide: AppSettingsStoreService,
+                useClass: AppSettingsStoreServiceSpy,
+              },
               { provide: MessageService, useClass: MessageServiceSpy },
               {
                 provide: ActivatedRoute,
