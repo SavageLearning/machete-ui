@@ -6,14 +6,14 @@ import {
   OnlineOrdersServiceSpy,
   WorkOrderServiceSpy,
   WorkAssignmentsServiceSpy,
-  ConfigsServiceSpy,
+  AppSettingsStoreServiceSpy,
 } from "../../shared/testing";
 import { Router } from "@angular/router";
 import { OnlineOrdersService } from "../online-orders.service";
 import { WorkOrderService } from "../work-order/work-order.service";
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
-import { ConfigsService } from "../../configs/configs.service";
 import { CardModule } from "primeng/card";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
 
 describe("IntroductionComponent", () => {
   let component: IntroductionComponent;
@@ -38,7 +38,10 @@ describe("IntroductionComponent", () => {
                 provide: WorkAssignmentsService,
                 useClass: WorkAssignmentsServiceSpy,
               },
-              { provide: ConfigsService, useClass: ConfigsServiceSpy },
+              {
+                provide: AppSettingsStoreService,
+                useClass: AppSettingsStoreServiceSpy,
+              },
             ],
           },
         })

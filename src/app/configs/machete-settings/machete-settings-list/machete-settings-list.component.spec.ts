@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
-import { ConfigsServiceSpy, RouterSpy } from "src/app/shared/testing";
-import { ConfigsService } from "../../configs.service";
+import { AppSettingsStoreServiceSpy, RouterSpy } from "src/app/shared/testing";
+import { AppSettingsStoreService } from "../../../shared/services/app-settings-store.service";
 
 import { MacheteSettingsListComponent } from "./machete-settings-list.component";
 
@@ -13,7 +13,10 @@ describe("MacheteSettingsListComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [MacheteSettingsListComponent],
       providers: [
-        { provide: ConfigsService, useClass: ConfigsServiceSpy },
+        {
+          provide: AppSettingsStoreService,
+          useClass: AppSettingsStoreServiceSpy,
+        },
         { provide: Router, useClass: RouterSpy },
       ],
     }).compileComponents();

@@ -3,17 +3,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { WelcomeComponent } from "./welcome.component";
-import { ConfigsService } from "../configs/configs.service";
 import { AuthService } from "../shared/index";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   ActivatedRouteSpy,
+  AppSettingsStoreServiceSpy,
   AuthServiceSpy,
-  ConfigsServiceSpy,
   getConfigsList,
   RouterSpy,
 } from "../shared/testing";
 import { MessageService } from "primeng/api";
+import { AppSettingsStoreService } from "../shared/services/app-settings-store.service";
 
 describe("WelcomeComponent", () => {
   let component: WelcomeComponent;
@@ -27,7 +27,10 @@ describe("WelcomeComponent", () => {
       .overrideComponent(WelcomeComponent, {
         set: {
           providers: [
-            { provide: ConfigsService, useClass: ConfigsServiceSpy },
+            {
+              provide: AppSettingsStoreService,
+              useClass: AppSettingsStoreServiceSpy,
+            },
             { provide: AuthService, useClass: AuthServiceSpy },
             { provide: Router, useClass: RouterSpy },
             { provide: ActivatedRoute, useClass: ActivatedRouteSpy },

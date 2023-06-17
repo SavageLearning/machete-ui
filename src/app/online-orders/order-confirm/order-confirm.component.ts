@@ -8,6 +8,9 @@ import { Router } from "@angular/router";
 import { TransportProvidersService } from "../transport-providers.service";
 import { MessageService } from "primeng/api";
 import { HttpErrorResponse } from "@angular/common/http";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
+import { Config } from "../../shared/models/config";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-order-confirm",
@@ -20,6 +23,9 @@ export class OrderConfirmComponent implements OnInit {
   workerCount: number;
   transportCost: number;
   laborCost: number;
+  transportFeeNotice$: Observable<string> = this.appSettingsStore
+    .getConfig("OrderConfirmTransportFeesNotice")
+    .pipe(map((config: Config) => config.value));
 
   constructor(
     private ordersService: WorkOrderService,
@@ -27,12 +33,13 @@ export class OrderConfirmComponent implements OnInit {
     private transportProviderService: TransportProvidersService,
     private assignmentService: WorkAssignmentsService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private appSettingsStore: AppSettingsStoreService
   ) {}
 
   ngOnInit(): void {
     const l$ = this.transportProviderService.getTransportProviders();
-    const o$ = this.ordersService.getStream() as Observable<WorkOrder>;
+    const o$ = this.ordersService.getStream();
     const wa$ = this.assignmentService.getStream();
 
     observableCombineLatest([l$, o$, wa$]).subscribe(

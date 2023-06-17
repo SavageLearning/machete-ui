@@ -10,7 +10,6 @@ import {
   OnDestroy,
 } from "@angular/core";
 import { environment } from "../environments/environment";
-import { ConfigsService } from "./configs/configs.service";
 import { LookupsService } from "./lookups/lookups.service";
 import { Router, NavigationEnd } from "@angular/router";
 import { MenuItem, Message, MessageService, PrimeNGConfig } from "primeng/api";
@@ -28,7 +27,7 @@ declare let jQuery: any;
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
-  providers: [LookupsService, ConfigsService, MessageService],
+  providers: [LookupsService, MessageService],
 })
 export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild("layoutContainer", { static: false })

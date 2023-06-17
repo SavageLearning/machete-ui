@@ -146,18 +146,20 @@
         </div>
         <!-- Vertical divide ///////////////////-->
         <div class="p-col-12 p-md-6">
-          <!-- vv======================TEMPORARY FIELD============== -->
-          <div class="p-field p-col-12 p-input-filled">
-            <span class="p-float-label">
-              <p-dropdown id="requireVaccinatedWorkers" [options]="requireVaccinatedWorkersOptions" formControlName="requireVaccinatedWorkers"
-                [autoWidth]="false"></p-dropdown>
-              <label for="requireVaccinatedWorkers">Do you prefer prefer vaccinated workers?</label>
-            </span>
-            <small class="p-invalid" *ngIf="!!orderForm.controls['requireVaccinatedWorkers'] && showErrors">
-              {{formErrors.requireVaccinatedWorkers}}
-            </small>
-          </div>
-          <!-- ^^======================TEMPORARY FIELD============== -->
+          <!-- vv======================CONDITIONAL FIELD============== -->
+          <ng-container *ngIf="(disableWorkersVaccineRequirement$ | async) === false" >
+            <div class="p-field p-col-12 p-input-filled">
+              <span class="p-float-label">
+                <p-dropdown id="requireVaccinatedWorkers" [options]="requireVaccinatedWorkersOptions" formControlName="requireVaccinatedWorkers"
+                  [autoWidth]="false"></p-dropdown>
+                <label for="requireVaccinatedWorkers">Do you prefer prefer vaccinated workers?</label>
+              </span>
+              <small class="p-invalid" *ngIf="!!orderForm.controls['requireVaccinatedWorkers'] && showErrors">
+                {{formErrors.requireVaccinatedWorkers}}
+              </small>
+            </div>
+          </ng-container>
+          <!-- ^^======================CONDITIONAL FIELD============== -->
 
           <div class="p-field p-col-12 p-input-filled">
             <span class="p-float-label">
@@ -212,17 +214,18 @@
           </div>
 
           <div class="p-field p-col-12">
-            <!-- <button type="button" (click)="showDialog()" pButton icon="fa-external-link-square" label="Show transport rates" *ngIf="false"></button> -->
-            <a href="https://casa-latina.org/hire-a-worker/" target="_blank">
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-external-link"
-                label="For transportation pricing, click here."
-                class="p-button-rounded p-button-help"
-              ></button>
-            </a>
+            <ng-container *ngIf="onlineOrdersTransportDetailsLink$ | async as transportCostLink">
+              <a [href]="transportCostLink" target="_blank">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-external-link"
+                  label="For transportation pricing, click here."
+                  class="p-button-rounded p-button-help"
+                ></button>
+              </a>
+            </ng-container>
           </div>
 
           <div class="p-field p-col-12" *ngIf="selectedTransport===32">

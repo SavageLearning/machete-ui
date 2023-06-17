@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ConfigsService } from "../configs/configs.service";
 import { AuthService } from "../shared/index";
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from "../../environments/environment";
@@ -8,7 +7,7 @@ import { User } from "../shared/models/user";
 import { map, pluck, takeWhile, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { MessageService } from "primeng/api";
-
+import { AppSettingsStoreService } from "../shared/services/app-settings-store.service";
 
 enum DashboardState {
   None = "None",
@@ -78,7 +77,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private cfgService: ConfigsService,
+    private appSettingsStore: AppSettingsStoreService,
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -117,7 +116,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //
     this.handleQueryParams();
-    this.cfgService.getAllConfigs().subscribe(
+    this.appSettingsStore.all$.subscribe(
       (data) => {
         this.serverData = data;
         console.log("configs: ", data); // TODO this was 2am madness, this isn"t great JS

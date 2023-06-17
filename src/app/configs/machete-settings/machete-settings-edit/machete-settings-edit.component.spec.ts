@@ -5,8 +5,8 @@ import { ActivatedRoute } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { ConfirmationService } from "primeng/api";
 import { of } from "rxjs";
-import { ConfigsServiceSpy } from "src/app/shared/testing";
-import { ConfigsService } from "../../configs.service";
+import { AppSettingsStoreServiceSpy } from "src/app/shared/testing";
+import { AppSettingsStoreService } from "../../../shared/services/app-settings-store.service";
 
 import { MacheteSettingsEditComponent } from "./machete-settings-edit.component";
 
@@ -28,8 +28,8 @@ describe("MacheteSettingsEditComponent", () => {
       declarations: [MacheteSettingsEditComponent],
       providers: [
         {
-          provide: ConfigsService,
-          useClass: ConfigsServiceSpy,
+          provide: AppSettingsStoreServiceSpy,
+          useClass: AppSettingsStoreService,
         },
         {
           provide: ConfirmationService,

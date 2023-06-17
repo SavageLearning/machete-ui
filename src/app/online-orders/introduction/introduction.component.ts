@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { OnlineOrdersService } from "../online-orders.service";
 import { WorkOrderService } from "../work-order/work-order.service";
 import { WorkAssignmentsService } from "../work-assignments/work-assignments.service";
-import { ConfigsService } from "../../configs/configs.service";
+import { AppSettingsStoreService } from "../../shared/services/app-settings-store.service";
 @Component({
   selector: "app-introduction",
   templateUrl: "./introduction.component.html",
@@ -13,16 +13,17 @@ export class IntroductionComponent implements OnInit {
   macheteOutage = false;
   outageMessage: string;
   outageVisible = false;
+  stepOneIntro$ = this.appSettingsStore.getConfig("OnlineOrdersIntroMessage");
   constructor(
     private router: Router,
     private onlineService: OnlineOrdersService,
     private orderService: WorkOrderService,
     private assignmentService: WorkAssignmentsService,
-    private cfgService: ConfigsService
+    private appSettingsStore: AppSettingsStoreService
   ) {}
 
   ngOnInit(): void {
-    this.cfgService.getAllConfigs().subscribe(
+    this.appSettingsStore.all$.subscribe(
       (data) => {
         this.macheteOutage =
           data.find((config) => config.key === "DisableOnlineOrders").value ===

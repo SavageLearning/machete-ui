@@ -44,6 +44,19 @@
           </div>
           <div class="p-field p-col-12 p-input-filled" [hidden]="r.key === TERMS_KEY">
             <span class="p-float-label">
+              <textarea
+                pInputTextarea
+                [value]="r.description ?? '---'"
+                [disabled]="true"
+                id="description"
+                name="description"
+                autoResize="autoResize"
+              ></textarea>
+              <label for="description">Description</label>
+            </span>
+          </div>
+          <div class="p-field p-col-12 p-input-filled">
+            <span class="p-float-label">
               <input
                 pInputText
                 [(ngModel)]="r.value"
